@@ -1,0 +1,278 @@
+/**
+ * Glossary Drawer Styles
+ *
+ * Styles for the interactive glossary system that slides in from the right.
+ */
+
+/* Glossary terms in content */
+.glossary-term {
+  color: var(--md-primary-fg-color);
+  border-bottom: 1px dotted var(--md-primary-fg-color);
+  cursor: help;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.glossary-term:hover {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  background-color: var(--md-primary-fg-color--transparent);
+}
+
+/* Drawer container */
+.glossary-drawer {
+  position: fixed;
+  top: 0;
+  right: -550px; /* Hidden initially */
+  width: 550px;
+  height: 100vh;
+  z-index: 9999;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.glossary-drawer.open {
+  right: 0;
+  pointer-events: auto;
+}
+
+/* Drawer content panel */
+.glossary-drawer-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--md-default-bg-color);
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Dark mode adjustments */
+[data-md-color-scheme="slate"] .glossary-drawer-content {
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Drawer header */
+.glossary-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid var(--md-primary-fg-color);
+  background: var(--md-primary-fg-color--transparent);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.glossary-drawer-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--md-primary-fg-color);
+}
+
+/* Close button */
+.close-drawer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-drawer svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: var(--md-default-fg-color);
+}
+
+.close-drawer:hover {
+  background: var(--md-default-fg-color--lightest);
+}
+
+.close-drawer:active {
+  transform: scale(0.95);
+}
+
+/* Drawer body */
+.glossary-drawer-body {
+  padding: 2rem;
+}
+
+/* Glossary sections */
+.glossary-section {
+  margin-bottom: 2rem;
+}
+
+.glossary-section:last-child {
+  margin-bottom: 0;
+}
+
+.glossary-section h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--md-primary-fg-color);
+}
+
+.glossary-section p {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--md-default-fg-color);
+}
+
+/* Math block in drawer */
+.glossary-section .math-block {
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  overflow-x: auto;
+  font-size: 0.95rem;
+}
+
+.glossary-section .math-block .MathJax {
+  font-size: 1.1em !important;
+}
+
+/* Historical note */
+.historical-note {
+  background: var(--md-default-bg-color);
+  border-left: 4px solid var(--md-accent-fg-color);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.historical-note ul {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.5rem;
+}
+
+.historical-note li {
+  margin-bottom: 0.5rem;
+}
+
+/* Reference link */
+.reference-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--md-primary-fg-color);
+  color: white;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.reference-link svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+.reference-link:hover {
+  background: var(--md-accent-fg-color);
+  transform: translateX(4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Overlay (for closing drawer) */
+.glossary-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glossary-drawer.open .glossary-drawer-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .glossary-drawer {
+    width: 100%;
+    right: -100%;
+  }
+
+  .glossary-drawer-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .glossary-drawer-body {
+    padding: 1.5rem;
+  }
+}
+
+/* Tablet */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .glossary-drawer {
+    width: 450px;
+    right: -450px;
+  }
+}
+
+/* Print: hide glossary drawer */
+@media print {
+  .glossary-drawer {
+    display: none !important;
+  }
+
+  .glossary-term {
+    border-bottom: none;
+    color: inherit;
+    font-weight: inherit;
+  }
+}
+
+/* Accessibility */
+.glossary-term:focus {
+  outline: 2px solid var(--md-primary-fg-color);
+  outline-offset: 2px;
+}
+
+.close-drawer:focus {
+  outline: 2px solid var(--md-primary-fg-color);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling for drawer */
+.glossary-drawer-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.glossary-drawer-content::-webkit-scrollbar-track {
+  background: var(--md-default-bg-color);
+}
+
+.glossary-drawer-content::-webkit-scrollbar-thumb {
+  background: var(--md-default-fg-color--lighter);
+  border-radius: 4px;
+}
+
+.glossary-drawer-content::-webkit-scrollbar-thumb:hover {
+  background: var(--md-default-fg-color--light);
+}

@@ -1,0 +1,55 @@
+# Time Series Analysis Manual - Python Dependencies
+
+# ===== Documentation (MkDocs) =====
+mkdocs>=1.5.0
+mkdocs-material>=9.4.0
+mkdocs-material-extensions>=1.3.0
+mkdocs-autorefs>=0.5.0
+mkdocs-minify-plugin>=0.7.0
+pymdown-extensions>=10.4.0
+markdown>=3.5.0
+pyyaml>=6.0.1
+
+# Optional documentation plugins
+mkdocs-git-revision-date-localized-plugin>=1.2.0
+
+# ===== Core scientific computing =====
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Time series analysis
+statsmodels>=0.14.0
+arch>=6.2.0  # GARCH models
+
+# Machine learning
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+
+# Deep learning (optional, for RNN/LSTM chapters)
+# Uncomment if needed:
+# torch>=2.0.0
+# tensorflow>=2.13.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# Statistical tests and utilities
+patsy>=0.5.3  # For formula-based modeling
+
+# Jupyter for notebooks
+jupyter>=1.0.0
+notebook>=6.5.0
+ipykernel>=6.23.0
+ipywidgets>=8.0.0
+
+# Data I/O
+openpyxl>=3.1.0  # Excel files
+xlrd>=2.0.1  # Excel files (legacy)
+
+# Development tools
+pytest>=7.3.0  # For testing code examples
+black>=23.3.0  # Code formatting
+flake8>=6.0.0  # Linting

@@ -1,0 +1,275 @@
+# Interactive Glossary for Time Series Analysis Manual
+#
+# This file contains definitions, mathematical formulations, and historical
+# context for technical terms used throughout the book.
+#
+# Format:
+#   - term: "Term Name"
+#     definition: "Clear, concise definition"
+#     mathematical: "LaTeX mathematical formulation (optional)"
+#     historical: "Historical context and timeline (optional)"
+#     reference: "Path to detailed documentation"
+
+terms:
+  # ===== Data Preparation Terms =====
+
+  - term: "Missing Data"
+    definition: "Observations that are absent from the time series, creating gaps in the temporal sequence."
+    mathematical: |
+      Let $y_t$ be the observed series. Missing data occurs when $y_t = \text{NA}$ for some $t \in \{1, \ldots, n\}$.
+
+      Classification:
+      - **MCAR**: Missing Completely at Random
+      - **MAR**: Missing at Random
+      - **MNAR**: Missing Not at Random
+    historical: |
+      - 1976: Rubin introduces the MAR framework
+      - 1987: Little and Rubin publish comprehensive treatment
+      - 2000s: Multiple imputation methods become standard
+    reference: "02-data-preparation/01-inspection-and-sampling.html#missing-data"
+
+  - term: "Sampling Rate"
+    definition: "The frequency at which observations are recorded, measured as the number of samples per unit time."
+    mathematical: |
+      Sampling frequency: $f_s = \frac{1}{\Delta t}$ where $\Delta t$ is the time interval between consecutive observations.
+
+      Nyquist criterion: To avoid aliasing, $f_s \geq 2f_{\max}$ where $f_{\max}$ is the highest frequency in the signal.
+    historical: |
+      - 1928: Harry Nyquist establishes sampling theorem foundations
+      - 1949: Claude Shannon formalizes the Nyquist-Shannon theorem
+    reference: "02-data-preparation/01-inspection-and-sampling.html#sampling"
+
+  - term: "Outlier"
+    definition: "An observation that deviates significantly from the overall pattern of the data."
+    mathematical: |
+      Statistical outlier (z-score method):
+      $$z_t = \frac{y_t - \bar{y}}{s}$$
+
+      Flag as outlier if $|z_t| > k$, typically $k = 3$ or $4$.
+
+      Modified z-score (robust):
+      $$M_t = \frac{0.6745(y_t - \tilde{y})}{\text{MAD}}$$
+      where $\text{MAD} = \text{median}(|y_t - \tilde{y}|)$
+    historical: |
+      - 1960: Grubbs test for outliers
+      - 1980: Hampel's robust statistics
+      - 1983: Rousseeuw introduces robust regression
+    reference: "02-data-preparation/02-outlier-detection.html"
+
+  - term: "Imputation"
+    definition: "The process of replacing missing values with substituted values based on other available information."
+    mathematical: |
+      Common methods:
+      - **Forward fill**: $\hat{y}_t = y_{t-k}$ where $k$ is the lag to last observed value
+      - **Linear interpolation**: $\hat{y}_t = y_{t-1} + \frac{t - t_1}{t_2 - t_1}(y_{t_2} - y_{t_1})$
+      - **ARIMA-based**: Use fitted model to forecast missing values
+    historical: |
+      - 1977: Dempster, Laird, Rubin introduce EM algorithm
+      - 1987: Multiple imputation framework (Rubin)
+      - 2001: Kalman filter imputation for time series
+    reference: "02-data-preparation/02-missing-data.html#imputation"
+
+  # ===== Exploratory Analysis Terms =====
+
+  - term: "Stationarity"
+    definition: "A time series is stationary if its statistical properties do not change over time."
+    mathematical: |
+      **Weak (covariance) stationarity** requires:
+      1. Constant mean: $E[y_t] = \mu$ for all $t$
+      2. Constant variance: $\text{Var}(y_t) = \sigma^2$ for all $t$
+      3. Autocovariance depends only on lag: $\gamma_k = \text{Cov}(y_t, y_{t-k})$
+
+      **Strict stationarity**: The joint distribution $(y_{t_1}, \ldots, y_{t_n})$ is identical to $(y_{t_1+h}, \ldots, y_{t_n+h})$ for any $h$.
+    historical: |
+      - 1927: Yule introduces autoregressive processes
+      - 1938: Wold decomposition theorem
+      - 1970: Box-Jenkins methodology formalizes stationarity
+    reference: "03-exploratory-analysis/01-stationarity-concept.html"
+
+  - term: "ADF Test"
+    definition: "Augmented Dickey-Fuller test for unit roots. Tests whether a time series is non-stationary."
+    mathematical: |
+      Test equation:
+      $$\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^p \delta_i \Delta y_{t-i} + \varepsilon_t$$
+
+      **Hypotheses:**
+      - $H_0$: $\gamma = 0$ (unit root exists, series is non-stationary)
+      - $H_1$: $\gamma < 0$ (no unit root, series is stationary)
+
+      **Decision**: Reject $H_0$ if $p < \alpha$ (typically 0.05)
+    historical: |
+      - 1979: Dickey and Fuller introduce DF test
+      - 1981: Said and Dickey propose augmented version
+      - 1992: Elliott, Rothenberg, Stock develop DF-GLS variant
+    reference: "03-exploratory-analysis/03-unit-root-tests.html#adf"
+
+  - term: "KPSS Test"
+    definition: "Kwiatkowski-Phillips-Schmidt-Shin test for stationarity. Has the opposite null hypothesis to ADF."
+    mathematical: |
+      Test statistic based on LM principle:
+      $$\text{KPSS} = \frac{1}{T^2} \sum_{t=1}^T \frac{S_t^2}{\hat{\sigma}^2}$$
+      where $S_t = \sum_{i=1}^t \hat{\varepsilon}_i$ (partial sum of residuals)
+
+      **Hypotheses:**
+      - $H_0$: Series is stationary
+      - $H_1$: Series is non-stationary
+
+      **Decision**: Reject $H_0$ if $p < \alpha$
+    historical: |
+      - 1992: Kwiatkowski, Phillips, Schmidt, and Shin introduce test
+      - Complements ADF by reversing null hypothesis
+    reference: "03-exploratory-analysis/03-unit-root-tests.html#kpss"
+
+  - term: "Differencing"
+    definition: "A transformation that removes trends by computing the change between consecutive observations."
+    mathematical: |
+      **First difference:**
+      $$\Delta y_t = y_t - y_{t-1}$$
+
+      **Second difference:**
+      $$\Delta^2 y_t = \Delta y_t - \Delta y_{t-1} = y_t - 2y_{t-1} + y_{t-2}$$
+
+      **Seasonal difference:**
+      $$\Delta_s y_t = y_t - y_{t-s}$$
+      where $s$ is the seasonal period (e.g., $s=12$ for monthly data)
+    historical: |
+      - 1970: Box and Jenkins formalize differencing in ARIMA methodology
+      - Essential for achieving stationarity
+    reference: "03-exploratory-analysis/04-differencing.html"
+
+  - term: "ACF"
+    definition: "Autocorrelation Function. Measures the correlation between a time series and its lagged values."
+    mathematical: |
+      $$\rho_k = \frac{\gamma_k}{\gamma_0} = \frac{\text{Cov}(y_t, y_{t-k})}{\text{Var}(y_t)} = \frac{E[(y_t - \mu)(y_{t-k} - \mu)]}{\sigma^2}$$
+
+      Sample ACF:
+      $$\hat{\rho}_k = \frac{\sum_{t=k+1}^n (y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t=1}^n (y_t - \bar{y})^2}$$
+
+      Standard error: $\text{SE}(\hat{\rho}_k) \approx \frac{1}{\sqrt{n}}$ for white noise
+    historical: |
+      - 1927: Yule introduces autocorrelation concept
+      - 1970: Box-Jenkins use ACF for model identification
+    reference: "03-exploratory-analysis/05-acf-pacf.html#acf"
+
+  - term: "PACF"
+    definition: "Partial Autocorrelation Function. Measures the correlation between observations at lag k, controlling for intermediate lags."
+    mathematical: |
+      $$\phi_{kk} = \text{Corr}(y_t, y_{t-k} \mid y_{t-1}, \ldots, y_{t-k+1})$$
+
+      The $k$-th PACF coefficient is the last coefficient in an AR($k$) model:
+      $$y_t = \phi_{k1} y_{t-1} + \cdots + \phi_{kk} y_{t-k} + \varepsilon_t$$
+    historical: |
+      - 1970: Quenouille develops partial autocorrelation
+      - Box-Jenkins use PACF to identify AR order
+    reference: "03-exploratory-analysis/05-acf-pacf.html#pacf"
+
+  - term: "Ljung-Box Test"
+    definition: "A portmanteau test for autocorrelation in residuals. Tests whether residuals are white noise."
+    mathematical: |
+      Test statistic:
+      $$Q = n(n+2) \sum_{k=1}^h \frac{\hat{\rho}_k^2}{n-k}$$
+
+      Under $H_0$, $Q \sim \chi^2(h-p-q)$ where $h$ is number of lags tested, $p$ and $q$ are ARMA orders.
+
+      **Hypotheses:**
+      - $H_0$: No autocorrelation up to lag $h$
+      - $H_1$: Autocorrelation exists
+
+      **Decision**: Reject $H_0$ if $p < \alpha$
+    historical: |
+      - 1970: Box and Pierce introduce Q-test
+      - 1978: Ljung and Box improve the test statistic
+    reference: "03-exploratory-analysis/06-ljung-box-test.html"
+
+  - term: "White Noise"
+    definition: "A sequence of uncorrelated random variables with zero mean and constant variance."
+    mathematical: |
+      A process $\\{\varepsilon_t\\}$ is white noise if:
+      1. $E[\varepsilon_t] = 0$ for all $t$
+      2. $\text{Var}(\varepsilon_t) = \sigma^2$ for all $t$
+      3. $\text{Cov}(\varepsilon_t, \varepsilon_s) = 0$ for $t \neq s$
+
+      **Strong white noise** additionally requires independence: $\varepsilon_t \perp \varepsilon_s$ for $t \neq s$
+
+      **Gaussian white noise**: $\varepsilon_t \sim N(0, \sigma^2)$ i.i.d.
+    historical: |
+      - Foundation of time series modeling
+      - Residuals should resemble white noise after proper modeling
+    reference: "03-exploratory-analysis/06-white-noise.html"
+
+  # ===== Frequency Domain Terms =====
+
+  - term: "FFT"
+    definition: "Fast Fourier Transform. An efficient algorithm to compute the Discrete Fourier Transform."
+    mathematical: |
+      Discrete Fourier Transform:
+      $$X_k = \sum_{n=0}^{N-1} x_n e^{-2\pi i kn/N}$$
+
+      Frequency: $f_k = \frac{k}{N \Delta t}$ where $\Delta t$ is sampling interval
+
+      FFT reduces complexity from $O(N^2)$ to $O(N \log N)$
+    historical: |
+      - 1965: Cooley and Tukey publish FFT algorithm
+      - Revolutionizes spectral analysis
+      - Built on earlier work by Gauss (1805)
+    reference: "04-frequency-domain/01-fourier-theory.html#fft"
+
+  - term: "Power Spectral Density"
+    definition: "PSD describes how the power (variance) of a time series is distributed across different frequencies."
+    mathematical: |
+      For continuous time:
+      $$S(f) = \int_{-\infty}^{\infty} \gamma(\tau) e^{-2\pi i f \tau} d\tau$$
+
+      Periodogram (sample PSD):
+      $$\hat{S}(f_k) = \frac{1}{N}|X_k|^2$$
+      where $X_k$ is the DFT coefficient
+    historical: |
+      - 1930: Wiener-Khinchin theorem relates ACF to PSD
+      - 1949: Tukey introduces periodogram smoothing
+    reference: "04-frequency-domain/02-power-spectral-density.html"
+
+  - term: "Periodogram"
+    definition: "An estimate of the power spectral density obtained by computing the squared magnitude of the Fourier transform."
+    mathematical: |
+      $$I(\omega_k) = \frac{1}{2\pi n} \left|\sum_{t=1}^n y_t e^{-i\omega_k t}\right|^2$$
+      where $\omega_k = \frac{2\pi k}{n}$
+    historical: |
+      - 1898: Schuster introduces periodogram
+      - Used extensively in astronomy for detecting periodicities
+    reference: "04-frequency-domain/02-periodogram.html"
+
+  # ===== Model Terms =====
+
+  - term: "ARIMA"
+    definition: "AutoRegressive Integrated Moving Average. A general class of models for time series forecasting."
+    mathematical: |
+      ARIMA($p$, $d$, $q$) model:
+      $$(1 - \phi_1 B - \cdots - \phi_p B^p)(1-B)^d y_t = (1 + \theta_1 B + \cdots + \theta_q B^q)\varepsilon_t$$
+
+      Where:
+      - $p$ = AR order
+      - $d$ = degree of differencing
+      - $q$ = MA order
+      - $B$ = backshift operator: $By_t = y_{t-1}$
+    historical: |
+      - 1970: Box and Jenkins publish comprehensive ARIMA methodology
+      - Builds on earlier work by Yule (AR) and Slutsky (MA)
+    reference: "05-modelling/01-arima.html"
+
+  - term: "GARCH"
+    definition: "Generalized AutoRegressive Conditional Heteroskedasticity. Models time-varying volatility."
+    mathematical: |
+      GARCH($p$, $q$) model:
+      $$y_t = \sigma_t \varepsilon_t, \quad \varepsilon_t \sim N(0,1)$$
+      $$\sigma_t^2 = \omega + \sum_{i=1}^q \alpha_i y_{t-i}^2 + \sum_{j=1}^p \beta_j \sigma_{t-j}^2$$
+
+      Conditions:
+      - $\omega > 0$, $\alpha_i \geq 0$, $\beta_j \geq 0$
+      - $\sum_{i=1}^{\max(p,q)} (\alpha_i + \beta_i) < 1$ (stationarity)
+    historical: |
+      - 1982: Engle introduces ARCH model
+      - 1986: Bollerslev generalizes to GARCH
+      - 2003: Engle receives Nobel Prize
+    reference: "05-modelling/05-volatility-garch.html"
+
+# Add more terms as chapters are developed...

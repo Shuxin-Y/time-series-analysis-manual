@@ -1,0 +1,173 @@
+site_name: Time Series Analysis Manual
+site_description: A comprehensive, practical guide to time series analysis - bridging classical econometrics and modern machine learning
+site_author: Time Series Analysis Team
+site_url: https://yourusername.github.io/time-series-analysis-manual
+
+# Repository
+repo_name: time-series-analysis-manual
+repo_url: https://github.com/yourusername/time-series-analysis-manual
+edit_uri: edit/main/docs/
+
+# Theme configuration
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - toc.follow
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Anchor link to this section
+      toc_depth: 3
+
+  # PyMdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path: ['.']
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - autorefs
+  - tags
+
+# Extra JavaScript
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js
+  - javascripts/glossary.js
+
+# Extra CSS
+extra_css:
+  - stylesheets/extra.css
+  - stylesheets/glossary.css
+
+# Extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername/time-series-analysis-manual
+  analytics:
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: This page was helpful
+          data: 1
+          note: >-
+            Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: This page could be improved
+          data: 0
+          note: >-
+            Thanks for your feedback! Help us improve by opening an issue.
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Introduction:
+      - Overview: 00-introduction/overview.md
+  - Flowcharts:
+      - General Workflow: 01-master-flowchart/01-general-flowchart.md
+      - Purpose-Based: 01-master-flowchart/02-purpose-workflow.md
+      - Representation-Based: 01-master-flowchart/03-representation-workflow.md
+      - Original Flowchart: 01-master-flowchart/flowchart.md
+      - Walkthrough: 01-master-flowchart/walkthrough.md
+  - Data Preparation:
+      - 02-data-preparation/index.md
+      - Inspection & Sampling: 02-data-preparation/01-inspection-and-sampling.md
+  - Exploratory Analysis:
+      - 03-exploratory-analysis/index.md
+  - Frequency Domain:
+      - 04-frequency-domain/index.md
+  - Modelling:
+      - 05-modelling/index.md
+  - Feature Extraction:
+      - 06-feature-extraction/index.md
+  - Validation & Deployment:
+      - 07-validation-deployment/index.md
+  - Appendices:
+      - appendices/index.md
+      - Python Setup: appendices/C-python-environment-setup.md
+
+# Copyright
+copyright: Copyright &copy; 2024 Time Series Analysis Manual
