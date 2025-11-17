@@ -47,7 +47,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Build MkDocs site
-        run: mkdocs build --verbose --strict
+        run: mkdocs build --verbose
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

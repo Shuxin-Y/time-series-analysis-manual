@@ -1,11 +1,11 @@
 site_name: Time Series Analysis Manual
 site_description: A comprehensive, practical guide to time series analysis - bridging classical econometrics and modern machine learning
 site_author: Time Series Analysis Team
-site_url: https://yourusername.github.io/time-series-analysis-manual
+site_url: https://shuxin-y.github.io/time-series-analysis-manual
 
 # Repository
 repo_name: time-series-analysis-manual
-repo_url: https://github.com/yourusername/time-series-analysis-manual
+repo_url: https://github.com/Shuxin-Y/time-series-analysis-manual
 edit_uri: edit/main/docs/
 
 # Theme configuration
@@ -125,7 +125,7 @@ extra_css:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername/time-series-analysis-manual
+      link: https://github.com/Shuxin-Y/time-series-analysis-manual
   analytics:
     feedback:
       title: Was this page helpful?
@@ -150,11 +150,8 @@ nav:
       - General Workflow: 01-master-flowchart/01-general-flowchart.md
       - Purpose-Based: 01-master-flowchart/02-purpose-workflow.md
       - Representation-Based: 01-master-flowchart/03-representation-workflow.md
-      - Original Flowchart: 01-master-flowchart/flowchart.md
-      - Walkthrough: 01-master-flowchart/walkthrough.md
   - Data Preparation:
       - 02-data-preparation/index.md
-      - Inspection & Sampling: 02-data-preparation/01-inspection-and-sampling.md
   - Exploratory Analysis:
       - 03-exploratory-analysis/index.md
   - Frequency Domain:
