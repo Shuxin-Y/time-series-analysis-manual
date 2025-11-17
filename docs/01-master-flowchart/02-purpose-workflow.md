@@ -27,7 +27,7 @@ Select your analysis goal to jump to the appropriate workflow:
 
 ```mermaid
 graph TD
-    START([📊 DATA: Time Series]) --> HORIZON
+    START([DATA: Time Series]) --> HORIZON
 
     HORIZON{Forecast Horizon?}
     HORIZON -->|Short: 1-7 steps| SHORT_PREP
@@ -92,7 +92,7 @@ graph TD
 
     REMODEL --> MODEL_SELECT
 
-    DEPLOY([✅ Deploy with monitoring])
+    DEPLOY([Deploy with monitoring])
 ```
 
 ### Key Emphasis
@@ -119,7 +119,7 @@ graph TD
 
 ```mermaid
 graph TD
-    START([📊 DATA]) --> EXPERIMENT
+    START([DATA]) --> EXPERIMENT
 
     EXPERIMENT{Experimental data?<br/>Randomization?}
     EXPERIMENT -->|Yes: RCT| INTERV_ANALYSIS
@@ -194,7 +194,7 @@ graph TD
 
 ```mermaid
 graph TD
-    START([📊 DATA: Noisy signal]) --> NOISE_TYPE
+    START([DATA: Noisy signal]) --> NOISE_TYPE
 
     NOISE_TYPE{Noise characteristics?}
     NOISE_TYPE -->|White noise| FREQ_FILTER
@@ -234,7 +234,7 @@ graph TD
     VALIDATE[Visual + quantitative check<br/>Preserve signal features?]
     VALIDATE --> DEPLOY_FILTER
 
-    DEPLOY_FILTER([✅ Filtered signal])
+    DEPLOY_FILTER([Filtered signal])
 ```
 
 ### Filter Selection Guide
@@ -256,7 +256,7 @@ graph TD
 
 ```mermaid
 graph TD
-    START([📊 DATA]) --> MODE
+    START([DATA]) --> MODE
 
     MODE{Online or offline?}
     MODE -->|Online: Real-time| SEQUENTIAL
@@ -305,7 +305,7 @@ graph TD
     SEGMENT_VAR --> DEPLOY_CPD
     SEGMENT_DIST --> DEPLOY_CPD
 
-    DEPLOY_CPD([✅ Change points identified])
+    DEPLOY_CPD([Change points identified])
 ```
 
 ### Method Selection
@@ -326,7 +326,7 @@ graph TD
 
 ```mermaid
 graph TD
-    START([📊 DATA]) --> ANOMALY_TYPE
+    START([DATA]) --> ANOMALY_TYPE
 
     ANOMALY_TYPE{Type of anomaly?}
     ANOMALY_TYPE -->|Point: Single outlier| POINT_METHOD
@@ -374,7 +374,7 @@ graph TD
     RETRAIN[Periodic retraining<br/>Concept drift]
     RETRAIN --> DEPLOY_AD
 
-    DEPLOY_AD([✅ Anomaly detection deployed])
+    DEPLOY_AD([Anomaly detection deployed])
 ```
 
 ### Threshold Selection
@@ -392,7 +392,7 @@ Balance false positives vs false negatives based on cost:
 
 ```mermaid
 graph TD
-    START([📊 DATA]) --> SEASONAL_CHECK
+    START([DATA]) --> SEASONAL_CHECK
 
     SEASONAL_CHECK{Seasonality present?}
     SEASONAL_CHECK -->|Yes| PERIOD_KNOWN
@@ -439,7 +439,7 @@ graph TD
     FORECAST_COMP[Forecast components<br/>then recombine]
     FORECAST_COMP --> DEPLOY_DECOMP
 
-    DEPLOY_DECOMP([✅ Decomposition complete])
+    DEPLOY_DECOMP([Decomposition complete])
 ```
 
 ### Method Selection
@@ -461,7 +461,7 @@ graph TD
 
 ```mermaid
 graph TD
-    START([📊 DATA: Time series]) --> TASK
+    START([DATA: Time series]) --> TASK
 
     TASK{ML Task?}
     TASK -->|Classification| CLASS_FEATURES
@@ -531,7 +531,7 @@ graph TD
 
     REFINE_FEAT --> FEATURE_TYPES
 
-    DEPLOY_ML([✅ ML model deployed])
+    DEPLOY_ML([ML model deployed])
 ```
 
 ### Feature Libraries
@@ -549,7 +549,7 @@ graph TD
 
 ```mermaid
 graph TD
-    START([📊 DATA: Signal]) --> DETREND_FIRST
+    START([DATA: Signal]) --> DETREND_FIRST
 
     DETREND_FIRST[Remove trend<br/>Trends obscure spectrum]
     DETREND_FIRST --> WINDOWING
@@ -606,7 +606,7 @@ graph TD
     TRANSFER_FUNC --> POLES_ZEROS[Poles and zeros<br/>Stability analysis]
     POLES_ZEROS --> REPORT_SPEC
 
-    REPORT_SPEC([✅ Spectral analysis complete])
+    REPORT_SPEC([Spectral analysis complete])
 ```
 
 ### Applications

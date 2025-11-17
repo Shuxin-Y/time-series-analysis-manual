@@ -21,7 +21,7 @@ Different representations reveal different aspects of your data:
 
 ```mermaid
 graph TD
-    START([📊 DATA: Time Series]) --> INITIAL_INSPECT
+    START([DATA: Time Series]) --> INITIAL_INSPECT
 
     INITIAL_INSPECT[Initial inspection<br/>Plot, descriptive stats]
     INITIAL_INSPECT --> CHAR_CHECK
@@ -32,7 +32,7 @@ graph TD
     CHAR_CHECK -->|Stationary, simple dependence| TIME_DOM[🕐 TIME DOMAIN<br/>Best for: ARIMA, causality]
 
     %% Frequency Domain Path
-    CHAR_CHECK -->|Periodic, cycles| FREQ_DOM[🌊 FREQUENCY DOMAIN<br/>Best for: Spectral analysis]
+    CHAR_CHECK -->|Periodic, cycles| FREQ_DOM[FREQUENCY DOMAIN<br/>Best for: Spectral analysis]
 
     %% Time-Frequency Path
     CHAR_CHECK -->|Non-stationary, transients| TF_DOM[📡 TIME-FREQUENCY<br/>Best for: Evolving spectra]
@@ -41,7 +41,7 @@ graph TD
     CHAR_CHECK -->|Irregular sampling, latent states| SS_DOM[🔄 STATE-SPACE<br/>Best for: Kalman filtering]
 
     %% Functional Path
-    CHAR_CHECK -->|Curves, continuous| FUNC_DOM[📈 FUNCTIONAL<br/>Best for: FDA, shape analysis]
+    CHAR_CHECK -->|Curves, continuous| FUNC_DOM[FUNCTIONAL<br/>Best for: FDA, shape analysis]
 
     %% Hilbert/Phase Path
     CHAR_CHECK -->|Instantaneous frequency| HILB_DOM[🌀 HILBERT/PHASE<br/>Best for: Analytic signal]
@@ -71,7 +71,7 @@ graph TD
     INTEGRATE -->|No| PROCEED
 
     HYBRID --> PROCEED
-    PROCEED([✅ Proceed to modeling])
+    PROCEED([Proceed to modeling])
 ```
 
 ---
@@ -98,7 +98,7 @@ graph TD
     QUESTION3 -->|Yes| TIME_GOOD
     QUESTION3 -->|No| CONSIDER_OTHER
 
-    TIME_GOOD([✅ Use TIME DOMAIN])
+    TIME_GOOD([Use TIME DOMAIN])
     CONSIDER_OTHER([Consider other representations])
 ```
 
@@ -205,7 +205,7 @@ graph TD
     QUESTION3 -->|Yes| FREQ_GOOD
     QUESTION3 -->|No| CONSIDER_OTHER
 
-    FREQ_GOOD([✅ Use FREQUENCY DOMAIN])
+    FREQ_GOOD([Use FREQUENCY DOMAIN])
     CONSIDER_OTHER([Consider other representations])
 ```
 
@@ -320,7 +320,7 @@ graph TD
     QUESTION3 -->|Yes| TF_GOOD
     QUESTION3 -->|No| CONSIDER_OTHER
 
-    TF_GOOD([✅ Use TIME-FREQUENCY])
+    TF_GOOD([Use TIME-FREQUENCY])
     CONSIDER_OTHER([Use freq or time domain])
 ```
 
@@ -434,7 +434,7 @@ graph TD
     QUESTION3 -->|Yes| SS_GOOD
     QUESTION3 -->|No| CONSIDER_OTHER
 
-    SS_GOOD([✅ Use STATE-SPACE])
+    SS_GOOD([Use STATE-SPACE])
     CONSIDER_OTHER([Consider other representations])
 ```
 
@@ -571,7 +571,7 @@ graph TD
     QUESTION3 -->|Yes| FUNC_GOOD
     QUESTION3 -->|No| CONSIDER_OTHER
 
-    FUNC_GOOD([✅ Use FUNCTIONAL])
+    FUNC_GOOD([Use FUNCTIONAL])
     CONSIDER_OTHER([Consider other representations])
 ```
 
@@ -699,7 +699,7 @@ graph TD
     QUESTION3 -->|Yes| HILB_GOOD
     QUESTION3 -->|No| CONSIDER_OTHER
 
-    HILB_GOOD([✅ Use HILBERT/PHASE])
+    HILB_GOOD([Use HILBERT/PHASE])
     CONSIDER_OTHER([Consider other representations])
 ```
 

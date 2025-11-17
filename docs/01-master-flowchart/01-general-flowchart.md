@@ -21,11 +21,11 @@ This flowchart provides a comprehensive, step-by-step guide from raw data to val
 
 ```mermaid
 graph TD
-    START([📊 RAW DATA]) --> INSPECT
+    START([RAW DATA]) --> INSPECT
 
     %% ===== PHASE 1: DATA =====
     INSPECT{Data Quality Check<br/>Missing? Irregular sampling?}
-    INSPECT -->|Issues detected| CLEAN[🔧 Data Preparation<br/>Ch 3]
+    INSPECT -->|Issues detected| CLEAN[Data Preparation<br/>Ch 3]
     INSPECT -->|Clean| PURPOSE
 
     CLEAN --> MISSING{Missing values?}
@@ -43,7 +43,7 @@ graph TD
     FILTER --> PURPOSE
 
     %% ===== PHASE 2: PURPOSE =====
-    PURPOSE{🎯 Analysis Purpose?}
+    PURPOSE{Analysis Purpose?}
     PURPOSE -->|Forecasting| DIST_CHECK
     PURPOSE -->|Causal inference| DIST_CHECK
     PURPOSE -->|Signal extraction| DIST_CHECK
@@ -61,7 +61,7 @@ graph TD
     END_SPECIAL([Specialized Workflow])
 
     %% ===== PHASE 3: DIAGNOSTIC TESTS =====
-    DIST_CHECK[📈 Distributional Analysis<br/>Ch 4]
+    DIST_CHECK[Distributional Analysis<br/>Ch 4]
     DIST_CHECK --> NORMALITY
 
     NORMALITY{Shapiro-Wilk Test<br/>p < 0.05?}
@@ -74,11 +74,11 @@ graph TD
     TRANS_NEEDED --> VAR_CHECK
 
     VAR_CHECK{Rolling variance<br/>constant?}
-    VAR_CHECK -->|No: Heteroskedastic| GARCH_FLAG[🚩 Flag: GARCH effects]
+    VAR_CHECK -->|No: Heteroskedastic| GARCH_FLAG[Flag: GARCH effects]
     VAR_CHECK -->|Yes: Homoskedastic| STATION_CHECK
     GARCH_FLAG --> STATION_CHECK
 
-    STATION_CHECK[🔍 Stationarity Testing<br/>Ch 4]
+    STATION_CHECK[Stationarity Testing<br/>Ch 4]
     STATION_CHECK --> ADF_TEST
 
     ADF_TEST{ADF Test<br/>H₀: Unit root<br/>p < 0.05?}
@@ -99,7 +99,7 @@ graph TD
     VISUAL_TREND -->|No| ACF_CHECK
 
     %% ===== PHASE 4: TRANSFORMATIONS =====
-    DIFF_NEEDED[⚙️ Transformation Phase]
+    DIFF_NEEDED[Transformation Phase]
     DIFF_NEEDED --> APPLY_TRANS
 
     APPLY_TRANS{Type of<br/>non-stationarity?}
@@ -119,11 +119,11 @@ graph TD
     DIFF_2 --> ACF_CHECK
 
     %% ===== PHASE 5: FURTHER DIAGNOSTICS =====
-    ACF_CHECK[📊 Autocorrelation Analysis<br/>Ch 4]
+    ACF_CHECK[Autocorrelation Analysis<br/>Ch 4]
     ACF_CHECK --> LJUNG_BOX
 
     LJUNG_BOX{Ljung-Box Test<br/>H₀: No autocorr<br/>p < 0.05?}
-    LJUNG_BOX -->|Fail to reject| WHITE_NOISE[✓ White Noise<br/>No model needed]
+    LJUNG_BOX -->|Fail to reject| WHITE_NOISE[White Noise<br/>No model needed]
     LJUNG_BOX -->|Reject: Autocorr exists| ACF_PATTERN
 
     WHITE_NOISE --> END_SUCCESS
@@ -145,7 +145,7 @@ graph TD
     FREQ_QUESTION -->|No: Time domain| TIME_DOMAIN
     FREQ_QUESTION -->|Unsure: Check both| FREQ_ANALYSIS
 
-    FREQ_ANALYSIS[🌊 Frequency Domain<br/>Ch 5]
+    FREQ_ANALYSIS[Frequency Domain<br/>Ch 5]
     FREQ_ANALYSIS --> FFT_COMPUTE
 
     FFT_COMPUTE[Compute FFT & PSD]
@@ -166,7 +166,7 @@ graph TD
     FILTER_DESIGN --> TIME_DOMAIN
 
     %% ===== PHASE 7: MODEL SELECTION =====
-    TIME_DOMAIN[🎲 Model Selection<br/>Ch 6]
+    TIME_DOMAIN[Model Selection<br/>Ch 6]
     TIME_DOMAIN --> MULTIVAR
 
     MULTIVAR{Multiple<br/>series?}
@@ -207,7 +207,7 @@ graph TD
     VAR --> ESTIMATE
 
     %% ===== PHASE 8: ESTIMATION & VALIDATION =====
-    ESTIMATE[⚡ Parameter Estimation<br/>Ch 6]
+    ESTIMATE[Parameter Estimation<br/>Ch 6]
     ESTIMATE --> FIT_METHOD
 
     FIT_METHOD{Estimation<br/>method?}
@@ -230,7 +230,7 @@ graph TD
     SELECT_BEST[Select best model]
     SELECT_BEST --> RESIDUALS
 
-    RESIDUALS[🔬 Residual Diagnostics<br/>Ch 6]
+    RESIDUALS[Residual Diagnostics<br/>Ch 6]
     RESIDUALS --> RESID_ACF
 
     RESID_ACF{Ljung-Box<br/>on residuals<br/>p < 0.05?}
@@ -257,7 +257,7 @@ graph TD
 
     RESPEC --> TIME_DOMAIN
 
-    FORECAST[📈 Forecasting<br/>Ch 8]
+    FORECAST[Forecasting<br/>Ch 8]
     FORECAST --> GEN_FORECAST
 
     GEN_FORECAST[Generate h-step forecasts<br/>with intervals]
@@ -275,7 +275,7 @@ graph TD
 
     TRY_DIFF --> TIME_DOMAIN
 
-    DEPLOY[🚀 Deployment<br/>Ch 8]
+    DEPLOY[Deployment<br/>Ch 8]
     DEPLOY --> DOCUMENT
 
     DOCUMENT[Document model<br/>specification]
@@ -287,7 +287,7 @@ graph TD
     RETRAIN_POLICY[Define retraining policy]
     RETRAIN_POLICY --> END_SUCCESS
 
-    END_SUCCESS([✅ VALIDATED MODEL<br/>DEPLOYED])
+    END_SUCCESS([VALIDATED MODEL<br/>DEPLOYED])
 
     %% Styling
     style START fill:#e1f5e1
