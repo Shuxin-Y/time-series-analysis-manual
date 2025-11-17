@@ -1,75 +1,65 @@
 /**
  * Mermaid Initialization for MkDocs Material
- *
- * Configures and initializes Mermaid diagrams with proper
- * integration for Material theme and SPA navigation.
+ * Ensures Mermaid diagrams render properly with Material theme
  */
 
-// Wait for Mermaid to load
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof mermaid !== 'undefined') {
-    // Configure Mermaid
+// Wait for both DOMContentLoaded and Mermaid library to be available
+(function() {
+  function initMermaid() {
+    if (typeof mermaid === 'undefined') {
+      console.log('Waiting for Mermaid to load...');
+      setTimeout(initMermaid, 100);
+      return;
+    }
+
+    // Initialize Mermaid with configuration
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false,
       theme: 'default',
-      themeVariables: {
-        primaryColor: '#3f51b5',
-        primaryTextColor: '#fff',
-        primaryBorderColor: '#303f9f',
-        lineColor: '#5c6bc0',
-        secondaryColor: '#7986cb',
-        tertiaryColor: '#9fa8da'
-      },
+      securityLevel: 'loose',
       flowchart: {
         useMaxWidth: true,
         htmlLabels: true,
         curve: 'basis'
-      },
-      sequence: {
-        diagramMarginX: 50,
-        diagramMarginY: 10,
-        actorMargin: 50,
-        width: 150,
-        height: 65,
-        boxMargin: 10,
-        boxTextMargin: 5,
-        noteMargin: 10,
-        messageMargin: 35,
-        mirrorActors: true,
-        bottomMarginAdj: 1,
-        useMaxWidth: true
-      },
-      gantt: {
-        titleTopMargin: 25,
-        barHeight: 20,
-        barGap: 4,
-        topPadding: 50,
-        leftPadding: 75,
-        gridLineStartPadding: 35,
-        fontSize: 11,
-        numberSectionStyles: 4,
-        axisFormat: '%Y-%m-%d'
       }
     });
 
-    console.log('Mermaid initialized successfully');
-  } else {
-    console.warn('Mermaid library not loaded');
-  }
-});
-
-// Re-render diagrams on SPA navigation (MkDocs Material)
-if (typeof document$ !== 'undefined') {
-  document$.subscribe(function() {
-    if (typeof mermaid !== 'undefined') {
-      // Find all mermaid code blocks
-      const mermaidBlocks = document.querySelectorAll('.mermaid');
-
-      if (mermaidBlocks.length > 0) {
-        // Re-initialize Mermaid for new content
-        mermaid.init(undefined, mermaidBlocks);
-        console.log(`Rendered ${mermaidBlocks.length} Mermaid diagram(s)`);
+    // Function to render diagrams
+    function renderDiagrams() {
+      const diagrams = document.querySelectorAll('.mermaid');
+      if (diagrams.length > 0) {
+        diagrams.forEach((element, index) => {
+          const id = `mermaid-${index}`;
+          if (!element.hasAttribute('data-processed')) {
+            element.setAttribute('data-processed', 'true');
+            try {
+              const graphDefinition = element.textContent;
+              mermaid.render(id, graphDefinition).then(result => {
+                element.innerHTML = result.svg;
+              });
+            } catch (error) {
+              console.error('Mermaid rendering error:', error);
+            }
+          }
+        });
       }
     }
-  });
-}
+
+    // Initial render
+    renderDiagrams();
+
+    // Re-render on navigation (Material theme SPA)
+    if (typeof document$ !== 'undefined') {
+      document$.subscribe(() => {
+        setTimeout(renderDiagrams, 100);
+      });
+    }
+  }
+
+  // Start initialization
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMermaid);
+  } else {
+    initMermaid();
+  }
+})();
