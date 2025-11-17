@@ -2,7 +2,7 @@
 
 A comprehensive, practical guide to time series analysis that bridges classical econometrics and modern machine learning approaches.
 
-[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://yourusername.github.io/time-series-analysis-manual)
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://shuxin-y.github.io/time-series-analysis-manual)
 [![License](https://img.shields.io/badge/license-CC%20BY--SA%204.0-green)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
@@ -45,9 +45,9 @@ A comprehensive, practical guide to time series analysis that bridges classical 
 
 ### Installation
 
-\`\`\`bash
+```{bash}
 # Clone the repository
-git clone https://github.com/yourusername/time-series-analysis-manual.git
+git clone https://github.com/Shuxin-Y/time-series-analysis-manual.git
 cd time-series-analysis-manual
 
 # Create virtual environment (recommended)
@@ -56,29 +56,29 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-\`\`\`
+```
 
 ### Local Development
 
-\`\`\`bash
+```{bash}
 # Serve documentation locally
 mkdocs serve
 
 # Open browser to http://127.0.0.1:8000
-\`\`\`
+```
 
 ### Building
 
-\`\`\`bash
+```{bash}
 # Build static site
 mkdocs build
-\`\`\`
+```
 
 ---
 
 ## 📖 How to Use
 
-Visit the live documentation at: **[https://yourusername.github.io/time-series-analysis-manual](https://yourusername.github.io/time-series-analysis-manual)**
+Visit the live documentation at: **[https://shuxin-y.github.io/time-series-analysis-manual](https://shuxin-y.github.io/time-series-analysis-manual)**
 
 Or build locally and explore the `code/` directory for standalone examples.
 
@@ -97,4 +97,4 @@ Code: [MIT License](LICENSE-CODE)
 
 ---
 
-**[Read Online](https://yourusername.github.io/time-series-analysis-manual)** | **[Get Started](docs/00-introduction/overview.md)**
+**[Read Online](https://shuxin-y.github.io/time-series-analysis-manual)** | **[Get Started](docs/00-introduction/overview.md)**
