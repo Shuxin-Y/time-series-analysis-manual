@@ -164,10 +164,10 @@ If you use this manual in your research or work, please cite:
 ```bibtex
 @book{timeseries2024,
   title={Time Series Analysis Manual: A Comprehensive Practical Guide},
-  author={[Authors]},
-  year={2024},
+  author={Yang Shuxin},
+  year={2025},
   publisher={[Publisher]},
-  url={https://[username].github.io/time-series-analysis-manual}
+  url={https://Shuxin-Y.github.io/time-series-analysis-manual}
 }
 ```
 
@@ -177,7 +177,7 @@ If you use this manual in your research or work, please cite:
 
 This manual is open source and welcomes contributions:
 
-- **Found an error?** Open an issue on [GitHub](https://github.com/yourusername/time-series-analysis-manual/issues)
+- **Found an error?** Open an issue on [GitHub](https://github.com/Shuxin-Y/time-series-analysis-manual/issues)
 - **Have a suggestion?** Submit a pull request
 - **Want to add examples?** Contribute code to the `code/` directory
 
