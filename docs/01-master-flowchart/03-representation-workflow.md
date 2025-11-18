@@ -29,22 +29,22 @@ graph TD
     CHAR_CHECK{Data characteristics?}
 
     %% Time Domain Path
-    CHAR_CHECK -->|Stationary, simple dependence| TIME_DOM[🕐 TIME DOMAIN<br/>Best for: ARIMA, causality]
+    CHAR_CHECK -->|Stationary, simple dependence| TIME_DOM[TIME DOMAIN<br/>Best for: ARIMA, causality]
 
     %% Frequency Domain Path
     CHAR_CHECK -->|Periodic, cycles| FREQ_DOM[FREQUENCY DOMAIN<br/>Best for: Spectral analysis]
 
     %% Time-Frequency Path
-    CHAR_CHECK -->|Non-stationary, transients| TF_DOM[📡 TIME-FREQUENCY<br/>Best for: Evolving spectra]
+    CHAR_CHECK -->|Non-stationary, transients| TF_DOM[TIME-FREQUENCY<br/>Best for: Evolving spectra]
 
     %% State-Space Path
-    CHAR_CHECK -->|Irregular sampling, latent states| SS_DOM[🔄 STATE-SPACE<br/>Best for: Kalman filtering]
+    CHAR_CHECK -->|Irregular sampling, latent states| SS_DOM[STATE-SPACE<br/>Best for: Kalman filtering]
 
     %% Functional Path
     CHAR_CHECK -->|Curves, continuous| FUNC_DOM[FUNCTIONAL<br/>Best for: FDA, shape analysis]
 
     %% Hilbert/Phase Path
-    CHAR_CHECK -->|Instantaneous frequency| HILB_DOM[🌀 HILBERT/PHASE<br/>Best for: Analytic signal]
+    CHAR_CHECK -->|Instantaneous frequency| HILB_DOM[HILBERT/PHASE<br/>Best for: Analytic signal]
 
     TIME_DOM --> TIME_METHODS
     FREQ_DOM --> FREQ_METHODS

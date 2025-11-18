@@ -37,7 +37,7 @@ graph TD
     SAMPLING -->|Regular| OUTLIERS
     RESAMPLE --> OUTLIERS
 
-    OUTLIERS{Outliers detected?<br/>|z| > 3?}
+    OUTLIERS{Outliers detected?<br/>&#124;z&#124; > 3?}
     OUTLIERS -->|Yes| FILTER[Filter/Replace<br/>Ch 3.2]
     OUTLIERS -->|No| PURPOSE
     FILTER --> PURPOSE
@@ -68,7 +68,7 @@ graph TD
     NORMALITY -->|Reject: Non-normal| CHECK_SKEW
     NORMALITY -->|Fail to reject: Normal| VAR_CHECK
 
-    CHECK_SKEW{High skewness?<br/>|skew| > 1}
+    CHECK_SKEW{High skewness?<br/>&#124;skew&#124; > 1}
     CHECK_SKEW -->|Yes| TRANS_NEEDED[Flag: Transform needed]
     CHECK_SKEW -->|No: Heavy tails| TRANS_NEEDED
     TRANS_NEEDED --> VAR_CHECK
@@ -103,7 +103,7 @@ graph TD
     DIFF_NEEDED --> APPLY_TRANS
 
     APPLY_TRANS{Type of<br/>non-stationarity?}
-    APPLY_TRANS -->|Variance grows| LOG_TRANS[Log/Box-Cox<br/>Transform]
+    APPLY_TRANS -->|Variance grows| LOG_TRANS[Log or Box-Cox<br/>Transform]
     APPLY_TRANS -->|Linear trend| DIFF_1[First Difference<br/>d=1]
     APPLY_TRANS -->|Seasonal pattern| SEAS_DIFF[Seasonal Difference<br/>D=1]
     APPLY_TRANS -->|Both| COMBINED_DIFF[Combined<br/>Transform + Diff]
@@ -128,10 +128,10 @@ graph TD
 
     WHITE_NOISE --> END_SUCCESS
 
-    ACF_PATTERN{ACF/PACF<br/>Pattern?}
-    ACF_PATTERN -->|ACF cuts, PACF decays| MA_FLAG[MA(q) process]
-    ACF_PATTERN -->|PACF cuts, ACF decays| AR_FLAG[AR(p) process]
-    ACF_PATTERN -->|Both decay slowly| ARMA_FLAG[ARMA(p,q) process]
+    ACF_PATTERN{ACF & PACF<br/>Pattern?}
+    ACF_PATTERN -->|ACF cuts, PACF decays| MA_FLAG["MA(q) process"]
+    ACF_PATTERN -->|PACF cuts, ACF decays| AR_FLAG["AR(p) process"]
+    ACF_PATTERN -->|Both decay slowly| ARMA_FLAG["ARMA(p,q) process"]
     ACF_PATTERN -->|Seasonal spikes| SEASONAL_FLAG[Seasonal ARIMA]
 
     MA_FLAG --> FREQ_QUESTION
@@ -158,7 +158,7 @@ graph TD
     RECORD_FREQ --> SPECTRAL_SHAPE
 
     SPECTRAL_SHAPE{Spectral shape?}
-    SPECTRAL_SHAPE -->|1/f decay| LONG_MEM[Long memory<br/>Consider ARFIMA]
+    SPECTRAL_SHAPE -->|1 over f decay| LONG_MEM[Long memory<br/>Consider ARFIMA]
     SPECTRAL_SHAPE -->|Band-limited| FILTER_DESIGN[Design filter]
     SPECTRAL_SHAPE -->|Peaks only| TIME_DOMAIN
 
@@ -179,19 +179,19 @@ graph TD
     UNI_SELECT -->|Machine Learning| ML_MODEL
 
     ARIMA_ORDER{Seasonal?}
-    ARIMA_ORDER -->|Yes| SARIMA[SARIMA(p,d,q)(P,D,Q)s]
-    ARIMA_ORDER -->|No| ARIMA[ARIMA(p,d,q)]
+    ARIMA_ORDER -->|Yes| SARIMA["SARIMA(p,d,q)(P,D,Q)s"]
+    ARIMA_ORDER -->|No| ARIMA["ARIMA(p,d,q)"]
 
     SARIMA --> CHECK_GARCH
     ARIMA --> CHECK_GARCH
 
     CHECK_GARCH{GARCH effects<br/>flagged?}
-    CHECK_GARCH -->|Yes| ADD_GARCH[Add GARCH(m,n)]
+    CHECK_GARCH -->|Yes| ADD_GARCH["Add GARCH(m,n)"]
     CHECK_GARCH -->|No| ESTIMATE
     ADD_GARCH --> ESTIMATE
 
-    NONLIN_MODEL[TAR, Markov-switching]
-    ML_MODEL[LSTM, Transformer, GBM]
+    NONLIN_MODEL["TAR, Markov-switching"]
+    ML_MODEL["LSTM, Transformer, GBM"]
 
     NONLIN_MODEL --> ESTIMATE
     ML_MODEL --> ESTIMATE
@@ -201,7 +201,7 @@ graph TD
 
     JOHANSEN{Johansen Test<br/>p < 0.05?}
     JOHANSEN -->|Reject: Cointegrated| VECM[VECM]
-    JOHANSEN -->|Fail to reject| VAR[VAR(k)]
+    JOHANSEN -->|Fail to reject| VAR["VAR(k)"]
 
     VECM --> ESTIMATE
     VAR --> ESTIMATE
@@ -212,7 +212,7 @@ graph TD
 
     FIT_METHOD{Estimation<br/>method?}
     FIT_METHOD -->|Maximum Likelihood| MLE[MLE via optim]
-    FIT_METHOD -->|Least Squares| OLS[OLS/GLS]
+    FIT_METHOD -->|Least Squares| OLS[OLS or GLS]
     FIT_METHOD -->|Gradient Descent| SGD[Backprop for NN]
 
     MLE --> CONVERGE
@@ -234,7 +234,7 @@ graph TD
     RESIDUALS --> RESID_ACF
 
     RESID_ACF{Ljung-Box<br/>on residuals<br/>p < 0.05?}
-    RESID_ACF -->|Reject: Still autocorr| INC_ORDER[Increase AR/MA order]
+    RESID_ACF -->|Reject: Still autocorr| INC_ORDER[Increase AR or MA order]
     RESID_ACF -->|Fail to reject| RESID_ARCH
 
     INC_ORDER --> ESTIMATE
@@ -266,7 +266,7 @@ graph TD
     OOS_TEST[Out-of-sample testing<br/>Rolling origin CV]
     OOS_TEST --> EVAL_METRICS
 
-    EVAL_METRICS[Compute RMSE, MAE, MAPE]
+    EVAL_METRICS["Compute RMSE, MAE, MAPE"]
     EVAL_METRICS --> ACCEPTABLE
 
     ACCEPTABLE{Forecast accuracy<br/>acceptable?}
@@ -377,6 +377,7 @@ if result[1] < 0.05:
 ```
 
 **Decision Matrix**:
+
 | ADF Result | KPSS Result | Conclusion | Action |
 |------------|-------------|------------|--------|
 | Reject H₀ | Fail to reject | **Stationary** | Proceed to ACF |

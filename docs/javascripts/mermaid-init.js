@@ -26,19 +26,35 @@
 
     // Function to render diagrams
     function renderDiagrams() {
-      const diagrams = document.querySelectorAll('.mermaid');
-      if (diagrams.length > 0) {
-        diagrams.forEach((element, index) => {
-          const id = `mermaid-${index}`;
+      // Handle multiple possible selectors:
+      // - <code class="mermaid">
+      // - <div class="mermaid">
+      // - <pre class="mermaid"><code>
+      const codeBlocks = document.querySelectorAll('code.mermaid');
+      const divBlocks = document.querySelectorAll('div.mermaid');
+      const preBlocks = document.querySelectorAll('pre.mermaid');
+
+      const allBlocks = [...codeBlocks, ...divBlocks, ...preBlocks];
+
+      if (allBlocks.length > 0) {
+        allBlocks.forEach((element, index) => {
+          const id = `mermaid-${Date.now()}-${index}`;
           if (!element.hasAttribute('data-processed')) {
             element.setAttribute('data-processed', 'true');
             try {
               const graphDefinition = element.textContent;
               mermaid.render(id, graphDefinition).then(result => {
-                element.innerHTML = result.svg;
+                const container = document.createElement('div');
+                container.className = 'mermaid-container';
+                container.innerHTML = result.svg;
+                element.replaceWith(container);
+              }).catch(error => {
+                console.error('Mermaid rendering error:', error);
+                element.innerHTML = `<pre>Error rendering diagram: ${error.message}</pre>`;
               });
             } catch (error) {
               console.error('Mermaid rendering error:', error);
+              element.innerHTML = `<pre>Error rendering diagram: ${error.message}</pre>`;
             }
           }
         });
