@@ -18,7 +18,8 @@
 /* Instant abbreviation tooltips (override slow native tooltip) */
 .md-typeset abbr[title] {
   position: relative;
-  text-decoration: underline dotted;
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
   cursor: help;
 }
 
@@ -309,6 +310,13 @@ code {
 .mb-1 { margin-bottom: 0.5rem; }
 .mb-2 { margin-bottom: 1rem; }
 .mb-3 { margin-bottom: 1.5rem; }
+
+/* ===== Nested Tabs: outer level larger ===== */
+
+.md-typeset > .tabbed-set > .tabbed-labels > label {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
 
 /* Highlight important text */
 .highlight-text {

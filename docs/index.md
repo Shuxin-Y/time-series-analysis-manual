@@ -12,179 +12,189 @@
 ---
 
 
-## What This Book Covers
+## Techniques This Book Covers
 
-**1. Mathematical and Statistical Foundations**
+=== "Theory & Inference"
 
-Real analysis, measure theory, probability theory, stochastic processes, linear algebra, ergodicity, stationarity (strict vs. weak), mixing conditions, LLN, CLT for dependent data, delta method, functional analysis.
+    === "1. Math Foundations"
 
-**2. Time Series Fundamentals**
+        Real analysis, measure theory, probability theory, stochastic processes, linear algebra, ergodicity, stationarity (strict vs. weak), mixing conditions, LLN, CLT for dependent data, delta method, functional analysis.
 
-Trend, seasonality, cyclicality, residual noise. Stationarity testing (ADF, KPSS) and transformation (differencing, log). ACF/PACF diagnostics.
+    === "4. Estimation"
 
-**3. Core Classical Models**
+        MOM, OLS, MLE (exact/conditional), QMLE, GMM, Bayesian estimation (MCMC, Gibbs, Metropolis-Hastings), Yule-Walker equations, Whittle likelihood.
 
-- **AR/MA:** AR, MA, ARMA, ARIMA, SARIMA, ARIMAX/SARIMAX
-- **Exponential Smoothing:** SES, DES, TES, ETS
-- **Regression:** DLM, ADL, transfer function models, intervention analysis
-- **Decomposition:** Classical Decomposition, STL, X-11/X-13-ARIMA-SEATS
-- **Spectral:** FFT, periodogram, PSD
+    === "5. Hypothesis Testing"
 
-**4. Estimation Theory**
+        - **Unit Root:** ADF, KPSS, PP, DF-GLS, Zivot-Andrews (with structural breaks)
+        - **Cointegration:** Engle-Granger, Johansen, ARDL bounds
+        - **Causality:** Granger, Sims, Toda-Yamamoto
+        - **Structural Breaks:** Chow test, CUSUM, Bai-Perron
+        - **Serial Correlation:** Breusch-Godfrey, Ljung-Box, Durbin-Watson, White test
+        - **Normality:** Jarque-Bera
+        - **Bootstrap:** block, sieve
 
-MOM, OLS, MLE (exact/conditional), QMLE, GMM, Bayesian estimation (MCMC, Gibbs, Metropolis-Hastings), Yule-Walker equations, Whittle likelihood.
+    === "6. Model Selection"
 
-**5. Inference and Hypothesis Testing**
+        - **Information criteria:** AIC, BIC, HQIC
+        - **Cross-validation:** walk-forward, rolling
+        - **Residual diagnostics:** ACF/PACF, Q-stats
+        - **Forecast evaluation:** MAE, RMSE, MAPE, MASE
+        - **Forecast comparison:** Diebold-Mariano test, reality check, model confidence sets (Hansen)
 
-- **Unit Root:** ADF, KPSS, PP, DF-GLS, Zivot-Andrews (with structural breaks)
-- **Cointegration:** Engle-Granger, Johansen, ARDL bounds
-- **Causality:** Granger, Sims, Toda-Yamamoto
-- **Structural Breaks:** Chow test, CUSUM, Bai-Perron
-- **Serial Correlation:** Breusch-Godfrey, Ljung-Box, Durbin-Watson, White test
-- **Normality:** Jarque-Bera
-- **Bootstrap:** block, sieve
+    === "25. Simulation"
 
-**6. Model Selection and Validation**
+        Monte Carlo, block/stationary/sieve bootstrap, simulation-based inference, numerical MLE, EM algorithm for state-space models, ABC for intractable likelihoods, variational inference.
 
-- **Information criteria:** AIC, BIC, HQIC
-- **Cross-validation:** walk-forward, rolling
-- **Residual diagnostics:** ACF/PACF, Q-stats
-- **Forecast evaluation:** MAE, RMSE, MAPE, MASE
-- **Forecast comparison:** Diebold-Mariano test, reality check, model confidence sets (Hansen)
+=== "Core Models"
 
-**7. Long Memory and Fractional Integration**
+    === "2. Fundamentals"
 
-ARFIMA, fractional Brownian motion, Hurst exponent, GPH estimator, local Whittle estimator.
+        Trend, seasonality, cyclicality, residual noise. Stationarity testing (ADF, KPSS) and transformation (differencing, log). ACF/PACF diagnostics.
 
-**8. Nonlinear Models**
+    === "3. Classical"
 
-- **Threshold:** TAR, SETAR, MTAR
-- **Smooth Transition:** STAR, LSTAR, ESTAR
-- **Regime-Switching:** Markov-Switching (Hamilton)
-- **Bilinear:** bilinear AR models
-- **Nonparametric/semiparametric:** kernel smoothing, local polynomial regression
-- **Chaos and nonlinear dynamics:** Lyapunov exponents, BDS test
+        - **AR/MA:** AR, MA, ARMA, ARIMA, SARIMA, ARIMAX/SARIMAX
+        - **Exponential Smoothing:** SES, DES, TES, ETS
+        - **Regression:** DLM, ADL, transfer function models, intervention analysis
+        - **Decomposition:** Classical Decomposition, STL, X-11/X-13-ARIMA-SEATS
+        - **Spectral:** FFT, periodogram, PSD
 
-**9. Multivariate and High-Dimensional**
+    === "7. Long Memory"
 
-- **Core multivariate:** VAR, SVAR (short-run/long-run), VECM
-- **Factor models:** SFM, DFM, Approximate Factor Models
-- **Regularisation:** PCA, LASSO-VAR, Ridge-VAR, Elastic Net
-- **Graphical models:** sparse precision matrices
-- **Panel time series:** fixed/random effects, pooled estimators
-- **Tensor methods:** matrix/tensor autoregression
+        ARFIMA, fractional Brownian motion, Hurst exponent, GPH estimator, local Whittle estimator.
 
-**10. Volatility and Financial Econometrics**
+    === "8. Nonlinear"
 
-- **ARCH family:** ARCH, GARCH, IGARCH, FIGARCH, APARCH
-- **Asymmetric:** EGARCH, GJR-GARCH, TGARCH
-- **Multivariate GARCH:** DCC-GARCH, BEKK-GARCH, CCC-GARCH
-- **Stochastic volatility:** SV models
-- **High-frequency:** realised volatility, HF econometrics
-- **Jump models:** jump diffusion
-- **Risk measures:** VaR, Expected Shortfall
-- **Dependence:** copula-based modelling
-- **Extreme value theory:** GEV, GPD, peaks-over-threshold, extremal index
-- **Rough volatility:** rough Heston, fBM-driven models, rough Bergomi
+        - **Threshold:** TAR, SETAR, MTAR
+        - **Smooth Transition:** STAR, LSTAR, ESTAR
+        - **Regime-Switching:** Markov-Switching (Hamilton)
+        - **Bilinear:** bilinear AR models
+        - **Nonparametric/semiparametric:** kernel smoothing, local polynomial regression
+        - **Chaos and nonlinear dynamics:** Lyapunov exponents, BDS test
 
-**11. State-Space Models and Filtering**
+    === "9. Multivariate"
 
-General linear Gaussian state-space models, Kalman filter/smoother, EKF, UKF, particle filters (SMC), HMM, DLM (West & Harrison framework), BSTS.
+        - **Core multivariate:** VAR, SVAR (short-run/long-run), VECM
+        - **Factor models:** SFM, DFM, Approximate Factor Models
+        - **Regularisation:** PCA, LASSO-VAR, Ridge-VAR, Elastic Net
+        - **Graphical models:** sparse precision matrices
+        - **Panel time series:** fixed/random effects, pooled estimators
+        - **Tensor methods:** matrix/tensor autoregression
 
-**12. Bayesian Time Series**
+    === "10. Volatility"
 
-BVAR (Minnesota prior, natural conjugate prior), Bayesian ARIMA, DBN, posterior predictive distributions, Bayesian model comparison (Bayes factors, WAIC, LOO-CV), TVP-VAR, sequential Bayesian updating, Bayesian forecasting with structural breaks.
+        - **ARCH family:** ARCH, GARCH, IGARCH, FIGARCH, APARCH
+        - **Asymmetric:** EGARCH, GJR-GARCH, TGARCH
+        - **Multivariate GARCH:** DCC-GARCH, BEKK-GARCH, CCC-GARCH
+        - **Stochastic volatility:** SV models
+        - **High-frequency:** realised volatility, HF econometrics
+        - **Jump models:** jump diffusion
+        - **Risk measures:** VaR, Expected Shortfall
+        - **Dependence:** copula-based modelling
+        - **Extreme value theory:** GEV, GPD, peaks-over-threshold, extremal index
+        - **Rough volatility:** rough Heston, fBM-driven models, rough Bergomi
 
-**13. Frequency Domain and Spectral Analysis**
+=== "Specialized Models"
 
-DFT, PSD (parametric/nonparametric), periodogram, smoothed periodogram, Welch's method, cross-spectral analysis, coherence, phase spectrum, Wavelet analysis (DWT, MODWT, wavelet decomposition), HHT, EMD, Bandpass filtering (HP/BK/CF filters).
+    === "11. State-Space"
 
-**14. Functional and High-Frequency Time Series**
+        General linear Gaussian state-space models, Kalman filter/smoother, EKF, UKF, particle filters (SMC), HMM, DLM (West & Harrison framework), BSTS.
 
-Functional time series (Ramsay-Silverman framework), intraday seasonality modeling, irregularly spaced time series, Duration models (ACD), order book modelling, UHF data, survival analysis and reliability (Cox PH, hazard functions, censored time series).
+    === "12. Bayesian"
 
-**15. Continuous-Time Models and Stochastic Differential Equations**
+        BVAR (Minnesota prior, natural conjugate prior), Bayesian ARIMA, DBN, posterior predictive distributions, Bayesian model comparison (Bayes factors, WAIC, LOO-CV), TVP-VAR, sequential Bayesian updating, Bayesian forecasting with structural breaks.
 
-OU process, Ito diffusions, geometric Brownian motion, CARMA, Levy-driven processes, jump-diffusion models, numerical methods for SDEs (Euler-Maruyama, Milstein), likelihood inference for diffusions, signature methods (rough path theory).
+    === "15. Continuous-Time"
 
-**16. Count and Categorical Time Series**
+        OU process, Ito diffusions, geometric Brownian motion, CARMA, Levy-driven processes, jump-diffusion models, numerical methods for SDEs (Euler-Maruyama, Milstein), likelihood inference for diffusions, signature methods (rough path theory).
 
-- **Integer-valued:** INAR, PAR, INGARCH, negative binomial autoregression
-- **Categorical/qualitative:** Markov chains for discrete states, autoregressive logit/probit, multinomial time series
-- **Compositional:** Dirichlet regression, log-ratio transforms for constrained series
+    === "16. Count & Categorical"
 
-**17. Point Processes and Event-Time Series**
+        - **Integer-valued:** INAR, PAR, INGARCH, negative binomial autoregression
+        - **Categorical/qualitative:** Markov chains for discrete states, autoregressive logit/probit, multinomial time series
+        - **Compositional:** Dirichlet regression, log-ratio transforms for constrained series
 
-Poisson process, Cox process, Hawkes process (self-exciting), renewal processes, temporal point process models, neural point processes, intensity estimation, Marked point processes.
+    === "17. Point Processes"
 
-**18. Machine Learning and Deep Learning**
+        Poisson process, Cox process, Hawkes process (self-exciting), renewal processes, temporal point process models, neural point processes, intensity estimation, Marked point processes.
 
-- **Classical ML:** Random Forests, XGBoost, LightGBM
-- **Gaussian processes:** GP regression
-- **Reservoir computing:** Echo State Networks, Liquid State Machines
-- **Recurrent networks:** RNN, LSTM, GRU
-- **Convolutional:** TCN
-- **Transformers:** Informer, Autoformer, PatchTST, TimesFM
-- **State-space sequence models:** S4, S5, Mamba
-- **Foundation models:** Chronos, Lag-Llama, Moirai, TimeGPT, MOMENT
-- **Neural forecasters:** N-BEATS, N-HiTS, TiDE
-- **Generative:** diffusion models for time series
-- **Hybrid:** ARIMA + NN, residual modelling
-- **Uncertainty quantification:** conformal prediction
-- **Interpretability:** SHAP for temporal features, attention visualization, counterfactual explanations
+=== "Representations & Signals"
 
-**19. Time Series Classification, Clustering, and Anomaly Detection**
+    === "13. Spectral Analysis"
 
-- **Classification:** DTW + k-NN, shapelets, ROCKET/MiniRocket, InceptionTime, time series kernels (GAK)
-- **Clustering:** k-means with DTW, kernel k-means, spectral clustering for time series
-- **Symbolic representations:** SAX, SFA, symbolic dynamics
-- **Anomaly detection algorithms:** BOCPD, PELT, matrix profile, isolation forests for time series, autoencoders, VAE
-- **Topological methods:** persistent homology, TDA for time series shape analysis
-- **Data augmentation:** window slicing, magnitude/time warping, synthetic oversampling
+        DFT, PSD (parametric/nonparametric), periodogram, smoothed periodogram, Welch's method, cross-spectral analysis, coherence, phase spectrum, Wavelet analysis (DWT, MODWT, wavelet decomposition), HHT, EMD, Bandpass filtering (HP/BK/CF filters).
 
-**20. Spatio-Temporal Models**
+    === "14. Functional & HF"
 
-- **Spatial econometrics:** spatial panel VAR, spatial error/lag models with temporal dependence
-- **Geostatistical:** spatio-temporal kriging, Gaussian process spatio-temporal models
-- **Graph-based:** graph signal processing, STGNN, DCRNN, spatio-temporal attention networks
-- **Network time series:** time series on dynamic/evolving graphs, network autoregression
-- **Point processes:** spatio-temporal point processes
+        Functional time series (Ramsay-Silverman framework), intraday seasonality modeling, irregularly spaced time series, Duration models (ACD), order book modelling, UHF data, survival analysis and reliability (Cox PH, hazard functions, censored time series).
 
-**21. Causal Inference**
+    === "19. Classification & Anomaly"
 
-Granger causality (linear/nonlinear), CCM, transfer entropy, structural causal models (PCMCI, DYNOTEARS), do-calculus and Pearl's framework for temporal data, causal discovery from interventions, interrupted time series, DiD, synthetic control.
+        - **Classification:** DTW + k-NN, shapelets, ROCKET/MiniRocket, InceptionTime, time series kernels (GAK)
+        - **Clustering:** k-means with DTW, kernel k-means, spectral clustering for time series
+        - **Symbolic representations:** SAX, SFA, symbolic dynamics
+        - **Anomaly detection algorithms:** BOCPD, PELT, matrix profile, isolation forests for time series, autoencoders, VAE
+        - **Topological methods:** persistent homology, TDA for time series shape analysis
+        - **Data augmentation:** window slicing, magnitude/time warping, synthetic oversampling
 
-**22. Forecasting Theory and Practice**
+    === "20. Spatio-Temporal"
 
-Point/interval/density forecasting, forecast combination (simple average, BMA, optimal combination), hierarchical and grouped time series forecasting (reconciliation — MinT, BU, TD), probabilistic forecasting (quantile regression, conformal intervals, GAMLSS), distributional regression, long-horizon forecasting, nowcasting (mixed-frequency models, MIDAS), forecast rationality testing, M-competition benchmarks and lessons (M4/M5), zero-shot forecasting evaluation, communicating uncertainty to non-technical stakeholders.
+        - **Spatial econometrics:** spatial panel VAR, spatial error/lag models with temporal dependence
+        - **Geostatistical:** spatio-temporal kriging, Gaussian process spatio-temporal models
+        - **Graph-based:** graph signal processing, STGNN, DCRNN, spatio-temporal attention networks
+        - **Network time series:** time series on dynamic/evolving graphs, network autoregression
+        - **Point processes:** spatio-temporal point processes
 
-**23. Online Learning and Adaptive Methods**
+=== "ML, Forecasting & Practice"
 
-Online gradient descent for forecasting, adaptive Kalman filters, exponentially weighted methods, concept drift detection, continual/incremental learning, multi-task and multi-output forecasting with shared representations, bandit algorithms for adaptive model selection.
+    === "18. ML & Deep Learning"
 
-**24. Robust and Nonparametric Methods**
+        - **Classical ML:** Random Forests, XGBoost, LightGBM
+        - **Gaussian processes:** GP regression
+        - **Reservoir computing:** Echo State Networks, Liquid State Machines
+        - **Recurrent networks:** RNN, LSTM, GRU
+        - **Convolutional:** TCN
+        - **Transformers:** Informer, Autoformer, PatchTST, TimesFM
+        - **State-space sequence models:** S4, S5, Mamba
+        - **Foundation models:** Chronos, Lag-Llama, Moirai, TimeGPT, MOMENT
+        - **Neural forecasters:** N-BEATS, N-HiTS, TiDE
+        - **Generative:** diffusion models for time series
+        - **Hybrid:** ARIMA + NN, residual modelling
+        - **Uncertainty quantification:** conformal prediction
+        - **Interpretability:** SHAP for temporal features, attention visualization, counterfactual explanations
 
-M-estimators, nonparametric PSD, nonparametric regression, rank-based tests, QAR, optimal transport for time series (Wasserstein distance, Sliced Wasserstein).
+    === "21. Causal Inference"
 
-**25. Simulation and Computational Methods**
+        Granger causality (linear/nonlinear), CCM, transfer entropy, structural causal models (PCMCI, DYNOTEARS), do-calculus and Pearl's framework for temporal data, causal discovery from interventions, interrupted time series, DiD, synthetic control.
 
-Monte Carlo, block/stationary/sieve bootstrap, simulation-based inference, numerical MLE, EM algorithm for state-space models, ABC for intractable likelihoods, variational inference.
+    === "22. Forecasting"
 
-**26. Applied Domains**
+        Point/interval/density forecasting, forecast combination (simple average, BMA, optimal combination), hierarchical and grouped time series forecasting (reconciliation -- MinT, BU, TD), probabilistic forecasting (quantile regression, conformal intervals, GAMLSS), distributional regression, long-horizon forecasting, nowcasting (mixed-frequency models, MIDAS), forecast rationality testing, M-competition benchmarks and lessons (M4/M5), zero-shot forecasting evaluation, communicating uncertainty to non-technical stakeholders.
 
-- **Macroeconometrics:** business cycles, DSGE, monetary policy
-- **Financial econometrics:** asset pricing, risk, portfolio optimisation
-- **Climate/environmental:** climate modelling, anomaly detection
-- **Epidemiology:** surveillance, epidemic modelling (SIR/SEIR with time series)
-- **Neuroscience:** EEG/fMRI, spike trains, brain connectivity
-- **Signal processing:** control systems, communications
-- **Energy:** demand/price forecasting
-- **Supply chain/retail:** demand sensing, inventory optimisation
-- **IoT/sensor networks:** predictive maintenance, fault detection
-- **Audio/speech:** spectrogram analysis, WaveNet
-- **MLOps for time series:** model monitoring, retraining policies, drift detection in production
-- **Privacy-preserving methods:** federated learning for sequential data, differential privacy
-- **Ethics and fairness:** accountability in forecasting, bias in temporal predictions
+    === "23. Online & Adaptive"
+
+        Online gradient descent for forecasting, adaptive Kalman filters, exponentially weighted methods, concept drift detection, continual/incremental learning, multi-task and multi-output forecasting with shared representations, bandit algorithms for adaptive model selection.
+
+    === "24. Robust & Nonparametric"
+
+        M-estimators, nonparametric PSD, nonparametric regression, rank-based tests, QAR, optimal transport for time series (Wasserstein distance, Sliced Wasserstein).
+
+    === "26. Applied Domains"
+
+        - **Macroeconometrics:** business cycles, DSGE, monetary policy
+        - **Financial econometrics:** asset pricing, risk, portfolio optimisation
+        - **Climate/environmental:** climate modelling, anomaly detection
+        - **Epidemiology:** surveillance, epidemic modelling (SIR/SEIR with time series)
+        - **Neuroscience:** EEG/fMRI, spike trains, brain connectivity
+        - **Signal processing:** control systems, communications
+        - **Energy:** demand/price forecasting
+        - **Supply chain/retail:** demand sensing, inventory optimisation
+        - **IoT/sensor networks:** predictive maintenance, fault detection
+        - **Audio/speech:** spectrogram analysis, WaveNet
+        - **MLOps for time series:** model monitoring, retraining policies, drift detection in production
+        - **Privacy-preserving methods:** federated learning for sequential data, differential privacy
+        - **Ethics and fairness:** accountability in forecasting, bias in temporal predictions
 
 
 ---
