@@ -4,20 +4,11 @@ This flowchart helps you navigate time series analysis based on your **analytica
 
 ---
 
-## Quick Purpose Navigator
+## Quick Navigation
 
-Select your analysis goal to jump to the appropriate workflow:
-
-1. [Forecasting](#1-forecasting-workflow)
-2. [Causal Analysis / Structural Inference](#2-causal-analysis--structural-inference)
-3. [Signal Extraction / Denoising](#3-signal-extraction--denoising)
-4. [Change-Point Detection](#4-change-point-detection)
-5. [Anomaly / Regime Detection](#5-anomaly--regime-detection)
-6. [Decomposition (Trend-Cycle-Seasonality)](#6-decomposition-trend-cycle-seasonality)
-7. [Feature Extraction for ML](#7-feature-extraction-for-ml)
-8. [Spectral Analysis and System Identification](#8-spectral-analysis--system-identification)
 
 ---
+
 
 ## 1. Forecasting Workflow
 

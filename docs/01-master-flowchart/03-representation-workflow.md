@@ -4,18 +4,11 @@ This flowchart guides you through choosing the optimal **mathematical representa
 
 ---
 
-## Quick Representation Navigator
+## Quick Navigation
 
-Different representations reveal different aspects of your data:
-
-1. [Time Domain](#1-time-domain-representation)
-2. [Frequency Domain](#2-frequency-domain-representation)
-3. [Time-Frequency Domain](#3-time-frequency-domain-representation)
-4. [State-Space Representation](#4-state-space-representation)
-5. [Functional Domain](#5-functional-domain-representation)
-6. [Hilbert/Phase Domain](#6-hilbertphase-domain-representation)
 
 ---
+
 
 ## Master Decision Flowchart
 

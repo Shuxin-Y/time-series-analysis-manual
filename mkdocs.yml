@@ -13,7 +13,6 @@ theme:
   name: material
   language: en
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.expand
     - navigation.path
@@ -147,11 +146,11 @@ extra:
 nav:
   - Home: index.md
   - Introduction:
-      - Overview: 00-introduction/overview.md
+      - 00-introduction/overview.md
   - Flowcharts:
-      - General Workflow: 01-master-flowchart/01-general-flowchart.md
-      - Purpose-Based: 01-master-flowchart/02-purpose-workflow.md
-      - Representation-Based: 01-master-flowchart/03-representation-workflow.md
+      - 01-master-flowchart/01-general-flowchart.md
+      - 01-master-flowchart/02-purpose-workflow.md
+      - 01-master-flowchart/03-representation-workflow.md
   - Data Preparation:
       - 02-data-preparation/index.md
   - Exploratory Analysis:

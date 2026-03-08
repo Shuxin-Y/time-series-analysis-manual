@@ -6,14 +6,29 @@ This flowchart provides a comprehensive, step-by-step guide from raw data to val
 
 ## Quick Navigation
 
-- **Phase 1** → [Data Acquisition & Inspection](#phase-1-data-acquisition--inspection)
-- **Phase 2** → [Purpose Definition](#phase-2-purpose-definition)
-- **Phase 3** → [Diagnostic Testing](#phase-3-diagnostic-testing)
-- **Phase 4** → [Transformations & Actions](#phase-4-transformations--actions)
-- **Phase 5** → [Further Diagnostics](#phase-5-further-diagnostics)
-- **Phase 6** → [Domain Selection](#phase-6-domain-selection)
-- **Phase 7** → [Model Selection](#phase-7-model-selection)
-- **Phase 8** → [Estimation & Validation](#phase-8-estimation--validation)
+```mermaid
+graph TD
+    START([RAW DATA]) --> INSPECT
+
+    %% ===== PHASE 1: DATA =====
+    INSPECT{Data Quality Check<br/>Missing? Irregular sampling?}
+    INSPECT -->|Issues detected| CLEAN[Data Preparation<br/>Ch 3]
+    INSPECT -->|Clean| PURPOSE
+
+    CLEAN --> MISSING{Missing values?}
+    MISSING -->|Yes: >5%| IMPUTE[Impute or Segment<br/>Ch 3.2]
+    MISSING -->|No or <5%| SAMPLING
+
+    IMPUTE --> SAMPLING{Sampling regular?}
+    SAMPLING -->|Irregular| RESAMPLE[Resample/Align<br/>Ch 3.1]
+    SAMPLING -->|Regular| OUTLIERS
+    RESAMPLE --> OUTLIERS
+
+    OUTLIERS{Outliers detected?<br/>&#124;z&#124; > 3?}
+    OUTLIERS -->|Yes| FILTER[Filter/Replace<br/>Ch 3.2]
+    OUTLIERS -->|No| PURPOSE
+    FILTER --> PURPOSE
+```
 
 ---
 

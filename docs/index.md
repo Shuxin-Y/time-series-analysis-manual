@@ -1,74 +1,221 @@
 # Time Series Analysis Manual
 
-!!! abstract "A Comprehensive, Practical Guide"
-    This manual bridges classical econometrics and modern machine learning approaches to time series analysis. It provides rigorous mathematical foundations alongside production-ready Python implementations.
+
+
+!!! abstract "Preface"
+    Time series analysis sits at the intersection of classical statistics, econometrics, signal processing, and modern machine learning. Each tradition has developed powerful tools, yet learners often encounter them in isolation — scattered across textbooks that emphasize one perspective at the expense of others.
+
+    This manual is a modest attempt to bring these threads together in one place. It aims to offer a practical, test-driven workflow that respects the mathematical foundations while remaining accessible to practitioners. Where possible, we pair theory with working Python code, so that ideas can be tested and verified rather than taken on faith.
+
+    No single reference can be comprehensive, and this one is no exception. We hope it serves as a useful starting point and companion for your work with temporal data — whether you are forecasting, diagnosing, or simply trying to understand the patterns hidden in a sequence of observations.
 
 ---
 
-## What Makes This Book Different?
 
-<div class="grid cards" markdown>
+## What This Book Covers
 
-- :material-chart-line: **Integrated Workflow**
+**1. Mathematical and Statistical Foundations**
 
-    ---
+Real analysis, measure theory, probability theory, stochastic processes, linear algebra, ergodicity, stationarity (strict vs. weak), mixing conditions, LLN, CLT for dependent data, delta method, functional analysis.
 
-    Seamlessly move between time domain, frequency domain, and time-frequency representations based on your data characteristics.
+**2. Time Series Fundamentals**
 
-- :material-map-marker-path: **Decision Flowcharts**
+Trend, seasonality, cyclicality, residual noise. Stationarity testing (ADF, KPSS) and transformation (differencing, log). ACF/PACF diagnostics.
 
-    ---
+**3. Core Classical Models**
 
-    Three complementary flowcharts (general, purpose-based, representation-based) guide every analytical choice with explicit tests and thresholds.
+- **AR/MA:** AR, MA, ARMA, ARIMA, SARIMA, ARIMAX/SARIMAX
+- **Exponential Smoothing:** SES, DES, TES, ETS
+- **Regression:** DLM, ADL, transfer function models, intervention analysis
+- **Decomposition:** Classical Decomposition, STL, X-11/X-13-ARIMA-SEATS
+- **Spectral:** FFT, periodogram, PSD
 
-- :material-flask: **Test-Driven Methodology**
+**4. Estimation Theory**
 
-    ---
+MOM, OLS, MLE (exact/conditional), QMLE, GMM, Bayesian estimation (MCMC, Gibbs, Metropolis-Hastings), Yule-Walker equations, Whittle likelihood.
 
-    Every decision determined by hypothesis tests (ADF, KPSS, Ljung-Box) with clear interpretation rules - no guesswork.
+**5. Inference and Hypothesis Testing**
 
-- :material-code-braces: **Production-Ready Code**
+- **Unit Root:** ADF, KPSS, PP, DF-GLS, Zivot-Andrews (with structural breaks)
+- **Cointegration:** Engle-Granger, Johansen, ARDL bounds
+- **Causality:** Granger, Sims, Toda-Yamamoto
+- **Structural Breaks:** Chow test, CUSUM, Bai-Perron
+- **Serial Correlation:** Breusch-Godfrey, Ljung-Box, Durbin-Watson, White test
+- **Normality:** Jarque-Bera
+- **Bootstrap:** block, sieve
 
-    ---
+**6. Model Selection and Validation**
 
-    Mathematical theory paired with complete Python implementations. All code is tested, documented, and deployment-ready.
+- **Information criteria:** AIC, BIC, HQIC
+- **Cross-validation:** walk-forward, rolling
+- **Residual diagnostics:** ACF/PACF, Q-stats
+- **Forecast evaluation:** MAE, RMSE, MAPE, MASE
+- **Forecast comparison:** Diebold-Mariano test, reality check, model confidence sets (Hansen)
 
-</div>
+**7. Long Memory and Fractional Integration**
+
+ARFIMA, fractional Brownian motion, Hurst exponent, GPH estimator, local Whittle estimator.
+
+**8. Nonlinear Models**
+
+- **Threshold:** TAR, SETAR, MTAR
+- **Smooth Transition:** STAR, LSTAR, ESTAR
+- **Regime-Switching:** Markov-Switching (Hamilton)
+- **Bilinear:** bilinear AR models
+- **Nonparametric/semiparametric:** kernel smoothing, local polynomial regression
+- **Chaos and nonlinear dynamics:** Lyapunov exponents, BDS test
+
+**9. Multivariate and High-Dimensional**
+
+- **Core multivariate:** VAR, SVAR (short-run/long-run), VECM
+- **Factor models:** SFM, DFM, Approximate Factor Models
+- **Regularisation:** PCA, LASSO-VAR, Ridge-VAR, Elastic Net
+- **Graphical models:** sparse precision matrices
+- **Panel time series:** fixed/random effects, pooled estimators
+- **Tensor methods:** matrix/tensor autoregression
+
+**10. Volatility and Financial Econometrics**
+
+- **ARCH family:** ARCH, GARCH, IGARCH, FIGARCH, APARCH
+- **Asymmetric:** EGARCH, GJR-GARCH, TGARCH
+- **Multivariate GARCH:** DCC-GARCH, BEKK-GARCH, CCC-GARCH
+- **Stochastic volatility:** SV models
+- **High-frequency:** realised volatility, HF econometrics
+- **Jump models:** jump diffusion
+- **Risk measures:** VaR, Expected Shortfall
+- **Dependence:** copula-based modelling
+- **Extreme value theory:** GEV, GPD, peaks-over-threshold, extremal index
+- **Rough volatility:** rough Heston, fBM-driven models, rough Bergomi
+
+**11. State-Space Models and Filtering**
+
+General linear Gaussian state-space models, Kalman filter/smoother, EKF, UKF, particle filters (SMC), HMM, DLM (West & Harrison framework), BSTS.
+
+**12. Bayesian Time Series**
+
+BVAR (Minnesota prior, natural conjugate prior), Bayesian ARIMA, DBN, posterior predictive distributions, Bayesian model comparison (Bayes factors, WAIC, LOO-CV), TVP-VAR, sequential Bayesian updating, Bayesian forecasting with structural breaks.
+
+**13. Frequency Domain and Spectral Analysis**
+
+DFT, PSD (parametric/nonparametric), periodogram, smoothed periodogram, Welch's method, cross-spectral analysis, coherence, phase spectrum, Wavelet analysis (DWT, MODWT, wavelet decomposition), HHT, EMD, Bandpass filtering (HP/BK/CF filters).
+
+**14. Functional and High-Frequency Time Series**
+
+Functional time series (Ramsay-Silverman framework), intraday seasonality modeling, irregularly spaced time series, Duration models (ACD), order book modelling, UHF data, survival analysis and reliability (Cox PH, hazard functions, censored time series).
+
+**15. Continuous-Time Models and Stochastic Differential Equations**
+
+OU process, Ito diffusions, geometric Brownian motion, CARMA, Levy-driven processes, jump-diffusion models, numerical methods for SDEs (Euler-Maruyama, Milstein), likelihood inference for diffusions, signature methods (rough path theory).
+
+**16. Count and Categorical Time Series**
+
+- **Integer-valued:** INAR, PAR, INGARCH, negative binomial autoregression
+- **Categorical/qualitative:** Markov chains for discrete states, autoregressive logit/probit, multinomial time series
+- **Compositional:** Dirichlet regression, log-ratio transforms for constrained series
+
+**17. Point Processes and Event-Time Series**
+
+Poisson process, Cox process, Hawkes process (self-exciting), renewal processes, temporal point process models, neural point processes, intensity estimation, Marked point processes.
+
+**18. Machine Learning and Deep Learning**
+
+- **Classical ML:** Random Forests, XGBoost, LightGBM
+- **Gaussian processes:** GP regression
+- **Reservoir computing:** Echo State Networks, Liquid State Machines
+- **Recurrent networks:** RNN, LSTM, GRU
+- **Convolutional:** TCN
+- **Transformers:** Informer, Autoformer, PatchTST, TimesFM
+- **State-space sequence models:** S4, S5, Mamba
+- **Foundation models:** Chronos, Lag-Llama, Moirai, TimeGPT, MOMENT
+- **Neural forecasters:** N-BEATS, N-HiTS, TiDE
+- **Generative:** diffusion models for time series
+- **Hybrid:** ARIMA + NN, residual modelling
+- **Uncertainty quantification:** conformal prediction
+- **Interpretability:** SHAP for temporal features, attention visualization, counterfactual explanations
+
+**19. Time Series Classification, Clustering, and Anomaly Detection**
+
+- **Classification:** DTW + k-NN, shapelets, ROCKET/MiniRocket, InceptionTime, time series kernels (GAK)
+- **Clustering:** k-means with DTW, kernel k-means, spectral clustering for time series
+- **Symbolic representations:** SAX, SFA, symbolic dynamics
+- **Anomaly detection algorithms:** BOCPD, PELT, matrix profile, isolation forests for time series, autoencoders, VAE
+- **Topological methods:** persistent homology, TDA for time series shape analysis
+- **Data augmentation:** window slicing, magnitude/time warping, synthetic oversampling
+
+**20. Spatio-Temporal Models**
+
+- **Spatial econometrics:** spatial panel VAR, spatial error/lag models with temporal dependence
+- **Geostatistical:** spatio-temporal kriging, Gaussian process spatio-temporal models
+- **Graph-based:** graph signal processing, STGNN, DCRNN, spatio-temporal attention networks
+- **Network time series:** time series on dynamic/evolving graphs, network autoregression
+- **Point processes:** spatio-temporal point processes
+
+**21. Causal Inference**
+
+Granger causality (linear/nonlinear), CCM, transfer entropy, structural causal models (PCMCI, DYNOTEARS), do-calculus and Pearl's framework for temporal data, causal discovery from interventions, interrupted time series, DiD, synthetic control.
+
+**22. Forecasting Theory and Practice**
+
+Point/interval/density forecasting, forecast combination (simple average, BMA, optimal combination), hierarchical and grouped time series forecasting (reconciliation — MinT, BU, TD), probabilistic forecasting (quantile regression, conformal intervals, GAMLSS), distributional regression, long-horizon forecasting, nowcasting (mixed-frequency models, MIDAS), forecast rationality testing, M-competition benchmarks and lessons (M4/M5), zero-shot forecasting evaluation, communicating uncertainty to non-technical stakeholders.
+
+**23. Online Learning and Adaptive Methods**
+
+Online gradient descent for forecasting, adaptive Kalman filters, exponentially weighted methods, concept drift detection, continual/incremental learning, multi-task and multi-output forecasting with shared representations, bandit algorithms for adaptive model selection.
+
+**24. Robust and Nonparametric Methods**
+
+M-estimators, nonparametric PSD, nonparametric regression, rank-based tests, QAR, optimal transport for time series (Wasserstein distance, Sliced Wasserstein).
+
+**25. Simulation and Computational Methods**
+
+Monte Carlo, block/stationary/sieve bootstrap, simulation-based inference, numerical MLE, EM algorithm for state-space models, ABC for intractable likelihoods, variational inference.
+
+**26. Applied Domains**
+
+- **Macroeconometrics:** business cycles, DSGE, monetary policy
+- **Financial econometrics:** asset pricing, risk, portfolio optimisation
+- **Climate/environmental:** climate modelling, anomaly detection
+- **Epidemiology:** surveillance, epidemic modelling (SIR/SEIR with time series)
+- **Neuroscience:** EEG/fMRI, spike trains, brain connectivity
+- **Signal processing:** control systems, communications
+- **Energy:** demand/price forecasting
+- **Supply chain/retail:** demand sensing, inventory optimisation
+- **IoT/sensor networks:** predictive maintenance, fault detection
+- **Audio/speech:** spectrogram analysis, WaveNet
+- **MLOps for time series:** model monitoring, retraining policies, drift detection in production
+- **Privacy-preserving methods:** federated learning for sequential data, differential privacy
+- **Ethics and fairness:** accountability in forecasting, bias in temporal predictions
+
 
 ---
 
 ## Quick Start
 
 === "New to Time Series"
-
-    **Start Here:**
+    
     1. Read [Introduction](00-introduction/overview.md) to understand the philosophy
     2. Skim the [General Flowchart](01-master-flowchart/01-general-flowchart.md) for the big picture
-    3. Follow the [Guided Walkthrough](01-master-flowchart/walkthrough.md) for detailed explanations
+    3. Follow the Guided Walkthrough (WIP) for detailed explanations
     4. Work through chapters 3-7 in order
 
 === "Have Specific Goals"
 
-    **Jump to Purpose:**
-    - **Forecasting** → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#1-forecasting-workflow)
-    - **Causal Analysis** → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis--structural-inference)
-    - **Anomaly Detection** → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly--regime-detection)
-    - **Feature Engineering** → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#7-feature-extraction-for-ml)
+    - Forecasting → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#1-forecasting-workflow)
+    - Causal Analysis → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis--structural-inference)
+    - Anomaly Detection → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly--regime-detection)
+    - Feature Engineering → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#7-feature-extraction-for-ml)
 
 === "Know Your Domain"
 
-    **Domain-Specific Guidance:**
-    - **Finance** → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#1-time-domain-representation)
-    - **Signal Processing** → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#2-frequency-domain-representation)
-    - **Non-stationary Data** → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#3-time-frequency-domain-representation)
-    - **Irregular Sampling** → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#4-state-space-representation)
+    - Finance → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#1-time-domain-representation)
+    - Signal Processing → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#2-frequency-domain-representation)
+
 
 === "Want Examples"
 
-    **See Code First:**
     - Browse code examples in each chapter
     - Check [Python Setup](appendices/C-python-environment-setup.md) for environment configuration
-    - All code is available as standalone files in the `code/` directory
+    - Code directory (WIP)
 
 ---
 
@@ -102,61 +249,32 @@ The manual is organized into focused chapters that build progressively:
 
 ---
 
-## Interactive Features
+## Book Conventions
 
-!!! tip "Interactive Glossary"
-    Starting from Chapter 3 (Data Preparation), technical terms are **clickable**. Click any highlighted term to see:
+Throughout this book:
 
-    - Clear definition
-    - Mathematical formulation
-    - Historical context
-    - Reference to detailed documentation
+- **Mathematical notation** appears in collapsible blocks for clean reading
+    - This book will use the conditional expectation form as the primary notation throughout, since it's the most general and is what modern econometrics papers default to.
 
-    Try clicking on terms like **stationarity**, **ADF test**, or **ARIMA** when you encounter them!
+- **Python code** is provided inline with expected output
+- **Hypothesis tests** always state H₀ (null hypothesis) and interpretation rules
+- **Decision rules** explicitly state thresholds (e.g., p-value < 0.05)
+- **Warnings** highlight common mistakes and edge cases
 
----
-
-## Philosophy
-
-This manual follows five core principles:
-
-1. **Test-Driven Decisions** :material-check-circle:{ .success }
-
-    Every branch in the workflow is determined by hypothesis tests, not intuition. Clear decision rules with explicit p-value thresholds.
-
-2. **Iterative Refinement** :material-reload:{ .info }
-
-    Expect to loop back through sections. Residual diagnostics may reveal model inadequacy → adjust specification → retest. This is normal!
-
-3. **Parsimony** :material-scale-balance:{ .warning }
-
-    Start simple (ARIMA), add complexity only when diagnostics demand it. Simpler models often forecast better.
-
-4. **Reproducibility** :material-code-braces:{ .primary }
-
-    All methods are algorithmically specified with complete code. No "magic" parameters.
-
-5. **Theory + Practice** :material-book-open-variant:{ .accent }
-
-    Mathematical rigor paired with computational implementation. Understand *why* methods work, not just *how* to use them.
 
 ---
+## The Python Stack You'll Use
 
-## Prerequisites
-
-!!! info "Required Background"
-    - **Statistics**: Mean, variance, hypothesis testing, confidence intervals
-    - **Linear Algebra**: Vectors, matrices, eigenvalues (undergraduate level)
-    - **Python**: NumPy, Pandas basics
-    - **Calculus**: Derivatives, integrals (undergraduate level)
-
-!!! success "NOT Required"
-    - Advanced measure theory or real analysis
-    - Prior time series experience
-    - Econometric software expertise
+| Purpose | Library |
+|---|---|
+| Data handling | `pandas` |
+| Classical models (ARIMA, ETS, VAR) | `statsmodels` |
+| Prophet | `prophet` |
+| ML-based forecasting | `sktime`, `darts` |
+| Deep learning | `pytorch-forecasting`, `neuralforecast` |
+| Visualization | `matplotlib`, `plotly` |
 
 ---
-
 ## Citation
 
 If you use this manual in your research or work, please cite:
@@ -173,25 +291,209 @@ If you use this manual in your research or work, please cite:
 
 ---
 
-## Contributing
-
-This manual is open source and welcomes contributions:
-
-- **Found an error?** Open an issue on [GitHub](https://github.com/Shuxin-Y/time-series-analysis-manual/issues)
-- **Have a suggestion?** Submit a pull request
-- **Want to add examples?** Contribute code to the `code/` directory
-
----
-
 ## License
 
 This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 
----
+<!-- Abbreviation definitions — ordered by "What This Book Covers" sections 1–26 -->
 
-<div class="text-center" markdown>
+<!-- 1. Mathematical and Statistical Foundations -->
+*[LLN]: Law of Large Numbers
+*[CLT]: Central Limit Theorem
 
-**[Get Started →](00-introduction/overview.md){ .md-button .md-button--primary }**
-**[View Flowcharts →](01-master-flowchart/01-general-flowchart.md){ .md-button }**
+<!-- 2. Time Series Fundamentals -->
+*[ADF]: Augmented Dickey-Fuller test
+*[KPSS]: Kwiatkowski-Phillips-Schmidt-Shin test
+*[ACF]: Autocorrelation Function
+*[PACF]: Partial Autocorrelation Function
 
-</div>
+<!-- 3. Core Classical Models — AR/MA -->
+*[AR]: Autoregressive
+*[MA]: Moving Average
+*[ARMA]: Autoregressive Moving Average
+*[ARIMA]: Autoregressive Integrated Moving Average
+*[SARIMA]: Seasonal ARIMA
+*[ARIMAX]: ARIMA with exogenous variables
+*[SARIMAX]: Seasonal ARIMA with exogenous variables
+<!-- 3. Core Classical Models — Exponential Smoothing -->
+*[SES]: Simple Exponential Smoothing
+*[DES]: Double Exponential Smoothing (Holt's Linear Trend)
+*[TES]: Triple Exponential Smoothing (Holt-Winters)
+*[ETS]: Error, Trend, Seasonality framework
+<!-- 3. Core Classical Models — Regression -->
+*[DLM]: Distributed Lag Model
+*[ADL]: Autoregressive Distributed Lag
+<!-- 3. Core Classical Models — Decomposition -->
+*[STL]: Seasonal-Trend decomposition using LOESS
+<!-- 3. Core Classical Models — Spectral -->
+*[FFT]: Fast Fourier Transform
+*[PSD]: Power Spectral Density
+
+<!-- 4. Estimation Theory -->
+*[MOM]: Method of Moments
+*[OLS]: Ordinary Least Squares
+*[MLE]: Maximum Likelihood Estimation
+*[QMLE]: Quasi-Maximum Likelihood Estimation
+*[GMM]: Generalized Method of Moments
+*[MCMC]: Markov Chain Monte Carlo
+*[Whittle likelihood]: frequency domain estimation
+
+<!-- 5. Inference and Hypothesis Testing — Unit Root -->
+*[PP]: Phillips-Perron test
+*[DF-GLS]: Dickey-Fuller Generalized Least Squares
+<!-- 5. Inference and Hypothesis Testing — Cointegration -->
+*[ARDL]: Autoregressive Distributed Lag
+<!-- 5. Inference and Hypothesis Testing — Structural Breaks -->
+*[CUSUM]: Cumulative Sum test
+
+<!-- 6. Model Selection and Validation -->
+*[AIC]: Akaike Information Criterion
+*[BIC]: Bayesian Information Criterion
+*[HQIC]: Hannan-Quinn Information Criterion
+*[MAE]: Mean Absolute Error
+*[RMSE]: Root Mean Squared Error
+*[MAPE]: Mean Absolute Percentage Error
+*[MASE]: Mean Absolute Scaled Error
+*[MCS]: Model Confidence Set
+
+<!-- 7. Long Memory and Fractional Integration -->
+*[ARFIMA]: Autoregressive Fractionally Integrated Moving Average
+*[GPH]: Geweke and Porter-Hudak estimator
+
+<!-- 8. Nonlinear Models — Threshold -->
+*[TAR]: Threshold Autoregressive
+*[SETAR]: Self-Exciting Threshold Autoregressive
+*[MTAR]: Momentum Threshold Autoregressive
+<!-- 8. Nonlinear Models — Smooth Transition -->
+*[STAR]: Smooth Transition Autoregressive
+*[LSTAR]: Logistic STAR
+*[ESTAR]: Exponential STAR
+<!-- 8. Nonlinear Models — Chaos -->
+*[BDS]: Brock-Dechert-Scheinkman test
+
+<!-- 9. Multivariate and High-Dimensional -->
+*[VAR]: Vector Autoregression
+*[SVAR]: Structural Vector Autoregression
+*[VECM]: Vector Error Correction Model
+*[SFM]: Static Factor Model
+*[DFM]: Dynamic Factor Model
+*[PCA]: Principal Component Analysis
+*[LASSO]: Least Absolute Shrinkage and Selection Operator
+
+<!-- 10. Volatility and Financial Econometrics — ARCH Family -->
+*[ARCH]: Autoregressive Conditional Heteroskedasticity
+*[GARCH]: Generalized ARCH
+*[IGARCH]: Integrated GARCH
+*[FIGARCH]: Fractionally Integrated GARCH
+*[APARCH]: Asymmetric Power ARCH
+<!-- 10. Volatility and Financial Econometrics — Asymmetric -->
+*[EGARCH]: Exponential GARCH
+*[TGARCH]: Threshold GARCH
+<!-- 10. Volatility and Financial Econometrics — Multivariate GARCH -->
+*[DCC]: Dynamic Conditional Correlation
+*[BEKK]: Baba-Engle-Kraft-Kroner model
+*[CCC]: Constant Conditional Correlation
+<!-- 10. Volatility and Financial Econometrics — Other -->
+*[SV]: Stochastic Volatility
+*[HF]: High-Frequency
+*[VaR]: Value-at-Risk
+<!-- 10. Volatility and Financial Econometrics — EVT -->
+*[GEV]: Generalized Extreme Value distribution
+*[GPD]: Generalized Pareto Distribution
+<!-- 10. Volatility and Financial Econometrics — Rough Volatility -->
+*[fBM]: fractional Brownian motion
+
+<!-- 11. State-Space Models and Filtering -->
+*[EKF]: Extended Kalman Filter
+*[UKF]: Unscented Kalman Filter
+*[SMC]: Sequential Monte Carlo
+*[HMM]: Hidden Markov Model
+*[DLM]: Dynamic Linear Model (West-Harrison)
+*[BSTS]: Bayesian Structural Time Series
+
+<!-- 12. Bayesian Time Series -->
+*[BVAR]: Bayesian Vector Autoregression
+*[DBN]: Dynamic Bayesian Network
+*[WAIC]: Widely Applicable Information Criterion
+*[LOO-CV]: Leave-One-Out Cross-Validation
+*[TVP-VAR]: Time-Varying Parameter VAR
+
+<!-- 13. Frequency Domain and Spectral Analysis -->
+*[DFT]: Discrete Fourier Transform
+*[DWT]: Discrete Wavelet Transform
+*[MODWT]: Maximal Overlap Discrete Wavelet Transform
+*[HHT]: Hilbert-Huang Transform
+*[EMD]: Empirical Mode Decomposition
+*[HP]: Hodrick-Prescott filter
+*[BK]: Baxter-King filter
+*[CF]: Christiano-Fitzgerald filter
+
+<!-- 14. Functional and High-Frequency Time Series -->
+*[ACD]: Autoregressive Conditional Duration
+*[UHF]: Ultra-High-Frequency
+*[Cox PH]: Cox Proportional Hazards model
+
+<!-- 15. Continuous-Time Models and SDEs -->
+*[OU]: Ornstein-Uhlenbeck process
+*[CARMA]: Continuous-time Autoregressive Moving Average
+*[SDE]: Stochastic Differential Equation
+
+<!-- 16. Count and Categorical Time Series -->
+*[INAR]: Integer-valued Autoregressive
+*[PAR]: Poisson Autoregression
+*[INGARCH]: Integer-valued Generalized ARCH
+
+<!-- 17. Point Processes and Event-Time Series -->
+
+<!-- 18. Machine Learning and Deep Learning -->
+*[SSM]: State-Space sequence Model
+*[GP]: Gaussian Process
+*[RNN]: Recurrent Neural Network
+*[LSTM]: Long Short-Term Memory
+*[GRU]: Gated Recurrent Unit
+*[TCN]: Temporal Convolutional Network
+*[NN]: Neural Network
+*[SHAP]: SHapley Additive exPlanations
+
+<!-- 19. Time Series Classification, Clustering, and Anomaly Detection -->
+*[DTW]: Dynamic Time Warping
+*[GAK]: Global Alignment Kernel
+*[ROCKET]: RandOm Convolutional KErnel Transform
+*[SAX]: Symbolic Aggregate approXimation
+*[SFA]: Symbolic Fourier Approximation
+*[BOCPD]: Bayesian Online Change Point Detection
+*[PELT]: Pruned Exact Linear Time
+*[VAE]: Variational Autoencoder
+*[TDA]: Topological Data Analysis
+
+<!-- 20. Spatio-Temporal Models -->
+*[STGNN]: Spatio-Temporal Graph Neural Network
+*[DCRNN]: Diffusion Convolutional Recurrent Neural Network
+
+<!-- 21. Causal Inference -->
+*[CCM]: Convergent Cross Mapping
+*[PCMCI]: Peter and Clark Momentary Conditional Independence
+*[DiD]: Difference-in-Differences
+
+<!-- 22. Forecasting Theory and Practice -->
+*[BMA]: Bayesian Model Averaging
+*[BU]: Bottom-Up reconciliation
+*[TD]: Top-Down reconciliation
+*[MIDAS]: Mixed Data Sampling
+*[GAMLSS]: Generalized Additive Models for Location, Scale and Shape
+
+<!-- 23. Online Learning and Adaptive Methods -->
+
+<!-- 24. Robust and Nonparametric Methods -->
+*[QAR]: Quantile Autoregression
+
+<!-- 25. Simulation and Computational Methods -->
+*[EM]: Expectation-Maximisation
+*[ABC]: Approximate Bayesian Computation
+
+<!-- 26. Applied Domains -->
+*[DSGE]: Dynamic Stochastic General Equilibrium
+*[EEG]: Electroencephalography
+*[fMRI]: Functional Magnetic Resonance Imaging
+*[IoT]: Internet of Things
+

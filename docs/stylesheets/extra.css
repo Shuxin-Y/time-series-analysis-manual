@@ -6,6 +6,38 @@
 
 /* ===== Typography ===== */
 
+/* Enforce minimum font size across the site */
+.md-typeset {
+  font-size: max(0.8rem, 14px);
+}
+
+.md-typeset * {
+  font-size: max(inherit, 14px);
+}
+
+/* Instant abbreviation tooltips (override slow native tooltip) */
+.md-typeset abbr[title] {
+  position: relative;
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+.md-typeset abbr[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: var(--md-default-fg-color);
+  color: var(--md-default-bg-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
 /* Better code font sizing */
 code {
   font-size: 0.875em;
@@ -79,9 +111,9 @@ code {
 
 /* ===== Code Blocks ===== */
 
-/* Add subtle border to code blocks */
+/* Code block styling */
 .md-typeset .highlight {
-  border: 1px solid var(--md-default-fg-color--lightest);
+  border: none;
   border-radius: 0.25rem;
 }
 
