@@ -41,7 +41,7 @@ All three systems are SPA-aware, hooking into Material theme's `document$.subscr
 - Chapter directories: `NN-kebab-case/` with `index.md` as landing page
 - Navigation: defined explicitly in `mkdocs.yml` under `nav:`
 - Primary notation: conditional expectation form (most general, modern standard)
-- See `.claude/rules/` for detailed standards: chapters, notation, code, figures
+- See `.claude/rules/` for detailed standards: chapters, notation, code, figures, writing
 
 ## CI/CD
 
