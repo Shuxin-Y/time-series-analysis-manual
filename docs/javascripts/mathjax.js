@@ -23,7 +23,7 @@ window.MathJax = {
     tagIndent: '0.8em',
 
     // Allow \begin{align}, \begin{equation}, etc.
-    packages: {'[+]': ['ams', 'newcommand', 'configmacros']},
+    packages: {'[+]': ['ams', 'newcommand', 'configmacros', 'boldsymbol']},
 
     // Custom macros for consistent notation
     macros: {

@@ -1,7 +1,5 @@
 # Time Series Analysis Manual
 
-
-
 !!! abstract "Preface"
     Time series analysis sits at the intersection of classical statistics, econometrics, signal processing, and modern machine learning. Each tradition has developed powerful tools, yet learners often encounter them in isolation — scattered across textbooks that emphasize one perspective at the expense of others.
 
@@ -11,7 +9,79 @@
 
 ---
 
+## Book Conventions
 
+Throughout this book:
+
+- **Mathematical notation** appears in collapsible blocks for clean reading
+    - This book will use the conditional expectation form as the primary notation throughout, since it's the most general and is what modern econometrics papers default to.
+
+- **Python code** is provided inline with expected output
+- **Hypothesis tests** always state H₀ (null hypothesis) and interpretation rules
+- **Decision rules** explicitly state thresholds (e.g., p-value < 0.05)
+- **Warnings** highlight common mistakes and edge cases
+
+---
+
+## Book Structure
+
+The manual is organized into focused chapters that build progressively:
+
+### Core Content
+
+<div class="annotate" markdown>
+
+1. **[Introduction](00-introduction/overview.md)** - Philosophy, target audience, and comparison with existing textbooks
+2. **[Flowcharts](01-master-flowchart/01-general-flowchart.md)** - Three comprehensive decision workflows (1)
+3. **[Data Preparation](02-data-preparation/index.md)** - Cleaning, sampling, and quality checks
+4. **[Exploratory Analysis](03-exploratory-analysis/index.md)** - Stationarity, distributions, temporal structure
+5. **[Frequency Domain](04-frequency-domain/index.md)** - Spectral analysis, periodicities, filtering
+6. **[Modelling](05-modelling/index.md)** - ARIMA, VAR, GARCH, state-space, and ML approaches
+7. **[Feature Extraction](06-feature-extraction/index.md)** - Engineering features for machine learning
+8. **[Validation & Deployment](07-validation-deployment/index.md)** - Testing, monitoring, and production systems
+
+</div>
+
+1.  The three flowcharts provide complementary views:
+    - **General**: Complete econometric workflow from data to deployment
+    - **Purpose-Based**: Organized by analytical goal (forecasting, causal analysis, etc.)
+    - **Representation-Based**: Organized by mathematical domain (time, frequency, state-space, etc.)
+
+### Reference Materials
+
+- **[Appendices](appendices/index.md)** - Mathematical foundations, statistical tests reference, datasets, and resources
+
+---
+
+## Quick Start
+
+=== "New to Time Series"
+    
+    1. Read [Introduction](00-introduction/overview.md) to understand the philosophy
+    2. Skim the [General Flowchart](01-master-flowchart/01-general-flowchart.md) for the big picture
+    3. Follow the Guided Walkthrough (WIP) for detailed explanations
+    4. Work through chapters 3-7 in order
+
+=== "Have Specific Goals"
+
+    - Forecasting → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#1-forecasting-workflow)
+    - Causal Analysis → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis--structural-inference)
+    - Anomaly Detection → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly--regime-detection)
+    - Feature Engineering → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#7-feature-extraction-for-ml)
+
+=== "Know Your Domain"
+
+    - Finance → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#1-time-domain-representation)
+    - Signal Processing → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#2-frequency-domain-representation)
+
+
+=== "Want Examples"
+
+    - Browse code examples in each chapter
+    - Check [Python Setup](appendices/C-python-environment-setup.md) for environment configuration
+    - Code directory (WIP)
+
+---
 ## Techniques This Book Covers
 
 === "Theory & Inference"
@@ -199,80 +269,6 @@
 
 ---
 
-## Quick Start
-
-=== "New to Time Series"
-    
-    1. Read [Introduction](00-introduction/overview.md) to understand the philosophy
-    2. Skim the [General Flowchart](01-master-flowchart/01-general-flowchart.md) for the big picture
-    3. Follow the Guided Walkthrough (WIP) for detailed explanations
-    4. Work through chapters 3-7 in order
-
-=== "Have Specific Goals"
-
-    - Forecasting → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#1-forecasting-workflow)
-    - Causal Analysis → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis--structural-inference)
-    - Anomaly Detection → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly--regime-detection)
-    - Feature Engineering → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#7-feature-extraction-for-ml)
-
-=== "Know Your Domain"
-
-    - Finance → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#1-time-domain-representation)
-    - Signal Processing → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#2-frequency-domain-representation)
-
-
-=== "Want Examples"
-
-    - Browse code examples in each chapter
-    - Check [Python Setup](appendices/C-python-environment-setup.md) for environment configuration
-    - Code directory (WIP)
-
----
-
-## Book Structure
-
-The manual is organized into focused chapters that build progressively:
-
-### Core Content
-
-<div class="annotate" markdown>
-
-1. **[Introduction](00-introduction/overview.md)** - Philosophy, target audience, and comparison with existing textbooks
-2. **[Flowcharts](01-master-flowchart/01-general-flowchart.md)** - Three comprehensive decision workflows (1)
-3. **[Data Preparation](02-data-preparation/index.md)** - Cleaning, sampling, and quality checks
-4. **[Exploratory Analysis](03-exploratory-analysis/index.md)** - Stationarity, distributions, temporal structure
-5. **[Frequency Domain](04-frequency-domain/index.md)** - Spectral analysis, periodicities, filtering
-6. **[Modelling](05-modelling/index.md)** - ARIMA, VAR, GARCH, state-space, and ML approaches
-7. **[Feature Extraction](06-feature-extraction/index.md)** - Engineering features for machine learning
-8. **[Validation & Deployment](07-validation-deployment/index.md)** - Testing, monitoring, and production systems
-
-</div>
-
-1.  The three flowcharts provide complementary views:
-    - **General**: Complete econometric workflow from data to deployment
-    - **Purpose-Based**: Organized by analytical goal (forecasting, causal analysis, etc.)
-    - **Representation-Based**: Organized by mathematical domain (time, frequency, state-space, etc.)
-
-### Reference Materials
-
-- **[Appendices](appendices/index.md)** - Mathematical foundations, statistical tests reference, datasets, and resources
-
----
-
-## Book Conventions
-
-Throughout this book:
-
-- **Mathematical notation** appears in collapsible blocks for clean reading
-    - This book will use the conditional expectation form as the primary notation throughout, since it's the most general and is what modern econometrics papers default to.
-
-- **Python code** is provided inline with expected output
-- **Hypothesis tests** always state H₀ (null hypothesis) and interpretation rules
-- **Decision rules** explicitly state thresholds (e.g., p-value < 0.05)
-- **Warnings** highlight common mistakes and edge cases
-
-
----
 ## The Python Stack You'll Use
 
 | Purpose | Library |

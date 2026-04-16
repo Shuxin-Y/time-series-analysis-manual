@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
@@ -24,48 +24,28 @@ source venv/bin/activate && mkdocs build --strict
 
 All three systems are SPA-aware, hooking into Material theme's `document$.subscribe()` for re-rendering on navigation:
 
-1. **MathJax** (`docs/javascripts/mathjax.js`) — Renders LaTeX equations. Uses `\( \)` for inline, `\[ \]` for display. Defines custom macros: `\RR`, `\EE`, `\Var`, `\Cov`, `\Corr`, `\argmin`, `\argmax`, `\plim`, `\convd`, `\convp`, `\convas`, `\Prob`, `\iid`, `\bm`. Equation numbering is AMS style.
+1. **MathJax** (`docs/javascripts/mathjax.js`) — Renders LaTeX. Uses `\( \)` for inline, `\[ \]` for display. Custom macros defined in file. Equation numbering is AMS style.
 
-2. **Mermaid** (`docs/javascripts/mermaid-init.js`) — Renders diagrams. Initialized with `startOnLoad: false` for manual control. Uses `securityLevel: 'loose'`. Handles multiple selectors (`code.mermaid`, `div.mermaid`, `pre.mermaid`). Tracks processed elements via `data-processed` attribute with 100ms debounce.
+2. **Mermaid** (`docs/javascripts/mermaid-init.js`) — Renders diagrams via superfences (NOT `<div>` tags). Initialized with `startOnLoad: false`.
 
-3. **Interactive Glossary** (`docs/javascripts/glossary.js`) — Loads terms from `docs/glossary.yml`, highlights them in content (chapters 02+), shows a right-slide drawer with definition, LaTeX formula, historical context, and reference link. Uses longest-match-first regex, skips code blocks and headers.
-
-### Mermaid Diagrams
-
-Diagrams use triple-backtick fenced blocks via `pymdownx.superfences` with `fence_code_format` — NOT `<div class="mermaid">` tags. This is configured in `mkdocs.yml` under `custom_fences`.
+3. **Interactive Glossary** (`docs/javascripts/glossary.js`) — Loads `docs/glossary.yml`, highlights terms in chapters 02+, shows right-slide drawer.
 
 ### Custom CSS
 
-- `docs/stylesheets/extra.css` — Custom admonition types: `theorem` (purple), `definition` (teal). Hypothesis test boxes with H₀/H₁ styling. Mermaid container centering.
-- `docs/stylesheets/glossary.css` — Drawer panel (550px desktop, 100% mobile), overlay, animations.
-
-Both use Material theme CSS variables (`--md-primary-fg-color`, `--md-code-bg-color`, etc.).
-
-### Glossary Entry Format
-
-```yaml
-- term: "Term Name"
-  definition: "Clear, concise definition"
-  mathematical: |
-    LaTeX formulation using $inline$ and $$display$$ math.
-  historical: |
-    - YYYY: Key milestone
-  reference: "NN-chapter/page.html#section-anchor"
-```
+- `docs/stylesheets/extra.css` — Custom admonitions: `theorem` (purple), `definition` (teal). Hypothesis test boxes. Mermaid centering.
+- `docs/stylesheets/glossary.css` — Drawer panel, overlay, animations.
 
 ## Content Conventions
 
 - **No emojis** in content or diagrams
-- Chapter directories: `NN-kebab-case/` (e.g., `03-exploratory-analysis/`)
-- Files within chapters: `NN-kebab-case.md` with `index.md` as landing page
-- Navigation structure is defined explicitly in `mkdocs.yml` under `nav:`
-- Hypothesis tests always state H₀ and interpretation rules with explicit thresholds
-- Decision rules state p-value thresholds (e.g., p < 0.05)
+- Chapter directories: `NN-kebab-case/` with `index.md` as landing page
+- Navigation: defined explicitly in `mkdocs.yml` under `nav:`
+- Primary notation: conditional expectation form (most general, modern standard)
+- See `.claude/rules/` for detailed standards: chapters, notation, code, figures
 
 ## CI/CD
 
-GitHub Actions (`.github/workflows/deploy.yml`): triggers on push to main, builds with Python 3.11, deploys to GitHub Pages. Includes optional PR preview comments.
-
+GitHub Actions (`.github/workflows/deploy.yml`): triggers on push to main, builds with Python 3.11, deploys to GitHub Pages.
 
 ## Basic
 
