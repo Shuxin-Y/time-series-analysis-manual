@@ -14,8 +14,9 @@
 (function() {
   'use strict';
 
-  // Configuration
-  const GLOSSARY_URL = '/glossary.yml';
+  // Configuration — resolve glossary path relative to the site root so it
+  // works both on localhost (root = /) and GitHub Pages (root = /repo-name/).
+  const GLOSSARY_URL = new URL('glossary.yml', window.__md_scope || '/').href;
   const ENABLED_PATHS = [
     '/00-introduction/',
     '/01-master-flowchart/',
