@@ -8,10 +8,10 @@
 window.MathJax = {
   tex: {
     // Inline math delimiters
-    inlineMath: [['\\(', '\\)']],
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
 
     // Display math delimiters
-    displayMath: [['\\[', '\\]']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
 
     // Process escape sequences
     processEscapes: true,

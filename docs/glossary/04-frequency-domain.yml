@@ -1,0 +1,41 @@
+# Glossary: Chapter 04 — Frequency Domain
+
+terms:
+
+  - term: "FFT"
+    definition: "Fast Fourier Transform. An efficient algorithm to compute the Discrete Fourier Transform."
+    mathematical: |
+      Discrete Fourier Transform:
+      $$X_k = \sum_{n=0}^{N-1} x_n e^{-2\pi i kn/N}$$
+
+      Frequency: $f_k = \frac{k}{N \Delta t}$ where $\Delta t$ is sampling interval
+
+      FFT reduces complexity from $O(N^2)$ to $O(N \log N)$
+    historical: |
+      - 1805: Gauss develops an early form of the algorithm for asteroid orbit interpolation
+      - 1965: Cooley and Tukey publish the modern FFT algorithm, revolutionising spectral analysis
+    reference: "04-frequency-domain/01-fourier-theory.html#fft"
+
+  - term: "Power Spectral Density"
+    definition: "PSD describes how the power (variance) of a time series is distributed across different frequencies."
+    mathematical: |
+      For continuous time:
+      $$S(f) = \int_{-\infty}^{\infty} \gamma(\tau) e^{-2\pi i f \tau} d\tau$$
+
+      Periodogram (sample PSD):
+      $$\hat{S}(f_k) = \frac{1}{N}|X_k|^2$$
+      where $X_k$ is the DFT coefficient
+    historical: |
+      - 1930: Wiener-Khinchin theorem relates the ACF to the PSD
+      - 1949: Tukey introduces periodogram smoothing techniques
+    reference: "04-frequency-domain/02-power-spectral-density.html"
+
+  - term: "Periodogram"
+    definition: "An estimate of the power spectral density obtained by computing the squared magnitude of the Fourier transform."
+    mathematical: |
+      $$I(\omega_k) = \frac{1}{2\pi n} \left|\sum_{t=1}^n y_t e^{-i\omega_k t}\right|^2$$
+      where $\omega_k = \frac{2\pi k}{n}$
+    historical: |
+      - 1898: Schuster introduces the periodogram for detecting hidden periodicities
+      - Early 20th century: Widely adopted in astronomy for periodic signal detection
+    reference: "04-frequency-domain/02-periodogram.html"

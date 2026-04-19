@@ -14,9 +14,17 @@
 (function() {
   'use strict';
 
-  // Configuration — resolve glossary path relative to the site root so it
-  // works both on localhost (root = /) and GitHub Pages (root = /repo-name/).
-  const GLOSSARY_URL = new URL('glossary.yml', window.__md_scope || '/').href;
+  // Configuration — chapter files are resolved relative to the site root so
+  // the path works both on localhost (root = /) and GitHub Pages (root = /repo-name/).
+  // Add a new entry here whenever a chapter introduces its first glossary term.
+  const GLOSSARY_CHAPTERS = [
+    '00-introduction',
+    '02-data-preparation',
+    '03-exploratory-analysis',
+    '04-frequency-domain',
+    '05-modelling',
+  ];
+
   const ENABLED_PATHS = [
     '/00-introduction/',
     '/01-master-flowchart/',
@@ -35,17 +43,25 @@
     return ENABLED_PATHS.some(enabledPath => path.includes(enabledPath));
   }
 
-  // Load glossary data
+  // Load glossary data from all chapter files in parallel
   async function loadGlossary() {
-    try {
-      const response = await fetch(GLOSSARY_URL);
-      const yamlText = await response.text();
-      const glossary = jsyaml.load(yamlText);
-      return glossary.terms || [];
-    } catch (error) {
-      console.warn('Could not load glossary:', error);
-      return [];
-    }
+    const base = window.__md_scope || '/';
+
+    const fetches = GLOSSARY_CHAPTERS.map(async chapter => {
+      try {
+        const url = new URL(`glossary/${chapter}.yml`, base).href;
+        const response = await fetch(url);
+        const yamlText = await response.text();
+        const data = jsyaml.load(yamlText);
+        return (data && data.terms) || [];
+      } catch (error) {
+        console.warn(`Could not load glossary/${chapter}.yml:`, error);
+        return [];
+      }
+    });
+
+    const results = await Promise.all(fetches);
+    return results.flat();
   }
 
   // Escape regex special characters
@@ -136,6 +152,41 @@
     });
   }
 
+  // Convert **text** to <strong>text</strong>
+  function boldToHtml(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  }
+
+  // Render simple markdown (bold + bullet lists) to HTML.
+  // Math delimiters ($...$ and $$...$$) are left intact for MathJax.
+  function renderMarkdown(text) {
+    if (!text) return '';
+
+    const lines = text.split('\n');
+    const output = [];
+    let inList = false;
+
+    for (const raw of lines) {
+      const line = raw.trim();
+
+      if (!line) {
+        if (inList) { output.push('</ul>'); inList = false; }
+        continue;
+      }
+
+      if (line.startsWith('- ')) {
+        if (!inList) { output.push('<ul>'); inList = true; }
+        output.push(`<li>${boldToHtml(line.slice(2))}</li>`);
+      } else {
+        if (inList) { output.push('</ul>'); inList = false; }
+        output.push(`<p>${boldToHtml(line)}</p>`);
+      }
+    }
+
+    if (inList) output.push('</ul>');
+    return output.join('');
+  }
+
   // Show the glossary drawer
   function showDrawer(termData) {
     // Remove existing drawer if any
@@ -168,7 +219,7 @@
             <section class="glossary-section">
               <h4>Mathematical Formulation</h4>
               <div class="math-block arithmatex">
-                ${termData.mathematical}
+                ${renderMarkdown(termData.mathematical)}
               </div>
             </section>
           ` : ''}
@@ -177,7 +228,7 @@
             <section class="glossary-section">
               <h4>Historical Context</h4>
               <div class="historical-note">
-                ${termData.historical}
+                ${renderMarkdown(termData.historical)}
               </div>
             </section>
           ` : ''}

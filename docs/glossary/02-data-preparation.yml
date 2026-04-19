@@ -1,0 +1,59 @@
+# Glossary: Chapter 02 — Data Preparation
+
+terms:
+
+  - term: "Missing Data"
+    definition: "Observations that are absent from the time series, creating gaps in the temporal sequence."
+    mathematical: |
+      Let $y_t$ be the observed series. Missing data occurs when $y_t = \text{NA}$ for some $t \in \{1, \ldots, n\}$.
+
+      Classification:
+      - **MCAR**: Missing Completely at Random
+      - **MAR**: Missing at Random
+      - **MNAR**: Missing Not at Random
+    historical: |
+      - 1976: Rubin introduces the MAR framework
+      - 1987: Little and Rubin publish comprehensive treatment
+      - 2000s: Multiple imputation methods become standard
+    reference: "02-data-preparation/01-inspection-and-sampling.html#missing-data"
+
+  - term: "Sampling Rate"
+    definition: "The frequency at which observations are recorded, measured as the number of samples per unit time."
+    mathematical: |
+      Sampling frequency: $f_s = \frac{1}{\Delta t}$ where $\Delta t$ is the time interval between consecutive observations.
+
+      Nyquist criterion: To avoid aliasing, $f_s \geq 2f_{\max}$ where $f_{\max}$ is the highest frequency in the signal.
+    historical: |
+      - 1928: Harry Nyquist establishes sampling theorem foundations
+      - 1949: Claude Shannon formalizes the Nyquist-Shannon theorem
+    reference: "02-data-preparation/01-inspection-and-sampling.html#sampling"
+
+  - term: "Outlier"
+    definition: "An observation that deviates significantly from the overall pattern of the data."
+    mathematical: |
+      Statistical outlier (z-score method):
+      $$z_t = \frac{y_t - \bar{y}}{s}$$
+
+      Flag as outlier if $|z_t| > k$, typically $k = 3$ or $4$.
+
+      Modified z-score (robust):
+      $$M_t = \frac{0.6745(y_t - \tilde{y})}{\text{MAD}}$$
+      where $\text{MAD} = \text{median}(|y_t - \tilde{y}|)$
+    historical: |
+      - 1960: Grubbs test for outliers published
+      - 1980: Hampel develops robust statistics framework
+      - 1983: Rousseeuw introduces robust regression
+    reference: "02-data-preparation/02-outlier-detection.html"
+
+  - term: "Imputation"
+    definition: "The process of replacing missing values with substituted values based on other available information."
+    mathematical: |
+      Common methods:
+      - **Forward fill**: $\hat{y}_t = y_{t-k}$ where $k$ is the lag to last observed value
+      - **Linear interpolation**: $\hat{y}_t = y_{t-1} + \frac{t - t_1}{t_2 - t_1}(y_{t_2} - y_{t_1})$
+      - **ARIMA-based**: Use fitted model to forecast missing values
+    historical: |
+      - 1977: Dempster, Laird, and Rubin introduce the EM algorithm
+      - 1987: Multiple imputation framework formalised by Rubin
+      - 2001: Kalman filter imputation adopted for time series
+    reference: "02-data-preparation/02-missing-data.html#imputation"

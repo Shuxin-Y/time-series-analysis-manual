@@ -1,0 +1,129 @@
+# Glossary: Chapter 03 — Exploratory Analysis
+
+terms:
+
+  - term: "Stationarity"
+    definition: "A time series is stationary if its statistical properties do not change over time."
+    mathematical: |
+      **Weak (covariance) stationarity** requires:
+      - Constant mean: $E[y_t] = \mu$ for all $t$
+      - Constant variance: $\text{Var}(y_t) = \sigma^2$ for all $t$
+      - Autocovariance depends only on lag: $\gamma_k = \text{Cov}(y_t, y_{t-k})$
+
+      **Strict stationarity**: The joint distribution $(y_{t_1}, \ldots, y_{t_n})$ is identical to $(y_{t_1+h}, \ldots, y_{t_n+h})$ for any $h$.
+    historical: |
+      - 1927: Yule introduces autoregressive processes
+      - 1938: Wold decomposition theorem established
+      - 1970: Box-Jenkins methodology formalises stationarity requirements
+    reference: "03-exploratory-analysis/01-stationarity-concept.html"
+
+  - term: "ADF Test"
+    definition: "Augmented Dickey-Fuller test for unit roots. Tests whether a time series is non-stationary."
+    mathematical: |
+      Test equation:
+      $$\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^p \delta_i \Delta y_{t-i} + \varepsilon_t$$
+
+      **Hypotheses:**
+      - $H_0$: $\gamma = 0$ (unit root exists, series is non-stationary)
+      - $H_1$: $\gamma < 0$ (no unit root, series is stationary)
+
+      **Decision**: Reject $H_0$ if $p < \alpha$ (typically 0.05)
+    historical: |
+      - 1979: Dickey and Fuller introduce the DF test
+      - 1981: Said and Dickey propose the augmented version
+      - 1992: Elliott, Rothenberg, and Stock develop the DF-GLS variant
+    reference: "03-exploratory-analysis/03-unit-root-tests.html#adf"
+
+  - term: "KPSS Test"
+    definition: "Kwiatkowski-Phillips-Schmidt-Shin test for stationarity. Has the opposite null hypothesis to ADF."
+    mathematical: |
+      Test statistic based on LM principle:
+      $$\text{KPSS} = \frac{1}{T^2} \sum_{t=1}^T \frac{S_t^2}{\hat{\sigma}^2}$$
+      where $S_t = \sum_{i=1}^t \hat{\varepsilon}_i$ (partial sum of residuals)
+
+      **Hypotheses:**
+      - $H_0$: Series is stationary
+      - $H_1$: Series is non-stationary
+
+      **Decision**: Reject $H_0$ if $p < \alpha$
+    historical: |
+      - 1992: Kwiatkowski, Phillips, Schmidt, and Shin introduce the test
+      - 1992: Complements ADF by reversing the null hypothesis
+    reference: "03-exploratory-analysis/03-unit-root-tests.html#kpss"
+
+  - term: "Differencing"
+    definition: "A transformation that removes trends by computing the change between consecutive observations."
+    mathematical: |
+      **First difference:**
+      $$\Delta y_t = y_t - y_{t-1}$$
+
+      **Second difference:**
+      $$\Delta^2 y_t = \Delta y_t - \Delta y_{t-1} = y_t - 2y_{t-1} + y_{t-2}$$
+
+      **Seasonal difference:**
+      $$\Delta_s y_t = y_t - y_{t-s}$$
+      where $s$ is the seasonal period (e.g., $s=12$ for monthly data)
+    historical: |
+      - 1970: Box and Jenkins formalise differencing within the ARIMA methodology
+      - 1976: Granger and Newbold demonstrate spurious regression from non-stationary series
+    reference: "03-exploratory-analysis/04-differencing.html"
+
+  - term: "ACF"
+    definition: "Autocorrelation Function. Measures the correlation between a time series and its lagged values."
+    mathematical: |
+      $$\rho_k = \frac{\gamma_k}{\gamma_0} = \frac{\text{Cov}(y_t, y_{t-k})}{\text{Var}(y_t)} = \frac{E[(y_t - \mu)(y_{t-k} - \mu)]}{\sigma^2}$$
+
+      Sample ACF:
+      $$\hat{\rho}_k = \frac{\sum_{t=k+1}^n (y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t=1}^n (y_t - \bar{y})^2}$$
+
+      Standard error: $\text{SE}(\hat{\rho}_k) \approx \frac{1}{\sqrt{n}}$ for white noise
+    historical: |
+      - 1927: Yule introduces the autocorrelation concept
+      - 1970: Box and Jenkins use ACF for ARIMA model identification
+    reference: "03-exploratory-analysis/05-acf-pacf.html#acf"
+
+  - term: "PACF"
+    definition: "Partial Autocorrelation Function. Measures the correlation between observations at lag k, controlling for intermediate lags."
+    mathematical: |
+      $$\phi_{kk} = \text{Corr}(y_t, y_{t-k} \mid y_{t-1}, \ldots, y_{t-k+1})$$
+
+      The $k$-th PACF coefficient is the last coefficient in an AR($k$) model:
+      $$y_t = \phi_{k1} y_{t-1} + \cdots + \phi_{kk} y_{t-k} + \varepsilon_t$$
+    historical: |
+      - 1949: Quenouille develops the partial autocorrelation concept
+      - 1970: Box and Jenkins use PACF to identify AR order in ARIMA modelling
+    reference: "03-exploratory-analysis/05-acf-pacf.html#pacf"
+
+  - term: "Ljung-Box Test"
+    definition: "A portmanteau test for autocorrelation in residuals. Tests whether residuals are white noise."
+    mathematical: |
+      Test statistic:
+      $$Q = n(n+2) \sum_{k=1}^h \frac{\hat{\rho}_k^2}{n-k}$$
+
+      Under $H_0$, $Q \sim \chi^2(h-p-q)$ where $h$ is number of lags tested, $p$ and $q$ are ARMA orders.
+
+      **Hypotheses:**
+      - $H_0$: No autocorrelation up to lag $h$
+      - $H_1$: Autocorrelation exists
+
+      **Decision**: Reject $H_0$ if $p < \alpha$
+    historical: |
+      - 1970: Box and Pierce introduce the Q-test
+      - 1978: Ljung and Box improve the test statistic for small samples
+    reference: "03-exploratory-analysis/06-ljung-box-test.html"
+
+  - term: "White Noise"
+    definition: "A sequence of uncorrelated random variables with zero mean and constant variance."
+    mathematical: |
+      A process $\\{\varepsilon_t\\}$ is white noise if:
+      - $E[\varepsilon_t] = 0$ for all $t$
+      - $\text{Var}(\varepsilon_t) = \sigma^2$ for all $t$
+      - $\text{Cov}(\varepsilon_t, \varepsilon_s) = 0$ for $t \neq s$
+
+      **Strong white noise** additionally requires independence: $\varepsilon_t \perp \varepsilon_s$ for $t \neq s$
+
+      **Gaussian white noise**: $\varepsilon_t \sim N(0, \sigma^2)$ i.i.d.
+    historical: |
+      - 1938: Wold decomposition theorem establishes white noise as the irreducible innovation component
+      - 1970: Box and Jenkins formalise residual white noise as the diagnostic criterion for model adequacy
+    reference: "03-exploratory-analysis/06-white-noise.html"

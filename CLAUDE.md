@@ -28,7 +28,7 @@ All three systems are SPA-aware, hooking into Material theme's `document$.subscr
 
 2. **Mermaid** (`docs/javascripts/mermaid-init.js`) — Renders diagrams via superfences (NOT `<div>` tags). Initialized with `startOnLoad: false`.
 
-3. **Interactive Glossary** (`docs/javascripts/glossary.js`) — Loads `docs/glossary.yml`, highlights terms in chapters 02+, shows right-slide drawer.
+3. **Interactive Glossary** (`docs/javascripts/glossary.js`) — Loads per-chapter YAML files from `docs/glossary/`, highlights terms in all chapters (00–07) and appendices, shows right-slide drawer.
 
 ### Custom CSS
 
@@ -50,3 +50,5 @@ GitHub Actions (`.github/workflows/deploy.yml`): triggers on push to main, build
 ## Basic
 
 请使用第一性原理思考。你不能总假设我非常清楚自己想要什么和该怎么得到。请保持审慎，从原始需求和问题出发，如果动机和目标不清晰，停下来和我讨论。如果目标清晰但是路径不是最短，告诉我，并建议更好的办法。
+
+Do not commit or push without permission. 
