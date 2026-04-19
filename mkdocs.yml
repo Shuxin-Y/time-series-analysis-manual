@@ -164,6 +164,7 @@ nav:
       - 07-validation-deployment/index.md
   - Appendices:
       - appendices/index.md
+      - "Appendix A: OLS Derivation": appendices/A-ols-derivation.md
       - Python Setup: appendices/C-python-environment-setup.md
 
 # Copyright

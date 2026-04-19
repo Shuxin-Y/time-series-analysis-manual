@@ -46,13 +46,19 @@ Time series analysis operates in two complementary domains.
 
 ## **The 5 Classical OLS Assumptions and How Time Series Violates Them**
 
-The simple linear regression model takes the form:
+The linear regression model takes the form:
 
-$$y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t, \quad t = 1, \dots, T$$
+$$y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \epsilon_i, \quad i = 1, \dots, N$$
 
-(Read: y-sub-t equals x-sub-t-transpose times beta plus epsilon-sub-t, for t from 1 to T.)
+(Read: y-sub-i equals x-sub-i-transpose times beta plus epsilon-sub-i, for i from 1 to N.)
 
-where $y_t$ is the scalar outcome at time $t$, $\mathbf{x}_t$ is a $K \times 1$ vector of regressors, $\boldsymbol{\beta}$ is the $K \times 1$ coefficient vector, and $\epsilon_t$ is the error term. We estimate $\boldsymbol{\beta}$ via OLS:
+where $y_i$ is the scalar outcome for observation $i$, $\mathbf{x}_i$ is a $K \times 1$ vector of regressors, $\boldsymbol{\beta}$ is the $K \times 1$ coefficient vector, and $\epsilon_i$ is the error term. OLS estimates $\boldsymbol{\beta}$ by minimizing the sum of squared residuals:
+
+$$\min_{\boldsymbol{\beta}} \sum_{i=1}^N \left(y_i - \mathbf{x}_i^T \boldsymbol{\beta}\right)^2$$
+
+(Read: minimize over beta the sum of y-sub-i minus x-sub-i-transpose-beta, squared, for i from 1 to N.)
+
+When $\mathbf{X}$ has full column rank (invertible), this minimization has a unique closed-form solution (also called OLS estimator):
 
 $$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
 
@@ -60,6 +66,9 @@ $$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
 
 The entire edifice of OLS estimation rests on a set of assumptions collectively known as the Gauss-Markov conditions. OLS achieves the **BLUE** property — Best Linear Unbiased Estimator — only when those assumptions hold. Assumptions 1–4 constitute the **Gauss-Markov assumptions**; under these, the model is called the **Classical Regression Model** (CRM). Adding Assumption 5 (normality) yields the **Classical Normal Regression Model** (CNRM).
 
+The matrix calculus derivation of $\hat{\boldsymbol{\beta}}$, the fundamental decomposition, and the conditions under which t-statistics are valid are developed in full in [Appendix A](../appendices/A-ols-derivation.md).
+
+---
 
 <div class="annotate" markdown>
 
@@ -154,6 +163,18 @@ $$\mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}^T \mid \mathbf{X}] = \si
 
 (Read: the expected value of epsilon-epsilon-transpose, given X, equals sigma-squared times Omega, where Omega is not the identity matrix.)
 
+Here:
+
+- $\mathbf{I}$ is the $T \times T$ **identity matrix** — a square matrix with ones on the main diagonal and zeros everywhere else. In the error covariance context, the diagonal ones mean every error has the same variance $\sigma^2$, and the off-diagonal zeros mean no two errors are correlated. For $T = 3$:
+
+$$\mathbf{I}_3 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+- $\boldsymbol{\Omega}$ is a $T \times T$ **symmetric positive-definite matrix**. Symmetric means the matrix equals its own transpose ($\boldsymbol{\Omega} = \boldsymbol{\Omega}^T$), which reflects the fact that $\text{Cov}(\epsilon_t, \epsilon_s) = \text{Cov}(\epsilon_s, \epsilon_t)$. Positive-definite ensures all variances are strictly positive and the matrix is invertible. The diagonal entries encode heteroskedasticity (time-varying variance); the off-diagonal entries encode serial correlation. For $T = 3$ errors following an AR(1) process with correlation $\rho$:
+
+$$\boldsymbol{\Omega} = \begin{pmatrix} 1 & \rho & \rho^2 \\ \rho & 1 & \rho \\ \rho^2 & \rho & 1 \end{pmatrix}$$
+
+When $\rho = 0$, $\boldsymbol{\Omega}$ collapses to $\mathbf{I}$, recovering Assumption 3.
+
 The true variance of $\hat{\boldsymbol{\beta}}$ is then:
 
 $$\text{Var}(\hat{\boldsymbol{\beta}} \mid \mathbf{X}) = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\Omega} \mathbf{X} (\mathbf{X}^T\mathbf{X})^{-1}$$
@@ -184,7 +205,7 @@ The error at any time $t$ is uncorrelated with the regressors at *all* time peri
 </div>
 
 1.  **Common alternative forms:**
-    - **Contemporaneous exogeneity**: $\mathbb{E}[\epsilon_t \mid \mathbf{x}_t] = 0$ — the error is uncorrelated with regressors at time $t$ only. Weaker than strict exogeneity; sufficient for consistency but not for finite-sample unbiasedness
+    - **Contemporaneous exogeneity**: $\mathbb{E}[\epsilon_t \mid \mathbf{x}_t] = 0$ — the error is uncorrelated with regressors at time $t$ only. Weaker than strict exogeneity; sufficient for consistency in the cross-sectional case and in stationary time series under standard regularity conditions (law of large numbers, bounded moments), but not for finite-sample unbiasedness. In time series with serially correlated regressors, the law of large numbers requires that the dependence between observations decay fast enough as the time gap grows — formally, the process must be *weakly dependent* (sometimes called *mixing*): the influence of $\mathbf{x}_t$ on $\mathbf{x}_{t+k}$ must shrink to zero as $k \to \infty$. Without this decay, sample averages may not converge to population means, and the OLS estimator $\hat{\boldsymbol{\beta}}$ may fail to be *consistent* — meaning it does not converge to the true $\boldsymbol{\beta}$ as the sample size $T \to \infty$ — even when $\mathbb{E}[\epsilon_t \mid \mathbf{x}_t] = 0$ holds
     - **Weak exogeneity / Predetermined regressors**: $\mathbb{E}[\epsilon_t \mid \mathbf{x}_1, ..., \mathbf{x}_t] = 0$ — the error is uncorrelated with current and past regressors only, allowing future regressors to correlate with it. This is the relevant form for dynamic models
     - $\text{Cov}(\mathbf{x}_t, \epsilon_t) = 0$ — the covariance form, common in older literature. Note this is weaker than the conditional mean form
     - Note: A4 holds automatically when $\mathbf{x}_t$ is deterministic (non-random) — hence sometimes called the **nonstochastic regressor assumption**
@@ -236,6 +257,22 @@ For a normal distribution, $\kappa = 0$. For daily stock returns, $\kappa$ typic
 The skewness $\gamma_1 = \mathbb{E}[\epsilon_t^3]/\sigma^3$ is also often non-zero. Financial returns tend to be **left-skewed** — large losses occur more often than large gains — while certain macroeconomic series are right-skewed during expansions.
 
 The practical consequences depend on sample size. By the Central Limit Theorem, the distribution of $\hat{\boldsymbol{\beta}}$ converges to normal asymptotically regardless of the error distribution. Normality therefore matters most in **small samples**, where finite-sample t and F tests require it for validity. Convergence is slow when tails are heavy, which is the time series setting where this matters most. For problems such as volatility modeling, non-normality is the phenomenon of interest, not merely an inconvenient property to work around.
+
+---
+
+### How Each Violation Propagates
+
+OLS produces three distinct outputs — the point estimate $\hat{\boldsymbol{\beta}}$, the standard errors $\hat{\text{se}}(\hat{\boldsymbol{\beta}})$, and the test statistics — and each is vulnerable to different assumptions. The table below maps each violation to the specific component it corrupts.
+
+| Assumption | Violation | Point estimate $\hat{\boldsymbol{\beta}}$ | Standard errors | t / F tests |
+|---|---|---|---|---|
+| A1 Zero mean | Omitted trend, seasonality | Biased | Wrong | Invalid |
+| A2 Homoskedasticity | Volatility clustering (ARCH) | Unbiased | Inconsistent | Invalid |
+| A3 No serial correlation | Autocorrelated errors | Unbiased | Inconsistent | Invalid |
+| A4 Exogeneity | Lagged DVs, simultaneity | Biased and inconsistent | Wrong | Invalid |
+| A5 Normality | Fat tails, skewness | Unbiased | Correct asymptotically | Exact only in large samples |
+
+Three patterns emerge. Violations of A2 and A3 leave $\hat{\boldsymbol{\beta}}$ unbiased but corrupt the standard errors and all downstream tests — a deceptive situation in which point estimates look reasonable while inference is invalid. Violations of A1 and A4 corrupt $\hat{\boldsymbol{\beta}}$ itself; no correction to standard errors can fix a biased or inconsistent estimator. A5 is the only violation that leaves both $\hat{\boldsymbol{\beta}}$ and standard errors asymptotically correct; it affects only the finite-sample distributional claim that makes exact t and F critical values valid.
 
 ---
 
