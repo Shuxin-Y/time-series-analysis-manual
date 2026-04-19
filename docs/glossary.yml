@@ -249,6 +249,10 @@ terms:
       $$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
 
       The condition fails when regressors are perfectly collinear — one column is an exact linear combination of others — making $\mathbf{X}^T\mathbf{X}$ singular and $\hat{\boldsymbol{\beta}}$ undefined.
+    historical: |
+      - 1858: Cayley introduces matrix algebra and formalises the concept of rank
+      - 1888: Sylvester coins the term "rank" for matrices
+      - In econometrics, the full-rank condition became the standard identification requirement for OLS uniqueness, explicit in Gauss-Markov theorem statements from the mid-20th century onward
     reference: "00-introduction/overview.html#the-5-classical-ols-assumptions-and-how-time-series-violates-them"
 
   - term: "Closed-Form Solution"
@@ -260,6 +264,10 @@ terms:
       This contrasts with iterative methods such as gradient descent, which approximate the solution through repeated updates and may not converge to the exact optimum.
 
       Existence requires $\mathbf{X}^T\mathbf{X}$ to be invertible; see Full Column Rank.
+    historical: |
+      - 1805: Legendre publishes the method of least squares, the first statement of the OLS objective
+      - 1809: Gauss derives the same method independently for planetary orbit estimation and establishes the normal equations
+      - 20th century: Matrix notation consolidates the normal equations into the compact closed-form $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$
     reference: "00-introduction/overview.html#the-5-classical-ols-assumptions-and-how-time-series-violates-them"
 
   # ===== Model Terms =====

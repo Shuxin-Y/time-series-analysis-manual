@@ -8,7 +8,7 @@
  * - Historical context
  * - Reference link
  *
- * Note: Only applies to chapters starting from data-preparation (chapter 3+)
+ * Note: Applies to all chapters (00–07) and appendices
  */
 
 (function() {
@@ -17,6 +17,8 @@
   // Configuration
   const GLOSSARY_URL = '/glossary.yml';
   const ENABLED_PATHS = [
+    '/00-introduction/',
+    '/01-master-flowchart/',
     '/02-data-preparation/',
     '/03-exploratory-analysis/',
     '/04-frequency-domain/',
