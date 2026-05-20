@@ -4,9 +4,22 @@
  * Styles for the interactive glossary system that slides in from the right.
  */
 
-/* Glossary terms in content */
+/* Glossary terms in content — vertical sunset → thistle → cerulean gradient.
+ * Same fixed-attachment trick as the drawer headings: the gradient is pinned
+ * to the viewport, so each term paints its glyphs from the portion of the
+ * gradient at its current screen position. */
 .glossary-term {
-  color: var(--md-primary-fg-color);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-sunset) 0%,
+    var(--color-thistle-dark) 50%,
+    var(--color-cerulean) 100%
+  );
+  background-attachment: fixed;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   border-bottom: 1px dotted var(--md-primary-fg-color);
   cursor: help;
   text-decoration: none;
@@ -14,10 +27,18 @@
   font-weight: 500;
 }
 
+/* Hover — drop the gradient back to a solid sunset so the pill-highlight
+ * background can paint behind the glyphs (background-clip: text would otherwise
+ * clip the highlight away). */
 .glossary-term:hover {
+  background-image: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--md-primary-fg-color);
+  -webkit-text-fill-color: initial;
+  background-color: var(--md-primary-fg-color--transparent);
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  background-color: var(--md-primary-fg-color--transparent);
 }
 
 /* Drawer container */
@@ -46,13 +67,35 @@
   height: 100%;
   background: var(--md-default-bg-color);
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
-  overflow-y: auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* Dark mode adjustments */
 [data-md-color-scheme="slate"] .glossary-drawer-content {
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== Vertical sunset → thistle → cerulean gradient on drawer headings =====
+ * Applies only to the drawer title (h3) and section headers (h4 — DEFINITION,
+ * MATHEMATICAL FORMULATION, HISTORICAL CONTEXT). Body text keeps its default
+ * colour. The gradient is background-attachment: fixed so it spans the
+ * drawer top-to-bottom; each heading paints its glyphs from the portion of
+ * the gradient at its current viewport position. */
+.glossary-drawer-header h3,
+.glossary-drawer-content .glossary-section h4 {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-sunset) 0%,
+    var(--color-thistle-dark) 50%,
+    var(--color-cerulean) 100%
+  );
+  background-attachment: fixed;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Drawer header */
@@ -63,9 +106,7 @@
   padding: 1.5rem 2rem;
   border-bottom: 2px solid var(--md-primary-fg-color);
   background: var(--md-primary-fg-color--transparent);
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  flex-shrink: 0;
 }
 
 .glossary-drawer-header h3 {
@@ -104,9 +145,13 @@
   transform: scale(0.95);
 }
 
-/* Drawer body */
+/* Drawer body — font-size matches Material's .md-typeset (0.8rem × 125% html base = 16px) */
 .glossary-drawer-body {
-  padding: 2rem;
+  padding: 1rem;
+  font-size: 0.8rem;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Glossary sections */
@@ -120,7 +165,6 @@
 
 .glossary-section h4 {
   margin: 0 0 0.75rem 0;
-  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -141,20 +185,19 @@
   padding: 1rem;
   margin: 0.5rem 0;
   overflow-x: auto;
-  font-size: 0.95rem;
 }
 
 .glossary-section .math-block .MathJax {
   font-size: 1.1em !important;
 }
 
-/* Historical note */
+/* Historical note — supporting timeline info, smaller font */
 .historical-note {
   background: var(--md-default-bg-color);
   border-left: 4px solid var(--md-accent-fg-color);
   padding: 1rem;
   border-radius: 0.25rem;
-  font-size: 0.95rem;
+  font-size: 0.7rem;
   line-height: 1.6;
 }
 
@@ -165,32 +208,6 @@
 
 .historical-note li {
   margin-bottom: 0.5rem;
-}
-
-/* Reference link */
-.reference-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: var(--md-primary-fg-color);
-  color: white;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.reference-link svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  fill: currentColor;
-}
-
-.reference-link:hover {
-  background: var(--md-accent-fg-color);
-  transform: translateX(4px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Overlay (for closing drawer) */
@@ -242,6 +259,10 @@
   }
 
   .glossary-term {
+    background-image: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
     border-bottom: none;
     color: inherit;
     font-weight: inherit;
@@ -260,19 +281,19 @@
 }
 
 /* Scrollbar styling for drawer */
-.glossary-drawer-content::-webkit-scrollbar {
+.glossary-drawer-body::-webkit-scrollbar {
   width: 8px;
 }
 
-.glossary-drawer-content::-webkit-scrollbar-track {
+.glossary-drawer-body::-webkit-scrollbar-track {
   background: var(--md-default-bg-color);
 }
 
-.glossary-drawer-content::-webkit-scrollbar-thumb {
+.glossary-drawer-body::-webkit-scrollbar-thumb {
   background: var(--md-default-fg-color--lighter);
   border-radius: 4px;
 }
 
-.glossary-drawer-content::-webkit-scrollbar-thumb:hover {
+.glossary-drawer-body::-webkit-scrollbar-thumb:hover {
   background: var(--md-default-fg-color--light);
 }

@@ -4,15 +4,103 @@
  * Additional styling to enhance readability and match the style guide.
  */
 
+/* ===== Brand Palette =====
+ * Academic palette: Cerulean (primary), Burgundy (accent),
+ * Thistle (soft tint), Navajo White (warm tint).
+ */
+
+:root {
+  --color-cerulean:        #007BA7;
+  --color-cerulean-light:  #4DA8C9;
+  --color-cerulean-dark:   #005A7A;
+  --color-cerulean-deep:   #003D5C;
+  --color-burgundy:        #800020;
+  --color-burgundy-light:  #A33548;
+  --color-burgundy-dark:   #5A0017;
+  --color-thistle:         #D8BFD8;
+  --color-thistle-dark:    #9B7FA7;
+  --color-navajo:          #FFDEAD;
+  --color-navajo-dark:     #C9A55E;
+
+  /* Sunset palette — warm rose-coral, blends Thistle and orange */
+  --color-sunset:          #B87D6C;
+  --color-sunset-dark:     #9E6657;
+  --color-sunset-light:    #D5A496;
+}
+
+/* Override Material primary/accent for light mode.
+ * Sunset above, ocean below: header in warm rose-coral, footer in deep cerulean.
+ * Body links stay cerulean for cool reading rhythm. */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:              var(--color-sunset);
+  --md-primary-fg-color--light:       var(--color-sunset-light);
+  --md-primary-fg-color--dark:        var(--color-sunset-dark);
+  --md-primary-bg-color:              #ffffff;
+  --md-primary-bg-color--light:       rgba(255, 255, 255, 0.7);
+
+  --md-accent-fg-color:               var(--color-burgundy);
+  --md-accent-fg-color--transparent:  rgba(128, 0, 32, 0.10);
+  --md-accent-bg-color:               #ffffff;
+  --md-accent-bg-color--light:        rgba(255, 255, 255, 0.7);
+
+  --md-typeset-a-color:               var(--color-cerulean);
+
+  /* Footer — deep cerulean, ocean depths */
+  --md-footer-bg-color:               var(--color-cerulean-dark);
+  --md-footer-bg-color--dark:         var(--color-cerulean-deep);
+  --md-footer-fg-color:               rgba(255, 255, 255, 0.95);
+  --md-footer-fg-color--light:        rgba(255, 255, 255, 0.75);
+  --md-footer-fg-color--lighter:      rgba(255, 255, 255, 0.45);
+}
+
+/* Brighter variants for dark mode (Slate scheme) — sunset/ocean kept */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:              var(--color-sunset);
+  --md-primary-fg-color--light:       var(--color-sunset-light);
+  --md-primary-fg-color--dark:        var(--color-sunset-dark);
+
+  --md-accent-fg-color:               var(--color-thistle);
+  --md-accent-fg-color--transparent:  rgba(216, 191, 216, 0.15);
+
+  --md-typeset-a-color:               var(--color-cerulean-light);
+
+  /* Footer slightly lighter than light-mode equivalents */
+  --md-footer-bg-color:               var(--color-cerulean-deep);
+  --md-footer-bg-color--dark:         #002940;
+  --md-footer-fg-color:               rgba(255, 255, 255, 0.92);
+  --md-footer-fg-color--light:        rgba(255, 255, 255, 0.70);
+  --md-footer-fg-color--lighter:      rgba(255, 255, 255, 0.40);
+}
+
+/* Selection — soft Navajo White */
+::selection {
+  background: rgba(255, 222, 173, 0.55);
+  color: inherit;
+}
+[data-md-color-scheme="slate"] ::selection {
+  background: rgba(255, 222, 173, 0.30);
+}
+
 /* ===== Typography ===== */
 
-/* Enforce minimum font size across the site */
+/* Body font-size floor — protects against very small browser zoom */
 .md-typeset {
   font-size: max(0.8rem, 14px);
 }
 
-.md-typeset * {
-  font-size: max(inherit, 14px);
+/* OpenType features for clean kerning + ligatures */
+body,
+.md-typeset {
+  font-feature-settings: "kern", "liga", "calt", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular numbers in tables — aligns columns of figures */
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Instant abbreviation tooltips (override slow native tooltip) */
@@ -54,40 +142,93 @@ code {
 
 /* ===== Admonitions ===== */
 
-/* Theorem admonition */
+/* Match admonition body text to surrounding prose (Material defaults to 0.64rem) */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: 0.8rem;
+}
+
+/* Tables — match body size (Material defaults tables to ~0.64rem) */
+.md-typeset table:not([class]) {
+  font-size: 0.8rem;
+}
+
+/* References / bibliography section — supporting material, smaller.
+ * Targets the immediate list after an H2 with id="references". */
+.md-typeset h2#references + ul,
+.md-typeset h2#references + ol,
+.md-typeset h2#references ~ ul:last-child,
+.md-typeset h2#references ~ ol:last-child {
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+/* Theorem admonition — Burgundy */
 .md-typeset .admonition.theorem,
 .md-typeset details.theorem {
-  border-left-color: #9c27b0;
+  border-left-color: var(--color-burgundy);
 }
 
 .md-typeset .theorem > .admonition-title,
 .md-typeset .theorem > summary {
-  background-color: rgba(156, 39, 176, 0.1);
+  background-color: rgba(128, 0, 32, 0.08);
 }
 
 .md-typeset .theorem > .admonition-title::before,
 .md-typeset .theorem > summary::before {
-  background-color: #9c27b0;
+  background-color: var(--color-burgundy);
   -webkit-mask-image: var(--md-admonition-icon--note);
   mask-image: var(--md-admonition-icon--note);
 }
 
-/* Definition admonition */
+/* Definition admonition — Thistle */
 .md-typeset .admonition.definition,
 .md-typeset details.definition {
-  border-left-color: #00897b;
+  border-left-color: var(--color-thistle-dark);
 }
 
 .md-typeset .definition > .admonition-title,
 .md-typeset .definition > summary {
-  background-color: rgba(0, 137, 123, 0.1);
+  background-color: rgba(216, 191, 216, 0.28);
 }
 
 .md-typeset .definition > .admonition-title::before,
 .md-typeset .definition > summary::before {
-  background-color: #00897b;
+  background-color: var(--color-thistle-dark);
   -webkit-mask-image: var(--md-admonition-icon--abstract);
   mask-image: var(--md-admonition-icon--abstract);
+}
+
+/* Note / Remark admonition — Cerulean (informational, cool) */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-left-color: var(--color-cerulean);
+}
+
+.md-typeset .note > .admonition-title,
+.md-typeset .note > summary {
+  background-color: rgba(0, 123, 167, 0.08);
+}
+
+.md-typeset .note > .admonition-title::before,
+.md-typeset .note > summary::before {
+  background-color: var(--color-cerulean);
+}
+
+/* Abstract / Summary admonition — Navajo White (warm overview) */
+.md-typeset .admonition.abstract,
+.md-typeset details.abstract {
+  border-left-color: var(--color-navajo-dark);
+}
+
+.md-typeset .abstract > .admonition-title,
+.md-typeset .abstract > summary {
+  background-color: rgba(255, 222, 173, 0.32);
+}
+
+.md-typeset .abstract > .admonition-title::before,
+.md-typeset .abstract > summary::before {
+  background-color: var(--color-navajo-dark);
 }
 
 /* ===== Mathematical Content ===== */
@@ -238,6 +379,95 @@ code {
 
 .decision-rule strong {
   color: var(--md-accent-fg-color);
+}
+
+/* ===== Typography Polish ===== */
+
+/* More generous line-height for prose (academic feel) */
+.md-typeset p,
+.md-typeset li {
+  line-height: 1.75;
+}
+
+/* Source Serif 4 for content-area headings — academic gravitas.
+ * Scoped to .md-typeset so navigation, admonition titles, and
+ * drawer chrome keep using Inter for clarity. */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-family: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  font-feature-settings: "kern", "liga", "onum";
+}
+
+/* H1 — chapter opener */
+.md-typeset h1 {
+  font-weight: 700;
+  font-size: 2.25em;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.5rem;
+  color: var(--md-default-fg-color);
+}
+
+/* H2 — major section, with thin underrule */
+.md-typeset h2 {
+  font-weight: 700;
+  font-size: 1.625em;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* H3 — subsection */
+.md-typeset h3 {
+  font-weight: 600;
+  font-size: 1.25em;
+  line-height: 1.35;
+  margin-top: 2rem;
+}
+
+/* H4-H6 stay in Inter (sans) for navigability deep in content */
+.md-typeset h4 {
+  font-weight: 600;
+  font-size: 1.05em;
+  margin-top: 1.5rem;
+}
+
+/* Blockquote — Thistle accent */
+.md-typeset blockquote {
+  border-left: 4px solid var(--color-thistle-dark);
+  background: rgba(216, 191, 216, 0.12);
+  padding: 0.6rem 1rem 0.6rem 1.25rem;
+  border-radius: 0 0.25rem 0.25rem 0;
+  color: var(--md-default-fg-color);
+}
+
+[data-md-color-scheme="slate"] .md-typeset blockquote {
+  background: rgba(216, 191, 216, 0.06);
+}
+
+/* Links — subtle underline, Burgundy on hover */
+.md-typeset a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 0.15s ease;
+}
+
+.md-typeset a:hover {
+  color: var(--color-burgundy);
+}
+
+[data-md-color-scheme="slate"] .md-typeset a:hover {
+  color: var(--color-thistle);
+}
+
+/* Emphasized bold inside running text — slight Burgundy tint */
+.md-typeset p strong,
+.md-typeset li strong {
+  color: var(--md-default-fg-color);
 }
 
 /* ===== Responsive Adjustments ===== */

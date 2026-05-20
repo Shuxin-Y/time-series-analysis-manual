@@ -17,6 +17,27 @@ terms:
       - Mid-20th century: Full-rank condition becomes the standard identification requirement for OLS uniqueness in Gauss-Markov theorem statements
     reference: "00-introduction/overview.html#the-5-classical-ols-assumptions-and-how-time-series-violates-them"
 
+  - term: "i.i.d"
+    definition: "A sequence of random variables is independent and identically distributed (i.i.d.) when each variable is drawn from the same distribution and is statistically independent of every other variable in the sequence. The i.i.d. assumption is the baseline error structure of the classical linear regression model and the dividing line between cross-sectional methods and time series analysis."
+    mathematical: |
+      Random variables $X_1, X_2, \ldots, X_T$ are i.i.d. if both conditions hold:
+
+      1. **Independence** — the joint distribution factorises into marginals,
+      $$P(X_1 \le x_1, \ldots, X_T \le x_T) = \prod_{t=1}^{T} P(X_t \le x_t).$$
+
+      2. **Identical distribution** — every $X_t$ shares the same distribution function $F$,
+      $$X_t \sim F \quad \text{for all } t = 1, \ldots, T.$$
+
+      In regression notation, the i.i.d. error assumption is written
+      $$\epsilon_t \sim \text{i.i.d.}(0, \sigma^2),$$
+      meaning the errors are independent across $t$, share a common mean (zero) and variance ($\sigma^2$), and — under the additional Gaussian assumption — share a common normal distribution: $\epsilon_t \sim \text{i.i.d.} \ \mathcal{N}(0, \sigma^2)$.
+    historical: |
+      - 1713: Jakob Bernoulli's *Ars Conjectandi* (posthumous) introduces Bernoulli trials, the first formal i.i.d. construction
+      - 1933: Kolmogorov's *Foundations of the Theory of Probability* axiomatises probability and gives independence its modern measure-theoretic definition
+      - 1946: Cramér's *Mathematical Methods of Statistics* establishes "independent and identically distributed" as standard terminology in mathematical statistics
+      - 1950: Feller's *An Introduction to Probability Theory and Its Applications* (vol. 1) consolidates the i.i.d. abbreviation in applied probability
+    reference: "00-introduction/do-you-need-time-series-analysis.html#feature-engineering-vs-time-series-modelling"
+
   - term: "Closed-Form Solution"
     definition: "An exact expression evaluated in a finite number of standard operations, requiring no iteration or numerical approximation."
     mathematical: |

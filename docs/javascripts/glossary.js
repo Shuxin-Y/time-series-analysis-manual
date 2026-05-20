@@ -176,10 +176,10 @@
 
       if (line.startsWith('- ')) {
         if (!inList) { output.push('<ul>'); inList = true; }
-        output.push(`<li>${boldToHtml(line.slice(2))}</li>`);
+        output.push(`<li class="arithmatex">${boldToHtml(line.slice(2))}</li>`);
       } else {
         if (inList) { output.push('</ul>'); inList = false; }
-        output.push(`<p>${boldToHtml(line)}</p>`);
+        output.push(`<p class="arithmatex">${boldToHtml(line)}</p>`);
       }
     }
 
@@ -218,7 +218,7 @@
           ${termData.mathematical ? `
             <section class="glossary-section">
               <h4>Mathematical Formulation</h4>
-              <div class="math-block arithmatex">
+              <div class="math-block">
                 ${renderMarkdown(termData.mathematical)}
               </div>
             </section>
@@ -233,16 +233,6 @@
             </section>
           ` : ''}
 
-          ${termData.reference ? `
-            <section class="glossary-section">
-              <a href="${termData.reference}" class="reference-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M13.25 10.75L16.5 14l-3.25 3.25V15H9V9h4.25v-1.75zM21 11v2h-7v7h-2v-7H5v-2h7V4h2v7h7z"/>
-                </svg>
-                Read more in documentation
-              </a>
-            </section>
-          ` : ''}
         </div>
       </div>
 
@@ -259,11 +249,15 @@
       drawer.classList.add('open');
     }, 10);
 
-    // Render math in the drawer if MathJax is available
+    // Render math in the drawer if MathJax is available.
+    // Pass .arithmatex elements directly to bypass ignoreHtmlClass filtering.
     if (window.MathJax && termData.mathematical) {
-      MathJax.typesetPromise([drawer]).catch(err => {
-        console.warn('MathJax rendering in drawer failed:', err);
-      });
+      const mathBlocks = Array.from(drawer.querySelectorAll('.arithmatex'));
+      if (mathBlocks.length > 0) {
+        MathJax.typesetPromise(mathBlocks).catch(err => {
+          console.warn('MathJax rendering in drawer failed:', err);
+        });
+      }
     }
 
     // Close handlers
