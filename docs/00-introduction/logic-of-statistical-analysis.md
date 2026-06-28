@@ -24,8 +24,6 @@ These three describe different aspects of the data: the conditional mean given f
 
 Different estimators reflect different optimality criteria: minimizing prediction error, maximizing the probability of the data, matching theoretical and sample moments, fitting a frequency-domain criterion, or minimizing an empirical loss. The same model class can usually be fit by more than one estimator, and the choice affects efficiency, bias, and which assumptions must hold for valid inference.
 
-Five estimators recur throughout this manual.
-
 ### Ordinary Least Squares (OLS)
 
 OLS chooses parameters that minimize the sum of squared residuals:
