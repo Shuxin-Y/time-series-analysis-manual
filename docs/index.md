@@ -65,8 +65,8 @@ The manual is organized into focused chapters that build progressively:
 === "Have Specific Goals"
 
     - Forecasting → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#1-forecasting-workflow)
-    - Causal Analysis → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis--structural-inference)
-    - Anomaly Detection → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly--regime-detection)
+    - Causal Analysis → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis-structural-inference)
+    - Anomaly Detection → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly-regime-detection)
     - Feature Engineering → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#7-feature-extraction-for-ml)
 
 === "Know Your Domain"

@@ -548,4 +548,4 @@ Train: [1 ... 102] → Test [103]
 
 ---
 
-**[Next: Purpose-Based Workflow →](02-purpose-workflow.md)** | **[Next: Representation-Based Workflow →](03-representation-workflow.md)** | **[Contents](../README.md)**
+**[Next: Purpose-Based Workflow →](02-purpose-workflow.md)** | **[Next: Representation-Based Workflow →](03-representation-workflow.md)** | **[Contents](../index.md)**

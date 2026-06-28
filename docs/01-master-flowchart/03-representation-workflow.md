@@ -850,4 +850,4 @@ clf.fit(scores, labels)
 
 ---
 
-**[Previous: Purpose-Based Workflow →](02-purpose-workflow.md)** | **[Back to General Flowchart →](01-general-flowchart.md)** | **[Contents](../README.md)**
+**[Previous: Purpose-Based Workflow →](02-purpose-workflow.md)** | **[Back to General Flowchart →](01-general-flowchart.md)** | **[Contents](../index.md)**

@@ -623,4 +623,4 @@ graph TD
 
 ---
 
-**[Previous: General Flowchart →](01-general-flowchart.md)** | **[Next: Representation-Based Workflow →](03-representation-workflow.md)** | **[Contents](../README.md)**
+**[Previous: General Flowchart →](01-general-flowchart.md)** | **[Next: Representation-Based Workflow →](03-representation-workflow.md)** | **[Contents](../index.md)**

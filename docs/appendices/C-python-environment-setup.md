@@ -296,7 +296,7 @@ cd code-examples/datasets
 python download_datasets.py
 ```
 
-Or manually download from [Appendix D: Datasets](D-datasets-and-resources.md).
+Sample datasets are described in the chapter sections where they are used.
 
 ---
 
@@ -349,8 +349,8 @@ pip install -r requirements.txt
 jupyter notebook
 ```
 
-**You're all set!** Proceed to [Chapter 1: Master Flowchart](../01-master-flowchart/flowchart.md) or start with [code examples](../code-examples/notebooks/).
+**You're all set!** Proceed to [Chapter 1: Master Flowchart](../01-master-flowchart/01-general-flowchart.md) or start with [code examples](../code-examples/notebooks/).
 
 ---
 
-**[Back to Contents](../README.md)** | **[Next: Datasets →](D-datasets-and-resources.md)**
+**[Back to Contents](../index.md)**
