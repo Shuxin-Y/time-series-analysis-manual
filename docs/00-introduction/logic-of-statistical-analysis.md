@@ -1,4 +1,4 @@
-# Recall on The Logic of Statistical Analysis
+# The Logic of Statistical Analysis
 
 Every statistical analysis rests on three components: a **model class**, an **estimator**, and a **statistical test**.
 
@@ -11,7 +11,7 @@ A model class is a *form*, not a set of numbers. It says, for example, that the 
 
 Three model classes used in this manual illustrate the breadth of the concept:
 
-- **Linear regression**: $y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t$, with $\epsilon_t$ iid. The unknown parameters are the coefficient vector $\boldsymbol{\beta}$ and the error variance $\sigma^2$.
+- **Linear regression**: $y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t$, with $\epsilon_t$ i.i.d.. The unknown parameters are the coefficient vector $\boldsymbol{\beta}$ and the error variance $\sigma^2$.
 - **ARMA(p, q)**: $y_t = \sum_{j=1}^p \phi_j y_{t-j} + \sum_{k=1}^q \theta_k \epsilon_{t-k} + \epsilon_t$. The unknowns are the autoregressive coefficients $\{\phi_j\}$, the moving-average coefficients $\{\theta_k\}$, and $\sigma^2$.
 - **GARCH(1, 1)**: $\sigma_t^2 = \omega + \alpha \epsilon_{t-1}^2 + \beta \sigma_{t-1}^2$. The unknowns are $\omega$, $\alpha$, and $\beta$.
 
@@ -32,7 +32,7 @@ $$\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \sum_{t=1}^T \left( y
 
 (Read: beta-hat is the argmin over beta of the sum over $t$ of the squared residual.)
 
-For linear models with iid errors satisfying the Gauss–Markov conditions, OLS is the best linear unbiased estimator (BLUE). It admits a closed-form solution, requires no distributional assumption beyond second moments, and applies to any model whose errors are iid white noise — including linear regression on exogenous features, pure autoregression AR($p$), and vector autoregression (VAR).
+For linear models with i.i.d. errors satisfying the Gauss–Markov conditions, OLS is the best linear unbiased estimator (BLUE). It admits a closed-form solution, requires no distributional assumption beyond second moments, and applies to any model whose errors are i.i.d. white noise — including linear regression on exogenous features, pure autoregression AR($p$), and vector autoregression (VAR).
 
 ### Maximum Likelihood (MLE)
 
@@ -76,7 +76,7 @@ The loss $\ell$ is typically squared error or cross-entropy; $R$ is a regulariza
 
 ### Choice of Estimator
 
-A single model class can often be reached by more than one estimator. AR($p$) can be estimated by OLS on lagged values, by MLE under a Gaussian innovation assumption, by Whittle approximation in the frequency domain, or by an empirical-loss estimator with lag features. The choice is governed by which assumptions one is willing to make and by what efficiency or robustness is required. The dividing line between OLS and MLE in particular is sharp: OLS suffices when errors are iid white noise; MLE is required whenever the model contains unobservable error components such as moving-average innovations, latent states, or conditional variances.
+A single model class can often be reached by more than one estimator. AR($p$) can be estimated by OLS on lagged values, by MLE under a Gaussian innovation assumption, by Whittle approximation in the frequency domain, or by an empirical-loss estimator with lag features. The choice is governed by which assumptions one is willing to make and by what efficiency or robustness is required. The dividing line between OLS and MLE in particular is sharp: OLS suffices when errors are i.i.d. white noise; MLE is required whenever the model contains unobservable error components such as moving-average innovations, latent states, or conditional variances.
 
 ## Statistical Test
 

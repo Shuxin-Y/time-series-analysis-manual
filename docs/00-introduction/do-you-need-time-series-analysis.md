@@ -1,14 +1,14 @@
 # Do You Need Time Series Analysis?
 
 
-## **Time for Ordering**
+## When Time Orders the Observations
 
 Not every dataset indexed by time requires time series methods. A time series is a sequence of observations indexed in time order — daily returns, monthly sales, hourly temperatures.
 
-The distinction is whether **time orders the observations** or merely **labels them as a feature**. A customer-churn dataset may include signup date or account age as covariates while still treating each customer as exchangeable; shuffling the rows leaves the analysis unchanged. A daily stock price series, by contrast, falls apart under shuffling — each value's interpretation depends on what came immediately before. 
+The distinction is whether **time orders the observations** or merely **labels them as a feature**. A customer-churn dataset may include signup date or account age as covariates while still treating each customer as exchangeable; shuffling the rows leaves the analysis unchanged. A daily stock price series, by contrast, falls apart under shuffling — each value's interpretation depends on what came immediately before.
 
 
-## **Feature Engineering vs Time Series Modelling**
+## Feature Engineering vs Time Series Modelling
 
 A dataset's temporal structure can take many forms. Some are **absorbable** — they can be encoded as features in a linear regression model with i.i.d. errors (estimated by OLS), leaving residuals i.i.d. Others are **structural** — they run through the dependence of $y$ on its own past, and no finite feature set can capture them. Distinguishing the two is what determines whether a linear regression model with i.i.d. errors suffices or a richer time series model is required.
 
@@ -21,7 +21,7 @@ Three situations admit a linear regression model — possibly with an inference 
 - **Contemporaneous-only inference.** When only the relationship between variables at the same time matters, the linear regression model is retained and estimated by OLS; only the inference layer is swapped, replacing conventional standard errors with heteroskedasticity-and-autocorrelation-consistent (HAC) standard errors — Newey and West (1987), for instance. This salvages inference without committing to a model of the error process.
 
 
-## **The Core Question: Independence**
+## The Core Question: Independence
 
 The standard linear regression model — and the cross-sectional machine-learning algorithms that share its assumptions — requires that the observations are independent. When this assumption holds, the temporal labels carry no statistical information beyond their role as identifiers. The data can then be treated as cross-sectional.
 
@@ -41,7 +41,7 @@ If this condition holds, a linear regression model with i.i.d. errors (estimated
 | Time (one unit, ordered observations) | Time series — ARIMA, GARCH, VAR, state-space |
 
 
-## **Workflow: From Plot to Model Choice**
+## Workflow: From Plot to Model Choice
 
 The decision distills into a sequence: identify the visible structure, fit a linear regression model with the engineered features by OLS, and let residual diagnostics decide whether the model itself needs to be replaced. The flowchart below traces the path from a [prepared series](../02-data-preparation/index.md) to a model class.
 
@@ -79,7 +79,7 @@ The flowchart implies a principled allocation of work. Feature engineering absor
 
 
 
-## **What "Time Series Analysis" Means in This Flowchart**
+## What "Time Series Analysis" Means in This Flowchart
 
 Escalating from a linear regression model with i.i.d. errors to a time series specification does not mean fitting a separate model on the OLS residuals. It means **replacing the model**. The original linear regression in $y_t$ — which assumed i.i.d. errors — is superseded by a richer joint specification that combines the same engineered features with an autocorrelated error structure. The canonical form is **regression with ARMA errors**, more commonly called **ARIMAX** — an ARIMA (Autoregressive Integrated Moving-Average) model with **exogenous** regressors:
 

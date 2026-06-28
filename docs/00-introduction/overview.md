@@ -1,105 +1,6 @@
-# Introduction
+# What Is Time Series Analysis?
 
----
-## **When Do You Need a Time Series Model?**
-
-Not every dataset indexed by time requires a time series model. A time series is a sequence of observations indexed in time order — daily returns, monthly sales, hourly temperatures.
-
-The distinction is whether **time orders the observations** or merely **labels them as a feature**. A customer-churn dataset may include signup date or account age as covariates while still treating each customer as exchangeable; shuffling the rows leaves the model unchanged. A daily revenue series, by contrast, falls apart under shuffling — each value's interpretation depends on what came immediately before. Time series methods are required only when shuffling destroys meaning.
-
-### Feature Engineering vs Time Series Modeling
-
-A dataset's temporal structure can take many forms. Some are **absorbable** — they can be encoded as features in an ordinary least squares (OLS) specification, leaving residuals iid. Others are **structural** — they run through the dependence of $y$ on its own past, and no finite feature set can capture them. Distinguishing the two is what determines whether ordinary regression suffices or a time series model is required.
-
-The single question that decides the matter is whether the observations are **independent**.
-
-Three situations call for ordinary tools instead:
-
-- **Truly independent observations.** Some measurements are uncorrelated in time — repeated lab measurements with no carryover, for example. If the autocorrelation function is flat at all non-zero lags, treat the data as cross-sectional.
-- **Panel data with $N \gg T$.** When the cross-section is wide and the time dimension short, panel methods (fixed effects, GMM) typically dominate per-unit time series models.
-- **Contemporaneous-only inference.** When only the relationship between variables at the same time matters, OLS with heteroskedasticity-and-autocorrelation-consistent (HAC) standard errors — for instance, Newey and West (1987) — corrects the inference without committing to a full time series specification.
-
-
-### The Core Question: Independence
-
-Standard statistical methods — OLS, generalized linear models, most cross-sectional machine-learning algorithms — assume that the observations are independent. When this assumption holds, the temporal labels carry no statistical information beyond their role as identifiers. The data can then be treated as cross-sectional.
-
-In time series data, this assumption typically fails. Successive observations are correlated: today's value depends on yesterday's, last month's temperature on the month before. The operational test is whether
-
-$$\text{Cov}(y_t, y_{t-k}) = 0 \quad \text{for all } k \geq 1.$$
-
-(Read: the covariance between y at time t and y at time t minus k equals zero, for every positive lag k.)
-
-If this condition holds, ordinary methods are valid. If it fails, along which dimension does the dependence run: 
-
-| Dependence runs along… | Tool family |
-|---|---|
-| Group or individual (many units, repeated) | Panel / mixed effects |
-| Space | Spatial econometrics, Gaussian processes |
-| Hierarchy (e.g., students within schools) | Multilevel models |
-| Time (one unit, ordered observations) | Time series — ARIMA, GARCH, VAR, state-space |
-
-
-### Workflow: From Plot to Model Choice
-
-The decision distills into a sequence: identify the visible structure, capture what features can absorb, and let residual diagnostics decide whether more is needed. The flowchart below traces the path from a [prepared series](../02-data-preparation/index.md) to model class.
-
-```mermaid
-graph TD
-    START([Time-stamped data]) --> PLOT[Plot the series<br/>Inspect raw ACF]
-    PLOT --> UNITROOT{Unit root?<br/>ADF + KPSS}
-    UNITROOT -->|Yes| DIFF[Difference the series]
-    UNITROOT -->|No| FEATURES[Identify visible structure:<br/>seasonality, trend,<br/>regime breaks]
-    DIFF --> FEATURES
-    FEATURES --> FIT[Fit OLS with engineered features:<br/>seasonal dummies, t, regime flags]
-    FIT --> DIAG[Residual diagnostics:<br/>ACF + Ljung-Box]
-    DIAG --> RESIID{Residuals iid?}
-    RESIID -->|Yes| SQACF{Squared residuals<br/>autocorrelated?}
-    RESIID -->|No| GOAL{Goal?}
-    SQACF -->|No| OLSOK[OLS sufficient]
-    SQACF -->|Yes| GARCH[OLS + GARCH<br/>for variance]
-    GOAL -->|Inference,<br/>mild autocorrelation| HAC[OLS + HAC SEs]
-    GOAL -->|Forecasting or<br/>persistent autocorrelation| TS[Time series analysis<br/>]
-
-    style OLSOK fill:#c8e6c9
-    style HAC fill:#fff9c4
-    style GARCH fill:#ffe0b2
-    style TS fill:#ffccbc
-```
-
-The leftmost terminal — clean residual ACF and clean squared-residual ACF — leaves OLS sufficient. The other branches escalate: mild autocorrelation with inference goals warrants HAC standard errors; forecasting goals or persistent residual autocorrelation push to a time series specification; lingering autocorrelation in *squared* residuals adds a GARCH layer for variance.
-
-The flowchart implies a principled allocation of work. Feature engineering absorbs whatever exogenous structure — calendar, regimes, deterministic trend — explains the data. A time series model is reserved for the dependence that remains. This is the operational form of the principle stated above: condition on features first; reach for a time series specification only when conditioning fails to recover independence.
-
-**What "time series analysis" means in this flowchart.** Escalating from OLS to a time series specification does not mean fitting a separate model on the OLS residuals. It means **refitting the original series** under a richer joint specification that combines the same engineered features with an autocorrelated error structure. The canonical form is **regression with ARMA errors**, more commonly called **ARIMAX** — an ARIMA (Autoregressive Integrated Moving-Average) model with **exogenous** regressors:
-
-$$y_t = \mathbf{x}_t^T \boldsymbol{\beta} + u_t, \qquad u_t \text{ follows an ARMA process}$$
-
-(Read: y at time t equals a linear combination of features x-sub-t plus an error u-sub-t that follows an autoregressive moving-average process.)
-
-Here $u_t$ is a *theoretical* error term — what remains in $y_t$ after the features are accounted for — not the observed residual from a prior OLS fit. The same $\mathbf{x}_t$ used in the OLS step is carried over into the ARIMAX specification, but $\boldsymbol{\beta}$ and the ARMA parameters are estimated together on the original $y_t$ data, not in sequence. **ARMA** (autoregressive moving-average) is a class of models in which $u_t$ depends on its own past values and on past random shocks.
-
-The OLS fit served only as a diagnostic step. The question it answered was whether feature engineering alone left iid residuals. When the answer is no, the OLS results are replaced — not supplemented — by a joint ARIMAX estimate, computed by **maximum likelihood (MLE)** from the original $y_t$.
-
-A two-step procedure does exist historically: fit OLS, take the residuals $\hat{\varepsilon}_t$, then fit ARIMA on $\hat{\varepsilon}_t$. This is **Cochrane–Orcutt (1949)**, and it is precisely what joint MLE replaces. It is consistent but inefficient: OLS coefficients estimated under iid errors are noisier than necessary when errors are actually autocorrelated, and modeling the residuals afterwards cannot recover the lost efficiency. Joint estimation on the original data is the modern standard.
-
-**ARIMAX is the canonical, not the only, escalation.** The discussion above describes how OLS-plus-features extends to ARIMAX when the dependence is in the conditional **mean**. The flowchart already shows two other escalations from the same OLS baseline. **GARCH** addresses dependence in the conditional **variance** — volatility clustering. **HAC standard errors** address mild mean autocorrelation when inference, not forecasting, is the goal.
-
-Beyond these, the time series literature contains many specialised families, each targeting a kind of dependence the flowchart does not resolve directly:
-
-- **State-space models** (Kalman filter, structural time series, BSTS) — for time-varying level, trend, or coefficients; multiple overlapping seasonalities; missing observations; online updating.
-- **VAR and VECM** — for multivariate series in which each component depends on lagged values of the others; VECM specifically for cointegrated non-stationary series.
-- **Frequency-domain methods** (spectral analysis, wavelets) — when cycles do not align with integer divisors of the sampling rate, or when the question concerns energy distribution across frequencies rather than predicting individual values.
-- **Long-memory models** (ARFIMA) — when the ACF decays too slowly for any finite ARMA to capture.
-- **Regime-switching models** (Markov-switching) — when parameters shift between unobserved discrete states.
-- **Nonlinear and ML sequence models** (LSTM, transformers, N-BEATS) — for nonlinear dependence and high-dimensional inputs, given sufficient data.
-
-These are catalogued and developed in **Chapter 05**. The flowchart in this introduction is a gateway: it tells you whether ordinary regression suffices, and if not, which broad axis of dependence — mean, variance, or inference-only — the residuals point to. Choosing the specific time series family within that branch is a separate decision, treated downstream.
-
----
-## **What is Time Series Analysis?**
-
-Time series analysis is the study of data points collected or recorded at successive time intervals. Unlike cross-sectional data, which represents a snapshot at a single point in time, time series data has inherent temporal structure that must be respected in modeling.
+Time series analysis is the study of data points collected or recorded at successive time intervals. Unlike cross-sectional data, which represents a snapshot at a single point in time, time series data has inherent temporal structure that must be respected in modelling.
 
 A time series is a sequence of observations indexed in time order. The defining characteristic that separates it from cross-sectional data is **temporal dependence** — observations are not independent of each other. Yesterday's stock price influences today's price. Last month's temperature influences this month's reading. This dependence invalidates the independence assumption that underlies standard statistical inference.
 
@@ -113,7 +14,7 @@ A time series is a sequence of observations indexed in time order. The defining 
 - Sensor readings from industrial equipment
 
 
-## **Time Domain vs Frequency Domain**
+## Time Domain vs Frequency Domain
 
 Time series analysis operates in two complementary domains.
 
@@ -140,7 +41,7 @@ Time series analysis operates in two complementary domains.
 
 ---
 
-## **The 5 Classical OLS Assumptions and How Time Series Violates Them**
+## The 5 Classical OLS Assumptions and How Time Series Violates Them
 
 The linear regression model takes the form:
 
@@ -422,7 +323,7 @@ The skewness $\gamma_1 = \mathbb{E}[\epsilon_t^3]/\sigma^3$ is also often non-ze
 
 The practical consequences depend on sample size. By the Central Limit Theorem — under standard regularity conditions, particularly **finite second moments** of the errors and **weak dependence** of the time-series process — the distribution of $\hat{\boldsymbol{\beta}}$ converges to normal asymptotically regardless of the error distribution. Normality therefore matters most in **small samples**, where finite-sample t and F tests require it for validity. Convergence is slow when tails are heavy, which is the time series setting where this matters most.
 
-When the regularity conditions themselves fail, asymptotic normality breaks down. If the errors have **infinite variance** — for example, $\alpha$-stable distributions with index $\alpha < 2$, occasionally entertained for extreme financial returns or high-frequency tick data — the CLT does not apply, and $\hat{\boldsymbol{\beta}}$ has a non-Gaussian limiting distribution. Likewise, processes with long memory or unit roots violate the weak-dependence requirement and require separate asymptotic theory. For problems such as volatility modeling, non-normality is the phenomenon of interest, not merely an inconvenient property to work around.
+When the regularity conditions themselves fail, asymptotic normality breaks down. If the errors have **infinite variance** — for example, $\alpha$-stable distributions with index $\alpha < 2$, occasionally entertained for extreme financial returns or high-frequency tick data — the CLT does not apply, and $\hat{\boldsymbol{\beta}}$ has a non-Gaussian limiting distribution. Likewise, processes with long memory or unit roots violate the weak-dependence requirement and require separate asymptotic theory. For problems such as volatility modelling, non-normality is the phenomenon of interest, not merely an inconvenient property to work around.
 
 ---
 
