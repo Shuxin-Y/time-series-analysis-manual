@@ -338,7 +338,7 @@ classDef problem fill:#D55E00,stroke:#7A3500,color:#FFFFFF;
 classDef ref fill:#FFFFFF,stroke:#999999,color:#000000,stroke-dasharray:4 3;
 ```
 
-**Worked example.** The diagram below is the introduction's "plot to model choice" flowchart, rewritten in this notation. Method names that previously sat inside the diamonds (for example "ADF + KPSS") move onto the incoming process node or an edge, so the diamonds stay terse; the four terminals carry the `good`, `escalate`, `problem`, and `process` outcome classes; and the brand `classDef` block colours them.
+**Worked example.** The diagram below is the introduction's "plot to model choice" flowchart, rewritten in this notation. Method names that previously sat inside the diamonds (for example "ADF + KPSS") move onto the incoming process node or an edge, so the diamonds stay terse; the terminals carry the `good`, `escalate`, and `problem` outcome classes; and the brand `classDef` block colours them.
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
