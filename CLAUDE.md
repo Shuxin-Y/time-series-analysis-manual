@@ -41,6 +41,7 @@ All three systems are SPA-aware, hooking into Material theme's `document$.subscr
 - Chapter directories: `NN-kebab-case/` with `index.md` as landing page
 - Navigation: defined explicitly in `mkdocs.yml` under `nav:`
 - Primary notation: conditional expectation form (most general, modern standard)
+- **Design system:** visual and structural standards (brand palette, typography, components, decision-flowchart notation, table standard, figure/matplotlib conventions) are defined in `DESIGN-SYSTEM.md` at the repo root — the single source of truth for the book's appearance.
 - See `.claude/rules/` for detailed standards: chapters, notation, code, figures, writing
 
 ## CI/CD
