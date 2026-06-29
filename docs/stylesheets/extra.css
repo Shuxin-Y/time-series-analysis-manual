@@ -26,6 +26,12 @@
   --color-sunset:          #B87D6C;
   --color-sunset-dark:     #9E6657;
   --color-sunset-light:    #D5A496;
+
+  /* Semantic outcome tints — shared by decision-matrix cells and flowchart
+   * outcome nodes (good / escalate / problem). */
+  --color-good:            #DCEFD8;
+  --color-escalate:        #FFE9C2;
+  --color-problem:         #F2D9DE;
 }
 
 /* Override Material primary/accent for light mode.
@@ -555,9 +561,9 @@ code {
 }
 
 /* ===== Decision-matrix semantic cells (md_in_html tables) ===== */
-.md-typeset table.decision-matrix td.good     { background: #DCEFD8; }
-.md-typeset table.decision-matrix td.escalate { background: #FFE9C2; }
-.md-typeset table.decision-matrix td.problem  { background: #F2D9DE; }
+.md-typeset table.decision-matrix td.good     { background: var(--color-good); }
+.md-typeset table.decision-matrix td.escalate { background: var(--color-escalate); }
+.md-typeset table.decision-matrix td.problem  { background: var(--color-problem); }
 
 [data-md-color-scheme="slate"] .md-typeset table.decision-matrix td.good     { background: rgba(76, 122, 63, 0.30); }
 [data-md-color-scheme="slate"] .md-typeset table.decision-matrix td.escalate { background: rgba(201, 165, 94, 0.30); }

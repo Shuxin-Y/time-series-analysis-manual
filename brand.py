@@ -18,7 +18,9 @@ from cycler import cycler
 
 _STYLE = Path(__file__).resolve().parent / "docs" / "assets" / "brand.mplstyle"
 
-_BRAND_CYCLE = ["#007BA7", "#800020", "#9B7FA7", "#C9A55E", "#B87D6C"]
+# The brand colour cycle is defined once, in brand.mplstyle (its single source of
+# truth). Only the colorblind-safe cycle lives here, because it is a per-call
+# alternative rather than the default that the style file already applies.
 _CB_CYCLE = [
     "#E69F00", "#56B4E9", "#009E73", "#F0E442",
     "#0072B2", "#D55E00", "#CC79A7", "#000000",
@@ -34,5 +36,5 @@ def use_brand_style(palette: str = "brand") -> None:
     if palette not in ("brand", "cb"):
         raise ValueError(f"palette must be 'brand' or 'cb', got {palette!r}")
     plt.style.use(str(_STYLE))
-    cycle = _CB_CYCLE if palette == "cb" else _BRAND_CYCLE
-    mpl.rcParams["axes.prop_cycle"] = cycler(color=cycle)
+    if palette == "cb":
+        mpl.rcParams["axes.prop_cycle"] = cycler(color=_CB_CYCLE)

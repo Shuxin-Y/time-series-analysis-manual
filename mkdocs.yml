@@ -29,6 +29,10 @@ theme:
     - content.tabs.link
     - content.mermaid
   palette:
+    # NOTE: primary/accent are set here only to enable the scheme toggle; the
+    # actual brand colours (Sunset header, Cerulean/Burgundy) are defined in
+    # docs/stylesheets/extra.css, which is the single source of truth. The
+    # "indigo" values below are placeholders and are overridden by that CSS.
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default

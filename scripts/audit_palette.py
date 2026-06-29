@@ -1,12 +1,16 @@
 """Audit design-system colour tokens: WCAG AA contrast + hex drift.
 
 Run: python scripts/audit_palette.py
-Exits non-zero if any documented decision-matrix colour is missing from extra.css.
+Exits non-zero if any documented colour drifts from extra.css: the decision-matrix
+fills, or the brand colour cycle baked into brand.mplstyle.
 """
+import re
 import sys
 from pathlib import Path
 
-CSS = Path(__file__).resolve().parent.parent / "docs" / "stylesheets" / "extra.css"
+ROOT = Path(__file__).resolve().parent.parent
+CSS = ROOT / "docs" / "stylesheets" / "extra.css"
+MPLSTYLE = ROOT / "docs" / "assets" / "brand.mplstyle"
 
 # Semantic / structural fills that carry body text (must pass AA against text).
 FILLS = {
@@ -38,13 +42,30 @@ def main():
         flag = "PASS" if ratio >= 4.5 else "FLAG (large-text/bold only)"
         print(f"  {name:11s} {fill}  {ratio:5.2f}:1  {flag}")
 
-    css = CSS.read_text()
+    css = CSS.read_text().lower()
+    failed = False
+
     cell = {"#DCEFD8", "#FFE9C2", "#F2D9DE"}
-    drift = [h for h in cell if h.lower() not in css.lower()]
+    drift = [h for h in cell if h.lower() not in css]
     if drift:
         print(f"\nDRIFT: decision-matrix colours missing from extra.css: {drift}")
-        sys.exit(1)
-    print("\nDecision-matrix cell colours present in extra.css: OK")
+        failed = True
+    else:
+        print("\nDecision-matrix cell colours present in extra.css: OK")
+
+    # The brand colour cycle lives in brand.mplstyle (its source of truth). Guard
+    # it against drift from the CSS :root tokens, which Python cannot read directly.
+    mpl_text = MPLSTYLE.read_text()
+    match = re.search(r"prop_cycle:.*\[([^\]]*)\]", mpl_text)
+    brand = ["#" + h.strip().strip("'\"") for h in match.group(1).split(",")]
+    brand_drift = [h for h in brand if h.lower() not in css]
+    if brand_drift:
+        print(f"Brand cycle colours in brand.mplstyle missing from extra.css: {brand_drift}")
+        failed = True
+    else:
+        print("Brand cycle (brand.mplstyle) present in extra.css: OK")
+
+    sys.exit(1 if failed else 0)
 
 
 if __name__ == "__main__":

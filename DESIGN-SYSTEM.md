@@ -55,6 +55,9 @@ The brand palette is defined as custom properties in the `:root` block of `extra
 | `--color-sunset` | `#B87D6C` | Header | Site header (Material primary) in both schemes |
 | `--color-sunset-dark` | `#9E6657` | Darker sunset | Primary `--dark` variant |
 | `--color-sunset-light` | `#D5A496` | Lighter sunset | Primary `--light` variant |
+| `--color-good` | `#DCEFD8` | Outcome — sufficient | Decision-matrix `good` cell; flowchart `good` node |
+| `--color-escalate` | `#FFE9C2` | Outcome — escalate | Decision-matrix `escalate` cell; flowchart `escalate` node |
+| `--color-problem` | `#F2D9DE` | Outcome — problem | Decision-matrix `problem` cell; flowchart `problem` node |
 
 Semantic role summary: header = Sunset; footer = Cerulean-dark (light) / Cerulean-deep (dark); body links = Cerulean; accent and theorem = Burgundy; definition and blockquote = Thistle-dark; abstract and text selection = Navajo.
 
