@@ -173,6 +173,7 @@ nav:
       - appendices/index.md
       - "Appendix A: OLS Derivation": appendices/A-ols-derivation.md
       - Python Setup: appendices/C-python-environment-setup.md
+  - Design System Showcase: design-system-showcase.md
 
 # Copyright
 copyright: Copyright &copy; 2024 Time Series Analysis Manual

@@ -1,6 +1,6 @@
 # Design System — Time Series Analysis Manual
 
-**Version:** 1.0
+**Version:** 1.1
 
 This document is the single source of truth for the book's *appearance*: the brand tokens, typography, components, and composition patterns that every chapter shares.
 
@@ -543,9 +543,13 @@ The following items are documented but deliberately not addressed in version 1.0
 
 - Existing Mermaid diagrams in the chapters still use ad-hoc `fill:` styling; migrating them to the `classDef` sets is a follow-up task.
 - No logo, favicon, or social-card artwork exists yet; the specification is reserved above.
-- A published "kitchen-sink" showcase page is intentionally omitted because this document is unpublished. Revisit it if a living demo is wanted.
+- A published, living "kitchen-sink" demo of every component, pattern, and figure style exists at `docs/design-system-showcase.md` (nav: *Design System Showcase*). Keep it in sync when components change.
 
 ## Changelog
+
+### 1.1 — 2026-06-29
+
+Add the published *Design System Showcase* page (`docs/design-system-showcase.md`) — a living demo of every component, pattern, and figure style — plus `scripts/generate_showcase_figures.py` for its sample figures.
 
 ### 1.0 — 2026-06-29
 
