@@ -121,10 +121,15 @@ Brand palette:
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    START([Time-stamped data]):::terminator --> ROOT_TEST[Run ADF + KPSS]:::process
-    ROOT_TEST --> UNITROOT{Unit root?}:::decision
-    UNITROOT -->|Yes| DIFF[Difference the series]:::process
-    UNITROOT -->|No| OK[Model: OLS<br/>Estimator: OLS]:::good
+    START([Time-stamped data]) --> ROOT_TEST[Run ADF + KPSS]
+    ROOT_TEST --> UNITROOT{Unit root?}
+    UNITROOT -->|Yes| DIFF[Difference the series]
+    UNITROOT -->|No| OK[Model: OLS<br/>Estimator: OLS]
+
+    class START terminator
+    class ROOT_TEST,DIFF process
+    class UNITROOT decision
+    class OK good
 
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -137,10 +142,15 @@ Colorblind-safe palette (same diagram):
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    START([Time-stamped data]):::terminator --> ROOT_TEST[Run ADF + KPSS]:::process
-    ROOT_TEST --> UNITROOT{Unit root?}:::decision
-    UNITROOT -->|Yes| DIFF[Difference the series]:::process
-    UNITROOT -->|No| OK[Model: OLS<br/>Estimator: OLS]:::good
+    START([Time-stamped data]) --> ROOT_TEST[Run ADF + KPSS]
+    ROOT_TEST --> UNITROOT{Unit root?}
+    UNITROOT -->|Yes| DIFF[Difference the series]
+    UNITROOT -->|No| OK[Model: OLS<br/>Estimator: OLS]
+
+    class START terminator
+    class ROOT_TEST,DIFF process
+    class UNITROOT decision
+    class OK good
 
     classDef terminator fill:#56B4E9,stroke:#005A7A,color:#000000;
     classDef process fill:#FFFFFF,stroke:#000000,color:#000000;
