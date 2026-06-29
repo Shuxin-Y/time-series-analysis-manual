@@ -263,3 +263,205 @@ These components add behaviour at runtime. Each is described with its trigger an
 **Material annotations.** The numbered-marker mechanism underlying the "common alternative forms" pattern above. Beyond alternative notation, use it for any short aside that would interrupt the sentence if inlined. A `(N)` marker in the text reveals the matching numbered list item on click or focus.
 
 A shared motion note: body links transition colour on hover over `0.15s` (to Burgundy in light mode, Thistle in dark), and the glossary drawer and its close button animate rather than snap, so interactive state changes read as deliberate.
+
+## Tier 2b — Patterns (composition)
+
+Patterns compose the Tier 2a components into the recurring structures a chapter is built from. Where a component is reused, this tier cross-references it rather than restating its markup.
+
+### Canonical chapter template
+
+Every chapter follows one content flow, from concept to cross-reference. The order is fixed so that a reader meets the idea before its formalism, and the formalism before its failure modes.
+
+1. **Conceptual introduction.** What the topic is and why it matters, in prose.
+2. **Mathematical definition.** The formal statement in display math, each symbol defined at first use.
+3. **Time-series context.** How the concept applies or differs in time series versus cross-section.
+4. **Consequences.** What goes wrong if the concept is ignored.
+5. **Diagnostic tests.** The tests that detect the problem, each with explicit H₀, H₁, and a decision rule.
+6. **Python code.** A self-contained example placed immediately after the explanation it supports.
+7. **Summary table.** A decision matrix or comparison table that condenses the section.
+8. **Cross-references.** Links to related chapters and sections.
+
+A chapter directory is `NN-kebab-case/` with `index.md` as its landing page; subpages are `NN-kebab-case.md`. The navigation entry is declared explicitly in `mkdocs.yml` under `nav:`.
+
+### Equation → pronunciation-guide pairing
+
+Every display equation is immediately followed by a `(Read: …)` pronunciation guide on the next line. This pairing is a pattern, not an option: the guide names each symbol in reading order and is exempt from the sentence-completeness rule. See the [`(Read: …)` pronunciation guide](#read--pronunciation-guide) component in Tier 2a for the markup and the do/don't.
+
+### Hypothesis-test layout
+
+A diagnostic test is laid out in a fixed five-part order: null hypothesis, alternative hypothesis, test statistic, decision rule, interpretation. The null and alternative go in the [`.hypothesis-test` box](#hypothesis-test-and-decision-rule-boxes), whose CSS injects the `H₀:` and `H₁:` labels; the reject/retain rule goes in the nested `.decision-rule` box. The test statistic and the plain-English interpretation are written as ordinary prose around the box. This layout keeps every test in the book recognisable at a glance and frees the author from typing the hypothesis labels by hand.
+
+### Page-footer navigation
+
+The book relies on Material's built-in `navigation.footer` feature for previous/next links. No per-page footer markup is authored. The order of those links is the `nav:` order in `mkdocs.yml`, so sequencing a chapter correctly in `nav:` is what produces correct footer navigation.
+
+### Decision-flowchart notation
+
+The book uses a controlled vocabulary that maps each node's **shape** and **colour** to a fixed **meaning**, applied through reusable Mermaid `classDef`s. Shape encodes the node's role first; colour reinforces it.
+
+**Shapes by role.** The shapes follow ANSI/ISO flowchart semantics.
+
+| Role | Shape | Mermaid syntax | `classDef` |
+|---|---|---|---|
+| Start / end | Stadium | `([ ])` | `terminator` |
+| Process / action | Rectangle | `[ ]` | `process` |
+| Decision / test | Diamond | `{ }` | `decision` |
+| Data (input/output) | Parallelogram | `[/ /]` | `data` |
+| Outcome — sufficient | Rectangle | `[ ]` | `good` |
+| Outcome — escalate | Rectangle | `[ ]` | `escalate` |
+| Outcome — problem / replace | Rectangle | `[ ]` | `problem` |
+| Reference to another chapter | Subroutine | `[[ ]]` | `ref` |
+
+**The `classDef` blocks.** Each diagram applies one of the two sets below. The brand-default set keeps structural nodes muted and saturates the outcome nodes. Paste it verbatim at the foot of the diagram.
+
+```text
+classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
+classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
+classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
+classDef data fill:#FFF4E0,stroke:#C9A55E,color:#1A1A1A;
+classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
+classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
+```
+
+The colorblind-safe set draws from the Okabe–Ito palette and maps to the same roles. Use it for any diagram that must remain legible under colour-vision deficiency.
+
+```text
+classDef terminator fill:#56B4E9,stroke:#005A7A,color:#000000;
+classDef process fill:#FFFFFF,stroke:#000000,color:#000000;
+classDef decision fill:#0072B2,stroke:#003D5C,color:#FFFFFF;
+classDef data fill:#F0E442,stroke:#7A6E00,color:#000000;
+classDef good fill:#009E73,stroke:#005A41,color:#FFFFFF;
+classDef escalate fill:#E69F00,stroke:#8A5F00,color:#000000;
+classDef problem fill:#D55E00,stroke:#7A3500,color:#FFFFFF;
+classDef ref fill:#FFFFFF,stroke:#999999,color:#000000,stroke-dasharray:4 3;
+```
+
+**Worked example.** The diagram below is the introduction's "plot to model choice" flowchart, rewritten in this notation. Method names that previously sat inside the diamonds (for example "ADF + KPSS") move onto the incoming process node or an edge, so the diamonds stay terse; the four terminals carry the `good`, `escalate`, `problem`, and `process` outcome classes; and the brand `classDef` block colours them.
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}}}%%
+graph TD
+    START([Time-stamped data]):::terminator --> PLOT[Plot series<br/>Inspect raw ACF]:::process
+    PLOT --> ROOT_TEST[Run ADF + KPSS]:::process
+    ROOT_TEST --> UNITROOT{Unit root?}:::decision
+    UNITROOT -->|Yes| DIFF[Difference the series]:::process
+    UNITROOT -->|No| FEATURES[Identify structure:<br/>seasonality, trend,<br/>regime breaks]:::process
+    DIFF --> FEATURES
+    FEATURES --> FIT[Fit regression by OLS:<br/>dummies, trend, flags]:::process
+    FIT --> DIAG[Residual diagnostics:<br/>ACF + Ljung-Box]:::process
+    DIAG --> RESID{Residuals i.i.d.?}:::decision
+    RESID -->|No| GOAL{Goal?}:::decision
+    RESID -->|Yes| SQ_TEST[Test squared residuals]:::process
+    SQ_TEST --> SQACF{Variance<br/>autocorrelated?}:::decision
+    SQACF -->|No| OLSOK[Model: linear regression<br/>with i.i.d. errors<br/>Estimator: OLS]:::good
+    SQACF -->|Yes| GARCH[Model: regression mean<br/>+ GARCH variance<br/>Estimator: joint MLE]:::escalate
+    GOAL -->|Inference,<br/>mild autocorrelation| HAC[Model: linear regression<br/>Estimator: OLS<br/>Inference: HAC SEs]:::escalate
+    GOAL -->|Forecasting or<br/>persistent autocorrelation| TS[Model: regression + ARMA errors<br/>Estimator: MLE]:::problem
+
+    classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
+    classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
+    classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
+    classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+    classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
+    classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+```
+
+**Rules.**
+
+- **Terse decision labels.** A decision diamond carries a single question of at most about three words. Method names (such as "ADF + KPSS") move onto the incoming process node or an edge label, and branch logic goes on edge labels. This is why the diamonds stay compact, and why the parallelogram is never repurposed as a decision shape — it conventionally means input/output.
+- **Equal visual weight per rank.** Labels on the same rank are kept to similar length so the rank reads as a row of equals. Exact size equality is not guaranteed by Mermaid, and a CSS `min-width` does not reliably apply to SVG nodes; the rule is therefore "equal visual weight," achieved through label-length parity.
+- **Edge curve by scenario.** Top-down decision charts use `linear` or `step` for crisp right angles; left-right pipelines use `basis` for smooth flow. Set the curve per diagram via `%%{init: {"flowchart": {"curve": "…"}}}%%`.
+- **Edge-type semantics.** `-->` is primary flow; `-.->` is optional, secondary, or feedback flow; `==>` is the highlighted main route. Decision branches are always labelled, as in `-->|Yes|`.
+- **Direction.** Use `TD` for decision workflows and `LR` for sequences.
+- **Node IDs.** Use `SCREAMING_SNAKE_CASE`, semantic rather than `A`/`B`.
+- **Text.** No emojis; use `<br/>` for line breaks; outcome terminals name **model → estimator → inference** in that order.
+- **Accessibility.** Type is encoded by shape first, colour reinforces, and the outcome category is also stated in the node text, so colour is never the sole signal (WCAG 1.4.1).
+
+### Table standard
+
+Tables receive the same predetermined treatment as figures. The book uses five table patterns.
+
+| # | Pattern | Columns |
+|---|---|---|
+| 1 | Notation table | Symbol · meaning · first-use |
+| 2 | Comparison table | Items compared across shared attributes |
+| 3 | Decision matrix | Combined test outcomes → verdict (may carry semantic colour) |
+| 4 | Summary table | Condensed recap of a section |
+| 5 | Results table | Estimate · standard error · p-value |
+
+**Structural rules.**
+
+- A header row is mandatory.
+- Text is left-aligned; numerics are decimal- or right-aligned and set with `tabular-nums`.
+- Decimal places are consistent within a column, and p-value formatting is uniform throughout.
+- A non-applicable cell holds `—`, never a blank.
+- Units go in the header, not in every row.
+- The caption is self-contained and numbered `Table N.M`, using cross-reference labels rather than hardcoded numbers.
+- A soft cap of about five to six columns applies before a table is transposed or split; wide tables scroll horizontally on mobile.
+
+**Mechanism for coloured cells.** Markdown pipe tables cannot colour a single cell. The `attr_list` extension cannot target an individual `<td>`, and no enabled `pymdownx.*` extension styles table cells. A colour-coded decision matrix is therefore written as an HTML `<table class="decision-matrix" markdown>` using the already-enabled `md_in_html` extension, with the CSS classes `.good`, `.escalate`, and `.problem` defined in `extra.css` — not inline `style=` attributes, so the semantic hex values stay tokenized in one place. Ordinary tables remain Markdown pipe tables; only matrices needing cell colour use the HTML mechanism.
+
+**Worked decision matrix.** Each coloured cell also states its verdict as text, so colour is never the sole signal (WCAG 1.4.1).
+
+```html
+<table class="decision-matrix" markdown>
+<tr><th>ADF</th><th>KPSS</th><th>Verdict</th></tr>
+<tr><td>Reject</td><td>Fail to reject</td><td class="good">Stationary</td></tr>
+<tr><td>Fail to reject</td><td>Reject</td><td class="problem">Unit root — difference</td></tr>
+<tr><td>Reject</td><td>Reject</td><td class="escalate">Inconclusive — inspect</td></tr>
+</table>
+```
+
+### Data-visualization standard
+
+Static figures share one palette and one matplotlib style so the book's charts are visually consistent.
+
+**Default palette (brand-derived).** The categorical cycle is Cerulean `#007BA7`, Burgundy `#800020`, Thistle-dark `#9B7FA7`, Navajo-dark `#C9A55E`, and Sunset `#B87D6C`. Sequential data uses a single-hue Cerulean ramp. Semantic encoding uses sage, amber, and Burgundy — the same `good`, `escalate`, and `problem` fills used in flowcharts and decision matrices.
+
+**Colorblind-safe categorical cycle (Okabe–Ito).** `#E69F00`, `#56B4E9`, `#009E73`, `#F0E442`, `#0072B2`, `#D55E00`, `#CC79A7`, `#000000`.
+
+**Matplotlib style.** The full contents of `docs/assets/brand.mplstyle` are reproduced verbatim below as the readable source of truth; the shipped file is the runnable copy.
+
+```ini
+# Time Series Analysis Manual — brand matplotlib style
+# Default colour cycle = brand-derived palette. Switch to colorblind-safe via brand.use_brand_style("cb").
+
+figure.figsize: 7.0, 4.0
+figure.dpi: 150
+savefig.dpi: 150
+savefig.bbox: tight
+savefig.transparent: False
+
+font.family: sans-serif
+font.size: 11
+axes.titlesize: 13
+axes.titleweight: bold
+axes.labelsize: 11
+
+axes.spines.top: False
+axes.spines.right: False
+axes.grid: True
+axes.axisbelow: True
+grid.color: E0E0E0
+grid.linewidth: 0.8
+
+lines.linewidth: 1.8
+legend.frameon: False
+
+axes.prop_cycle: cycler('color', ['007BA7', '800020', '9B7FA7', 'C9A55E', 'B87D6C'])
+```
+
+**Usage.** The helper module `brand.py` (repo root) applies the style and palette in one call, from any working directory:
+
+```python
+import brand
+
+brand.use_brand_style()        # default brand palette
+brand.use_brand_style("cb")    # colorblind-safe (Okabe-Ito) palette
+```
+
+The helper drives the book's own figure-generation pipeline, which produces the committed PNG and SVG figures. Code copy-pasted by a reader is illustrative and is not expected to import this module.
+
+**Mermaid.** Diagrams use the `classDef` sets from the decision-flowchart notation above, replacing any ad-hoc `fill:` styling.
