@@ -465,3 +465,85 @@ brand.use_brand_style("cb")    # colorblind-safe (Okabe-Ito) palette
 The helper drives the book's own figure-generation pipeline, which produces the committed PNG and SVG figures. Code copy-pasted by a reader is illustrative and is not expected to import this module.
 
 **Mermaid.** Diagrams use the `classDef` sets from the decision-flowchart notation above, replacing any ad-hoc `fill:` styling.
+
+## Tier 3 — Governance
+
+Governance defines how this document stays correct and how the design evolves. The tiers above describe what the design is; this tier describes how it is maintained.
+
+### Single source of truth
+
+The relationship between this document and the code is asymmetric. Tokens and components are *defined* in `docs/stylesheets/extra.css` and `docs/javascripts/*.js`; this document is the authoritative *catalog* of them. The two must stay in sync. Where they diverge, the CSS/JS is the runtime truth and this document is corrected to match it, never the reverse.
+
+### Naming conventions
+
+Names follow fixed conventions so that files, anchors, and components are predictable.
+
+- **Chapter directories.** `NN-kebab-case/`, with `index.md` as the landing page and `NN-kebab-case.md` for subpages.
+- **Section anchors.** Derived by MkDocs from the heading text (lowercased, spaces to hyphens); reference them with cross-reference labels rather than hardcoded numbers.
+- **CSS class names.** Semantic and kebab-case (`hypothesis-test`, `decision-rule`, `decision-matrix`, `glossary-term`), matching the selectors in `extra.css` and `glossary.css`.
+- **Component IDs.** Semantic; the `references` block relies on the `id="references"` that MkDocs derives from the literal heading "References".
+- **Glossary terms.** Placed in `docs/glossary/NN-chapter.yml`, in the file for the chapter where the term is first introduced.
+
+### Brand assets (reserved)
+
+The brand-asset specification is reserved. No logo, favicon, or social-card artwork exists yet; this section records the intended slots so the artwork can be dropped in without further design.
+
+- **Favicon.** Standard sizes (`16×16`, `32×32`, `48×48` ICO; `180×180` Apple touch icon; a `512×512` PNG for PWA manifests).
+- **Social card.** A template image at the Open Graph standard `1200×630`, carrying the book title and brand palette.
+- **Location.** All artwork lives under `docs/assets/`, alongside `docs/assets/brand.mplstyle`.
+
+Until that artwork exists, the site uses Material's default iconography: the admonition icons, the light/dark scheme-toggle icons, and the GitHub repository icon configured in `mkdocs.yml`.
+
+### How to add or modify a component
+
+Changing a component is a three-step procedure that keeps the catalog and the implementation aligned.
+
+1. **Add or adjust the implementation.** Edit the CSS in `extra.css` (or the JavaScript in `docs/javascripts/`).
+2. **Document it here.** Add or update the component's entry in this document with a copy-paste markup example, following the existing component format (purpose · when to use · markup · rendered note · do/don't).
+3. **Verify.** Run `mkdocs build --strict` and confirm it passes.
+
+### Versioning
+
+The document carries a version number at the top (currently `1.0`) and a `## Changelog` at the bottom with dated entries. Each substantive change adds an entry. Deprecations are recorded in the changelog rather than deleted silently, so the history of the design is recoverable.
+
+### Change process
+
+Changes land via pull request, and the pull request must pass `mkdocs build --strict` before merge. The build check is the gate that prevents broken markup, dead internal links, or malformed configuration from reaching `main`.
+
+### New-chapter checklist
+
+To match the house style, every chapter satisfies the following. The list is derived from the canonical chapter template (Tier 2b) and the component catalog (Tier 2a).
+
+- The chapter lives in an `NN-kebab-case/` directory with an `index.md` landing page, and its pages are declared in `mkdocs.yml` under `nav:`.
+- The page opens with an H1 and a conceptual introduction before any formalism.
+- Every display equation is immediately followed by a `(Read: …)` pronunciation guide.
+- Definitions and theorems use the correct typed admonitions (`definition`, `theorem`, `note`, `abstract`).
+- Each diagnostic test is laid out in the `.hypothesis-test` box with its H₀, H₁, and a `.decision-rule` box.
+- Decision flowcharts use the decision-flowchart notation and apply one of the `classDef` sets.
+- Tables follow the table standard (header row, aligned numerics, units in the header, self-contained caption).
+- Figures are generated through `brand.py` so they share the book's palette and matplotlib style.
+- The chapter ends with a `## References` block in Chicago author-date style.
+- New glossary terms are added to the chapter's `docs/glossary/NN-chapter.yml` file.
+- `mkdocs build --strict` passes.
+
+### Relationship to `.claude/rules`
+
+This document governs appearance; the `.claude/rules` files govern how Claude works. The two are kept distinct.
+
+The `notation`, `writing`, `code`, and `glossary` rule files are referenced from here, not absorbed: their conventions (mathematical notation, prose voice, Python style, glossary-data standards) remain their own source of truth. The appearance content formerly in `chapters.md` and `figures.md` has moved into this document, and those two files are reduced to pointers.
+
+Because `.claude/` is git-ignored, the `.claude/rules` pointers are visible only to Claude in a working tree and never to someone cloning the repository. The human-facing pointer to this design system therefore lives in tracked files — `CLAUDE.md` and `DESIGN-SYSTEM.md` itself. The `.claude/rules` pointers serve only Claude's in-tree context and are never relied on for human discoverability.
+
+## Known gaps and future items
+
+The following items are documented but deliberately not addressed in version 1.0.
+
+- Existing Mermaid diagrams in the chapters still use ad-hoc `fill:` styling; migrating them to the `classDef` sets is a follow-up task.
+- No logo, favicon, or social-card artwork exists yet; the specification is reserved above.
+- A published "kitchen-sink" showcase page is intentionally omitted because this document is unpublished. Revisit it if a living demo is wanted.
+
+## Changelog
+
+### 1.0 — 2026-06-29
+
+Initial design system: principles, foundations (tokens, typography, spacing, layout), components, composition patterns (decision-flowchart notation, table standard, data-visualization standard), and governance.
