@@ -47,6 +47,7 @@ The brand palette is defined as custom properties in the `:root` block of `extra
 | `--color-cerulean-deep` | `#003D5C` | Deepest cerulean | Footer background in dark mode (and `--dark` footer in light) |
 | `--color-burgundy` | `#800020` | Accent; theorem | Accent (light), theorem admonition, link hover (light) |
 | `--color-burgundy-light` | `#A33548` | Lighter burgundy | Theorem/danger admonition (dark); failure admonition (light) |
+| `--color-burgundy-lighter` | `#C97A86` | Softest burgundy | Failure admonition (dark) |
 | `--color-burgundy-dark` | `#5A0017` | Darker burgundy | Reserved variant |
 | `--color-thistle` | `#D8BFD8` | Soft violet tint | Accent in dark mode; link hover (dark); definition/example admonition (dark) |
 | `--color-thistle-dark` | `#9B7FA7` | Definition; blockquote | Definition/example admonition border, blockquote accent |
@@ -63,7 +64,7 @@ The brand palette is defined as custom properties in the `:root` block of `extra
 | `--color-escalate` | `#FFE9C2` | Outcome — escalate | Decision-matrix `escalate` cell; flowchart `escalate` node |
 | `--color-problem` | `#F2D9DE` | Outcome — problem | Decision-matrix `problem` cell; flowchart `problem` node |
 
-Admonition accents are consumed through scheme-aware `--adm-*` aliases (e.g. `--adm-burgundy`, `--adm-sage`) rather than the raw `--color-*` tokens directly; each alias resolves to a saturated shade in `default` and a lighter shade in `slate`. See the [Admonitions component](#admonitions).
+Admonition accents are consumed through scheme-aware `--adm-*` aliases (e.g. `--adm-burgundy`, `--adm-sage`) rather than the raw `--color-*` tokens directly; each alias resolves to a saturated shade in `default` and a lighter shade in `slate`. The one exception is `--adm-neutral` (quote/cite), which maps to the Material foreground token `--md-default-fg-color--light` in both schemes rather than a brand hue. See the [Admonitions component](#admonitions).
 
 Semantic role summary: header = Sunset; footer = Cerulean-dark (light) / Cerulean-deep (dark); body links = Cerulean; accent and theorem = Burgundy; definition and blockquote = Thistle-dark; abstract and text selection = Navajo.
 
