@@ -36,6 +36,18 @@ _CB_CYCLE = [
     "#0072B2", "#D55E00", "#CC79A7", "#000000",
 ]
 
+# Single-hue Cerulean ramp for sequential data (heatmaps, densities): white ->
+# Cerulean -> deep Cerulean. The endpoints are the brand's --color-cerulean and
+# --color-cerulean-deep tokens; this is the single Python-side home for the ramp
+# so figure scripts import it rather than re-hardcoding brand hex.
+CERULEAN_RAMP = ["#FFFFFF", "#007BA7", "#003D5C"]
+
+
+def cerulean_cmap():
+    """Return the single-hue Cerulean sequential colormap (white -> deep cerulean)."""
+    from matplotlib.colors import LinearSegmentedColormap
+    return LinearSegmentedColormap.from_list("cerulean", CERULEAN_RAMP)
+
 
 def use_brand_style(palette: str = "brand") -> None:
     """Apply the manual's matplotlib style and colour cycle.

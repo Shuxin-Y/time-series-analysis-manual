@@ -573,8 +573,9 @@ code {
    Matplotlib figures are authored at 7 in wide. Browsers ignore the 300-dpi
    metadata for layout and would let the raster fill the whole content column,
    scaling its embedded type up past the body text on wide screens. Cap the
-   displayed width to the figure's design width (7 in ~= 42rem) so its 11 pt
-   type renders at body size, and centre it. Stays responsive via min(). */
+   displayed width to the figure's design width (7 in ~= 42rem) so its type
+   renders at the authored size rather than scaling up past the body text, and
+   centre it. Stays responsive via min(). */
 .md-typeset img {
   max-width: min(100%, 42rem);
   display: block;

@@ -349,17 +349,17 @@ graph TD
     START(["Time-stamped data"]) --> PLOT["Plot series<br/>Inspect raw ACF"]
     PLOT --> ROOT_TEST["Run ADF + KPSS"]
     ROOT_TEST --> UNITROOT{"Unit root?"}
-    UNITROOT -->|Yes| DIFF["Difference the series"]
-    UNITROOT -->|No| FEATURES["Identify structure:<br/>seasonality, trend,<br/>regime breaks"]
+    UNITROOT -->|"Yes"| DIFF["Difference the series"]
+    UNITROOT -->|"No"| FEATURES["Identify structure:<br/>seasonality, trend,<br/>regime breaks"]
     DIFF --> FEATURES
     FEATURES --> FIT["Fit regression by OLS:<br/>dummies, trend, flags"]
     FIT --> DIAG["Residual diagnostics:<br/>ACF + Ljung-Box"]
     DIAG --> RESID{"Residuals i.i.d.?"}
-    RESID -->|No| GOAL{"Goal?"}
-    RESID -->|Yes| SQ_TEST["Test squared residuals"]
+    RESID -->|"No"| GOAL{"Goal?"}
+    RESID -->|"Yes"| SQ_TEST["Test squared residuals"]
     SQ_TEST --> SQACF{"Variance<br/>autocorrelated?"}
-    SQACF -->|No| OLSOK["Model: linear regression<br/>with i.i.d. errors<br/>Estimator: OLS"]
-    SQACF -->|Yes| GARCH["Model: regression mean<br/>+ GARCH variance<br/>Estimator: joint MLE"]
+    SQACF -->|"No"| OLSOK["Model: linear regression<br/>with i.i.d. errors<br/>Estimator: OLS"]
+    SQACF -->|"Yes"| GARCH["Model: regression mean<br/>+ GARCH variance<br/>Estimator: joint MLE"]
     GOAL -->|"Inference,<br/>mild autocorrelation"| HAC["Model: linear regression<br/>Estimator: OLS<br/>Inference: HAC SEs"]
     GOAL -->|"Forecasting or<br/>persistent autocorrelation"| TS["Model: regression + ARMA errors<br/>Estimator: MLE"]
 
@@ -430,7 +430,7 @@ Tables receive the same predetermined treatment as figures. The book uses five t
 
 Static figures share one palette and one matplotlib style so the book's charts are visually consistent.
 
-**Default palette (brand-derived).** The categorical cycle is Cerulean `#007BA7`, Burgundy `#800020`, Thistle-dark `#9B7FA7`, Navajo-dark `#C9A55E`, and Sunset `#B87D6C`. Sequential data uses a single-hue Cerulean ramp. Semantic encoding uses sage, amber, and Burgundy — the same `good`, `escalate`, and `problem` fills used in flowcharts and decision matrices.
+**Default palette (brand-derived).** The categorical cycle is Cerulean `#007BA7`, Burgundy `#800020`, Thistle-dark `#9B7FA7`, Navajo-dark `#C9A55E`, and Sunset `#B87D6C`. Sequential data uses a single-hue Cerulean ramp (white → `#007BA7` → `#003D5C`, exposed as `brand.cerulean_cmap()`). Semantic encoding uses sage, amber, and Burgundy — the same `good`, `escalate`, and `problem` fills used in flowcharts and decision matrices.
 
 **Colorblind-safe categorical cycle (Okabe–Ito).** `#E69F00`, `#56B4E9`, `#009E73`, `#F0E442`, `#0072B2`, `#D55E00`, `#CC79A7`, `#000000`.
 
@@ -478,7 +478,7 @@ brand.use_brand_style("cb")    # colorblind-safe (Okabe-Ito) palette
 
 The helper drives the book's own figure-generation pipeline, which produces the committed PNG and SVG figures. Code copy-pasted by a reader is illustrative and is not expected to import this module.
 
-**Display width.** Figures are authored at 7 inches wide. Browsers ignore the 300-dpi metadata for layout, so an unconstrained raster fills the whole content column and scales its embedded type up past the body text on wide screens. The figure rule in `extra.css` therefore caps the *displayed* width to the design width (`max-width: min(100%, 42rem)`, ~7 in) and centres the image, so the figure's 11 pt type renders at body size. This is a display-layer rule and does not change the figure files; regeneration is unaffected.
+**Display width.** Figures are authored at 7 inches wide. Browsers ignore the 300-dpi metadata for layout, so an unconstrained raster fills the whole content column and scales its embedded type up past the body text on wide screens. The figure rule in `extra.css` therefore caps the *displayed* width to the design width (`max-width: min(100%, 42rem)`, ~7 in) and centres the image, so the figure's type renders at its authored size rather than scaling up past the body text on wide screens. This is a display-layer rule and does not change the figure files; regeneration is unaffected.
 
 **Mermaid.** Diagrams use the `classDef` sets from the decision-flowchart notation above, replacing any ad-hoc `fill:` styling.
 

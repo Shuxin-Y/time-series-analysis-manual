@@ -123,8 +123,8 @@ Brand palette:
 graph TD
     START(["Time-stamped data"]) --> ROOT_TEST["Run ADF + KPSS"]
     ROOT_TEST --> UNITROOT{"Unit root?"}
-    UNITROOT -->|Yes| DIFF["Difference the series"]
-    UNITROOT -->|No| OK["Model: OLS<br/>Estimator: OLS"]
+    UNITROOT -->|"Yes"| DIFF["Difference the series"]
+    UNITROOT -->|"No"| OK["Model: OLS<br/>Estimator: OLS"]
 
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -144,8 +144,8 @@ Colorblind-safe palette (same diagram):
 graph TD
     START(["Time-stamped data"]) --> ROOT_TEST["Run ADF + KPSS"]
     ROOT_TEST --> UNITROOT{"Unit root?"}
-    UNITROOT -->|Yes| DIFF["Difference the series"]
-    UNITROOT -->|No| OK["Model: OLS<br/>Estimator: OLS"]
+    UNITROOT -->|"Yes"| DIFF["Difference the series"]
+    UNITROOT -->|"No"| OK["Model: OLS<br/>Estimator: OLS"]
 
     classDef terminator fill:#56B4E9,stroke:#005A7A,color:#000000;
     classDef process fill:#FFFFFF,stroke:#000000,color:#000000;
@@ -169,7 +169,7 @@ Generated via `brand.py` and the `brand.mplstyle` style. Regenerate with
 
 ![The same multi-series line plot rendered in the colorblind-safe Okabe–Ito palette.](assets/figures/showcase_lines_cb.png)
 
-*Figure: the same plot in the colorblind-safe palette.*
+*Figure: multi-series line plot (Actual, Forecast, Lower band, Upper band) over time index \( t \), in the colorblind-safe Okabe–Ito palette.*
 
 ![Sequential heatmap of a 12 by 12 grid using a single-hue Cerulean colour ramp from white to deep cerulean, with an intensity colour bar.](assets/figures/showcase_heatmap.png)
 

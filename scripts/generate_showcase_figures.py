@@ -22,9 +22,11 @@ import brand  # noqa: E402
 
 import numpy as np  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.colors import LinearSegmentedColormap  # noqa: E402
 
 OUT = ROOT / "docs" / "assets" / "figures"
+
+# Reader-facing palette names, keyed by the internal palette argument.
+_PALETTE_TITLE = {"brand": "brand palette", "cb": "colorblind-safe palette"}
 
 
 def line_plot(path: Path, palette: str) -> None:
@@ -35,7 +37,7 @@ def line_plot(path: Path, palette: str) -> None:
     for offset, label in enumerate(["Actual", "Forecast", "Lower band", "Upper band"]):
         series = np.cumsum(rng.normal(0.15, 1.0, size=t.size)) + offset * 4
         ax.plot(t, series, label=label)
-    ax.set_title(f"Multi-series line plot ({palette} palette)")
+    ax.set_title(f"Multi-series line plot ({_PALETTE_TITLE[palette]})")
     ax.set_xlabel("Time index $t$")
     ax.set_ylabel("Value")
     ax.legend()
@@ -45,17 +47,15 @@ def line_plot(path: Path, palette: str) -> None:
 
 def heatmap(path: Path) -> None:
     brand.use_brand_style()
-    cmap = LinearSegmentedColormap.from_list(
-        "cerulean", ["#FFFFFF", "#007BA7", "#003D5C"]
-    )
+    cmap = brand.cerulean_cmap()
     rng = np.random.default_rng(7)
     data = rng.random((12, 12))
     fig, ax = plt.subplots()
     im = ax.imshow(data, cmap=cmap, aspect="auto")
     ax.set_title("Sequential heatmap (Cerulean ramp)")
-    ax.set_xlabel("Lag")
-    ax.set_ylabel("Series")
-    fig.colorbar(im, ax=ax, label="Intensity")
+    ax.set_xlabel("Column")
+    ax.set_ylabel("Row")
+    fig.colorbar(im, ax=ax, label="Value (illustrative)")
     fig.savefig(path)
     plt.close(fig)
 
