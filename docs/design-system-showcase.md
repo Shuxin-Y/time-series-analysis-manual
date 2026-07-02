@@ -52,6 +52,29 @@ using the `highlight-text` utility.
 !!! abstract "Chapter summary"
     The abstract admonition, in Navajo, is used for chapter and section overviews.
 
+Every admonition is drawn as a branded box: a full outline in the type's colour, a matching title with an underrule, and a type-specific icon. The complete type-to-colour mapping is catalogued in the design system. The remaining families:
+
+!!! tip "Tip"
+    Guidance and practical tips use the Sage-green family (shared with success).
+
+!!! warning "Warning"
+    Cautions use the Amber family to signal that care is required.
+
+!!! danger "Danger"
+    Critical alerts use Burgundy, shared with theorem-strength emphasis.
+
+!!! question "Question"
+    Open questions and prompts use the Sunset (primary) colour.
+
+!!! example "Example"
+    Worked examples use the Thistle family, shared with definitions.
+
+!!! quote "Quotation"
+    Quotations use a neutral grey so they recede against coloured boxes.
+
+??? note "Collapsible note"
+    The collapsible `???` form receives the same box treatment.
+
 ## Custom boxes
 
 <div class="hypothesis-test" markdown>

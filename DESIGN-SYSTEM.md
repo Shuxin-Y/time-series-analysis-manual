@@ -37,7 +37,7 @@ The foundations are the lowest-level design decisions. All values below are read
 
 ### Colour tokens
 
-The brand palette is defined as custom properties in the `:root` block of `extra.css`. Five hue families — Cerulean (cool primary), Burgundy (accent), Thistle (soft violet tint), Navajo White (warm tint), and Sunset (warm rose-coral) — each carry light/dark/deep variants.
+The brand palette is defined as custom properties in the `:root` block of `extra.css`. Five core hue families — Cerulean (cool primary), Burgundy (accent), Thistle (soft violet tint), Navajo White (warm tint), and Sunset (warm rose-coral) — each carry light/dark/deep variants. Two further families, Sage green and Amber, exist only to give the positive/tip and caution admonitions a colour, since the core palette has no green or standalone amber.
 
 | Token | Hex | Semantic role | Light (`default`) / dark (`slate`) usage |
 |---|---|---|---|
@@ -46,18 +46,25 @@ The brand palette is defined as custom properties in the `:root` block of `extra
 | `--color-cerulean-dark` | `#005A7A` | Footer background | Footer background in light mode |
 | `--color-cerulean-deep` | `#003D5C` | Deepest cerulean | Footer background in dark mode (and `--dark` footer in light) |
 | `--color-burgundy` | `#800020` | Accent; theorem | Accent (light), theorem admonition, link hover (light) |
-| `--color-burgundy-light` | `#A33548` | Lighter burgundy | Reserved variant |
+| `--color-burgundy-light` | `#A33548` | Lighter burgundy | Theorem/danger admonition (dark); failure admonition (light) |
+| `--color-burgundy-lighter` | `#C97A86` | Softest burgundy | Failure admonition (dark) |
 | `--color-burgundy-dark` | `#5A0017` | Darker burgundy | Reserved variant |
-| `--color-thistle` | `#D8BFD8` | Soft violet tint | Accent in dark mode; link hover (dark) |
-| `--color-thistle-dark` | `#9B7FA7` | Definition; blockquote | Definition admonition border, blockquote accent (both schemes) |
-| `--color-navajo` | `#FFDEAD` | Warm tint; selection | Text-selection highlight, abstract admonition fill |
-| `--color-navajo-dark` | `#C9A55E` | Abstract accent | Abstract/summary admonition border (both schemes) |
+| `--color-thistle` | `#D8BFD8` | Soft violet tint | Accent in dark mode; link hover (dark); definition/example admonition (dark) |
+| `--color-thistle-dark` | `#9B7FA7` | Definition; blockquote | Definition/example admonition border, blockquote accent |
+| `--color-navajo` | `#FFDEAD` | Warm tint; selection | Text-selection highlight; abstract admonition (dark) |
+| `--color-navajo-dark` | `#C9A55E` | Abstract accent | Abstract/summary admonition border (light) |
 | `--color-sunset` | `#B87D6C` | Header | Site header (Material primary) in both schemes |
-| `--color-sunset-dark` | `#9E6657` | Darker sunset | Primary `--dark` variant |
-| `--color-sunset-light` | `#D5A496` | Lighter sunset | Primary `--light` variant |
+| `--color-sunset-dark` | `#9E6657` | Darker sunset | Primary `--dark` variant; question admonition (light) |
+| `--color-sunset-light` | `#D5A496` | Lighter sunset | Primary `--light` variant; question admonition (dark) |
+| `--color-sage` | `#7FA98A` | Positive/tip (light shade) | Tip/success admonition (dark) |
+| `--color-sage-dark` | `#4F7A5E` | Positive/tip (dark shade) | Tip/success admonition (light) |
+| `--color-amber` | `#E0A458` | Caution (light shade) | Warning admonition (dark) |
+| `--color-amber-dark` | `#B07A2E` | Caution (dark shade) | Warning admonition (light) |
 | `--color-good` | `#DCEFD8` | Outcome — sufficient | Decision-matrix `good` cell; flowchart `good` node |
 | `--color-escalate` | `#FFE9C2` | Outcome — escalate | Decision-matrix `escalate` cell; flowchart `escalate` node |
 | `--color-problem` | `#F2D9DE` | Outcome — problem | Decision-matrix `problem` cell; flowchart `problem` node |
+
+Admonition accents are consumed through scheme-aware `--adm-*` aliases (e.g. `--adm-burgundy`, `--adm-sage`) rather than the raw `--color-*` tokens directly; each alias resolves to a saturated shade in `default` and a lighter shade in `slate`. The one exception is `--adm-neutral` (quote/cite), which maps to the Material foreground token `--md-default-fg-color--light` in both schemes rather than a brand hue. See the [Admonitions component](#admonitions).
 
 Semantic role summary: header = Sunset; footer = Cerulean-dark (light) / Cerulean-deep (dark); body links = Cerulean; accent and theorem = Burgundy; definition and blockquote = Thistle-dark; abstract and text selection = Navajo.
 
@@ -111,18 +118,25 @@ Components are the reusable building blocks an author drops into a chapter. Each
 
 ### Admonitions
 
-The book uses four typed admonitions, each with a fixed colour and a fixed semantic role. The type word in the `!!! type "Title"` fence selects the styling.
+Every admonition is rendered as a **branded box**: a full 2px outline in the type's accent colour, rounded corners, and an accent-coloured title with an underrule and a type-specific icon. This is the same visual treatment as the [`.hypothesis-test` box](#hypothesis-test-and-decision-rule-boxes). The type word in the `!!! type "Title"` fence (or `??? type "Title"` for the collapsible form) selects both the colour and the icon. The whole Material type set is mapped to the brand palette, grouped into semantic families so related types share a colour and are told apart by their icon.
 
-| Type | Colour token | Semantic use |
+| Type(s) | Colour family | Semantic use |
 |---|---|---|
-| `theorem` | Burgundy (`--color-burgundy`, `#800020`) | Theorems, assumptions, propositions |
-| `definition` | Thistle (`--color-thistle-dark`, `#9B7FA7`) | Key concept definitions |
-| `note` | Cerulean (`--color-cerulean`, `#007BA7`) | Remarks and informational asides |
-| `abstract` | Navajo (`--color-navajo-dark`, `#C9A55E`) | Chapter and section summaries |
+| `note`, `info` | Cerulean | Remarks and informational asides |
+| `abstract`, `summary`, `tldr` | Navajo | Chapter and section overviews |
+| `theorem`\*, `danger`, `error`, `bug` | Burgundy | Formal results; critical alerts |
+| `failure`, `fail`, `missing` | Burgundy (soft) | Negative outcomes |
+| `definition`\*, `example` | Thistle | Definitions; worked examples |
+| `tip`, `hint`, `important`, `success`, `check`, `done` | Sage green | Guidance; positive confirmation |
+| `warning`, `caution`, `attention` | Amber | Cautions |
+| `question`, `help`, `faq` | Sunset (primary) | Prompts and open questions |
+| `quote`, `cite` | Neutral grey | Quotations |
 
-**Purpose.** Mark a block as a theorem, definition, remark, or summary, and signal its kind by colour and a labelled title bar.
+\* `theorem` and `definition` are custom (non-Material) types the book defines; the rest are Material built-ins.
 
-**When to use.** Choose the type by semantic role from the table, not by colour preference. Use `theorem` for any formal statement to be proved or assumed; `definition` for the first formal statement of a term; `note` for a remark; `abstract` for an overview block. Standard Material types (`warning`, `tip`, `example`) remain available for other purposes.
+**Purpose.** Mark a block by its kind and signal that kind by colour and icon. The academic core of the book is `theorem`, `definition`, `note`, and `abstract`; the remaining families cover the occasional tip, caution, or example.
+
+**When to use.** Choose the type by semantic role, not by colour preference. Use `theorem` for any formal statement to be proved or assumed; `definition` for the first formal statement of a term; `note` for a remark; `abstract` for an overview block. Prefer the specific type over a generic one so the colour and icon carry meaning.
 
 **Markup.**
 
@@ -137,9 +151,11 @@ The book uses four typed admonitions, each with a fixed colour and a fixed seman
     values within a chosen model class.
 ```
 
-**Rendered note.** The title bar carries a tinted background (the colour at 8–32% opacity) and the left border takes the full token colour. The `theorem` type reuses the Material `note` icon mask; `definition` reuses the `abstract` icon mask. Body text is set to `0.8rem` to match surrounding prose rather than the smaller Material default.
+**Rendered note.** The box takes a 2px border in the accent colour with a `0.5rem` radius and no shadow. The title is transparent (no filled bar), accent-coloured, and separated from the body by a 1px accent underrule; its icon is masked in the accent colour. `theorem` uses the Material `note` icon and `definition` the `abstract` icon; the other types keep Material's default per-type icons. Body text is `0.8rem` to match surrounding prose.
 
-**Do/don't.** Do select the type by meaning. Don't use `theorem` styling for a plain note because the colour is preferred, and don't omit the quoted title — the title bar is where the type reads.
+**Colour architecture.** Each type sets a single `--adm-accent` custom property (grouped by family in `extra.css`); the box border, title, underrule, and icon all read from it. The accent tokens (`--adm-cerulean`, `--adm-burgundy`, `--adm-sage`, …) resolve to saturated shades in the light scheme and lighter shades in the `slate` (dark) scheme, so titles and icons stay legible on both grounds. This is the single place scheme-dependent contrast is handled.
+
+**Do/don't.** Do select the type by meaning. Don't pick `theorem` styling for a plain note because the colour is preferred, and don't omit the quoted title — the title is where the type reads.
 
 ### `.hypothesis-test` and `.decision-rule` boxes
 
