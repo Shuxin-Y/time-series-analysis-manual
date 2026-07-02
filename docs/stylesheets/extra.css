@@ -32,6 +32,13 @@
   --color-good:            #DCEFD8;
   --color-escalate:        #FFE9C2;
   --color-problem:         #F2D9DE;
+
+  /* Sage (positive/tip) and Amber (caution) — muted shades for the branded
+   * admonition boxes; no green or standalone amber existed in the palette. */
+  --color-sage:            #7FA98A;
+  --color-sage-dark:       #4F7A5E;
+  --color-amber:           #E0A458;
+  --color-amber-dark:      #B07A2E;
 }
 
 /* Override Material primary/accent for light mode.
@@ -57,6 +64,18 @@
   --md-footer-fg-color:               rgba(255, 255, 255, 0.95);
   --md-footer-fg-color--light:        rgba(255, 255, 255, 0.75);
   --md-footer-fg-color--lighter:      rgba(255, 255, 255, 0.45);
+
+  /* Admonition accent colours (border + title + icon), per semantic family.
+   * Light mode uses the saturated shades for contrast on white. */
+  --adm-cerulean:      var(--color-cerulean);
+  --adm-burgundy:      var(--color-burgundy);
+  --adm-burgundy-soft: var(--color-burgundy-light);
+  --adm-thistle:       var(--color-thistle-dark);
+  --adm-navajo:        var(--color-navajo-dark);
+  --adm-sage:          var(--color-sage-dark);
+  --adm-amber:         var(--color-amber-dark);
+  --adm-sunset:        var(--color-sunset-dark);
+  --adm-neutral:       var(--md-default-fg-color--light);
 }
 
 /* Brighter variants for dark mode (Slate scheme) — sunset/ocean kept */
@@ -76,6 +95,17 @@
   --md-footer-fg-color:               rgba(255, 255, 255, 0.92);
   --md-footer-fg-color--light:        rgba(255, 255, 255, 0.70);
   --md-footer-fg-color--lighter:      rgba(255, 255, 255, 0.40);
+
+  /* Admonition accents — lighter shades for legibility on the dark ground. */
+  --adm-cerulean:      var(--color-cerulean-light);
+  --adm-burgundy:      var(--color-burgundy-light);
+  --adm-burgundy-soft: #c97a86;
+  --adm-thistle:       var(--color-thistle);
+  --adm-navajo:        var(--color-navajo);
+  --adm-sage:          var(--color-sage);
+  --adm-amber:         var(--color-amber);
+  --adm-sunset:        var(--color-sunset-light);
+  --adm-neutral:       var(--md-default-fg-color--light);
 }
 
 /* Selection — soft Navajo White */
@@ -169,72 +199,133 @@ code {
   line-height: 1.55;
 }
 
-/* Theorem admonition — Burgundy */
-.md-typeset .admonition.theorem,
-.md-typeset details.theorem {
-  border-left-color: var(--color-burgundy);
+/* ===== Admonitions as branded boxes ==========================================
+ * Every admonition (and its collapsible `details` form) is drawn as a full
+ * outlined box in the type's accent colour, with a coloured title and an
+ * underrule — the same treatment as the .hypothesis-test box. A single
+ * `--adm-accent` custom property, set per type below, drives the border, the
+ * title text, the underrule, and the icon; the base rules consume it. Icons
+ * are Material's per-type defaults (mask left untouched), except the two
+ * custom types (theorem, definition), whose masks are assigned here.
+ * See DESIGN-SYSTEM.md for the authoritative type -> colour + icon catalog.
+ * ============================================================================ */
+
+/* Box shape. Accent defaults to primary; each type overrides it below.
+ * `border-color` is re-stated per type to beat Material's `border-left-color`. */
+.md-typeset .admonition,
+.md-typeset details {
+  --adm-accent: var(--md-primary-fg-color);
+  border: 2px solid var(--adm-accent);
+  border-radius: 0.5rem;
+  box-shadow: none;
 }
 
-.md-typeset .theorem > .admonition-title,
-.md-typeset .theorem > summary {
-  background-color: rgba(128, 0, 32, 0.08);
+/* Title — transparent fill, accent-coloured text, accent underrule.
+ * Material's tinted title bar and left accent border are removed; the icon
+ * gutter (padding-left) is left intact so the glyph never overlaps the text. */
+.md-typeset .admonition > .admonition-title,
+.md-typeset details[class] > summary {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--adm-accent);
+  border-radius: 0;
+  color: var(--adm-accent);
 }
 
+/* Title icon takes the accent colour (Material's mask-image is preserved).
+ * The `[class]` qualifier lifts specificity above Material's per-type
+ * `.<type> > summary` rules, which would otherwise keep their tinted bar. */
+.md-typeset .admonition > .admonition-title::before,
+.md-typeset details[class] > summary::before {
+  background-color: var(--adm-accent);
+}
+
+/* --- Per-type accent assignments (grouped by semantic family) ------------- */
+
+/* Cerulean — informational */
+.md-typeset .admonition.note,      .md-typeset details.note,
+.md-typeset .admonition.info,      .md-typeset details.info {
+  --adm-accent: var(--adm-cerulean);
+  border-color: var(--adm-accent);
+}
+
+/* Navajo — overviews / summaries */
+.md-typeset .admonition.abstract,  .md-typeset details.abstract,
+.md-typeset .admonition.summary,   .md-typeset details.summary,
+.md-typeset .admonition.tldr,      .md-typeset details.tldr {
+  --adm-accent: var(--adm-navajo);
+  border-color: var(--adm-accent);
+}
+
+/* Burgundy — formal results and critical alerts */
+.md-typeset .admonition.theorem,   .md-typeset details.theorem,
+.md-typeset .admonition.danger,    .md-typeset details.danger,
+.md-typeset .admonition.error,     .md-typeset details.error,
+.md-typeset .admonition.bug,       .md-typeset details.bug {
+  --adm-accent: var(--adm-burgundy);
+  border-color: var(--adm-accent);
+}
+
+/* Burgundy (soft) — negative outcomes */
+.md-typeset .admonition.failure,   .md-typeset details.failure,
+.md-typeset .admonition.fail,      .md-typeset details.fail,
+.md-typeset .admonition.missing,   .md-typeset details.missing {
+  --adm-accent: var(--adm-burgundy-soft);
+  border-color: var(--adm-accent);
+}
+
+/* Thistle — definitions and worked examples */
+.md-typeset .admonition.definition, .md-typeset details.definition,
+.md-typeset .admonition.example,    .md-typeset details.example {
+  --adm-accent: var(--adm-thistle);
+  border-color: var(--adm-accent);
+}
+
+/* Sage — helpful guidance and positive confirmation */
+.md-typeset .admonition.tip,       .md-typeset details.tip,
+.md-typeset .admonition.hint,      .md-typeset details.hint,
+.md-typeset .admonition.important, .md-typeset details.important,
+.md-typeset .admonition.success,   .md-typeset details.success,
+.md-typeset .admonition.check,     .md-typeset details.check,
+.md-typeset .admonition.done,      .md-typeset details.done {
+  --adm-accent: var(--adm-sage);
+  border-color: var(--adm-accent);
+}
+
+/* Amber — caution */
+.md-typeset .admonition.warning,   .md-typeset details.warning,
+.md-typeset .admonition.caution,   .md-typeset details.caution,
+.md-typeset .admonition.attention, .md-typeset details.attention {
+  --adm-accent: var(--adm-amber);
+  border-color: var(--adm-accent);
+}
+
+/* Sunset — prompts and open questions */
+.md-typeset .admonition.question,  .md-typeset details.question,
+.md-typeset .admonition.help,      .md-typeset details.help,
+.md-typeset .admonition.faq,       .md-typeset details.faq {
+  --adm-accent: var(--adm-sunset);
+  border-color: var(--adm-accent);
+}
+
+/* Neutral — quotations */
+.md-typeset .admonition.quote,     .md-typeset details.quote,
+.md-typeset .admonition.cite,      .md-typeset details.cite {
+  --adm-accent: var(--adm-neutral);
+  border-color: var(--adm-accent);
+}
+
+/* Custom-type icons (Material has no default mask for theorem/definition). */
 .md-typeset .theorem > .admonition-title::before,
 .md-typeset .theorem > summary::before {
-  background-color: var(--color-burgundy);
   -webkit-mask-image: var(--md-admonition-icon--note);
   mask-image: var(--md-admonition-icon--note);
 }
 
-/* Definition admonition — Thistle */
-.md-typeset .admonition.definition,
-.md-typeset details.definition {
-  border-left-color: var(--color-thistle-dark);
-}
-
-.md-typeset .definition > .admonition-title,
-.md-typeset .definition > summary {
-  background-color: rgba(216, 191, 216, 0.28);
-}
-
 .md-typeset .definition > .admonition-title::before,
 .md-typeset .definition > summary::before {
-  background-color: var(--color-thistle-dark);
   -webkit-mask-image: var(--md-admonition-icon--abstract);
   mask-image: var(--md-admonition-icon--abstract);
-}
-
-/* Note / Remark admonition — Cerulean (informational, cool) */
-.md-typeset .admonition.note,
-.md-typeset details.note {
-  border-left-color: var(--color-cerulean);
-}
-
-.md-typeset .note > .admonition-title,
-.md-typeset .note > summary {
-  background-color: rgba(0, 123, 167, 0.08);
-}
-
-.md-typeset .note > .admonition-title::before,
-.md-typeset .note > summary::before {
-  background-color: var(--color-cerulean);
-}
-
-/* Abstract / Summary admonition — Navajo White (warm overview) */
-.md-typeset .admonition.abstract,
-.md-typeset details.abstract {
-  border-left-color: var(--color-navajo-dark);
-}
-
-.md-typeset .abstract > .admonition-title,
-.md-typeset .abstract > summary {
-  background-color: rgba(255, 222, 173, 0.32);
-}
-
-.md-typeset .abstract > .admonition-title::before,
-.md-typeset .abstract > summary::before {
-  background-color: var(--color-navajo-dark);
 }
 
 /* ===== Mathematical Content ===== */
@@ -340,11 +431,25 @@ code {
   background: var(--md-default-bg-color);
   border: 2px solid var(--md-primary-fg-color);
   border-radius: 0.5rem;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   margin: 1.5rem 0;
 }
 
-.hypothesis-test h4 {
+/* Collapse the first/last child margins so the box's vertical padding alone
+   sets the top and bottom whitespace, keeping them symmetric (the last child,
+   e.g. .decision-rule, otherwise adds its margin-bottom on top of the padding).
+   Scoped under .md-typeset to out-specify the generic heading/element rules. */
+.md-typeset .hypothesis-test > :first-child {
+  margin-top: 0;
+}
+
+.md-typeset .hypothesis-test > :last-child {
+  margin-bottom: 0;
+}
+
+/* Scoped under .md-typeset so this margin-top override out-specifies the
+   generic `.md-typeset h4` typography rule defined later in this file. */
+.md-typeset .hypothesis-test h4 {
   margin-top: 0;
   color: var(--md-primary-fg-color);
   border-bottom: 1px solid var(--md-primary-fg-color);
