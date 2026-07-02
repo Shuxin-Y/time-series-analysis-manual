@@ -346,29 +346,22 @@ classDef ref fill:#FFFFFF,stroke:#999999,color:#000000,stroke-dasharray:4 3;
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    START([Time-stamped data]) --> PLOT[Plot series<br/>Inspect raw ACF]
-    PLOT --> ROOT_TEST[Run ADF + KPSS]
-    ROOT_TEST --> UNITROOT{Unit root?}
-    UNITROOT -->|Yes| DIFF[Difference the series]
-    UNITROOT -->|No| FEATURES[Identify structure:<br/>seasonality, trend,<br/>regime breaks]
+    START(["Time-stamped data"]) --> PLOT["Plot series<br/>Inspect raw ACF"]
+    PLOT --> ROOT_TEST["Run ADF + KPSS"]
+    ROOT_TEST --> UNITROOT{"Unit root?"}
+    UNITROOT -->|Yes| DIFF["Difference the series"]
+    UNITROOT -->|No| FEATURES["Identify structure:<br/>seasonality, trend,<br/>regime breaks"]
     DIFF --> FEATURES
-    FEATURES --> FIT[Fit regression by OLS:<br/>dummies, trend, flags]
-    FIT --> DIAG[Residual diagnostics:<br/>ACF + Ljung-Box]
-    DIAG --> RESID{Residuals i.i.d.?}
-    RESID -->|No| GOAL{Goal?}
-    RESID -->|Yes| SQ_TEST[Test squared residuals]
-    SQ_TEST --> SQACF{Variance<br/>autocorrelated?}
-    SQACF -->|No| OLSOK[Model: linear regression<br/>with i.i.d. errors<br/>Estimator: OLS]
-    SQACF -->|Yes| GARCH[Model: regression mean<br/>+ GARCH variance<br/>Estimator: joint MLE]
-    GOAL -->|Inference,<br/>mild autocorrelation| HAC[Model: linear regression<br/>Estimator: OLS<br/>Inference: HAC SEs]
-    GOAL -->|Forecasting or<br/>persistent autocorrelation| TS[Model: regression + ARMA errors<br/>Estimator: MLE]
-
-    class START terminator
-    class PLOT,ROOT_TEST,DIFF,FEATURES,FIT,DIAG,SQ_TEST process
-    class UNITROOT,RESID,GOAL,SQACF decision
-    class OLSOK good
-    class GARCH,HAC escalate
-    class TS problem
+    FEATURES --> FIT["Fit regression by OLS:<br/>dummies, trend, flags"]
+    FIT --> DIAG["Residual diagnostics:<br/>ACF + Ljung-Box"]
+    DIAG --> RESID{"Residuals i.i.d.?"}
+    RESID -->|No| GOAL{"Goal?"}
+    RESID -->|Yes| SQ_TEST["Test squared residuals"]
+    SQ_TEST --> SQACF{"Variance<br/>autocorrelated?"}
+    SQACF -->|No| OLSOK["Model: linear regression<br/>with i.i.d. errors<br/>Estimator: OLS"]
+    SQACF -->|Yes| GARCH["Model: regression mean<br/>+ GARCH variance<br/>Estimator: joint MLE"]
+    GOAL -->|"Inference,<br/>mild autocorrelation"| HAC["Model: linear regression<br/>Estimator: OLS<br/>Inference: HAC SEs"]
+    GOAL -->|"Forecasting or<br/>persistent autocorrelation"| TS["Model: regression + ARMA errors<br/>Estimator: MLE"]
 
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -376,6 +369,13 @@ graph TD
     classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
     classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
     classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+
+    class START terminator
+    class PLOT,ROOT_TEST,DIFF,FEATURES,FIT,DIAG,SQ_TEST process
+    class UNITROOT,RESID,GOAL,SQACF decision
+    class OLSOK good
+    class GARCH,HAC escalate
+    class TS problem
 ```
 
 **Rules.**
@@ -387,6 +387,7 @@ graph TD
 - **Direction.** Use `TD` for decision workflows and `LR` for sequences.
 - **Node IDs.** Use `SCREAMING_SNAKE_CASE`, semantic rather than `A`/`B`.
 - **Applying classes.** Assign classes with `class <ID>[,<ID>...] <className>` statements after the edges, not the inline `:::className` shorthand. The statement form is the most compatible across the Mermaid 10.x renderer the site loads; the inline shorthand on shaped, edge-chained nodes can raise a parse error there.
+- **Quote every label.** Wrap all node and edge labels in double quotes, as in `OK["Model: OLS"]` and `-->|"Yes, persistent"|`. Characters such as `+`, `:`, `(`, and `,` raise a parse error in the Mermaid 10.x renderer the site loads when the label is unquoted; quoting is unconditional so the rule never has to be reconsidered per label.
 - **Text.** No emojis; use `<br/>` for line breaks; outcome terminals name **model → estimator → inference** in that order.
 - **Accessibility.** Type is encoded by shape first, colour reinforces, and the outcome category is also stated in the node text, so colour is never the sole signal (WCAG 1.4.1).
 
@@ -448,10 +449,10 @@ savefig.transparent: False
 # Inter matches the book's body typeface; registered by brand.py from assets/fonts/.
 font.family: sans-serif
 font.sans-serif: Inter, Helvetica Neue, Arial, DejaVu Sans
-font.size: 11
-axes.titlesize: 13
+font.size: 7.5
+axes.titlesize: 9.5
 axes.titleweight: bold
-axes.labelsize: 11
+axes.labelsize: 8
 
 axes.spines.top: False
 axes.spines.right: False
@@ -476,6 +477,8 @@ brand.use_brand_style("cb")    # colorblind-safe (Okabe-Ito) palette
 ```
 
 The helper drives the book's own figure-generation pipeline, which produces the committed PNG and SVG figures. Code copy-pasted by a reader is illustrative and is not expected to import this module.
+
+**Display width.** Figures are authored at 7 inches wide. Browsers ignore the 300-dpi metadata for layout, so an unconstrained raster fills the whole content column and scales its embedded type up past the body text on wide screens. The figure rule in `extra.css` therefore caps the *displayed* width to the design width (`max-width: min(100%, 42rem)`, ~7 in) and centres the image, so the figure's 11 pt type renders at body size. This is a display-layer rule and does not change the figure files; regeneration is unaffected.
 
 **Mermaid.** Diagrams use the `classDef` sets from the decision-flowchart notation above, replacing any ad-hoc `fill:` styling.
 

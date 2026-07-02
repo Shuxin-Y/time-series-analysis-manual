@@ -17,6 +17,11 @@
       startOnLoad: false,
       theme: 'default',
       securityLevel: 'loose',
+      // Do not inject Mermaid's "bomb" error SVG into the DOM on a parse error.
+      // Without this, mermaid.render() appends the error graphic to <body>
+      // (outside the content container), so it lands at the page bottom. Errors
+      // are still thrown to the catch handler below and logged to the console.
+      suppressErrorRendering: true,
       flowchart: {
         useMaxWidth: true,
         htmlLabels: true,
@@ -24,8 +29,20 @@
       }
     });
 
+    // Remove any orphaned Mermaid artifacts left directly on <body> by a prior
+    // failed render (the error SVG / temp measurement node). Real diagrams live
+    // inside .mermaid-container within the content, never as a direct body child,
+    // so this selector cannot touch them.
+    function clearOrphanedArtifacts() {
+      document
+        .querySelectorAll('body > svg[id^="mermaid-"], body > [id^="dmermaid-"]')
+        .forEach(node => node.remove());
+    }
+
     // Function to render diagrams
     function renderDiagrams() {
+      clearOrphanedArtifacts();
+
       // Handle multiple possible selectors:
       // - <code class="mermaid">
       // - <div class="mermaid">

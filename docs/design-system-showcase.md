@@ -121,20 +121,20 @@ Brand palette:
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    START([Time-stamped data]) --> ROOT_TEST[Run ADF + KPSS]
-    ROOT_TEST --> UNITROOT{Unit root?}
-    UNITROOT -->|Yes| DIFF[Difference the series]
-    UNITROOT -->|No| OK[Model: OLS<br/>Estimator: OLS]
-
-    class START terminator
-    class ROOT_TEST,DIFF process
-    class UNITROOT decision
-    class OK good
+    START(["Time-stamped data"]) --> ROOT_TEST["Run ADF + KPSS"]
+    ROOT_TEST --> UNITROOT{"Unit root?"}
+    UNITROOT -->|Yes| DIFF["Difference the series"]
+    UNITROOT -->|No| OK["Model: OLS<br/>Estimator: OLS"]
 
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
     classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+
+    class START terminator
+    class ROOT_TEST,DIFF process
+    class UNITROOT decision
+    class OK good
 ```
 
 Colorblind-safe palette (same diagram):
@@ -142,20 +142,20 @@ Colorblind-safe palette (same diagram):
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    START([Time-stamped data]) --> ROOT_TEST[Run ADF + KPSS]
-    ROOT_TEST --> UNITROOT{Unit root?}
-    UNITROOT -->|Yes| DIFF[Difference the series]
-    UNITROOT -->|No| OK[Model: OLS<br/>Estimator: OLS]
-
-    class START terminator
-    class ROOT_TEST,DIFF process
-    class UNITROOT decision
-    class OK good
+    START(["Time-stamped data"]) --> ROOT_TEST["Run ADF + KPSS"]
+    ROOT_TEST --> UNITROOT{"Unit root?"}
+    UNITROOT -->|Yes| DIFF["Difference the series"]
+    UNITROOT -->|No| OK["Model: OLS<br/>Estimator: OLS"]
 
     classDef terminator fill:#56B4E9,stroke:#005A7A,color:#000000;
     classDef process fill:#FFFFFF,stroke:#000000,color:#000000;
     classDef decision fill:#0072B2,stroke:#003D5C,color:#FFFFFF;
     classDef good fill:#009E73,stroke:#005A41,color:#FFFFFF;
+
+    class START terminator
+    class ROOT_TEST,DIFF process
+    class UNITROOT decision
+    class OK good
 ```
 
 ## Static figures
