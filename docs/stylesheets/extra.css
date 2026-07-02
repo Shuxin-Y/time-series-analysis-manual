@@ -568,3 +568,16 @@ code {
 [data-md-color-scheme="slate"] .md-typeset table.decision-matrix td.good     { background: rgba(76, 122, 63, 0.30); }
 [data-md-color-scheme="slate"] .md-typeset table.decision-matrix td.escalate { background: rgba(201, 165, 94, 0.30); }
 [data-md-color-scheme="slate"] .md-typeset table.decision-matrix td.problem  { background: rgba(128, 0, 32, 0.28); }
+
+/* ===== Figure display width =====
+   Matplotlib figures are authored at 7 in wide. Browsers ignore the 300-dpi
+   metadata for layout and would let the raster fill the whole content column,
+   scaling its embedded type up past the body text on wide screens. Cap the
+   displayed width to the figure's design width (7 in ~= 42rem) so its type
+   renders at the authored size rather than scaling up past the body text, and
+   centre it. Stays responsive via min(). */
+.md-typeset img {
+  max-width: min(100%, 42rem);
+  display: block;
+  margin-inline: auto;
+}

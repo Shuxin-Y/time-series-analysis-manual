@@ -1,6 +1,6 @@
 # Design System — Time Series Analysis Manual
 
-**Version:** 1.0
+**Version:** 1.1
 
 This document is the single source of truth for the book's *appearance*: the brand tokens, typography, components, and composition patterns that every chapter shares.
 
@@ -346,22 +346,22 @@ classDef ref fill:#FFFFFF,stroke:#999999,color:#000000,stroke-dasharray:4 3;
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    START([Time-stamped data]):::terminator --> PLOT[Plot series<br/>Inspect raw ACF]:::process
-    PLOT --> ROOT_TEST[Run ADF + KPSS]:::process
-    ROOT_TEST --> UNITROOT{Unit root?}:::decision
-    UNITROOT -->|Yes| DIFF[Difference the series]:::process
-    UNITROOT -->|No| FEATURES[Identify structure:<br/>seasonality, trend,<br/>regime breaks]:::process
+    START(["Time-stamped data"]) --> PLOT["Plot series<br/>Inspect raw ACF"]
+    PLOT --> ROOT_TEST["Run ADF + KPSS"]
+    ROOT_TEST --> UNITROOT{"Unit root?"}
+    UNITROOT -->|"Yes"| DIFF["Difference the series"]
+    UNITROOT -->|"No"| FEATURES["Identify structure:<br/>seasonality, trend,<br/>regime breaks"]
     DIFF --> FEATURES
-    FEATURES --> FIT[Fit regression by OLS:<br/>dummies, trend, flags]:::process
-    FIT --> DIAG[Residual diagnostics:<br/>ACF + Ljung-Box]:::process
-    DIAG --> RESID{Residuals i.i.d.?}:::decision
-    RESID -->|No| GOAL{Goal?}:::decision
-    RESID -->|Yes| SQ_TEST[Test squared residuals]:::process
-    SQ_TEST --> SQACF{Variance<br/>autocorrelated?}:::decision
-    SQACF -->|No| OLSOK[Model: linear regression<br/>with i.i.d. errors<br/>Estimator: OLS]:::good
-    SQACF -->|Yes| GARCH[Model: regression mean<br/>+ GARCH variance<br/>Estimator: joint MLE]:::escalate
-    GOAL -->|Inference,<br/>mild autocorrelation| HAC[Model: linear regression<br/>Estimator: OLS<br/>Inference: HAC SEs]:::escalate
-    GOAL -->|Forecasting or<br/>persistent autocorrelation| TS[Model: regression + ARMA errors<br/>Estimator: MLE]:::problem
+    FEATURES --> FIT["Fit regression by OLS:<br/>dummies, trend, flags"]
+    FIT --> DIAG["Residual diagnostics:<br/>ACF + Ljung-Box"]
+    DIAG --> RESID{"Residuals i.i.d.?"}
+    RESID -->|"No"| GOAL{"Goal?"}
+    RESID -->|"Yes"| SQ_TEST["Test squared residuals"]
+    SQ_TEST --> SQACF{"Variance<br/>autocorrelated?"}
+    SQACF -->|"No"| OLSOK["Model: linear regression<br/>with i.i.d. errors<br/>Estimator: OLS"]
+    SQACF -->|"Yes"| GARCH["Model: regression mean<br/>+ GARCH variance<br/>Estimator: joint MLE"]
+    GOAL -->|"Inference,<br/>mild autocorrelation"| HAC["Model: linear regression<br/>Estimator: OLS<br/>Inference: HAC SEs"]
+    GOAL -->|"Forecasting or<br/>persistent autocorrelation"| TS["Model: regression + ARMA errors<br/>Estimator: MLE"]
 
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -369,6 +369,13 @@ graph TD
     classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
     classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
     classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+
+    class START terminator
+    class PLOT,ROOT_TEST,DIFF,FEATURES,FIT,DIAG,SQ_TEST process
+    class UNITROOT,RESID,GOAL,SQACF decision
+    class OLSOK good
+    class GARCH,HAC escalate
+    class TS problem
 ```
 
 **Rules.**
@@ -379,6 +386,8 @@ graph TD
 - **Edge-type semantics.** `-->` is primary flow; `-.->` is optional, secondary, or feedback flow; `==>` is the highlighted main route. Decision branches are always labelled, as in `-->|Yes|`.
 - **Direction.** Use `TD` for decision workflows and `LR` for sequences.
 - **Node IDs.** Use `SCREAMING_SNAKE_CASE`, semantic rather than `A`/`B`.
+- **Applying classes.** Assign classes with `class <ID>[,<ID>...] <className>` statements after the edges, not the inline `:::className` shorthand. The statement form is the most compatible across the Mermaid 10.x renderer the site loads; the inline shorthand on shaped, edge-chained nodes can raise a parse error there.
+- **Quote every label.** Wrap all node and edge labels in double quotes, as in `OK["Model: OLS"]` and `-->|"Yes, persistent"|`. Characters such as `+`, `:`, `(`, and `,` raise a parse error in the Mermaid 10.x renderer the site loads when the label is unquoted; quoting is unconditional so the rule never has to be reconsidered per label.
 - **Text.** No emojis; use `<br/>` for line breaks; outcome terminals name **model → estimator → inference** in that order.
 - **Accessibility.** Type is encoded by shape first, colour reinforces, and the outcome category is also stated in the node text, so colour is never the sole signal (WCAG 1.4.1).
 
@@ -421,7 +430,7 @@ Tables receive the same predetermined treatment as figures. The book uses five t
 
 Static figures share one palette and one matplotlib style so the book's charts are visually consistent.
 
-**Default palette (brand-derived).** The categorical cycle is Cerulean `#007BA7`, Burgundy `#800020`, Thistle-dark `#9B7FA7`, Navajo-dark `#C9A55E`, and Sunset `#B87D6C`. Sequential data uses a single-hue Cerulean ramp. Semantic encoding uses sage, amber, and Burgundy — the same `good`, `escalate`, and `problem` fills used in flowcharts and decision matrices.
+**Default palette (brand-derived).** The categorical cycle is Cerulean `#007BA7`, Burgundy `#800020`, Thistle-dark `#9B7FA7`, Navajo-dark `#C9A55E`, and Sunset `#B87D6C`. Sequential data uses a single-hue Cerulean ramp (white → `#007BA7` → `#003D5C`, exposed as `brand.cerulean_cmap()`). Semantic encoding uses sage, amber, and Burgundy — the same `good`, `escalate`, and `problem` fills used in flowcharts and decision matrices.
 
 **Colorblind-safe categorical cycle (Okabe–Ito).** `#E69F00`, `#56B4E9`, `#009E73`, `#F0E442`, `#0072B2`, `#D55E00`, `#CC79A7`, `#000000`.
 
@@ -433,24 +442,26 @@ Static figures share one palette and one matplotlib style so the book's charts a
 
 figure.figsize: 7.0, 4.0
 figure.dpi: 150
-savefig.dpi: 150
+savefig.dpi: 300
 savefig.bbox: tight
 savefig.transparent: False
 
+# Inter matches the book's body typeface; registered by brand.py from assets/fonts/.
 font.family: sans-serif
-font.size: 11
-axes.titlesize: 13
+font.sans-serif: Inter, Helvetica Neue, Arial, DejaVu Sans
+font.size: 7.5
+axes.titlesize: 9.5
 axes.titleweight: bold
-axes.labelsize: 11
+axes.labelsize: 8
 
 axes.spines.top: False
 axes.spines.right: False
 axes.grid: True
 axes.axisbelow: True
-grid.color: E0E0E0
-grid.linewidth: 0.8
+grid.color: E6E6E6
+grid.linewidth: 0.5
 
-lines.linewidth: 1.8
+lines.linewidth: 1.3
 legend.frameon: False
 
 axes.prop_cycle: cycler('color', ['007BA7', '800020', '9B7FA7', 'C9A55E', 'B87D6C'])
@@ -466,6 +477,8 @@ brand.use_brand_style("cb")    # colorblind-safe (Okabe-Ito) palette
 ```
 
 The helper drives the book's own figure-generation pipeline, which produces the committed PNG and SVG figures. Code copy-pasted by a reader is illustrative and is not expected to import this module.
+
+**Display width.** Figures are authored at 7 inches wide. Browsers ignore the 300-dpi metadata for layout, so an unconstrained raster fills the whole content column and scales its embedded type up past the body text on wide screens. The figure rule in `extra.css` therefore caps the *displayed* width to the design width (`max-width: min(100%, 42rem)`, ~7 in) and centres the image, so the figure's type renders at its authored size rather than scaling up past the body text on wide screens. This is a display-layer rule and does not change the figure files; regeneration is unaffected.
 
 **Mermaid.** Diagrams use the `classDef` sets from the decision-flowchart notation above, replacing any ad-hoc `fill:` styling.
 
@@ -543,9 +556,13 @@ The following items are documented but deliberately not addressed in version 1.0
 
 - Existing Mermaid diagrams in the chapters still use ad-hoc `fill:` styling; migrating them to the `classDef` sets is a follow-up task.
 - No logo, favicon, or social-card artwork exists yet; the specification is reserved above.
-- A published "kitchen-sink" showcase page is intentionally omitted because this document is unpublished. Revisit it if a living demo is wanted.
+- A published, living "kitchen-sink" demo of every component, pattern, and figure style exists at `docs/design-system-showcase.md` (nav: *Design System Showcase*). Keep it in sync when components change.
 
 ## Changelog
+
+### 1.1 — 2026-06-29
+
+Add the published *Design System Showcase* page (`docs/design-system-showcase.md`) — a living demo of every component, pattern, and figure style — plus `scripts/generate_showcase_figures.py` for its sample figures. Figure style refined to match the book: bundled Inter typeface (`assets/fonts/`, registered by `brand.py`), 300 dpi output, and lighter lines/grid. Flowchart notation now assigns classes with `class` statements instead of the inline `:::` shorthand for Mermaid 10.x compatibility.
 
 ### 1.0 — 2026-06-29
 

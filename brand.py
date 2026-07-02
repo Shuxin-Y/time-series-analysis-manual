@@ -14,9 +14,19 @@ from pathlib import Path
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 from cycler import cycler
 
-_STYLE = Path(__file__).resolve().parent / "docs" / "assets" / "brand.mplstyle"
+_ROOT = Path(__file__).resolve().parent
+_STYLE = _ROOT / "docs" / "assets" / "brand.mplstyle"
+
+# Register the bundled Inter faces (the book's body typeface) so figures use Inter
+# regardless of what is installed system-wide, and so regeneration is reproducible.
+for _ttf in sorted((_ROOT / "assets" / "fonts" / "inter").glob("*.ttf")):
+    try:
+        font_manager.fontManager.addfont(str(_ttf))
+    except Exception:  # pragma: no cover - font registration is best-effort
+        pass
 
 # The brand colour cycle is defined once, in brand.mplstyle (its single source of
 # truth). Only the colorblind-safe cycle lives here, because it is a per-call
@@ -25,6 +35,18 @@ _CB_CYCLE = [
     "#E69F00", "#56B4E9", "#009E73", "#F0E442",
     "#0072B2", "#D55E00", "#CC79A7", "#000000",
 ]
+
+# Single-hue Cerulean ramp for sequential data (heatmaps, densities): white ->
+# Cerulean -> deep Cerulean. The endpoints are the brand's --color-cerulean and
+# --color-cerulean-deep tokens; this is the single Python-side home for the ramp
+# so figure scripts import it rather than re-hardcoding brand hex.
+CERULEAN_RAMP = ["#FFFFFF", "#007BA7", "#003D5C"]
+
+
+def cerulean_cmap():
+    """Return the single-hue Cerulean sequential colormap (white -> deep cerulean)."""
+    from matplotlib.colors import LinearSegmentedColormap
+    return LinearSegmentedColormap.from_list("cerulean", CERULEAN_RAMP)
 
 
 def use_brand_style(palette: str = "brand") -> None:

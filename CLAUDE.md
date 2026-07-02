@@ -35,6 +35,8 @@ All three systems are SPA-aware, hooking into Material theme's `document$.subscr
 - `docs/stylesheets/extra.css` — Custom admonitions: `theorem` (purple), `definition` (teal). Hypothesis test boxes. Mermaid centering.
 - `docs/stylesheets/glossary.css` — Drawer panel, overlay, animations.
 
+These files are the runtime source of truth for tokens and components; `DESIGN-SYSTEM.md` (repo root) is their authoritative catalog. See Content Conventions below and the design system's Governance tier for the catalog-vs-implementation relationship.
+
 ## Content Conventions
 
 - **No emojis** in content or diagrams
