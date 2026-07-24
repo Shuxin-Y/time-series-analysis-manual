@@ -1,0 +1,567 @@
+/* ==========================================================================
+   Time Series Analysis Manual — design system stylesheet
+   Tokens and component styles. Mirrors DESIGN-SYSTEM.md and
+   docs/stylesheets/extra.css. Theme-aware: dark mode via prefers-color-scheme
+   and an explicit :root[data-theme="dark"|"light"] override.
+   ========================================================================== */
+
+/* ---- Fonts --------------------------------------------------------------- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/Inter-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/Inter-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/SourceSerif4-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/SourceSerif4-Semibold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/SourceSerif4-Bold.ttf") format("truetype");
+}
+
+/* ---- Foundation tokens (light) ------------------------------------------ */
+:root {
+  /* Brand palette */
+  --color-cerulean: #007ba7;
+  --color-cerulean-light: #4da8c9;
+  --color-cerulean-dark: #005a7a;
+  --color-cerulean-deep: #003d5c;
+  --color-burgundy: #800020;
+  --color-burgundy-light: #a33548;
+  --color-burgundy-lighter: #c97a86;
+  --color-burgundy-dark: #5a0017;
+  --color-thistle: #d8bfd8;
+  --color-thistle-dark: #9b7fa7;
+  --color-navajo: #ffdead;
+  --color-navajo-dark: #c9a55e;
+  --color-sunset: #b87d6c;
+  --color-sunset-dark: #9e6657;
+  --color-sunset-light: #d5a496;
+  --color-sage: #7fa98a;
+  --color-sage-dark: #4f7a5e;
+  --color-amber: #e0a458;
+  --color-amber-dark: #b07a2e;
+  --color-good: #dcefd8;
+  --color-escalate: #ffe9c2;
+  --color-problem: #f2d9de;
+
+  /* Typography */
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: Inter, "Helvetica Neue", Arial, sans-serif;
+  --body-line-height: 1.75;
+  --body-size: max(0.8rem, 14px);
+
+  /* Spacing & shape */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --radius-box: 0.5rem;
+  --radius-control: 0.375rem;
+
+  /* Semantic surface tokens (light scheme) */
+  --tsam-bg: #ffffff;
+  --tsam-surface: #ffffff;
+  --tsam-surface-sunken: #f7f7f7;
+  --tsam-fg: #1a1a1a;
+  --tsam-fg-muted: #5a6b73;
+  --tsam-border: #e0e0e0;
+  --tsam-primary: var(--color-sunset);
+  --tsam-primary-strong: var(--color-sunset-dark);
+  --tsam-link: var(--color-cerulean);
+  --tsam-accent: var(--color-burgundy);
+
+  /* Admonition accent aliases (saturated in light) */
+  --adm-cerulean: var(--color-cerulean);
+  --adm-navajo: var(--color-navajo-dark);
+  --adm-burgundy: var(--color-burgundy);
+  --adm-burgundy-soft: var(--color-burgundy-light);
+  --adm-thistle: var(--color-thistle-dark);
+  --adm-sage: var(--color-sage-dark);
+  --adm-amber: var(--color-amber-dark);
+  --adm-sunset: var(--color-sunset-dark);
+  --adm-neutral: var(--tsam-fg-muted);
+}
+
+/* ---- Dark scheme overrides ---------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tsam-bg: #1b1c1f;
+    --tsam-surface: #26272b;
+    --tsam-surface-sunken: #202124;
+    --tsam-fg: #e8e8ea;
+    --tsam-fg-muted: #a7b0b5;
+    --tsam-border: #3a3b40;
+    --tsam-link: var(--color-cerulean-light);
+    --tsam-accent: var(--color-thistle);
+
+    --adm-cerulean: var(--color-cerulean-light);
+    --adm-navajo: var(--color-navajo);
+    --adm-burgundy: var(--color-burgundy-light);
+    --adm-burgundy-soft: var(--color-burgundy-lighter);
+    --adm-thistle: var(--color-thistle);
+    --adm-sage: var(--color-sage);
+    --adm-amber: var(--color-amber);
+    --adm-sunset: var(--color-sunset-light);
+    --adm-neutral: #a7b0b5;
+  }
+}
+/* Explicit dark override on any element (the Root wrapper stamps data-theme on
+   a div, not on :root; custom properties then inherit to its subtree). */
+[data-theme="dark"] {
+  --tsam-bg: #1b1c1f;
+  --tsam-surface: #26272b;
+  --tsam-surface-sunken: #202124;
+  --tsam-fg: #e8e8ea;
+  --tsam-fg-muted: #a7b0b5;
+  --tsam-border: #3a3b40;
+  --tsam-link: var(--color-cerulean-light);
+  --tsam-accent: var(--color-thistle);
+
+  --adm-cerulean: var(--color-cerulean-light);
+  --adm-navajo: var(--color-navajo);
+  --adm-burgundy: var(--color-burgundy-light);
+  --adm-burgundy-soft: var(--color-burgundy-lighter);
+  --adm-thistle: var(--color-thistle);
+  --adm-sage: var(--color-sage);
+  --adm-amber: var(--color-amber);
+  --adm-sunset: var(--color-sunset-light);
+  --adm-neutral: #a7b0b5;
+}
+
+/* Re-assert light tokens for an explicitly-light island inside a dark page. */
+[data-theme="light"] {
+  --tsam-bg: #ffffff;
+  --tsam-surface: #ffffff;
+  --tsam-surface-sunken: #f7f7f7;
+  --tsam-fg: #1a1a1a;
+  --tsam-fg-muted: #5a6b73;
+  --tsam-border: #e0e0e0;
+  --tsam-link: var(--color-cerulean);
+  --tsam-accent: var(--color-burgundy);
+
+  --adm-cerulean: var(--color-cerulean);
+  --adm-navajo: var(--color-navajo-dark);
+  --adm-burgundy: var(--color-burgundy);
+  --adm-burgundy-soft: var(--color-burgundy-light);
+  --adm-thistle: var(--color-thistle-dark);
+  --adm-sage: var(--color-sage-dark);
+  --adm-amber: var(--color-amber-dark);
+  --adm-sunset: var(--color-sunset-dark);
+  --adm-neutral: var(--tsam-fg-muted);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+.tsam-root {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: var(--body-line-height);
+  color: var(--tsam-fg);
+  background: var(--tsam-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "calt", "ss01";
+}
+.tsam-root *,
+.tsam-root *::before,
+.tsam-root *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Heading
+   ========================================================================== */
+.tsam-heading {
+  font-family: var(--font-display);
+  color: var(--tsam-fg);
+  margin: 0 0 0.5em;
+  font-feature-settings: "kern", "liga", "onum";
+}
+.tsam-heading--1 {
+  font-size: 2.25em;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.tsam-heading--2 {
+  font-size: 1.625em;
+  font-weight: 700;
+  line-height: 1.3;
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--tsam-border);
+}
+.tsam-heading--3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.tsam-heading--4 {
+  font-family: var(--font-body);
+  font-size: 1.05em;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Button
+   ========================================================================== */
+.tsam-btn {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  font-weight: 600;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0.65em 1.15em;
+  border-radius: var(--radius-control);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+.tsam-btn:disabled,
+.tsam-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.tsam-btn--primary {
+  background: var(--tsam-primary);
+  color: #ffffff;
+}
+.tsam-btn--primary:hover:not(:disabled) {
+  background: var(--tsam-primary-strong);
+}
+.tsam-btn--secondary {
+  background: var(--color-cerulean);
+  color: #ffffff;
+}
+.tsam-btn--secondary:hover:not(:disabled) {
+  background: var(--color-cerulean-dark);
+}
+.tsam-btn--outline {
+  background: transparent;
+  color: var(--tsam-accent);
+  border-color: var(--tsam-accent);
+}
+.tsam-btn--outline:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--tsam-accent) 12%, transparent);
+}
+.tsam-btn--ghost {
+  background: transparent;
+  color: var(--tsam-link);
+}
+.tsam-btn--ghost:hover:not(:disabled) {
+  background: var(--tsam-surface-sunken);
+}
+.tsam-btn--sm {
+  padding: 0.4em 0.8em;
+  font-size: 0.85em;
+}
+.tsam-btn--lg {
+  padding: 0.8em 1.5em;
+  font-size: 1.05em;
+}
+
+/* ==========================================================================
+   Card
+   ========================================================================== */
+.tsam-card {
+  background: var(--tsam-surface);
+  border: 1px solid var(--tsam-border);
+  border-radius: var(--radius-box);
+  padding: var(--space-lg);
+  color: var(--tsam-fg);
+}
+.tsam-card__title {
+  font-family: var(--font-display);
+  font-size: 1.25em;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+.tsam-card__body {
+  color: var(--tsam-fg);
+}
+
+/* ==========================================================================
+   Input
+   ========================================================================== */
+.tsam-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+}
+.tsam-field__label {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--tsam-fg);
+}
+.tsam-input {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  color: var(--tsam-fg);
+  background: var(--tsam-surface);
+  border: 1px solid var(--tsam-border);
+  border-radius: var(--radius-control);
+  padding: 0.55em 0.75em;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.tsam-input::placeholder {
+  color: var(--tsam-fg-muted);
+}
+.tsam-input:focus {
+  outline: none;
+  border-color: var(--tsam-link);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tsam-link) 25%, transparent);
+}
+.tsam-field__hint {
+  font-size: 0.75em;
+  color: var(--tsam-fg-muted);
+}
+.tsam-input--invalid {
+  border-color: var(--color-burgundy);
+}
+
+/* ==========================================================================
+   Badge
+   ========================================================================== */
+.tsam-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 0.25em 0.6em;
+  border-radius: var(--radius-control);
+  border: 1px solid transparent;
+}
+.tsam-badge--neutral {
+  background: var(--tsam-surface-sunken);
+  color: var(--tsam-fg-muted);
+  border-color: var(--tsam-border);
+}
+.tsam-badge--primary {
+  background: color-mix(in srgb, var(--tsam-primary) 18%, transparent);
+  color: var(--tsam-primary-strong);
+}
+.tsam-badge--good {
+  background: var(--color-good);
+  color: #1a4a1f;
+}
+.tsam-badge--escalate {
+  background: var(--color-escalate);
+  color: #6b4a12;
+}
+.tsam-badge--problem {
+  background: var(--color-problem);
+  color: var(--color-burgundy);
+}
+
+/* ==========================================================================
+   Table
+   ========================================================================== */
+.tsam-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  color: var(--tsam-fg);
+}
+.tsam-table caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.85em;
+  color: var(--tsam-fg-muted);
+  padding-bottom: 0.5rem;
+}
+.tsam-table th,
+.tsam-table td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--tsam-border);
+}
+.tsam-table th {
+  font-weight: 700;
+  border-bottom: 2px solid var(--tsam-fg-muted);
+}
+.tsam-table td.tsam-num,
+.tsam-table th.tsam-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Admonition (branded box) — shared with theorem/definition boxes
+   ========================================================================== */
+.tsam-admonition {
+  --adm-accent: var(--adm-cerulean);
+  border: 2px solid var(--adm-accent);
+  border-radius: var(--radius-box);
+  padding: 0.75rem 1rem 1rem;
+  margin: 1rem 0;
+  background: var(--tsam-surface);
+  color: var(--tsam-fg);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+}
+.tsam-admonition__title {
+  font-weight: 700;
+  color: var(--adm-accent);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--adm-accent);
+}
+.tsam-admonition__body > :first-child {
+  margin-top: 0;
+}
+.tsam-admonition__body > :last-child {
+  margin-bottom: 0;
+}
+
+/* Colour families */
+.tsam-admonition--note,
+.tsam-admonition--info {
+  --adm-accent: var(--adm-cerulean);
+}
+.tsam-admonition--abstract,
+.tsam-admonition--summary {
+  --adm-accent: var(--adm-navajo);
+}
+.tsam-admonition--theorem,
+.tsam-admonition--danger,
+.tsam-admonition--error {
+  --adm-accent: var(--adm-burgundy);
+}
+.tsam-admonition--failure {
+  --adm-accent: var(--adm-burgundy-soft);
+}
+.tsam-admonition--definition,
+.tsam-admonition--example {
+  --adm-accent: var(--adm-thistle);
+}
+.tsam-admonition--tip,
+.tsam-admonition--success {
+  --adm-accent: var(--adm-sage);
+}
+.tsam-admonition--warning,
+.tsam-admonition--caution {
+  --adm-accent: var(--adm-amber);
+}
+.tsam-admonition--question {
+  --adm-accent: var(--adm-sunset);
+}
+.tsam-admonition--quote {
+  --adm-accent: var(--adm-neutral);
+}
+
+/* ==========================================================================
+   Hypothesis test + decision rule
+   ========================================================================== */
+.tsam-hypothesis-test {
+  border: 2px solid var(--adm-cerulean);
+  border-radius: var(--radius-box);
+  padding: 0.75rem 1rem 1rem;
+  margin: 1rem 0;
+  background: var(--tsam-surface);
+  color: var(--tsam-fg);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+}
+.tsam-hypothesis-test__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--adm-cerulean);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--adm-cerulean);
+}
+.tsam-hypothesis {
+  padding-left: 2.25rem;
+  position: relative;
+  margin: 0.4rem 0;
+}
+.tsam-hypothesis::before {
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+.tsam-hypothesis--null::before {
+  content: "H\2080:";
+  color: var(--adm-cerulean);
+}
+.tsam-hypothesis--alt::before {
+  content: "H\2081:";
+  color: var(--tsam-accent);
+}
+.tsam-decision-rule {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid var(--tsam-accent);
+  background: color-mix(in srgb, var(--tsam-accent) 8%, transparent);
+}
+.tsam-decision-rule strong {
+  color: var(--tsam-accent);
+}
+
+/* ==========================================================================
+   Decision matrix
+   ========================================================================== */
+.tsam-decision-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  color: var(--tsam-fg);
+}
+.tsam-decision-matrix th,
+.tsam-decision-matrix td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--tsam-border);
+  text-align: left;
+}
+.tsam-decision-matrix th {
+  font-weight: 700;
+  background: var(--tsam-surface-sunken);
+}
+.tsam-decision-matrix td.tsam-good {
+  background: var(--color-good);
+  color: #1a4a1f;
+}
+.tsam-decision-matrix td.tsam-escalate {
+  background: var(--color-escalate);
+  color: #6b4a12;
+}
+.tsam-decision-matrix td.tsam-problem {
+  background: var(--color-problem);
+  color: var(--color-burgundy);
+}
