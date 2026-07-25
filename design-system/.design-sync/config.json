@@ -1,0 +1,10 @@
+{
+  "pkg": "@tsam/design-system",
+  "globalName": "TSAM",
+  "projectId": "5c4d566d-2daa-47c5-b408-dfef1e61f95f",
+  "shape": "package",
+  "buildCmd": "npm run build",
+  "srcDir": "src",
+  "cssEntry": "./dist/index.css",
+  "readmeHeader": ".design-sync/conventions.md"
+}
