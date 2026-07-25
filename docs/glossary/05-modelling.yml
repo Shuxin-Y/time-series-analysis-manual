@@ -18,19 +18,3 @@ terms:
       - 1937: Slutsky introduces moving average processes
       - 1970: Box and Jenkins publish the comprehensive ARIMA methodology
     reference: "05-modelling/01-arima.html"
-
-  - term: "GARCH"
-    definition: "Generalized AutoRegressive Conditional Heteroskedasticity. Models time-varying volatility."
-    mathematical: |
-      GARCH($p$, $q$) model:
-      $$y_t = \sigma_t \varepsilon_t, \quad \varepsilon_t \sim N(0,1)$$
-      $$\sigma_t^2 = \omega + \sum_{i=1}^q \alpha_i y_{t-i}^2 + \sum_{j=1}^p \beta_j \sigma_{t-j}^2$$
-
-      Conditions:
-      - $\omega > 0$, $\alpha_i \geq 0$, $\beta_j \geq 0$
-      - $\sum_{i=1}^{\max(p,q)} (\alpha_i + \beta_i) < 1$ (stationarity)
-    historical: |
-      - 1982: Engle introduces the ARCH model
-      - 1986: Bollerslev generalises to GARCH
-      - 2003: Engle receives the Nobel Prize in Economics
-    reference: "05-modelling/05-volatility-garch.html"
