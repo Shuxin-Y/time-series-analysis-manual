@@ -152,9 +152,14 @@
     });
   }
 
-  // Convert **text** to <strong>text</strong>
-  function boldToHtml(text) {
-    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Convert inline markdown (**bold**, *italic*) to HTML.
+  // Bold is processed first so ** is not mis-parsed as two single asterisks.
+  // The italic pattern requires non-space characters immediately inside the
+  // asterisks, so isolated asterisks (e.g. multiplication in prose) are left alone.
+  function inlineMarkdownToHtml(text) {
+    return text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '<em>$1</em>');
   }
 
   // Render simple markdown (bold + bullet lists) to HTML.
@@ -176,10 +181,10 @@
 
       if (line.startsWith('- ')) {
         if (!inList) { output.push('<ul>'); inList = true; }
-        output.push(`<li class="arithmatex">${boldToHtml(line.slice(2))}</li>`);
+        output.push(`<li class="arithmatex">${inlineMarkdownToHtml(line.slice(2))}</li>`);
       } else {
         if (inList) { output.push('</ul>'); inList = false; }
-        output.push(`<p class="arithmatex">${boldToHtml(line)}</p>`);
+        output.push(`<p class="arithmatex">${inlineMarkdownToHtml(line)}</p>`);
       }
     }
 
