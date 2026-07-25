@@ -52,3 +52,21 @@ terms:
       - 1809: Gauss derives the same method independently for planetary orbit estimation and establishes the normal equations
       - 20th century: Matrix notation consolidates the normal equations into the compact closed-form $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$
     reference: "00-introduction/overview.html#the-5-classical-ols-assumptions-and-how-time-series-violates-them"
+
+  - term: "Gauss–Markov Conditions"
+    definition: "The assumptions on the error term under which the ordinary least squares estimator is the best linear unbiased estimator (BLUE) — the minimum-variance estimator among all linear unbiased estimators. They require the errors to have zero conditional mean, constant variance, and no serial correlation, with regressors of full column rank."
+    mathematical: |
+      For the linear model $y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t$ with regressor matrix $\mathbf{X}$, the conditions are:
+
+      1. **Linearity in parameters** — the model is linear in $\boldsymbol{\beta}$.
+      2. **Strict exogeneity** — $\mathbb{E}[\epsilon_t \mid \mathbf{X}] = 0$.
+      3. **Homoskedasticity** — $\text{Var}(\epsilon_t \mid \mathbf{X}) = \sigma^2$ for every $t$.
+      4. **No autocorrelation** — $\text{Cov}(\epsilon_t, \epsilon_s \mid \mathbf{X}) = 0$ for $t \neq s$.
+      5. **Full column rank** — $\text{rank}(\mathbf{X}) = K$ (no perfect collinearity).
+
+      Under conditions 1–5 the Gauss–Markov theorem states that the OLS estimator $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ has the smallest variance among all linear unbiased estimators. Normality of the errors is not required. 
+    historical: |
+      - 1821–1823: Gauss proves the variance-minimising property of least squares in *Theoria Combinationis Observationum Erroribus Minimis Obnoxiae*, without assuming normal errors
+      - 1912: Markov restates the result in his treatment of probability, and the modern name "Gauss–Markov" credits this exposition
+      - 1935: Aitken extends the theorem to correlated and heteroskedastic errors, giving generalized least squares (GLS)
+    reference: "00-introduction/logic-of-statistical-analysis.html#ordinary-least-squares-ols"

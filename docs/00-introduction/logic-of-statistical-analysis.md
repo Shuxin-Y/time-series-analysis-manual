@@ -7,22 +7,27 @@ Every statistical analysis rests on three components: a **model class**, an **es
 !!! definition "Model Class"
     A **model class** is a family of probability distributions or functional forms indexed by unknown parameters. It encodes the analyst's assumptions about how the data are generated — what depends on what, and through which channels.
 
-A model class is a *form*, not a set of numbers. It says, for example, that the conditional mean of $y_t$ depends linearly on a feature vector, or that the conditional variance follows a particular recursion. Filling in numbers is the job of the estimator; choosing the form is a substantive decision about the data-generating process.
+A model class specifies *form*. Once the form is fixed, the estimator's job is to fill in the numbers — pinning down the parameter values from data. But choosing the form itself is a prior modeling decision, made by the analyst before estimation begins.
 
-Three model classes used in this manual illustrate the breadth of the concept:
+A model class answers questions like:
 
-- **Linear regression**: $y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t$, with $\epsilon_t$ i.i.d.. The unknown parameters are the coefficient vector $\boldsymbol{\beta}$ and the error variance $\sigma^2$.
-- **ARMA(p, q)**: $y_t = \sum_{j=1}^p \phi_j y_{t-j} + \sum_{k=1}^q \theta_k \epsilon_{t-k} + \epsilon_t$. The unknowns are the autoregressive coefficients $\{\phi_j\}$, the moving-average coefficients $\{\theta_k\}$, and $\sigma^2$.
-- **GARCH(1, 1)**: $\sigma_t^2 = \omega + \alpha \epsilon_{t-1}^2 + \beta \sigma_{t-1}^2$. The unknowns are $\omega$, $\alpha$, and $\beta$.
+- Does the conditional mean of $y_t$ depend linearly on a set of regressors?
+- Does the conditional variance follow a particular recursion?
 
-These three describe different aspects of the data: the conditional mean given features, the temporal dependence of a univariate series, and the conditional variance. A complete specification often combines several — for example, a regression on features for the mean, an ARMA structure for the residual serial correlation, and a GARCH structure for the residual volatility.
+Three model classes used in this manual illustrate the breadth of the concept. Each captures a different aspect of the data: the conditional mean given features, the temporal dependence of a univariate series, and the conditional variance.
+
+- **Linear regression**: $y_t = \bm{x}_t^T \boldsymbol{\beta} + \epsilon_t$, with $\epsilon_t$ i.i.d. The unknown parameters are the coefficient vector $\boldsymbol{\beta}$ and the error variance $\sigma^2$. It says: today's level is a weighted sum of today's regressors, plus unpredictable noise.
+- **ARMA(p, q)**: $y_t = \sum_{j=1}^p \phi_j y_{t-j} + \sum_{k=1}^q \theta_k \epsilon_{t-k} + \epsilon_t$. The unknowns are the autoregressive coefficients $\phi_j$, the moving-average coefficients $\theta_k$, and $\sigma^2$. It says: today's value is explained by its own recent values and recent shocks.
+- **GARCH(1, 1)**: $\sigma_t^2 = \omega + \alpha \epsilon_{t-1}^2 + \beta \sigma_{t-1}^2$. The unknowns are $\omega$, $\alpha$, and $\beta$. It says: volatility is persistent — a large shock today raises the expected variance tomorrow. Here the error variance is time-varying ($\sigma_t^2$), in contrast to the constant ($\sigma^2$) above.
+
+A complete specification often combines several: a regression on features for the mean, an ARMA structure for the residual serial correlation, and a GARCH structure for the residual volatility.
 
 ## Estimator
 
 !!! definition "Estimator"
     An **estimator** is a procedure that maps observed data to parameter values within a chosen model class.
 
-Different estimators reflect different optimality criteria: minimizing prediction error, maximizing the probability of the data, matching theoretical and sample moments, fitting a frequency-domain criterion, or minimizing an empirical loss. The same model class can usually be fit by more than one estimator, and the choice affects efficiency, bias, and which assumptions must hold for valid inference.
+Different estimators reflect different optimality criteria: minimizing prediction error, maximizing the probability of the data, matching theoretical and sample moments, fitting a frequency-domain criterion, or minimizing an empirical loss. The same model class can usually be *fit* by more than one estimator, and the choice affects efficiency, bias, and which assumptions must hold for valid inference.
 
 ### Ordinary Least Squares (OLS)
 
@@ -32,7 +37,7 @@ $$\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \sum_{t=1}^T \left( y
 
 (Read: beta-hat is the argmin over beta of the sum over $t$ of the squared residual.)
 
-For linear models with i.i.d. errors satisfying the Gauss–Markov conditions, OLS is the best linear unbiased estimator (BLUE). It admits a closed-form solution, requires no distributional assumption beyond second moments, and applies to any model whose errors are i.i.d. white noise — including linear regression on exogenous features, pure autoregression AR($p$), and vector autoregression (VAR).
+For linear models with i.i.d. errors satisfying the Gauss–Markov conditions, OLS is the *best linear unbiased estimator* (BLUE). It admits a closed-form solution, requires no distributional assumption beyond second moments, and applies to any model whose errors are i.i.d. white noise — including linear regression on exogenous features, pure autoregression AR($p$), and vector autoregression (VAR).
 
 ### Maximum Likelihood (MLE)
 
