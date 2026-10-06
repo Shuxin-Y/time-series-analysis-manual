@@ -103,6 +103,10 @@ def test_glossary_chip_opens_the_upstream_term(page, site_url):
     drawer.locator('.glossary-chip[data-term="Independence"]').click()
     page.wait_for_function("() => document.querySelector('.glossary-drawer h3').textContent.startsWith('Independence')")
     assert "Joint density" in page.locator(".glossary-crumbs").inner_text()
+    rendered = page.evaluate("t => window.tsamGlossary.renderMarkdown(t)",
+                             "1. **Reject $H_0$** if $s<t$, see [Joint density](reference/04-estimation/maximum-likelihood.md#joint-density)")
+    assert "<strong>Reject $H_0$</strong>" in rendered and "$s&lt;t$" in rendered
+    assert 'href="' + site_url + 'reference/04-estimation/maximum-likelihood/#joint-density"' in rendered
     for disabled in ("", "design-system-showcase/"):  # GLOSSARY_DISABLED_PAGES, read from glossary/index.yml
         page.goto(site_url + disabled)
         page.wait_for_load_state("networkidle")

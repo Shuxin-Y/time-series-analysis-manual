@@ -125,15 +125,23 @@
   // Math spans ($$...$$, $...$, \(...\), \[...\]) pass through to MathJax untouched by the transforms below.
   const MATH_SPAN_RE = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\])/;
 
-  // Inline markdown on escaped text: **bold**, *italic*; odd split indices are math spans.
+  // Docs-relative links in glossary text, the same `path.md#anchor` form the audit resolves.
+  const DOC_LINK_RE = /\[([^\]]+)\]\(([\w./-]+\.md(?:#[\w-]+)?)\)/g;
+
+  // Inline markdown on escaped text: **bold**, *italic*, [text](path.md#anchor). Math spans are masked with
+  // placeholders while the transforms run, so emphasis may enclose math, then restored escaped and untouched.
   function inlineMarkdownToHtml(text) {
-    return text.split(MATH_SPAN_RE).map((part, i) => {
-      const safe = escapeHtml(part);
-      if (i % 2) return safe;
-      return safe
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '<em>$1</em>');
+    const math = [];
+    const masked = text.split(MATH_SPAN_RE).map((part, i) => {
+      if (i % 2 === 0) return escapeHtml(part);
+      math.push(escapeHtml(part));
+      return `\u0000${math.length - 1}\u0000`;
     }).join('');
+    return masked
+      .replace(DOC_LINK_RE, (_, label, target) => `<a href="${escapeHtml(window.tsamSite.docUrl(target))}">${label}</a>`)
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '<em>$1</em>')
+      .replace(/\u0000(\d+)\u0000/g, (_, i) => math[Number(i)]);
   }
 
   // Block markdown: paragraphs, "- " bullets, "1. " numbered steps. Math left for MathJax.
@@ -271,4 +279,7 @@
   if (typeof document$ !== 'undefined') {
     document$.subscribe(() => setTimeout(initGlossary, 100));
   }
+
+  // Exposed for the browser smoke test, which checks the drawer markup without a dedicated glossary term.
+  window.tsamGlossary = { renderMarkdown };
 })();
