@@ -312,3 +312,11 @@ def test_subsections_inherit_their_h2_status(tmp_path):
     findings = audit.check_headings(sitekit.site(tmp_path), rows, [])
     assert sorted(f.where for f in findings) == ["01-workflow/p03.md#before-any-h2", "01-workflow/p03.md#egarch-method",
                                                  "reference/04-estimation/index.md#joint-density"]
+
+
+def test_a_second_h1_closes_the_previous_leaf_section(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "01-workflow" / "p03.md").write_text("# P3\n\n## ADF\n\n### Lag choice\n\n# Appendix\n\n### Orphan\n", encoding="utf-8")
+    rows = [audit.Row("P3_ADF", "ADF", "P3", (5,), "01-workflow/p03.md#adf")]
+    findings = [f.where for f in audit.check_headings(sitekit.site(tmp_path), rows, []) if f.where.startswith("01-workflow/")]
+    assert findings == ["01-workflow/p03.md#orphan"]

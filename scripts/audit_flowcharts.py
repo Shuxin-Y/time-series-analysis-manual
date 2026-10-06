@@ -632,7 +632,9 @@ def check_headings(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
             leaves, page_homes = leaf_anchors.get(rel, set()), homes.get(rel, {})
             parent = None  # id of the enclosing H2
             for h in page.headings:
-                if h.level == 2:
+                if h.level == 1:
+                    parent = None
+                elif h.level == 2:
                     parent = h.id
                     if h.id not in leaves and h.text not in STRUCTURAL_H2 and not (theory and h.id in page_homes):
                         findings.append(Finding(ERROR, f"{rel}#{h.id}", f"H2 {h.text!r} is neither an inventory anchor nor a structural heading"))
