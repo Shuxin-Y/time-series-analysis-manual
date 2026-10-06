@@ -314,14 +314,25 @@ def load_inventory(path: Path) -> tuple[list[Row], list[Finding]]:
     return rows, findings
 
 
+def resolve_section(section: str, site: Site) -> str | None:
+    """Why `path.md#anchor` does not resolve to a rendered heading, or None when it does."""
+    if not SECTION_RE.match(section):
+        return f"{section!r} must look like path/file.md#anchor"
+    file, anchor = section.split("#", 1)
+    page = site.page(file)
+    if page is None:
+        return f"file {file} does not exist"
+    if anchor not in page.anchors:
+        return f"anchor #{anchor} not found in {file}"
+    return None
+
+
 def check_inventory_targets(rows: list[Row], site: Site) -> list[Finding]:
     findings: list[Finding] = []
     for r in rows:
-        page = site.page(r.file)
-        if page is None:
-            findings.append(Finding("error", r.id, f"section file {r.file} does not exist"))
-        elif r.anchor not in page.anchors:
-            findings.append(Finding("error", r.id, f"anchor #{r.anchor} not found in {r.file}"))
+        problem = resolve_section(r.section, site)
+        if problem:
+            findings.append(Finding("error", r.id, f"section {problem}"))
     return findings
 
 
@@ -400,11 +411,8 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
             linked.update(target.split("#", 1)[0] for href in page.links if (target := resolve_link(href, f)))
     for t in terms:
         for target in MARKDOWN_LINK_RE.findall(str(t.get("derivation") or "")):
-            if SECTION_RE.match(target):
-                file, anchor = target.split("#", 1)
-                page = site.page(file)
-                if page is not None and anchor in page.anchors:
-                    linked.add(file)
+            if resolve_section(target, site) is None:
+                linked.add(target.split("#", 1)[0])
     findings: list[Finding] = []
     for sub in SECTION_DIRS:
         for rel in site.pages_under(sub):
@@ -450,16 +458,9 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
     by_name = {t["term"]: t for t in terms}
     for t in terms:
         where = f"{t['_file']}:{t['term']}"
-        ref = str(t.get("reference") or "")
-        if not SECTION_RE.match(ref):
-            findings.append(Finding("error", where, "reference must look like path/file.md#anchor"))
-        else:
-            file, anchor = ref.split("#", 1)
-            page = site.page(file)
-            if page is None:
-                findings.append(Finding("error", where, f"reference file {file} does not exist"))
-            elif anchor not in page.anchors:
-                findings.append(Finding("error", where, f"reference anchor #{anchor} not found in {file}"))
+        problem = resolve_section(str(t.get("reference") or ""), site)
+        if problem:
+            findings.append(Finding("error", where, f"reference {problem}"))
         if "depends_on" not in t and not t.get("foundation"):
             findings.append(Finding("warning", where, "no derivation chain yet (depends_on absent)"))
             continue
