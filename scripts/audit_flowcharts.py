@@ -339,10 +339,9 @@ SECTION_FORMAT = "path/file.md#anchor"
 
 
 def split_section(section: str) -> tuple[str, str]:
-    """(`path.md`, `anchor`) of a section string that matches SECTION_RE."""
-    file, anchor = section.split("#", 1)
+    """(`path.md`, `anchor`) of a section or link target; the anchor is empty when there is none."""
+    file, _, anchor = section.partition("#")
     return file, anchor
-MARKDOWN_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
 MASTER_PHASE = "MASTER"
 MASTER_IDS = frozenset(f"P{i}" for i in range(12))
@@ -534,6 +533,9 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
 
 # ---------------------------------------------------------------- sections
 
+MARKDOWN_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
+
+
 def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
     """Every non-index page under SECTION_DIRS is a method page (in the inventory) or a linked theory page.
 
@@ -545,7 +547,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
     for f in sorted(method_files):
         page = site.page(f)
         if page is not None:
-            linked.update(target.split("#", 1)[0] for href in page.links if (target := resolve_link(href, f)))
+            linked.update(split_section(target)[0] for href in page.links if (target := resolve_link(href, f)))
     for t in terms:
         for target in MARKDOWN_LINK_RE.findall(str(t.get("derivation") or "")):
             if resolve_section(target, site) is None:
@@ -685,7 +687,7 @@ def first_mention_warnings(site: Site, terms: list[dict]) -> list[Finding]:
             texts.append((p, page.text))
     findings: list[Finding] = []
     for t in terms:
-        ref_file = str(t.get("reference") or "").split("#", 1)[0]
+        ref_file = split_section(str(t.get("reference") or ""))[0]
         pattern = re.compile(r"(?<!\w)" + re.escape(t["term"]) + r"(?!\w)", re.I)
         for p, text in texts:
             if pattern.search(text):
