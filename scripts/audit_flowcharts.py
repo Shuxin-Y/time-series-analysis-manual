@@ -104,3 +104,101 @@ def collect_diagrams(docs_dir: Path) -> list[Diagram]:
                 continue
             diagrams.append(parse_diagram(src, f"{md.relative_to(docs_dir).as_posix()}:{line_no}"))
     return diagrams
+
+
+# ---------------------------------------------------------------- anchors and front matter
+
+FRONT_MATTER_RE = re.compile(r"\A---[ \t]*\n(.*?)\n---[ \t]*\n", re.S)
+CODE_FENCE_RE = re.compile(r"^```.*?^```[ \t]*$", re.M | re.S)
+HEADING_RE = re.compile(r"^(#{1,6})[ \t]+(.+?)[ \t]*$", re.M)
+ATTR_ID_RE = re.compile(r"\{\s*#([\w-]+)\s*\}\s*$")
+EXPLICIT_ANCHOR_RE = re.compile(r'<a\s+id="([\w-]+)"')
+LINK_TEXT_RE = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+
+
+def strip_front_matter(text: str) -> str:
+    m = FRONT_MATTER_RE.match(text)
+    return text[m.end():] if m else text
+
+
+def front_matter(text: str) -> dict:
+    m = FRONT_MATTER_RE.match(text)
+    return (yaml.safe_load(m.group(1)) or {}) if m else {}
+
+
+def heading_anchors(text: str) -> set[str]:
+    """Anchors MkDocs will generate for a page: toc slugify with `_N` uniqueness, `{#id}` attrs, `<a id>` tags."""
+    body = CODE_FENCE_RE.sub("", strip_front_matter(text))
+    used: set[str] = set()
+    for m in HEADING_RE.finditer(body):
+        heading = m.group(2).rstrip("#").strip()
+        attr = ATTR_ID_RE.search(heading)
+        if attr:
+            used.add(attr.group(1))
+            continue
+        unique(slugify(LINK_TEXT_RE.sub(r"\1", heading), "-"), used)
+    used.update(EXPLICIT_ANCHOR_RE.findall(text))
+    return used
+
+
+# ---------------------------------------------------------------- inventory
+
+SECTION_RE = re.compile(r"^[\w./-]+\.md#[\w-]+$")
+REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
+
+
+@dataclass(frozen=True)
+class Row:
+    id: str
+    label: str
+    phase: str
+    areas: tuple[int, ...]
+    section: str
+
+    @property
+    def file(self) -> str:
+        return self.section.split("#", 1)[0]
+
+    @property
+    def anchor(self) -> str:
+        return self.section.split("#", 1)[1]
+
+
+def load_inventory(path: Path) -> tuple[list[Row], list[Finding]]:
+    if not path.is_file():
+        return [], [Finding("error", str(path), "inventory file does not exist")]
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    rows: list[Row] = []
+    findings: list[Finding] = []
+    seen: set[str] = set()
+    for i, raw in enumerate(data.get("nodes") or []):
+        where = f"{path.name}#nodes[{i}]"
+        missing = [k for k in REQUIRED_ROW_KEYS if k not in raw]
+        if missing:
+            findings.append(Finding("error", where, f"missing keys {missing}"))
+            continue
+        if not SECTION_RE.match(str(raw["section"])):
+            findings.append(Finding("error", where, f"section {raw['section']!r} must look like path/file.md#anchor"))
+            continue
+        if raw["id"] in seen:
+            findings.append(Finding("error", where, f"duplicate inventory id {raw['id']}"))
+            continue
+        seen.add(raw["id"])
+        rows.append(Row(str(raw["id"]), str(raw["label"]), str(raw["phase"]),
+                        tuple(int(a) for a in raw["areas"] or []), str(raw["section"])))
+    return rows, findings
+
+
+def check_inventory_targets(rows: list[Row], docs_dir: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    anchors: dict[str, set[str]] = {}
+    for r in rows:
+        target = docs_dir / r.file
+        if not target.is_file():
+            findings.append(Finding("error", r.id, f"section file {r.file} does not exist"))
+            continue
+        if r.file not in anchors:
+            anchors[r.file] = heading_anchors(target.read_text(encoding="utf-8"))
+        if r.anchor not in anchors[r.file]:
+            findings.append(Finding("error", r.id, f"anchor #{r.anchor} not found in {r.file}"))
+    return findings
