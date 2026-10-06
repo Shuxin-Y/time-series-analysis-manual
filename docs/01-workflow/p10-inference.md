@@ -7,7 +7,7 @@ Coefficient and restriction tests, HAC inference, cointegration and causality in
 ## Sub-diagram
 
 !!! note "Diagram pending"
-    The P10 sub-diagram is drawn in Plan B. Leaf nodes of this phase are listed in `docs/flowcharts/inventory.yml`.
+    To-do item from the flowchart inventory (node `P10`): draw the P10 sub-diagram following the decision-flowchart notation in `DESIGN-SYSTEM.md`; its leaf nodes get rows in `docs/flowcharts/inventory.yml`.
 
 ## Phase guide
 

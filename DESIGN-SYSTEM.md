@@ -312,15 +312,7 @@ A diagnostic test is laid out in a fixed five-part order: null hypothesis, alter
 
 ### Content rules: method sections, why-chains, single source
 
-These rules decide what a section contains and where a concept lives. They come from the flowchart framework design (`planning/2026-10-06-flowchart-framework-design.md`, section 9).
-
-**Method and theory sections.** A *method* section says what to do and when; it is a leaf node of a flowchart sub-diagram and has an inventory row. A *theory* section says why something holds; it carries `kind: theory` in its front matter and is linked from at least one method section or one glossary derivation. Every page under `docs/reference/` and `docs/01-workflow/` is one or the other.
-
-**Body text.** State each claim in one sentence and name methods as glossary terms. Multi-step derivations never appear inline. Outcome terminals in diagrams name **model → estimator → inference** in that order.
-
-**Why-chains live in the glossary drawer.** Each term may carry `derivation` (numbered "because" steps) and `depends_on` (upstream term names). Part 0 roots carry `foundation: true`. The drawer renders them as "Why it holds", "Rests on" (chips that open the upstream term, with a back stack) and "First developed in" (`reference`). Every noun that appears in a chain is itself a term with its own entry: "joint density" is a term, not a step inside the MLE chain. For time series the likelihood factorises by the chain rule of probability into conditional densities, with i.i.d. as the special case; chains are written that way.
-
-**Single source.** Every concept has one home: the section where it is first developed in `nav:` order. `reference` points there. The first occurrence develops the concept in full; later occurrences write only the term, which the glossary highlights. Part 0 takes only concepts needed before any method can be stated, and concepts shared across several phases with no natural home. Appendix pages are link indexes and contain no explanations.
+What a section contains and where a concept lives (method and theory sections, body text, why-chains in the glossary drawer, single source) is defined in `.claude/rules/writing.md`, the single home of those rules. This document defines only how they look: the drawer blocks in the glossary component above and the flowchart notation below.
 
 ### Page-footer navigation
 
@@ -414,14 +406,17 @@ graph TD
 - **Edge-type semantics.** `-->` is primary flow; `-.->` is optional, secondary, or feedback flow; `==>` is the highlighted main route. Decision branches are always labelled, as in `-->|Yes|`.
 - **Direction.** Use `TD` for decision workflows and `LR` for sequences.
 - **Node IDs.** `SCREAMING_SNAKE_CASE`, prefixed by the owning sub-diagram: `P3_ADF`, `P7_GARCH`, `B2_HAWKES`, `P2_CPD_PELT`. Master phase boxes are `P0` … `P11`; branch entries are `B1` … `B7`. Decision and terminator nodes carry the prefix too, because every defined ID is unique across the whole book.
-- **Leaf nodes.** A defined rectangle `[ ]` that is not a `ref` and whose ID does not end in `_FLAG` is a leaf: one section of the book. Every leaf has a row in `docs/flowcharts/inventory.yml` (`id`, `label`, `phase`, `areas`, `section`). Diamonds, terminators, parallelograms (data), subroutine boxes and flag nodes are not leaves.
+- **Leaf nodes.** A defined rectangle `[ ]` that is not a `ref` and whose ID does not end in `_FLAG` is a leaf: one section of the book. Every leaf has a row in `docs/flowcharts/inventory.yml` (`id`, `label`, `phase`, `areas`, `section`). Diamonds, terminators, parallelograms (data), subroutine boxes and flag nodes are not leaves. `subgraph` headers are clusters, never nodes.
+- **Inventory rows.** `id` is a `SCREAMING_SNAKE_CASE` string; `phase` is one of `P0`–`P11`, `B1`–`B7`, `MASTER` or `F`; `areas` is a list of area numbers 1–34; `section` is a docs-relative `path.md#anchor` whose anchor is a rendered heading id. The id carries the phase as owner prefix (`P7_GARCH` has phase `P7`), with two named exceptions: the master boxes `P0`–`P11` have phase `MASTER`, and the branch entries `B1`–`B7` take the phase of the diagram that defines them (`B7` is drawn in P1). Phase-`F` rows are `F_` ids.
+- **Labels.** The first line of a node's label (the text before `<br/>`) equals the inventory `label` of its ID, for leaves and for refs alike, so the diagram, the hover title and the section heading show one string.
 - **References.** A node that belongs to another sub-diagram is drawn as a `[[ ]]` subroutine box with the `ref` class and the owner's exact ID. A `ref` resolves to that definition, or to an inventory row of phase `F` (a Part 0 section, which has no diagram of its own).
-- **No URLs in diagrams.** `docs/javascripts/flowchart-links.js` makes nodes clickable from the inventory at render time. Never use Mermaid `click`.
-- **Audit.** `scripts/audit_flowcharts.py` enforces the rules above and runs in CI. A purely illustrative diagram opts out with the comment line `%% audit: skip` inside its fence.
-- **Rendering.** Diagrams are authored as fences; superfences emits them as `div.mermaid` (`fence_div_format`), and `docs/javascripts/mermaid-init.js` is the only renderer. Material's native `pre.mermaid` renderer is bypassed on purpose: it draws into a closed shadow root, which the node-linking script cannot reach.
+- **No URLs in diagrams.** `docs/javascripts/flowchart-links.js` makes nodes clickable from the inventory at render time. A `click` directive, an `href=` or an `http(s)://` inside a diagram is an audit error.
+- **Audit.** `scripts/audit_flowcharts.py` enforces the rules above on every pull request and push. It renders each page with the `markdown_extensions` of `mkdocs.yml`, so it sees every diagram the site renders (fences indented in admonitions or tabs, `~~~`, four-backtick and snippet fences) and the heading ids the toc really generates. A node id that is not `SCREAMING_SNAKE_CASE`, a shape outside this notation, an id drawn with two shapes and an inline `:::class` are errors. A purely illustrative diagram opts out with the comment line `%% audit: skip` inside its fence.
+- **Content units.** Every H2 on a page under `docs/reference/` or `docs/01-workflow/`, index pages included, is an inventory anchor, a glossary `reference` anchor or one of these structural headings (`STRUCTURAL_H2` in the audit): Sub-diagram, Branch sub-diagram, Phase guide, Question order, Part 0 hooks, Relation to P9, Routing variables, Branches, Quick navigation, Purpose selector, Representation selector, Master diagram, How to read the diagrams, Sub-chart, P10 inference for this purpose, P11 metrics for this purpose, Topics carried over from the previous outline, References. A new structural heading is added to that list and to this bullet together.
+- **Rendering.** Diagrams are authored as fences; superfences emits them as `div.mermaid` (`fence_div_format`), and `docs/javascripts/mermaid-init.js` is the only renderer, with Mermaid pinned to `10.9.8` because node linking reads its SVG ids (`flowchart-<ID>-<n>`). Material's native `pre.mermaid` renderer is bypassed on purpose: it draws into a closed shadow root, which the node-linking script cannot reach. `docs/javascripts/site-urls.js` holds the one docs-path-to-URL mapping that node links and glossary links share.
 - **Applying classes.** Assign classes with `class <ID>[,<ID>...] <className>` statements after the edges, not the inline `:::className` shorthand. The statement form is the most compatible across the Mermaid 10.x renderer the site loads; the inline shorthand on shaped, edge-chained nodes can raise a parse error there.
 - **Quote every label.** Wrap all node and edge labels in double quotes, as in `OK["Model: OLS"]` and `-->|"Yes, persistent"|`. Characters such as `+`, `:`, `(`, and `,` raise a parse error in the Mermaid 10.x renderer the site loads when the label is unquoted; quoting is unconditional so the rule never has to be reconsidered per label.
-- **Text.** No emojis; use `<br/>` for line breaks; outcome terminals name **model → estimator → inference** in that order.
+- **Text.** No emojis; use `<br/>` for line breaks. What an outcome terminal names (model → estimator → inference) is a content rule in `.claude/rules/writing.md`.
 - **Accessibility.** Type is encoded by shape first, colour reinforces, and the outcome category is also stated in the node text, so colour is never the sole signal (WCAG 1.4.1).
 
 ### Table standard
@@ -531,7 +526,7 @@ Names follow fixed conventions so that files, anchors, and components are predic
 - **Section anchors.** Derived by MkDocs from the heading text (lowercased, spaces to hyphens); reference them with cross-reference labels rather than hardcoded numbers.
 - **CSS class names.** Semantic and kebab-case (`hypothesis-test`, `decision-rule`, `decision-matrix`, `glossary-term`), matching the selectors in `extra.css` and `glossary.css`.
 - **Component IDs.** Semantic; the `references` block relies on the `id="references"` that MkDocs derives from the literal heading "References".
-- **Glossary terms.** One file per content directory or workflow page under `docs/glossary/`, named after it (`00-foundations.yml`, `p03-exploratory-diagnostics.yml`, `10-volatility.yml`); a term lives in the file of the page where it is first developed. `glossary/index.yml` is generated at build time and git-ignored.
+- **Glossary terms.** One file per page under `docs/glossary/`, named after the page stem (`stochastic-processes.yml`, `p03-exploratory-diagnostics.yml`); when the page is an `index.md` the file is named after its directory (`04-estimation.yml`, `10-volatility.yml`). A term lives in the file of its `reference` page, the page where it is first developed; the audit checks the name. A `foundation: true` term is homed under `docs/00-foundations/` and has no `depends_on`. `glossary/index.yml` is generated at build time and git-ignored.
 
 ### Brand assets (reserved)
 
@@ -581,9 +576,9 @@ To match the house style, every chapter satisfies the following. The list is der
 
 This document governs appearance; the `.claude/rules` files govern how Claude works. The two are kept distinct.
 
-The `notation`, `writing`, `code`, and `glossary` rule files are referenced from here, not absorbed: their conventions (mathematical notation, prose voice, Python style, glossary-data standards) remain their own source of truth. The appearance content formerly in `chapters.md` and `figures.md` has moved into this document, and those two files are reduced to pointers.
+The one tracked rule file is `.claude/rules/writing.md`, the single home of the content rules. It is referenced from here, not absorbed.
 
-Because `.claude/` is git-ignored except for `.claude/rules/`, only the rule files are visible to someone cloning the repository. The human-facing pointer to this design system therefore lives in tracked files — `CLAUDE.md` and `DESIGN-SYSTEM.md` itself. The `.claude/rules` pointers serve only Claude's in-tree context and are never relied on for human discoverability.
+`.claude/` is git-ignored except for `.claude/rules/`, so `writing.md` is visible to everyone who clones the repository; `CLAUDE.md` and this document point to it.
 
 ## Known gaps and future items
 
@@ -596,7 +591,7 @@ The following items are documented but deliberately not addressed in version 1.0
 
 ### 1.2 — 2026-10-06
 
-Flowchart framework: owner-prefixed node IDs, leaf-node definition and the `docs/flowcharts/inventory.yml` registry, `ref` resolution rules, runtime node linking (`flowchart-links.js`), the `%% audit: skip` opt-out and `scripts/audit_flowcharts.py`. New pattern "Content rules: method sections, why-chains, single source". Glossary schema gains `derivation`, `depends_on`, `foundation`; `reference` becomes a docs-relative source path; glossary files are named per page; the drawer shows "Why it holds", "Rests on" and "First developed in". Mermaid fences are emitted as `div.mermaid` and rendered only by `mermaid-init.js`.
+Flowchart framework: owner-prefixed node IDs, leaf-node definition and the `docs/flowcharts/inventory.yml` registry, `ref` resolution rules, runtime node linking (`flowchart-links.js`), the `%% audit: skip` opt-out and `scripts/audit_flowcharts.py`. New pattern "Content rules: method sections, why-chains, single source", a pointer to `.claude/rules/writing.md`, which holds the rules. Notation gains inventory-row validation, label equality, heading-level content units (`STRUCTURAL_H2`) and the audit's pipeline rendering. Glossary schema gains `derivation`, `depends_on`, `foundation` (Part 0 only); `reference` becomes a docs-relative source path; glossary files are named after their reference page; the drawer shows "Why it holds", "Rests on" and "First developed in". Mermaid fences are emitted as `div.mermaid` and rendered only by `mermaid-init.js`.
 
 ### 1.1 — 2026-06-29
 

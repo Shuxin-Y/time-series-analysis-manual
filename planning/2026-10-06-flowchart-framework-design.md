@@ -1,7 +1,7 @@
 # Flowchart Framework Design
 
 Date: 2026-10-06
-Status: approved in conversation; awaiting review of this written form
+Status: approved in conversation; amended 2026-10-07 after the review of the skeleton PR (sections 10.1, 10.2, 10.4, 10.5, 11 state the rules the audit enforces)
 Supersedes: the "Flowcharts" and "structure" sections of `book_plan.md`
 
 ## 1. Purpose
@@ -269,9 +269,10 @@ These rules are to be carried into `DESIGN-SYSTEM.md` (writing tier) and into `.
 - **Leaf definition.** A defined node drawn as a rectangle `[ ]` (including outcome rectangles carrying `good` / `escalate` / `problem`) is a leaf and must have an inventory row. Decision diamonds `{ }`, terminators `([ ])`, parallelograms `[/ /]` (data in/out), `ref` subroutine boxes `[[ ]]`, and flag nodes (ID suffix `_FLAG`) are not leaves.
 - **Audit opt-out.** A diagram containing the comment line `%% audit: skip` inside its fence is excluded from the audit. Illustrative diagrams (the Part 0 gateway chart, the design-system showcase) carry it.
 - **Owner prefix on every defined ID.** Decision and terminator nodes carry the owner prefix too (`P7_MULTI`, `P1_IN`), because the audit checks uniqueness of every defined ID across the book.
-- Leaf label is the short form of the section title. Labels are free text; linkage is through the inventory, not the label.
+- Leaf label is the short form of the section title. Linkage is through the inventory ID; the first line of a node's label (the text before `<br/>`) equals the inventory `label`, for leaves and for `ref` nodes, and the audit checks the equality.
+- **Parsing is total.** `%%` comment lines define nothing; `subgraph` headers are clusters, never nodes. Every token in a node position is read, and a non-SCREAMING_SNAKE_CASE ID, a shape outside the notation, one ID drawn with two shapes in one diagram, or an inline `:::class` is an audit error.
 - Notation (shapes, `classDef` sets, quoting, edge semantics, direction, `class` statements) follows "Decision-flowchart notation" in `DESIGN-SYSTEM.md` unchanged.
-- Mermaid blocks contain no URLs. Links are resolved at runtime (section 10.5).
+- Mermaid blocks contain no URLs. Links are resolved at runtime (section 10.5). A `click` directive, `href=` or `http(s)://` in a diagram that does not opt out is an audit error.
 
 ### 10.2 File layout and navigation
 
@@ -302,7 +303,7 @@ docs/
                                     one directory per area; nav groups them under the five landing-page tabs
   appendices/                       link-index pages only: tests index, datasets, software ecosystem, Python setup
   flowcharts/inventory.yml          leaf-node inventory (served; read at runtime and by the audit)
-  glossary/<page-or-dir>.yml        one glossary file per content directory or workflow page, named after it (00-foundations, p03-exploratory-diagnostics, 10-volatility); names are unique because phase IDs and area numbers are
+  glossary/<page>.yml               one glossary file per reference page, named after the page stem, or after its directory when the page is an index.md (stochastic-processes, p03-exploratory-diagnostics, 04-estimation); a term lives in the file of its reference page
   glossary/index.yml                generated list of glossary files (gitignored; written by the pre-build hook)
 ```
 
@@ -330,9 +331,13 @@ nodes:
 
 One row per leaf node. Decision, flag and terminal nodes are not listed. Master phase boxes `P0`–`P11` are leaves (phase `MASTER`) whose sections are the phase pages. Rows of phase `F` are Part 0 sections: they have no diagram definition and must be referenced by at least one `ref` node.
 
+**Row validation.** Every row is a mapping. `id` is a string matching `^[A-Z][A-Z0-9_]*$`; `label` is a non-empty string; `phase` is one of P0–P11, B1–B7, MASTER, F; `areas` is a list of integers in 1–34; `section` matches `path.md#anchor` and its anchor is a heading id of the rendered page. The ID prefix equals the phase (`P7_GARCH` / `P7`), with two named exceptions: `P0`–`P11` carry phase MASTER and only they do, and `B1`–`B7` take the phase of the diagram that defines them. A YAML parse error, a duplicate key or a type error is a finding naming the file, never a traceback.
+
 ### 10.5 Runtime node linking
 
-New script `docs/javascripts/flowchart-links.js`. After `mermaid-init.js` inserts a rendered container, the script loads `flowcharts/inventory.yml` once (js-yaml is already loaded), matches each SVG node whose id matches `^flowchart-(.+)-\d+$` against inventory IDs, and attaches a click handler navigating to the section URL plus a hover title showing label and area numbers. `securityLevel` stays as is; Mermaid `click` directives are not used. `mermaid-init.js` exposes a post-render hook for this.
+New script `docs/javascripts/flowchart-links.js`. After `mermaid-init.js` inserts a rendered container it dispatches `mermaid:rendered`; flowchart-links also scans containers already rendered when it loads, so script order does not matter. The script loads `flowcharts/inventory.yml` once (js-yaml is already loaded), matches each SVG node whose id matches `^flowchart-(.+)-\d+$` against inventory IDs, and attaches a click handler navigating to the section URL plus a hover title showing label and area numbers. `securityLevel` stays as is; Mermaid `click` directives are not used.
+
+The section-to-URL mapping lives once, in `docs/javascripts/site-urls.js` (`window.tsamSite.docUrl`, loaded first; the root `index.md` maps to the site root), and glossary links use the same helper. `mkdocs.yml` sets `use_directory_urls: true` explicitly, because the mapping depends on it. Fetches check `response.ok` and log the URL on failure. Mermaid is pinned to an exact version (`mermaid@10.9.8`), because the SVG id format is the linking contract, and fences are emitted as `div.mermaid` so `mermaid-init.js` is the only renderer. A Playwright smoke test (`tests/e2e/test_site_smoke.py`) builds and serves the site and clicks a leaf.
 
 ### 10.6 Glossary schema
 
@@ -352,19 +357,20 @@ terms:
 
 ## 11. Audit
 
-`scripts/audit_flowcharts.py`, run in CI before `mkdocs build`, exits non-zero on any error. Precedent: `scripts/audit_palette.py`.
+`scripts/audit_flowcharts.py`, run in CI on every pull request to `main` and every push to `main`, before `mkdocs build --strict`, exits non-zero on any error. Precedent: `scripts/audit_palette.py`. It renders every page with the MkDocs configuration (`mkdocs.yml` `markdown_extensions`, front matter stripped as MkDocs does), so diagram sources, heading ids and link targets are those of the built site: fences indented in admonitions or tabs, `~~~`, four-backtick and snippet fences are all seen, and anchors are the rendered toc ids.
 
 | Object | Check | Severity |
 |---|---|---|
-| Mermaid nodes | Defined (non-`ref`) IDs unique across all diagrams; every `ref` ID has a definition; every defined leaf ID has an inventory row; every inventory ID is defined in some diagram | error |
-| Inventory | `section` file exists; anchor exists (computed with the `toc` slugify) | error |
-| Sections | Every `.md` under `reference/` and `01-workflow/` is referenced by an inventory row (method) or, if `kind: theory`, is linked from at least one method section or glossary derivation | error |
-| Glossary | Every `depends_on` resolves to a term; every chain terminates at a `foundation: true` term; no cycles; `reference` anchor exists; exactly one `reference` per term. A term with no `depends_on` key is a chain not yet written and is reported as a warning; a term with an empty `depends_on` and no `foundation: true` is a dead end and is an error | error |
-| Glossary | Scan Part 0 and `reference/` pages in `nav:` order; list terms whose first-mention page differs from the `reference` page, for manual review | warning |
+| Mermaid nodes | Defined (non-`ref`) IDs unique across all diagrams; every `ref` ID has a definition; every defined leaf ID has an inventory row; every inventory ID is defined in some diagram; label first line equals the inventory label; the parsing and no-URL rules of section 10.1 | error |
+| Inventory | Row validation of section 10.4; `section` file exists; anchor is a rendered heading id | error |
+| Sections | Every non-index `.md` under `reference/` and `01-workflow/` is referenced by an inventory row (method) or, if `kind: theory`, is the target of a resolved link on a method page or of an exact `path.md#anchor` link in a glossary derivation | error |
+| Headings | Every H2 on every page under `reference/` and `01-workflow/`, index pages included, is an inventory anchor, a glossary `reference` anchor, or a structural heading from `STRUCTURAL_H2` (listed in `DESIGN-SYSTEM.md`) | error |
+| Glossary | Every `depends_on` is a list of names that resolve to terms; every chain terminates at a `foundation: true` term; a foundation term is homed under `00-foundations/` and has no `depends_on`; no cycles, each reported once; `reference` anchor exists; no duplicate keys, so exactly one `reference` per term; each term sits in the glossary file named after its reference page. A term with no `depends_on` key is a chain not yet written and is reported as a warning; a term with an empty `depends_on` and no `foundation: true` is a dead end and is an error | error |
+| Glossary | Scan every `nav:` page in order; list terms whose first-mention page differs from the `reference` page, for manual review | warning |
 
-Node classification in Mermaid: a node is `ref` when it uses the `[[ ]]` shape or is assigned the `ref` class; otherwise it is defined. Among defined nodes, leaf status follows the shape rule in section 10.1. `index.md` pages are exempt from the sections check.
+Node classification in Mermaid: a node is `ref` when it uses the `[[ ]]` shape or is assigned the `ref` class; otherwise it is defined. Among defined nodes, leaf status follows the shape rule in section 10.1. `index.md` pages are exempt from the page-level sections check, not from the heading check.
 
-CI also switches `mkdocs build` to `--strict`, as `CLAUDE.md` already requires. The glossary file index is written by a MkDocs `on_pre_build` hook (`scripts/mkdocs_hooks.py`), which also logs audit errors as build warnings so `--strict` fails on them; the hook rewrites the index only when its content changed, so `mkdocs serve` does not loop.
+CI also switches `mkdocs build` to `--strict`, as `CLAUDE.md` already requires, and runs on `pull_request` so the gates block a merge rather than a deploy; only a push to `main` deploys. The glossary file index is written by a MkDocs `on_pre_build` hook (`scripts/mkdocs_hooks.py`), which also logs audit errors as build warnings so `--strict` fails on them; the hook rewrites the index only when its content changed, so `mkdocs serve` does not loop.
 
 ## 12. Migration from the current state
 

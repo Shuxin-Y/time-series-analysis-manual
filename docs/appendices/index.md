@@ -8,7 +8,7 @@ Appendix pages are link indexes. They point at the section where each item is de
 
 - [Appendix A: OLS Estimation, Derivation and Properties](A-ols-derivation.md)
 - [Python Environment Setup](C-python-environment-setup.md)
-- Statistical tests index: pending, generated from the inventory in Plan B
+- Statistical tests index: pending; generated from the inventory once the test leaves are drawn
 - Datasets and resources: pending
 - Software ecosystem: pending
 

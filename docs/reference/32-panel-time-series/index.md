@@ -2,14 +2,12 @@
 
 Panel unit roots and cointegration, dynamic panel GMM, heterogeneous panels and cross-sectional dependence.
 
-Landing-page tab: *Core Models*. Sections below are created from the flowchart inventory; each is a leaf node of some sub-diagram and is written following the content rules in `DESIGN-SYSTEM.md`.
-
 ## Branch sub-diagram
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B6["B6 Wide panel"] --> B6_PENDING(["Sub-diagram drawn in Plan B"])
+    B6["B6 Wide panel"] --> B6_PENDING(["Sub-diagram pending"])
     class B6 process
     class B6_PENDING terminator
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

@@ -2,14 +2,12 @@
 
 Integer-valued, categorical and compositional time series.
 
-Landing-page tab: *Specialized Models*. Sections below are created from the flowchart inventory; each is a leaf node of some sub-diagram and is written following the content rules in `DESIGN-SYSTEM.md`.
-
 ## Branch sub-diagram
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B1["B1 Counts and categorical"] --> B1_PENDING(["Sub-diagram drawn in Plan B"])
+    B1["B1 Counts and categorical"] --> B1_PENDING(["Sub-diagram pending"])
     class B1 process
     class B1_PENDING terminator
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

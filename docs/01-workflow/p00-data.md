@@ -7,7 +7,7 @@ Sampling rate and resolution; timestamp alignment, time zones, daylight-saving t
 ## Sub-diagram
 
 !!! note "Diagram pending"
-    The P0 sub-diagram is drawn in Plan B. Leaf nodes of this phase are listed in `docs/flowcharts/inventory.yml`.
+    To-do item from the flowchart inventory (node `P0`): draw the P0 sub-diagram following the decision-flowchart notation in `DESIGN-SYSTEM.md`; its leaf nodes get rows in `docs/flowcharts/inventory.yml`.
 
 ## Phase guide
 

@@ -7,7 +7,7 @@ Routing on the multivariate, global and exogenous-variable flags, then the model
 ## Sub-diagram
 
 !!! note "Diagram pending"
-    The P6 sub-diagram is drawn in Plan B. Leaf nodes of this phase are listed in `docs/flowcharts/inventory.yml`.
+    To-do item from the flowchart inventory (node `P6`): draw the P6 sub-diagram following the decision-flowchart notation in `DESIGN-SYSTEM.md`; its leaf nodes get rows in `docs/flowcharts/inventory.yml`.
 
 ## Phase guide
 

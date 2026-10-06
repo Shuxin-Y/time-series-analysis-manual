@@ -40,4 +40,4 @@ graph TD
 
 | Purpose | Emphasised phases | Key leaves |
 |---|---|---|
-| Pending | Pending | Filled in Plan B |
+| Pending | Pending | Pending |

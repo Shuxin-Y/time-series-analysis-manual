@@ -2,14 +2,12 @@
 
 Poisson, renewal, Cox and Hawkes processes; marked and neural point processes.
 
-Landing-page tab: *Specialized Models*. Sections below are created from the flowchart inventory; each is a leaf node of some sub-diagram and is written following the content rules in `DESIGN-SYSTEM.md`.
-
 ## Branch sub-diagram
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B2["B2 Event times"] --> B2_PENDING(["Sub-diagram drawn in Plan B"])
+    B2["B2 Event times"] --> B2_PENDING(["Sub-diagram pending"])
     class B2 process
     class B2_PENDING terminator
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

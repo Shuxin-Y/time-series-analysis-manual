@@ -35,7 +35,7 @@ graph TD
 
 | Representation | Choose when | Key leaves |
 |---|---|---|
-| Pending | Pending | Filled in Plan B |
+| Pending | Pending | Pending |
 
 ### Topics carried over from the previous outline
 

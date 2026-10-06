@@ -2,14 +2,12 @@
 
 Spatial econometrics with time, geostatistics, graph-based and network time series.
 
-Landing-page tab: *Representations & Signals*. Sections below are created from the flowchart inventory; each is a leaf node of some sub-diagram and is written following the content rules in `DESIGN-SYSTEM.md`.
-
 ## Branch sub-diagram
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B5["B5 Spatial and network"] --> B5_PENDING(["Sub-diagram drawn in Plan B"])
+    B5["B5 Spatial and network"] --> B5_PENDING(["Sub-diagram pending"])
     class B5 process
     class B5_PENDING terminator
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
