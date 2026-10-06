@@ -358,4 +358,4 @@ Three patterns emerge. Violations of A2 and A3 leave $\hat{\boldsymbol{\beta}}$ 
 The table reveals a critical hierarchy. Violations of Assumptions 2 and 3 leave $\hat{\boldsymbol{\beta}}$ **unbiased but unreliable**: the estimate is correct on average, but the standard errors and test statistics are not. Violations of Assumptions 1 and 4 render $\hat{\boldsymbol{\beta}}$ **biased or inconsistent** — the estimate itself is wrong. This hierarchy determines which violations to address first.
 
 
-**[Next: General Flowchart →](../01-master-flowchart/01-general-flowchart.md)**
+**[Next: General Flowchart →](../01-workflow/index.md)**

@@ -1,0 +1,16 @@
+# Purpose 2: Causal and structural inference
+
+**Goal:** Determine whether and how one series drives another, and quantify the effect.
+
+## Sub-chart
+
+!!! note "Diagram pending"
+    Drawn in Plan B. Structure: purpose-specific preliminary questions, then the spine phases with this purpose's emphasis, then purpose-specific leaves, then the P10 inference and P11 metrics below.
+
+## P10 inference for this purpose
+
+Identification, impulse responses and variance decompositions, local projections, counterfactuals, placebo tests.
+
+## P11 metrics for this purpose
+
+Robustness across specifications, pre-trend checks.

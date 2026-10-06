@@ -32,7 +32,7 @@ The manual is organized into focused chapters that build progressively:
 <div class="annotate" markdown>
 
 1. **[Introduction](00-foundations/logic-of-statistical-analysis.md)** - The model/estimator/test framework, when time series methods are needed, and how time series breaks the classical OLS assumptions
-2. **[Flowcharts](01-master-flowchart/01-general-flowchart.md)** - Three comprehensive decision workflows (1)
+2. **[Flowcharts](01-workflow/index.md)** - Three comprehensive decision workflows (1)
 3. **[Data Preparation](02-data-preparation/index.md)** - Cleaning, sampling, and quality checks
 4. **[Exploratory Analysis](03-exploratory-analysis/index.md)** - Stationarity, distributions, temporal structure
 5. **[Frequency Domain](04-frequency-domain/index.md)** - Spectral analysis, periodicities, filtering
@@ -58,21 +58,21 @@ The manual is organized into focused chapters that build progressively:
 === "New to Time Series"
     
     1. Read the [Introduction](00-foundations/logic-of-statistical-analysis.md) to understand the framework
-    2. Skim the [General Flowchart](01-master-flowchart/01-general-flowchart.md) for the big picture
+    2. Skim the [General Flowchart](01-workflow/index.md) for the big picture
     3. Follow the Guided Walkthrough (WIP) for detailed explanations
     4. Work through chapters 3-7 in order
 
 === "Have Specific Goals"
 
-    - Forecasting → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#1-forecasting-workflow)
-    - Causal Analysis → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis-structural-inference)
-    - Anomaly Detection → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly-regime-detection)
-    - Feature Engineering → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#7-feature-extraction-for-ml)
+    - Forecasting → [Purpose-Based Workflow](01-workflow/p02-purpose/01-forecasting.md)
+    - Causal Analysis → [Purpose-Based Workflow](01-workflow/p02-purpose/02-causal-inference.md)
+    - Anomaly Detection → [Purpose-Based Workflow](01-workflow/p02-purpose/05-anomaly-regime-detection.md)
+    - Feature Engineering → [Purpose-Based Workflow](01-workflow/p02-purpose/07-feature-extraction-classification.md)
 
 === "Know Your Domain"
 
-    - Finance → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#1-time-domain-representation)
-    - Signal Processing → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#2-frequency-domain-representation)
+    - Finance → [Representation Workflow](01-workflow/p05-representation/01-time-domain.md)
+    - Signal Processing → [Representation Workflow](01-workflow/p05-representation/02-frequency-domain.md)
 
 
 === "Want Examples"

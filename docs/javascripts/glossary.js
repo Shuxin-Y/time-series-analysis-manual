@@ -27,7 +27,7 @@
 
   const ENABLED_PATHS = [
     '/00-foundations/',
-    '/01-master-flowchart/',
+    '/01-workflow/',
     '/02-data-preparation/',
     '/03-exploratory-analysis/',
     '/04-frequency-domain/',

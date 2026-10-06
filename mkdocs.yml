@@ -159,10 +159,38 @@ nav:
       - 00-foundations/ols-assumptions.md
       - 00-foundations/stochastic-processes.md
       - 00-foundations/asymptotics.md
-  - Flowcharts:
-      - 01-master-flowchart/01-general-flowchart.md
-      - 01-master-flowchart/02-purpose-workflow.md
-      - 01-master-flowchart/03-representation-workflow.md
+  - Workflow:
+      - 01-workflow/index.md
+      - 01-workflow/p00-data.md
+      - 01-workflow/p01-data-type-gate.md
+      - Purpose:
+          - 01-workflow/p02-purpose/index.md
+          - 01-workflow/p02-purpose/01-forecasting.md
+          - 01-workflow/p02-purpose/02-causal-inference.md
+          - 01-workflow/p02-purpose/03-signal-extraction.md
+          - 01-workflow/p02-purpose/04-change-point-detection.md
+          - 01-workflow/p02-purpose/05-anomaly-regime-detection.md
+          - 01-workflow/p02-purpose/06-decomposition.md
+          - 01-workflow/p02-purpose/07-feature-extraction-classification.md
+          - 01-workflow/p02-purpose/08-spectral-analysis.md
+          - 01-workflow/p02-purpose/09-system-identification.md
+          - 01-workflow/p02-purpose/10-simulation.md
+      - 01-workflow/p03-exploratory-diagnostics.md
+      - 01-workflow/p04-transformations.md
+      - Representation:
+          - 01-workflow/p05-representation/index.md
+          - 01-workflow/p05-representation/01-time-domain.md
+          - 01-workflow/p05-representation/02-frequency-domain.md
+          - 01-workflow/p05-representation/03-time-frequency.md
+          - 01-workflow/p05-representation/04-state-space.md
+          - 01-workflow/p05-representation/05-functional.md
+          - 01-workflow/p05-representation/06-hilbert-phase.md
+      - 01-workflow/p06-mean-model-class.md
+      - 01-workflow/p07-error-process.md
+      - 01-workflow/p08-estimation.md
+      - 01-workflow/p09-diagnostics-selection.md
+      - 01-workflow/p10-inference.md
+      - 01-workflow/p11-validation-deployment.md
   - Data Preparation:
       - 02-data-preparation/index.md
   - Exploratory Analysis:
