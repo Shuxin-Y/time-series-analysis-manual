@@ -9,7 +9,7 @@
  *
  * Term files are listed in glossary/index.yml, generated at build time by
  * scripts/mkdocs_hooks.py. Paths in `reference` are docs-relative source paths
- * (path/file.md#anchor); referenceUrl() converts them to site URLs.
+ * (path/file.md#anchor); tsamSite.docUrl() (site-urls.js) converts them to site URLs.
  */
 
 (function() {
@@ -18,48 +18,41 @@
   // Pages where the glossary is switched off: the home page and the design showcase.
   const DISABLED_PATHS = ['/design-system-showcase/'];
 
+  let termsPromise = null;
   let allTerms = [];
   let drawerStack = [];
 
-  function siteBase() {
-    return window.__md_scope || '/';
-  }
-
   function isGlossaryEnabled() {
     const path = window.location.pathname;
-    const base = new URL(siteBase(), window.location.origin).pathname;
+    const base = new URL(window.tsamSite.base(), window.location.origin).pathname;
     if (path === base || path === base + 'index.html') return false;
     return !DISABLED_PATHS.some(disabled => path.includes(disabled));
   }
 
-  // Convert "path/file.md#anchor" to a site URL under use_directory_urls.
-  function referenceUrl(ref) {
-    const [file, anchor] = ref.split('#');
-    let path = file.replace(/\.md$/, '');
-    path = path.endsWith('/index') ? path.slice(0, -'index'.length) : path + '/';
-    return new URL(path, siteBase()).href + (anchor ? '#' + anchor : '');
-  }
-
-  async function loadGlossary() {
-    let files = [];
-    try {
-      const response = await fetch(new URL('glossary/index.yml', siteBase()).href);
-      files = ((jsyaml.load(await response.text()) || {}).files) || [];
-    } catch (error) {
-      console.warn('Could not load glossary/index.yml:', error);
-      return [];
+  // Fetched once per page load; a failed file is logged by tsamSite.fetchText and contributes no terms.
+  function loadGlossary() {
+    if (!termsPromise) {
+      termsPromise = (async () => {
+        let files = [];
+        try {
+          files = ((jsyaml.load(await window.tsamSite.fetchText('glossary/index.yml')) || {}).files) || [];
+        } catch (error) {
+          console.error('glossary: file list unusable', error);
+          return [];
+        }
+        const fetches = files.map(async name => {
+          try {
+            const data = jsyaml.load(await window.tsamSite.fetchText(`glossary/${name}`));
+            return (data && data.terms) || [];
+          } catch (error) {
+            console.error(`glossary: ${name} unusable`, error);
+            return [];
+          }
+        });
+        return (await Promise.all(fetches)).flat();
+      })();
     }
-    const fetches = files.map(async name => {
-      try {
-        const response = await fetch(new URL(`glossary/${name}`, siteBase()).href);
-        const data = jsyaml.load(await response.text());
-        return (data && data.terms) || [];
-      } catch (error) {
-        console.warn(`Could not load glossary/${name}:`, error);
-        return [];
-      }
-    });
-    return (await Promise.all(fetches)).flat();
+    return termsPromise;
   }
 
   function escapeRegex(string) {
@@ -82,7 +75,7 @@
     const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
       acceptNode: function(node) {
         if (node.parentElement.classList.contains('glossary-term')) return NodeFilter.FILTER_REJECT;
-        if (node.parentElement.closest('code, pre, .highlight, .mermaid-container, .arithmatex')) return NodeFilter.FILTER_REJECT;
+        if (node.parentElement.closest('a, code, pre, .highlight, .mermaid-container, .arithmatex')) return NodeFilter.FILTER_REJECT;
         if (!node.textContent.trim()) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       }
@@ -131,11 +124,18 @@
     showDrawer(termData);
   }
 
-  // Inline markdown: **bold**, *italic*
+  // Math spans ($$...$$, $...$, \(...\), \[...\]) pass through to MathJax untouched by the transforms below.
+  const MATH_SPAN_RE = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\])/;
+
+  // Inline markdown on escaped text: **bold**, *italic*; odd split indices are math spans.
   function inlineMarkdownToHtml(text) {
-    return text
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '<em>$1</em>');
+    return text.split(MATH_SPAN_RE).map((part, i) => {
+      const safe = escapeHtml(part);
+      if (i % 2) return safe;
+      return safe
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '<em>$1</em>');
+    }).join('');
   }
 
   // Block markdown: paragraphs, "- " bullets, "1. " numbered steps. Math left for MathJax.
@@ -184,7 +184,7 @@
         : `<span class="glossary-chip glossary-chip--missing" title="No glossary entry yet">${escapeHtml(name)}</span>`;
     }).join('');
     const reference = termData.reference
-      ? `<p><a href="${referenceUrl(termData.reference)}">${escapeHtml(termData.reference.split('#')[0])}</a></p>`
+      ? `<p><a href="${window.tsamSite.docUrl(termData.reference)}">${escapeHtml(termData.reference.split('#')[0])}</a></p>`
       : '';
 
     const drawer = document.createElement('div');
@@ -257,10 +257,8 @@
 
   async function initGlossary() {
     if (!isGlossaryEnabled()) return;
-    if (allTerms.length === 0) {
-      allTerms = await loadGlossary();
-      if (allTerms.length === 0) { console.warn('No glossary terms loaded'); return; }
-    }
+    allTerms = await loadGlossary();
+    if (allTerms.length === 0) { console.error('No glossary terms loaded'); return; }
     highlightTerms(allTerms);
     addClickHandlers();
   }
