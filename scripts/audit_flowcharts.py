@@ -202,3 +202,66 @@ def check_inventory_targets(rows: list[Row], docs_dir: Path) -> list[Finding]:
         if r.anchor not in anchors[r.file]:
             findings.append(Finding("error", r.id, f"anchor #{r.anchor} not found in {r.file}"))
     return findings
+
+
+# ---------------------------------------------------------------- diagram checks
+
+def _defined_ids(diagrams: list[Diagram]) -> dict[str, str]:
+    """Non-ref node id -> where first defined."""
+    defined: dict[str, str] = {}
+    for d in diagrams:
+        for nid in d.nodes:
+            if not d.is_ref(nid):
+                defined.setdefault(nid, d.where)
+    return defined
+
+
+def check_diagrams(diagrams: list[Diagram]) -> list[Finding]:
+    findings: list[Finding] = []
+    defined: dict[str, str] = {}
+    for d in diagrams:
+        for nid in d.nodes:
+            if d.is_ref(nid):
+                continue
+            if nid in defined:
+                findings.append(Finding("error", d.where, f"node {nid} already defined in {defined[nid]}"))
+            else:
+                defined[nid] = d.where
+    for d in diagrams:
+        for nid in sorted(d.edge_ids - set(d.nodes)):
+            findings.append(Finding("error", d.where, f"node {nid} is used in an edge but has no shaped definition in this diagram"))
+    return findings
+
+
+def check_refs(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
+    defined = _defined_ids(diagrams)
+    foundation = {r.id for r in rows if r.phase == FOUNDATION_PHASE}
+    findings: list[Finding] = []
+    for d in diagrams:
+        for nid in d.nodes:
+            if d.is_ref(nid) and nid not in defined and nid not in foundation:
+                findings.append(Finding("error", d.where, f"ref {nid} has no definition in any diagram and is not a foundation inventory row"))
+    return findings
+
+
+def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
+    findings: list[Finding] = []
+    by_id = {r.id: r for r in rows}
+    leaves: dict[str, str] = {}
+    refs: set[str] = set()
+    for d in diagrams:
+        for nid in d.nodes:
+            if d.is_ref(nid):
+                refs.add(nid)
+            elif d.is_leaf(nid):
+                leaves.setdefault(nid, d.where)
+    for nid, where in sorted(leaves.items()):
+        if nid not in by_id:
+            findings.append(Finding("error", where, f"leaf {nid} has no inventory row"))
+    for r in rows:
+        if r.phase == FOUNDATION_PHASE:
+            if r.id not in refs:
+                findings.append(Finding("error", r.id, "foundation row is not referenced by any ref node"))
+        elif r.id not in leaves:
+            findings.append(Finding("error", r.id, "inventory row has no leaf definition in any diagram"))
+    return findings
