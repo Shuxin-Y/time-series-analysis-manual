@@ -330,9 +330,10 @@
   cursor: default;
 }
 
+/* The header sits outside .md-typeset, where em sizes resolve against Material's 0.5rem body size. */
 .glossary-back {
   font: inherit;
-  font-size: 0.85em;
+  font-size: 0.7rem;
   margin-bottom: 0.25rem;
   padding: 0;
   border: none;
@@ -342,7 +343,7 @@
 }
 
 .glossary-crumbs {
-  font-size: 0.75em;
+  font-size: 0.65rem;
   color: var(--md-default-fg-color--light);
   margin-top: 0.25rem;
 }
@@ -354,12 +355,21 @@
   border-radius: 999px;
   background: var(--md-accent-fg-color);
   color: var(--md-accent-bg-color);
+  /* The h3 paints its glyphs with a clipped gradient and a transparent fill; the badge opts out. */
+  -webkit-text-fill-color: var(--md-accent-bg-color);
 }
 
 .glossary-section .derivation ol {
+  list-style: decimal;
   padding-left: 1.25rem;
 }
 
+/* .arithmatex sets overflow: auto, which clips the outside list marker; steps carry inline math only. */
 .glossary-section .derivation li {
   margin-bottom: 0.6rem;
+  overflow: visible;
+}
+
+.glossary-section a {
+  color: var(--md-typeset-a-color);
 }
