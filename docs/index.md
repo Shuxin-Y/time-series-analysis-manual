@@ -25,31 +25,27 @@ Throughout this book:
 
 ## Book Structure
 
-The manual is organized into focused chapters that build progressively:
+The manual has three axes. Read Foundations first; follow the Workflow when you have data in hand; open Reference chapters when the workflow sends you there.
 
-### Core Content
+### Foundations
 
-<div class="annotate" markdown>
+- **[The logic of statistical analysis](00-foundations/logic-of-statistical-analysis.md)**: model class, estimator, test
+- **[Do you need time series analysis?](00-foundations/do-you-need-time-series-analysis.md)**: the gateway flowchart from OLS to richer models
+- **[OLS assumptions and how time series violates them](00-foundations/ols-assumptions.md)**
+- **[Stochastic processes](00-foundations/stochastic-processes.md)**: the roots of every error-process choice
+- **[Asymptotics for dependent data](00-foundations/asymptotics.md)**
 
-1. **[Introduction](00-foundations/logic-of-statistical-analysis.md)** - The model/estimator/test framework, when time series methods are needed, and how time series breaks the classical OLS assumptions
-2. **[Flowcharts](01-workflow/index.md)** - Three comprehensive decision workflows (1)
-3. **[Data Preparation](02-data-preparation/index.md)** - Cleaning, sampling, and quality checks
-4. **[Exploratory Analysis](03-exploratory-analysis/index.md)** - Stationarity, distributions, temporal structure
-5. **[Frequency Domain](04-frequency-domain/index.md)** - Spectral analysis, periodicities, filtering
-6. **[Modelling](05-modelling/index.md)** - ARIMA, VAR, GARCH, state-space, and ML approaches
-7. **[Feature Extraction](06-feature-extraction/index.md)** - Engineering features for machine learning
-8. **[Validation & Deployment](07-validation-deployment/index.md)** - Testing, monitoring, and production systems
+### Workflow
 
-</div>
+The [general flowchart](01-workflow/index.md) runs through twelve phases, P0 to P11, from raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p02-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
 
-1.  The three flowcharts provide complementary views:
-    - **General**: Complete econometric workflow from data to deployment
-    - **Purpose-Based**: Organized by analytical goal (forecasting, causal analysis, etc.)
-    - **Representation-Based**: Organized by mathematical domain (time, frequency, state-space, etc.)
+### Reference
+
+Thirty-four areas, listed under *Techniques This Book Covers* below, each with its own chapter group under Reference. Every leaf node of a workflow sub-diagram opens one reference section.
 
 ### Reference Materials
 
-- **[Appendices](appendices/index.md)** - Mathematical foundations, statistical tests reference, datasets, and resources
+- **[Appendices](appendices/index.md)**: link indexes for tests, datasets, software, and the Python environment
 
 ---
 
@@ -57,10 +53,10 @@ The manual is organized into focused chapters that build progressively:
 
 === "New to Time Series"
     
-    1. Read the [Introduction](00-foundations/logic-of-statistical-analysis.md) to understand the framework
-    2. Skim the [General Flowchart](01-workflow/index.md) for the big picture
-    3. Follow the Guided Walkthrough (WIP) for detailed explanations
-    4. Work through chapters 3-7 in order
+    1. Read [Foundations](00-foundations/logic-of-statistical-analysis.md) to understand the model / estimator / test framework
+    2. Open the [General Flowchart](01-workflow/index.md) and follow the phases with your own data
+    3. Click any node to reach the section that teaches it
+    4. Return to [Stochastic processes](00-foundations/stochastic-processes.md) whenever a residual-modelling choice needs its why
 
 === "Have Specific Goals"
 
@@ -79,7 +75,7 @@ The manual is organized into focused chapters that build progressively:
 
     - Browse code examples in each chapter
     - Check [Python Setup](appendices/C-python-environment-setup.md) for environment configuration
-    - Code directory (WIP)
+    - Code examples accompany each reference section as they are written
 
 ---
 ## Techniques This Book Covers

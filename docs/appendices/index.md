@@ -4,11 +4,13 @@ Reference materials and additional resources.
 
 ## Contents
 
-- [Appendix A: OLS Estimation — Derivation and Properties](A-ols-derivation.md) — Matrix calculus derivation, fundamental decomposition, t-statistic validity conditions; Gauss-Markov theorem, GLS, and asymptotic theory to be expanded
-- [Python Environment Setup](C-python-environment-setup.md) — Installation and configuration
-- Statistical Tests Reference — Quick reference for all hypothesis tests
-- Datasets and Resources — Practice datasets and external resources
-- Further Reading — Bibliography and recommended texts
+Appendix pages are link indexes. They point at the section where each item is developed and carry no explanations of their own.
+
+- [Appendix A: OLS Estimation, Derivation and Properties](A-ols-derivation.md)
+- [Python Environment Setup](C-python-environment-setup.md)
+- Statistical tests index: pending, generated from the inventory in Plan B
+- Datasets and resources: pending
+- Software ecosystem: pending
 
 ---
 
