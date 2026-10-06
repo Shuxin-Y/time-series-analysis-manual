@@ -108,9 +108,18 @@ def test_glossary_chip_opens_the_upstream_term(page, site_url):
     assert "<strong>Reject $H_0$</strong>" in rendered and "$s&lt;t$" in rendered
     assert 'href="' + site_url + 'reference/04-estimation/maximum-likelihood/#joint-density"' in rendered
     for disabled in ("", "design-system-showcase/"):  # GLOSSARY_DISABLED_PAGES, read from glossary/index.yml
+        fetched = []
+
+        def record(request):
+            fetched.append(request.url)
+
+        page.on("request", record)
         page.goto(site_url + disabled)
         page.wait_for_load_state("networkidle")
+        page.remove_listener("request", record)
         assert page.locator(".glossary-term").count() == 0, disabled
+        glossary_files = [url for url in fetched if "/glossary/" in url]
+        assert glossary_files == [site_url + "glossary/index.yml"], (disabled, glossary_files)
 
 
 def test_no_console_errors(page, site_url):

@@ -15,7 +15,8 @@
 (function() {
   'use strict';
 
-  let glossaryPromise = null;
+  let indexPromise = null;
+  let termsPromise = null;
   let allTerms = [];
   let drawerStack = [];
 
@@ -26,31 +27,33 @@
     return !disabledPages.some(page => new URL(window.tsamSite.docUrl(page)).pathname === here);
   }
 
-  // Fetched once per page load; a failed file is logged by tsamSite.fetchText and contributes no terms.
-  function loadGlossary() {
-    if (!glossaryPromise) {
-      glossaryPromise = (async () => {
-        let index = {};
-        try {
-          index = jsyaml.load(await window.tsamSite.fetchText('glossary/index.yml')) || {};
-        } catch (error) {
+  // The index is fetched once per page load, before any term file, so disabled pages fetch nothing else.
+  function loadIndex() {
+    if (!indexPromise) {
+      indexPromise = window.tsamSite.fetchText('glossary/index.yml')
+        .then(text => jsyaml.load(text) || {})
+        .catch(error => {
           console.error('glossary: file list unusable', error);
-          return { terms: [], disabledPages: [] };
-        }
-        const files = index.files || [];
-        const fetches = files.map(async name => {
-          try {
-            const data = jsyaml.load(await window.tsamSite.fetchText(`glossary/${name}`));
-            return (data && data.terms) || [];
-          } catch (error) {
-            console.error(`glossary: ${name} unusable`, error);
-            return [];
-          }
+          return {};
         });
-        return { terms: (await Promise.all(fetches)).flat(), disabledPages: index.disabled_pages || [] };
-      })();
     }
-    return glossaryPromise;
+    return indexPromise;
+  }
+
+  // Term files are fetched once, on the first enabled page; a failed file is logged and contributes no terms.
+  function loadTerms(files) {
+    if (!termsPromise) {
+      termsPromise = Promise.all(files.map(async name => {
+        try {
+          const data = jsyaml.load(await window.tsamSite.fetchText(`glossary/${name}`));
+          return (data && data.terms) || [];
+        } catch (error) {
+          console.error(`glossary: ${name} unusable`, error);
+          return [];
+        }
+      })).then(lists => lists.flat());
+    }
+    return termsPromise;
   }
 
   function escapeRegex(string) {
@@ -262,9 +265,9 @@
   }
 
   async function initGlossary() {
-    const glossary = await loadGlossary();
-    if (!isGlossaryEnabled(glossary.disabledPages)) return;
-    allTerms = glossary.terms;
+    const index = await loadIndex();
+    if (!isGlossaryEnabled(index.disabled_pages || [])) return;
+    allTerms = await loadTerms(index.files || []);
     if (allTerms.length === 0) { console.error('No glossary terms loaded'); return; }
     highlightTerms(allTerms);
     addClickHandlers();
