@@ -248,10 +248,14 @@ class _RenderCollector(HTMLParser):
 
 
 def load_site_config(config_file: Path) -> MkDocsConfig:
-    return load_config(config_file=str(config_file))
+    """The config as a build sees it: loaded, then passed through every plugin's on_config, which may add
+    Markdown extensions (autorefs does). The hook receives such a config from MkDocs; the CLI builds it here."""
+    cfg = load_config(config_file=str(config_file))
+    return cfg.plugins.on_config(cfg)
 
 
 def site_markdown(cfg: MkDocsConfig) -> markdown.Markdown:
+    """The one renderer constructor, shared by the hook, the CLI and the scaffold."""
     return markdown.Markdown(extensions=cfg["markdown_extensions"], extension_configs=cfg["mdx_configs"])
 
 

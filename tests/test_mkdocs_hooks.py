@@ -60,3 +60,12 @@ def test_strict_build_aborts_on_an_audit_error(tmp_path):
     strict_build(tmp_path / "ok", "p0-data")
     with pytest.raises(Abort):
         strict_build(tmp_path / "broken", "no-such-anchor")
+
+
+def test_cli_config_carries_the_extensions_plugins_add_in_on_config():
+    from mkdocs.config import load_config as raw_load
+
+    raw = raw_load(config_file=str(sitekit.REPO / "mkdocs.yml"))
+    cli = audit.load_site_config(sitekit.REPO / "mkdocs.yml")
+    added = [e for e in cli["markdown_extensions"] if e not in raw["markdown_extensions"]]
+    assert any(type(e).__name__ == "AutorefsExtension" for e in added), added
