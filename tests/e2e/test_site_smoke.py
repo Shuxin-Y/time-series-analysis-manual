@@ -110,6 +110,8 @@ def test_glossary_chip_opens_the_upstream_term(page, site_url):
     unanchored = page.evaluate("t => window.tsamGlossary.renderMarkdown(t)",
                                "[a](reference/04-estimation/index.md) and [b](../x.md#y)")
     assert "<a " not in unanchored  # the drawer renders only the audit's SECTION_RE link form
+    nul = page.evaluate("t => window.tsamGlossary.renderMarkdown(t)", "text \u00000\u0000 here $m$")
+    assert nul == '<p class="arithmatex">text 0 here $m$</p>'
     for disabled in ("", "design-system-showcase/"):  # GLOSSARY_DISABLED_PAGES, read from glossary/index.yml
         fetched = []
 

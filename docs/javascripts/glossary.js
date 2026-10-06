@@ -136,7 +136,8 @@
   // placeholders while the transforms run, so emphasis may enclose math, then restored escaped and untouched.
   function inlineMarkdownToHtml(text) {
     const math = [];
-    const masked = text.split(MATH_SPAN_RE).map((part, i) => {
+    // NUL is the placeholder delimiter, so it is removed from the input first and cannot collide.
+    const masked = text.replace(/\u0000/g, '').split(MATH_SPAN_RE).map((part, i) => {
       if (i % 2 === 0) return escapeHtml(part);
       math.push(escapeHtml(part));
       return `\u0000${math.length - 1}\u0000`;
