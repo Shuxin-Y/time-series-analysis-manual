@@ -1,6 +1,7 @@
 import textwrap
 
 import audit_flowcharts as audit
+import sitekit
 
 
 def make_docs(tmp_path):
@@ -14,6 +15,7 @@ def make_docs(tmp_path):
     (docs / "reference" / "04-estimation" / "theory.md").write_text("---\nkind: theory\n---\n# Why MLE\n", encoding="utf-8")
     (docs / "reference" / "04-estimation" / "stray.md").write_text("# Stray\n", encoding="utf-8")
     (docs / "01-workflow" / "index.md").write_text("# Workflow\n", encoding="utf-8")
+    sitekit.write_project(tmp_path, {})
     return docs
 
 
@@ -73,7 +75,7 @@ def test_check_glossary_levels(tmp_path):
     docs = make_docs(tmp_path)
     (docs / "glossary" / "g.yml").write_text(GLOSSARY, encoding="utf-8")
     terms, _ = audit.load_glossary(docs / "glossary")
-    findings = audit.check_glossary(terms, docs)
+    findings = audit.check_glossary(terms, sitekit.site(tmp_path))
     by_term = {}
     for f in findings:
         by_term.setdefault(f.where.split(":", 1)[-1], []).append(f)
@@ -91,7 +93,7 @@ def test_check_sections_method_theory_and_stray(tmp_path):
     docs = make_docs(tmp_path)
     rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
     terms = [{"term": "x", "derivation": ""}]
-    findings = audit.check_sections(docs, rows, terms)
+    findings = audit.check_sections(sitekit.site(tmp_path), rows, terms)
     wheres = {f.where: f.message for f in findings}
     assert "reference/04-estimation/theory.md" not in wheres            # linked from index.md
     assert "neither in the inventory" in wheres["reference/04-estimation/stray.md"]
@@ -102,25 +104,16 @@ def test_check_sections_unlinked_theory_is_an_error(tmp_path):
     docs = make_docs(tmp_path)
     (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\n## Joint density\n", encoding="utf-8")
     rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
-    findings = audit.check_sections(docs, rows, [])
+    findings = audit.check_sections(sitekit.site(tmp_path), rows, [])
     assert any(f.where == "reference/04-estimation/theory.md" and "not linked" in f.message for f in findings)
 
 
-def test_nav_pages_flattens_and_tolerates_python_tags(tmp_path):
-    yml = tmp_path / "mkdocs.yml"
-    yml.write_text(textwrap.dedent('''
-        markdown_extensions:
-          - pymdownx.emoji:
-              emoji_index: !!python/name:material.extensions.emoji.twemoji
-        nav:
-          - Home: index.md
-          - Foundations:
-              - 00-foundations/a.md
-              - Sub:
-                  - 00-foundations/b.md
-          - reference/04-estimation/index.md
-    '''), encoding="utf-8")
-    assert audit.nav_pages(yml) == ["index.md", "00-foundations/a.md", "00-foundations/b.md", "reference/04-estimation/index.md"]
+def test_nav_pages_flattens_the_loaded_config(tmp_path):
+    sitekit.write_project(tmp_path, {}, nav=[{"Home": "index.md"},
+                                             {"Foundations": ["00-foundations/a.md", {"Sub": ["00-foundations/b.md"]}]},
+                                             "reference/04-estimation/index.md",
+                                             {"External": "https://example.org/"}])
+    assert sitekit.site(tmp_path).nav_pages() == ["index.md", "00-foundations/a.md", "00-foundations/b.md", "reference/04-estimation/index.md"]
 
 
 def test_first_mention_warning_only_when_pages_differ(tmp_path):
@@ -128,8 +121,30 @@ def test_first_mention_warning_only_when_pages_differ(tmp_path):
     (docs / "00-foundations" / "early.md").write_text("# Early\n\nThe joint density appears here first.\n", encoding="utf-8")
     terms = [{"term": "Joint density", "_file": "g.yml", "reference": "reference/04-estimation/index.md#joint-density"},
              {"term": "Independence", "_file": "g.yml", "reference": "00-foundations/stochastic-processes.md#independence"}]
-    pages = ["00-foundations/early.md", "00-foundations/stochastic-processes.md", "reference/04-estimation/index.md"]
-    findings = audit.first_mention_warnings(pages, terms, docs)
+    sitekit.write_project(tmp_path, {}, nav=["00-foundations/early.md", "00-foundations/stochastic-processes.md", "reference/04-estimation/index.md"])
+    findings = audit.first_mention_warnings(sitekit.site(tmp_path), terms)
     assert len(findings) == 1
     assert findings[0].level == "warning"
     assert "first mentioned on 00-foundations/early.md" in findings[0].message
+
+
+def test_theory_page_cleared_only_by_an_exact_glossary_derivation_link(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\n## Joint density\n", encoding="utf-8")
+    rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
+    linked = [{"term": "x", "derivation": "1. because [why](reference/04-estimation/theory.md#why-mle)"}]
+    loose = [{"term": "x", "derivation": "1. because [why](theory.md) and reference/04-estimation/theory.md"}]
+    site = sitekit.site(tmp_path)
+    assert not any(f.where == "reference/04-estimation/theory.md" for f in audit.check_sections(site, rows, linked))
+    assert any(f.where == "reference/04-estimation/theory.md" and "not linked" in f.message
+               for f in audit.check_sections(site, rows, loose))
+
+
+def test_theory_page_is_not_cleared_by_a_link_to_another_page_with_the_same_name(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "reference" / "10-volatility").mkdir()
+    (docs / "reference" / "10-volatility" / "theory.md").write_text("---\nkind: theory\n---\n# Why GARCH\n", encoding="utf-8")
+    rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
+    findings = audit.check_sections(sitekit.site(tmp_path), rows, [])
+    wheres = {f.where for f in findings if "not linked" in f.message}
+    assert wheres == {"reference/10-volatility/theory.md"}

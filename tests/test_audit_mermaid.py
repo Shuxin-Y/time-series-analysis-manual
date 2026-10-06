@@ -1,6 +1,7 @@
 import textwrap
 
 import audit_flowcharts as audit
+import sitekit
 
 
 SAMPLE = textwrap.dedent('''
@@ -21,13 +22,10 @@ SAMPLE = textwrap.dedent('''
 ''')
 
 
-def test_extract_mermaid_blocks_returns_line_numbers():
+def test_render_page_returns_mermaid_sources_unescaped():
     text = "# Title\n\nprose\n\n```mermaid\ngraph TD\n    A[\"a\"] --> B[\"b\"]\n```\n\nmore\n\n```python\nx = 1\n```\n"
-    blocks = audit.extract_mermaid_blocks(text)
-    assert len(blocks) == 1
-    line_no, source = blocks[0]
-    assert line_no == 5
-    assert 'A["a"]' in source
+    page = audit.render_page(audit.site_markdown(audit.load_site_config(sitekit.REPO / "mkdocs.yml")), text)
+    assert page.mermaid_sources == ('graph TD\n    A["a"] --> B["b"]',)
 
 
 def test_parse_diagram_recognises_every_shape():
@@ -71,12 +69,42 @@ def test_unquoted_label_is_not_a_definition():
 
 
 def test_collect_diagrams_skips_marked_and_records_where(tmp_path):
-    docs = tmp_path / "docs"
-    (docs / "a").mkdir(parents=True)
-    (docs / "a" / "page.md").write_text(
+    sitekit.write_project(tmp_path, {"a/page.md":
         "# A\n\n```mermaid\ngraph TD\n    X_A[\"a\"] --> X_B[\"b\"]\n```\n\n"
-        "```mermaid\n%% audit: skip\ngraph TD\n    Y_A[\"a\"]\n```\n", encoding="utf-8")
-    diagrams = audit.collect_diagrams(docs)
+        "```mermaid\n%% audit: skip\ngraph TD\n    Y_A[\"a\"]\n```\n"})
+    diagrams = audit.collect_diagrams(sitekit.site(tmp_path))
     assert len(diagrams) == 1
-    assert diagrams[0].where == "a/page.md:3"
+    assert diagrams[0].where == "a/page.md#mermaid-1"
     assert set(diagrams[0].nodes) == {"X_A", "X_B"}
+
+
+def test_collect_diagrams_sees_every_fence_form_the_pipeline_renders(tmp_path):
+    sitekit.write_project(tmp_path, {"a/page.md": textwrap.dedent('''
+        # A
+
+        !!! note "Indented"
+
+            ```mermaid
+            graph TD
+                IN_A["a"]
+            ```
+
+        === "Tab"
+
+            ```mermaid
+            graph TD
+                TAB_A["a"]
+            ```
+
+        ~~~mermaid
+        graph TD
+            TILDE_A["a"]
+        ~~~
+
+        ````mermaid
+        graph TD
+            FOUR_A["a"]
+        ````
+    ''')})
+    diagrams = audit.collect_diagrams(sitekit.site(tmp_path))
+    assert sorted(n for d in diagrams for n in d.nodes) == ["FOUR_A", "IN_A", "TAB_A", "TILDE_A"]

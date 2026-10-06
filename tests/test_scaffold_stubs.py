@@ -2,9 +2,11 @@ import textwrap
 
 import audit_flowcharts as audit
 import scaffold_stubs as scaffold
+import sitekit
 
 
 def write_inventory(root, body):
+    sitekit.write_project(root, {})
     (root / "docs" / "flowcharts").mkdir(parents=True, exist_ok=True)
     (root / "docs" / "flowcharts" / "inventory.yml").write_text(textwrap.dedent(body), encoding="utf-8")
 

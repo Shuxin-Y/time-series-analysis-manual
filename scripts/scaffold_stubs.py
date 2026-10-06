@@ -11,7 +11,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from audit_flowcharts import INVENTORY_PATH, Row, heading_anchors, load_inventory, slugify  # noqa: E402
+from markdown.extensions.toc import slugify  # noqa: E402
+
+from audit_flowcharts import INVENTORY_PATH, Row, load_inventory, load_site_config, render_page, site_markdown  # noqa: E402
 
 PENDING = (
     '!!! note "Section pending"\n'
@@ -34,7 +36,9 @@ def heading_for(row: Row) -> str:
 
 
 def scaffold(root: Path, dry_run: bool = False) -> list[str]:
-    docs = root / "docs"
+    cfg = load_site_config(root / "mkdocs.yml")
+    docs = Path(cfg["docs_dir"])
+    md = site_markdown(cfg)
     rows, _ = load_inventory(docs.joinpath(*INVENTORY_PATH))
     actions: list[str] = []
     for row in rows:
@@ -48,7 +52,7 @@ def scaffold(root: Path, dry_run: bool = False) -> list[str]:
                     encoding="utf-8",
                 )
         text = target.read_text(encoding="utf-8") if target.is_file() else ""
-        if row.anchor in heading_anchors(text):
+        if row.anchor in render_page(md, text).anchors:
             continue
         actions.append(f"append #{row.anchor} to {row.file}")
         if not dry_run:
@@ -63,7 +67,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
     # Rows the loader rejects are not scaffolded; report them so a broken inventory cannot pass silently.
-    _, findings = load_inventory((args.root / "docs").joinpath(*INVENTORY_PATH))
+    _, findings = load_inventory(Path(load_site_config(args.root / "mkdocs.yml")["docs_dir"]).joinpath(*INVENTORY_PATH))
     for f in findings:
         print(f, file=sys.stderr)
     for action in scaffold(args.root, args.dry_run):

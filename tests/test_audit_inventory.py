@@ -1,10 +1,15 @@
 import textwrap
 
 import audit_flowcharts as audit
+import sitekit
 
 
-def test_heading_anchors_match_mkdocs_slugify_and_unique_suffixes():
-    text = textwrap.dedent('''
+def render(text):
+    return audit.render_page(audit.site_markdown(audit.load_site_config(sitekit.REPO / "mkdocs.yml")), text)
+
+
+def test_anchors_are_the_rendered_heading_ids():
+    page = render(textwrap.dedent('''
         ---
         kind: theory
         ---
@@ -23,19 +28,46 @@ def test_heading_anchors_match_mkdocs_slugify_and_unique_suffixes():
         ```python
         # not a heading
         ```
-    ''')
-    anchors = audit.heading_anchors(text)
-    assert "p7-error-process-specification" in anchors
-    assert "garch" in anchors and "garch_1" in anchors
-    assert "hypothesis-test-and-decision-rule-boxes" in anchors
-    assert "my-anchor" in anchors
-    assert "assumption-0" in anchors
-    assert "not-a-heading" not in anchors
+
+        ~~~python
+        # not a heading either
+        ~~~
+    ''').lstrip())
+    assert page.anchors == {"p7-error-process-specification", "garch", "garch_1",
+                            "hypothesis-test-and-decision-rule-boxes", "my-anchor"}
+    assert page.meta == {"kind": "theory"}
+
+
+def test_anchors_follow_toc_for_nested_raw_html_and_attr_ids():
+    page = render(textwrap.dedent('''
+        # Page
+
+        !!! note "Nested"
+
+            ### Estimation
+
+        ## Estimation
+
+        ## What is <em>x</em>?
+
+        ## Dup
+
+        ## Dup
+
+        ## Bar {#dup}
+    '''))
+    by_text = {}
+    for h in page.headings:
+        by_text.setdefault(h.text, []).append(h.id)
+    assert by_text["Estimation"] == ["estimation", "estimation_1"]
+    assert by_text["What is x?"] == ["what-is-x"]
+    assert by_text["Bar"] == ["dup"]
+    assert by_text["Dup"] == ["dup_1", "dup_2"]
 
 
 def test_front_matter_is_parsed_and_absent_is_empty():
-    assert audit.front_matter("---\nkind: theory\n---\n# T\n") == {"kind": "theory"}
-    assert audit.front_matter("# T\n") == {}
+    assert render("---\nkind: theory\n---\n# T\n").meta == {"kind": "theory"}
+    assert render("# T\n").meta == {}
 
 
 def test_load_inventory_validates_rows(tmp_path):
@@ -80,15 +112,13 @@ def test_load_inventory_missing_file_is_an_error(tmp_path):
 
 
 def test_check_inventory_targets_reports_missing_file_and_anchor(tmp_path):
-    docs = tmp_path / "docs"
-    (docs / "reference" / "10-volatility").mkdir(parents=True)
-    (docs / "reference" / "10-volatility" / "index.md").write_text("# Volatility\n\n## GARCH\n", encoding="utf-8")
+    sitekit.write_project(tmp_path, {"reference/10-volatility/index.md": "# Volatility\n\n## GARCH\n"})
     rows = [
         audit.Row("P7_GARCH", "GARCH", "P7", (10,), "reference/10-volatility/index.md#garch"),
         audit.Row("P7_SV", "SV", "P7", (10,), "reference/10-volatility/index.md#stochastic-volatility"),
         audit.Row("P7_X", "X", "P7", (10,), "reference/99-nope/index.md#x"),
     ]
-    findings = audit.check_inventory_targets(rows, docs)
+    findings = audit.check_inventory_targets(rows, sitekit.site(tmp_path))
     where = {f.where: f.message for f in findings}
     assert "P7_GARCH" not in where
     assert "anchor #stochastic-volatility not found" in where["P7_SV"]

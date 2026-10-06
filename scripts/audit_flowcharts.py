@@ -1,18 +1,28 @@
 """Audit the flowchart framework: Mermaid diagrams, the leaf-node inventory, and the glossary.
 
-Run: python scripts/audit_flowcharts.py [--root PATH]
+Run from the repository root: python scripts/audit_flowcharts.py [--root PATH]
 Exit status 1 when any error-level finding exists; warnings never fail the run.
 Rules: planning/2026-10-06-flowchart-framework-design.md, sections 10 and 11.
+
+Pages are rendered with the Markdown extensions configured in mkdocs.yml, so diagram sources,
+heading anchors and links are the ones MkDocs produces, not a re-parse of the raw source.
 """
 from __future__ import annotations
 
 import argparse
+import posixpath
 import re
 from dataclasses import dataclass, field
+from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import unquote
 
+import markdown
 import yaml
-from markdown.extensions.toc import slugify, unique
+from mkdocs.config import load_config
+from mkdocs.config.defaults import MkDocsConfig
+from mkdocs.utils.meta import get_data
+from pymdownx.snippets import SnippetMissingError
 
 AUDIT_SKIP_MARKER = "%% audit: skip"
 FOUNDATION_PHASE = "F"
@@ -57,7 +67,6 @@ class Diagram:
 
 # ---------------------------------------------------------------- Mermaid parsing
 
-FENCE_RE = re.compile(r"^```mermaid[^\n]*\n(.*?)^```[ \t]*$", re.M | re.S)
 SHAPES = {"([": "terminator", "[[": "subroutine", "[/": "data", "[": "rect", "{": "diamond"}
 NODE_RE = re.compile(
     r'(?<![\w-])([A-Z][A-Z0-9_]*)(\(\[|\[\[|\[/|\[|\{)"((?:[^"\\]|\\.)*)"(\]\)|\]\]|/\]|\]|\})'
@@ -67,14 +76,6 @@ ARROW_RE = re.compile(r"\s*(?:-->|-\.->|==>|-\.-|---)\s*(?:\|[^|]*\|)?\s*")
 ID_RE = re.compile(r"^([A-Z][A-Z0-9_]*)")
 SKIP_LINE_RE = re.compile(r"^\s*(%%|graph\b|flowchart\b|classDef\b|class\b|subgraph\b|end\b|direction\b)")
 QUOTED_RE = re.compile(r'"(?:[^"\\]|\\.)*"')
-
-
-def extract_mermaid_blocks(text: str) -> list[tuple[int, str]]:
-    """Return (line_number_of_fence, source) for every ```mermaid fence."""
-    blocks = []
-    for m in FENCE_RE.finditer(text):
-        blocks.append((text.count("\n", 0, m.start()) + 1, m.group(1)))
-    return blocks
 
 
 def parse_diagram(source: str, where: str) -> Diagram:
@@ -99,55 +100,175 @@ def parse_diagram(source: str, where: str) -> Diagram:
     return d
 
 
-def collect_diagrams(docs_dir: Path) -> list[Diagram]:
+# ---------------------------------------------------------------- rendering pipeline
+
+URL_SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:|^//")
+HEADING_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
+TEXT_EXCLUDED_TAGS = {"code", "pre", "script", "style"}
+
+
+@dataclass(frozen=True)
+class Heading:
+    level: int
+    id: str
+    text: str
+
+
+@dataclass(frozen=True)
+class PageRender:
+    html: str
+    anchors: frozenset[str]
+    headings: tuple[Heading, ...]
+    mermaid_sources: tuple[str, ...]
+    links: tuple[str, ...]  # raw href values; resolve with resolve_link()
+    text: str  # visible prose outside code, diagrams and heading permalinks
+    meta: dict
+
+
+class _RenderCollector(HTMLParser):
+    """Collect headings, mermaid sources, link targets and prose from rendered page HTML."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.headings: list[Heading] = []
+        self.mermaid: list[str] = []
+        self.links: list[str] = []
+        self.text: list[str] = []
+        self._stack: list[tuple[str, str]] = []  # (tag, role)
+        self._heading: tuple[int, str, list[str]] | None = None
+        self._mermaid: list[str] | None = None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        classes = (a.get("class") or "").split()
+        role = ""
+        if tag == "div" and "mermaid" in classes and self._mermaid is None:
+            role, self._mermaid = "mermaid", []
+        elif tag in HEADING_TAGS and a.get("id"):
+            role, self._heading = "heading", (int(tag[1]), a["id"], [])
+        elif tag == "a" and "headerlink" in classes:
+            role = "permalink"
+        if tag == "a" and a.get("href") and role != "permalink":
+            self.links.append(a["href"])
+        self._stack.append((tag, role))
+
+    def handle_endtag(self, tag):
+        while self._stack:
+            open_tag, role = self._stack.pop()
+            if role == "mermaid":
+                self.mermaid.append("".join(self._mermaid))
+                self._mermaid = None
+            elif role == "heading":
+                level, hid, parts = self._heading
+                self.headings.append(Heading(level, hid, "".join(parts).strip()))
+                self._heading = None
+            if open_tag == tag:
+                break
+
+    def handle_data(self, data):
+        if self._mermaid is not None:
+            self._mermaid.append(data)
+            return
+        if any(role == "permalink" or tag in TEXT_EXCLUDED_TAGS for tag, role in self._stack):
+            return
+        if self._heading is not None:
+            self._heading[2].append(data)
+        self.text.append(data)
+
+
+def load_site_config(config_file: Path) -> MkDocsConfig:
+    return load_config(config_file=str(config_file))
+
+
+def site_markdown(cfg: MkDocsConfig) -> markdown.Markdown:
+    return markdown.Markdown(extensions=cfg["markdown_extensions"], extension_configs=cfg["mdx_configs"])
+
+
+def render_page(md: markdown.Markdown, text: str) -> PageRender:
+    """Render page source the way MkDocs does: front matter stripped, configured extensions applied."""
+    body, meta = get_data(text)
+    md.reset()
+    html = md.convert(body)
+    collector = _RenderCollector()
+    collector.feed(html)
+    collector.close()
+    headings = tuple(collector.headings)
+    return PageRender(html, frozenset(h.id for h in headings), headings, tuple(collector.mermaid),
+                      tuple(collector.links), " ".join(collector.text), meta if isinstance(meta, dict) else {})
+
+
+def resolve_link(href: str, page: str) -> str | None:
+    """Docs-relative `path.md#anchor` (or `path.md`) for a link on `page`; None for external links."""
+    if URL_SCHEME_RE.match(href):
+        return None
+    path, _, anchor = href.partition("#")
+    target = posixpath.normpath(posixpath.join(posixpath.dirname(page), unquote(path))) if path else page
+    return f"{target}#{anchor}" if anchor else target
+
+
+class Site:
+    """One MkDocs project: its config, a Markdown renderer built from it, and cached page renders."""
+
+    def __init__(self, config_file: Path, docs_dir: Path) -> None:
+        self.config = load_site_config(config_file)
+        self.docs_dir = docs_dir
+        self.md = site_markdown(self.config)
+        self.findings: list[Finding] = []
+        self._pages: dict[str, PageRender | None] = {}
+
+    def page(self, rel: str) -> PageRender | None:
+        """Rendered page, or None when it does not exist or fails to render (recorded as a finding)."""
+        if rel not in self._pages:
+            path = self.docs_dir / rel
+            render = None
+            if path.is_file():
+                try:
+                    render = render_page(self.md, path.read_text(encoding="utf-8"))
+                except SnippetMissingError as exc:
+                    self.findings.append(Finding("error", rel, f"page does not render: {exc}"))
+            self._pages[rel] = render
+        return self._pages[rel]
+
+    def pages_under(self, sub: str) -> list[str]:
+        base = self.docs_dir / sub
+        return sorted(p.relative_to(self.docs_dir).as_posix() for p in base.rglob("*.md")) if base.is_dir() else []
+
+    def nav_pages(self) -> list[str]:
+        """`nav:` flattened into docs-relative page paths in reading order."""
+        pages: list[str] = []
+
+        def walk(item) -> None:
+            if isinstance(item, str):
+                if not URL_SCHEME_RE.match(item):
+                    pages.append(item)
+            elif isinstance(item, list):
+                for i in item:
+                    walk(i)
+            elif isinstance(item, dict):
+                for v in item.values():
+                    walk(v)
+
+        walk(self.config["nav"] or [])
+        return pages
+
+
+def collect_diagrams(site: Site) -> list[Diagram]:
     diagrams = []
-    for md in sorted(docs_dir.rglob("*.md")):
-        text = md.read_text(encoding="utf-8")
-        for line_no, src in extract_mermaid_blocks(text):
+    for rel in site.pages_under(""):
+        page = site.page(rel)
+        if page is None:
+            continue
+        for n, src in enumerate(page.mermaid_sources, 1):
             if AUDIT_SKIP_MARKER in src:
                 continue
-            diagrams.append(parse_diagram(src, f"{md.relative_to(docs_dir).as_posix()}:{line_no}"))
+            diagrams.append(parse_diagram(src, f"{rel}#mermaid-{n}"))
     return diagrams
-
-
-# ---------------------------------------------------------------- anchors and front matter
-
-FRONT_MATTER_RE = re.compile(r"\A---[ \t]*\n(.*?)\n---[ \t]*\n", re.S)
-CODE_FENCE_RE = re.compile(r"^```.*?^```[ \t]*$", re.M | re.S)
-HEADING_RE = re.compile(r"^(#{1,6})[ \t]+(.+?)[ \t]*$", re.M)
-ATTR_ID_RE = re.compile(r"\{\s*#([\w-]+)\s*\}\s*$")
-EXPLICIT_ANCHOR_RE = re.compile(r'<a\s+id="([\w-]+)"')
-LINK_TEXT_RE = re.compile(r"\[([^\]]*)\]\([^)]*\)")
-
-
-def strip_front_matter(text: str) -> str:
-    m = FRONT_MATTER_RE.match(text)
-    return text[m.end():] if m else text
-
-
-def front_matter(text: str) -> dict:
-    m = FRONT_MATTER_RE.match(text)
-    return (yaml.safe_load(m.group(1)) or {}) if m else {}
-
-
-def heading_anchors(text: str) -> set[str]:
-    """Anchors MkDocs will generate for a page: toc slugify with `_N` uniqueness, `{#id}` attrs, `<a id>` tags."""
-    body = CODE_FENCE_RE.sub("", strip_front_matter(text))
-    used: set[str] = set()
-    for m in HEADING_RE.finditer(body):
-        heading = m.group(2).rstrip("#").strip()
-        attr = ATTR_ID_RE.search(heading)
-        if attr:
-            used.add(attr.group(1))
-            continue
-        unique(slugify(LINK_TEXT_RE.sub(r"\1", heading), "-"), used)
-    used.update(EXPLICIT_ANCHOR_RE.findall(body))
-    return used
 
 
 # ---------------------------------------------------------------- inventory
 
 SECTION_RE = re.compile(r"^[\w./-]+\.md#[\w-]+$")
+MARKDOWN_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
 
 
@@ -193,17 +314,13 @@ def load_inventory(path: Path) -> tuple[list[Row], list[Finding]]:
     return rows, findings
 
 
-def check_inventory_targets(rows: list[Row], docs_dir: Path) -> list[Finding]:
+def check_inventory_targets(rows: list[Row], site: Site) -> list[Finding]:
     findings: list[Finding] = []
-    anchors: dict[str, set[str]] = {}
     for r in rows:
-        target = docs_dir / r.file
-        if not target.is_file():
+        page = site.page(r.file)
+        if page is None:
             findings.append(Finding("error", r.id, f"section file {r.file} does not exist"))
-            continue
-        if r.file not in anchors:
-            anchors[r.file] = heading_anchors(target.read_text(encoding="utf-8"))
-        if r.anchor not in anchors[r.file]:
+        elif r.anchor not in page.anchors:
             findings.append(Finding("error", r.id, f"anchor #{r.anchor} not found in {r.file}"))
     return findings
 
@@ -269,28 +386,35 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
 
 # ---------------------------------------------------------------- sections
 
-def check_sections(docs_dir: Path, rows: list[Row], terms: list[dict]) -> list[Finding]:
-    """Every page under SECTION_DIRS is a method page (in the inventory) or a linked theory page."""
+def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
+    """Every non-index page under SECTION_DIRS is a method page (in the inventory) or a linked theory page.
+
+    A theory page is linked when a link on a method page resolves to it, or when a glossary derivation
+    links to one of its anchors in the exact docs-relative `path.md#anchor` form.
+    """
     method_files = {r.file for r in rows}
-    corpus: list[str] = []
+    linked: set[str] = set()
     for f in sorted(method_files):
-        p = docs_dir / f
-        if p.is_file():
-            corpus.append(p.read_text(encoding="utf-8"))
-    corpus.extend(str(t.get("derivation") or "") for t in terms)
-    haystack = "\n".join(corpus)
+        page = site.page(f)
+        if page is not None:
+            linked.update(target.split("#", 1)[0] for href in page.links if (target := resolve_link(href, f)))
+    for t in terms:
+        for target in MARKDOWN_LINK_RE.findall(str(t.get("derivation") or "")):
+            if SECTION_RE.match(target):
+                file, anchor = target.split("#", 1)
+                page = site.page(file)
+                if page is not None and anchor in page.anchors:
+                    linked.add(file)
     findings: list[Finding] = []
     for sub in SECTION_DIRS:
-        base = docs_dir / sub
-        if not base.is_dir():
-            continue
-        for md in sorted(base.rglob("*.md")):
-            rel = md.relative_to(docs_dir).as_posix()
-            if md.name == "index.md" or rel in method_files:
+        for rel in site.pages_under(sub):
+            if rel.endswith("/index.md") or rel in method_files:
                 continue
-            text = md.read_text(encoding="utf-8")
-            if front_matter(text).get("kind") == "theory":
-                if md.name not in haystack and rel not in haystack:
+            page = site.page(rel)
+            if page is None:
+                continue
+            if page.meta.get("kind") == "theory":
+                if rel not in linked:
                     findings.append(Finding("error", rel, "theory page is not linked from any method section or glossary derivation"))
             else:
                 findings.append(Finding("error", rel, "page is neither in the inventory (method) nor marked kind: theory"))
@@ -321,10 +445,9 @@ def load_glossary(glossary_dir: Path) -> tuple[list[dict], list[Finding]]:
     return terms, findings
 
 
-def check_glossary(terms: list[dict], docs_dir: Path) -> list[Finding]:
+def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
     findings: list[Finding] = []
     by_name = {t["term"]: t for t in terms}
-    anchors: dict[str, set[str]] = {}
     for t in terms:
         where = f"{t['_file']}:{t['term']}"
         ref = str(t.get("reference") or "")
@@ -332,13 +455,11 @@ def check_glossary(terms: list[dict], docs_dir: Path) -> list[Finding]:
             findings.append(Finding("error", where, "reference must look like path/file.md#anchor"))
         else:
             file, anchor = ref.split("#", 1)
-            target = docs_dir / file
-            if not target.is_file():
+            page = site.page(file)
+            if page is None:
                 findings.append(Finding("error", where, f"reference file {file} does not exist"))
-            else:
-                anchors.setdefault(file, heading_anchors(target.read_text(encoding="utf-8")))
-                if anchor not in anchors[file]:
-                    findings.append(Finding("error", where, f"reference anchor #{anchor} not found in {file}"))
+            elif anchor not in page.anchors:
+                findings.append(Finding("error", where, f"reference anchor #{anchor} not found in {file}"))
         if "depends_on" not in t and not t.get("foundation"):
             findings.append(Finding("warning", where, "no derivation chain yet (depends_on absent)"))
             continue
@@ -368,33 +489,14 @@ def check_glossary(terms: list[dict], docs_dir: Path) -> list[Finding]:
     return findings
 
 
-# ---------------------------------------------------------------- navigation and first mention
+# ---------------------------------------------------------------- first mention
 
-def nav_pages(mkdocs_yml: Path) -> list[str]:
-    """Flatten `nav:` into page paths in reading order. BaseLoader keeps !!python tags as plain scalars."""
-    cfg = yaml.load(mkdocs_yml.read_text(encoding="utf-8"), Loader=yaml.BaseLoader) or {}
-    pages: list[str] = []
-
-    def walk(item) -> None:
-        if isinstance(item, str):
-            pages.append(item)
-        elif isinstance(item, list):
-            for i in item:
-                walk(i)
-        elif isinstance(item, dict):
-            for v in item.values():
-                walk(v)
-
-    walk(cfg.get("nav", []))
-    return pages
-
-
-def first_mention_warnings(pages: list[str], terms: list[dict], docs_dir: Path) -> list[Finding]:
+def first_mention_warnings(site: Site, terms: list[dict]) -> list[Finding]:
     texts: list[tuple[str, str]] = []
-    for p in pages:
-        f = docs_dir / p
-        if p.startswith(FIRST_MENTION_PREFIXES) and f.is_file():
-            texts.append((p, CODE_FENCE_RE.sub("", strip_front_matter(f.read_text(encoding="utf-8")))))
+    for p in site.nav_pages():
+        page = site.page(p) if p.startswith(FIRST_MENTION_PREFIXES) else None
+        if page is not None:
+            texts.append((p, page.text))
     findings: list[Finding] = []
     for t in terms:
         ref_file = str(t.get("reference") or "").split("#", 1)[0]
@@ -410,23 +512,22 @@ def first_mention_warnings(pages: list[str], terms: list[dict], docs_dir: Path) 
 
 # ---------------------------------------------------------------- driver
 
-def run_all(root: Path) -> list[Finding]:
-    docs = root / "docs"
+def run_all(config_file: Path, docs_dir: Path) -> list[Finding]:
+    site = Site(config_file, docs_dir)
     findings: list[Finding] = []
-    rows, f = load_inventory(docs.joinpath(*INVENTORY_PATH))
+    rows, f = load_inventory(docs_dir.joinpath(*INVENTORY_PATH))
     findings += f
-    terms, f = load_glossary(docs / "glossary") if (docs / "glossary").is_dir() else ([], [])
+    terms, f = load_glossary(docs_dir / "glossary") if (docs_dir / "glossary").is_dir() else ([], [])
     findings += f
-    diagrams = collect_diagrams(docs)
+    diagrams = collect_diagrams(site)
     findings += check_diagrams(diagrams)
     findings += check_refs(diagrams, rows)
     findings += check_nodes_vs_inventory(diagrams, rows)
-    findings += check_inventory_targets(rows, docs)
-    findings += check_sections(docs, rows, terms)
-    findings += check_glossary(terms, docs)
-    mk = root / "mkdocs.yml"
-    if mk.is_file():
-        findings += first_mention_warnings(nav_pages(mk), terms, docs)
+    findings += check_inventory_targets(rows, site)
+    findings += check_sections(site, rows, terms)
+    findings += check_glossary(terms, site)
+    findings += first_mention_warnings(site, terms)
+    findings += site.findings
     return sorted(set(findings), key=lambda x: (x.level != "error", x.where, x.message))
 
 
@@ -434,7 +535,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     args = parser.parse_args(argv)
-    findings = run_all(args.root)
+    config_file = args.root / "mkdocs.yml"
+    findings = run_all(config_file, Path(load_site_config(config_file)["docs_dir"]))
     for f in findings:
         print(f)
     errors = sum(f.level == "error" for f in findings)
