@@ -683,8 +683,8 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
             findings.append(Finding(ERROR, where, f"term belongs in {GLOSSARY_DIR}/{home}, the file named after its reference page"))
         if "foundation" in t and not _is_foundation(t):
             findings.append(Finding(ERROR, where, f"foundation must be absent or exactly true, not {t['foundation']!r}"))
-        if split_section(ref)[0] == "index.md":
-            findings.append(Finding(ERROR, where, "term cannot be homed on the home page, where the glossary is disabled"))
+        if split_section(ref)[0] in GLOSSARY_DISABLED_PAGES:
+            findings.append(Finding(ERROR, where, f"term cannot be homed on {split_section(ref)[0]}, where the glossary is disabled"))
         if "depends_on" in t and _depends_on(t) is None:
             findings.append(Finding(ERROR, where, "depends_on must be a list of term names"))
             continue

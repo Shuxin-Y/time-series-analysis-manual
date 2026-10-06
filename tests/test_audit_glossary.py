@@ -287,9 +287,9 @@ def test_foundation_must_be_exactly_true_and_home_page_is_not_a_home(tmp_path):
     terms = [{"term": "Independence", "_file": "stochastic-processes.yml", "foundation": "false",
               "reference": "00-foundations/stochastic-processes.md#independence"},
              {"term": "Home term", "_file": ".yml", "depends_on": ["Independence"], "reference": "index.md#overview"}]
-    messages = {f.where: f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.level == "error"}
-    assert "must be absent or exactly true, not 'false'" in messages["stochastic-processes.yml:Independence"]
-    assert any("home page" in f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.where == ".yml:Home term")
+    errors = [f for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.level == "error"]
+    assert any("must be absent or exactly true, not 'false'" in f.message for f in errors if f.where == "stochastic-processes.yml:Independence")
+    assert any("cannot be homed on index.md" in f.message for f in errors if f.where == ".yml:Home term")
 
 
 def test_first_mention_scan_skips_pages_where_the_glossary_is_disabled(tmp_path):
