@@ -27,4 +27,4 @@ def write_project(root: Path, files: dict[str, str], nav: list | None = None) ->
 
 
 def site(root: Path) -> audit.Site:
-    return audit.Site(root / "mkdocs.yml", root / "docs")
+    return audit.Site(audit.load_site_config(root / "mkdocs.yml"), root / "docs")

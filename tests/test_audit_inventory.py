@@ -147,7 +147,7 @@ def test_rows_are_validated_structurally(tmp_path):
         f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: NO')}    areas: [10]\n": "must be a SCREAMING_SNAKE_CASE string",
         f"nodes:\n  - {ROW.replace('phase: P7', 'phase: P12')}    areas: [10]\n": "phase 'P12' must be one of",
         f"nodes:\n  - {ROW.replace('phase: P7', 'phase: P11')}    areas: [10]\n": "owner prefix P11_",
-        f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: P7').replace('phase: P7', 'phase: P7')}    areas: [10]\n": "master boxes P0-P11",
+        f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: P7')}    areas: [10]\n": "master boxes P0-P11",
         f"nodes:\n  - {ROW.replace('phase: P7', 'phase: MASTER')}    areas: [10]\n": "master boxes P0-P11",
     }
     for body, expected in cases.items():

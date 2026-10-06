@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from markdown.extensions.toc import slugify  # noqa: E402
 
-from audit_flowcharts import INVENTORY_PATH, Finding, Row, load_inventory, load_site_config, render_page, site_markdown  # noqa: E402
+from audit_flowcharts import ERROR, INVENTORY_PATH, Finding, Row, load_inventory, load_site_config, render_page, site_markdown  # noqa: E402
 
 PENDING = (
     '!!! note "Section pending"\n'
@@ -72,7 +72,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f, file=sys.stderr)
     for action in actions:
         print(action)
-    return 1 if any(f.level == "error" for f in findings) else 0
+    return 1 if any(f.level == ERROR for f in findings) else 0
 
 
 if __name__ == "__main__":

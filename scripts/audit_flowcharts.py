@@ -24,6 +24,7 @@ from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.utils.meta import get_data
 from pymdownx.snippets import SnippetMissingError
 
+ERROR, WARNING = "error", "warning"
 AUDIT_SKIP_MARKER = "%% audit: skip"
 FOUNDATION_PHASE = "F"
 FOUNDATION_DIR = "00-foundations/"
@@ -35,13 +36,14 @@ STRUCTURAL_H2 = frozenset({
     "Master diagram", "How to read the diagrams", "Sub-chart", "P10 inference for this purpose",
     "P11 metrics for this purpose", "Topics carried over from the previous outline", "References",
 })
+GLOSSARY_DIR = "glossary"
 GLOSSARY_INDEX_NAME = "index.yml"
 INVENTORY_PATH = ("flowcharts", "inventory.yml")
 
 
 @dataclass(frozen=True)
 class Finding:
-    level: str  # "error" or "warning"
+    level: str  # ERROR or WARNING
     where: str
     message: str
 
@@ -83,7 +85,6 @@ MERMAID_OPENERS = ("(((", "((", "([", "[[", "[(", "[/", "[\\", "{{", "(", "[", "
 NODE_ID_RE = re.compile(r"^[A-Z][A-Z0-9_]*$")
 TOKEN_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)(.*)$", re.S)
 QUOTED_RE = re.compile(r'"(?:[^"\\]|\\.)*"')
-PLACEHOLDER_RE = re.compile(r"\x00(\d+)\x00")
 # `A -- text --> B` and `A -. text .-> B` carry the edge text between two halves of the arrow.
 TEXT_EDGE_RE = re.compile(r"(?<=\s)(?:--|==|-\.)\s+[^\x00|]+?\s+(?:-->|==>|\.->|---|===|-\.-|--[ox]|==[ox])(?=\s|$)")
 EDGE_RE = re.compile(r"\s*(?:<|(?<=\s)[ox])?[-=.]{2,}(?:>|[ox](?=[\s|]|$))?(?:\|[^|]*\|)?\s*")
@@ -274,8 +275,8 @@ def resolve_link(href: str, page: str) -> str | None:
 class Site:
     """One MkDocs project: its config, a Markdown renderer built from it, and cached page renders."""
 
-    def __init__(self, config_file: Path, docs_dir: Path) -> None:
-        self.config = load_site_config(config_file)
+    def __init__(self, config: MkDocsConfig, docs_dir: Path) -> None:
+        self.config = config
         self.docs_dir = docs_dir
         self.md = site_markdown(self.config)
         self.findings: list[Finding] = []
@@ -290,7 +291,7 @@ class Site:
                 try:
                     render = render_page(self.md, path.read_text(encoding="utf-8"))
                 except SnippetMissingError as exc:
-                    self.findings.append(Finding("error", rel, f"page does not render: {exc}"))
+                    self.findings.append(Finding(ERROR, rel, f"page does not render: {exc}"))
             self._pages[rel] = render
         return self._pages[rel]
 
@@ -333,6 +334,13 @@ def collect_diagrams(site: Site) -> list[Diagram]:
 # ---------------------------------------------------------------- inventory
 
 SECTION_RE = re.compile(r"^[\w./-]+\.md#[\w-]+$")
+SECTION_FORMAT = "path/file.md#anchor"
+
+
+def split_section(section: str) -> tuple[str, str]:
+    """(`path.md`, `anchor`) of a section string that matches SECTION_RE."""
+    file, anchor = section.split("#", 1)
+    return file, anchor
 MARKDOWN_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
 MASTER_PHASE = "MASTER"
@@ -364,9 +372,9 @@ def load_yaml(path: Path, key: str) -> tuple[list, list[Finding]]:
     try:
         data = yaml.load(path.read_text(encoding="utf-8"), Loader=_UniqueKeyLoader)
     except yaml.YAMLError as exc:
-        return [], [Finding("error", path.name, f"invalid YAML: {exc}")]
+        return [], [Finding(ERROR, path.name, f"invalid YAML: {exc}")]
     if not isinstance(data, dict) or not isinstance(data.get(key), list):
-        return [], [Finding("error", path.name, f"top level must be a mapping with a `{key}` list")]
+        return [], [Finding(ERROR, path.name, f"top level must be a mapping with a `{key}` list")]
     return data[key], []
 
 
@@ -387,7 +395,7 @@ def row_problem(raw: object) -> str | None:
     if not isinstance(areas, list) or not all(type(a) is int and a in AREAS for a in areas):
         return f"areas {areas!r} must be a list of area numbers 1-34"
     if not isinstance(raw["section"], str) or not SECTION_RE.match(raw["section"]):
-        return f"section {raw['section']!r} must look like path/file.md#anchor"
+        return f"section {raw['section']!r} must look like {SECTION_FORMAT}"
     if (rid in MASTER_IDS) != (phase == MASTER_PHASE):
         return f"phase {MASTER_PHASE} is for the master boxes P0-P11 and only them (id {rid}, phase {phase})"
     if rid in BRANCH_IDS:
@@ -409,16 +417,16 @@ class Row:
 
     @property
     def file(self) -> str:
-        return self.section.split("#", 1)[0]
+        return split_section(self.section)[0]
 
     @property
     def anchor(self) -> str:
-        return self.section.split("#", 1)[1]
+        return split_section(self.section)[1]
 
 
 def load_inventory(path: Path) -> tuple[list[Row], list[Finding]]:
     if not path.is_file():
-        return [], [Finding("error", str(path), "inventory file does not exist")]
+        return [], [Finding(ERROR, str(path), "inventory file does not exist")]
     raw_rows, findings = load_yaml(path, "nodes")
     rows: list[Row] = []
     seen: set[str] = set()
@@ -426,10 +434,10 @@ def load_inventory(path: Path) -> tuple[list[Row], list[Finding]]:
         where = f"{path.name}#nodes[{i}]"
         problem = row_problem(raw)
         if problem:
-            findings.append(Finding("error", where, problem))
+            findings.append(Finding(ERROR, where, problem))
             continue
         if raw["id"] in seen:
-            findings.append(Finding("error", where, f"duplicate inventory id {raw['id']}"))
+            findings.append(Finding(ERROR, where, f"duplicate inventory id {raw['id']}"))
             continue
         seen.add(raw["id"])
         rows.append(Row(raw["id"], raw["label"], raw["phase"], tuple(raw["areas"]), raw["section"]))
@@ -439,8 +447,8 @@ def load_inventory(path: Path) -> tuple[list[Row], list[Finding]]:
 def resolve_section(section: str, site: Site) -> str | None:
     """Why `path.md#anchor` does not resolve to a rendered heading, or None when it does."""
     if not SECTION_RE.match(section):
-        return f"{section!r} must look like path/file.md#anchor"
-    file, anchor = section.split("#", 1)
+        return f"{section!r} must look like {SECTION_FORMAT}"
+    file, anchor = split_section(section)
     page = site.page(file)
     if page is None:
         return f"file {file} does not exist"
@@ -454,7 +462,7 @@ def check_inventory_targets(rows: list[Row], site: Site) -> list[Finding]:
     for r in rows:
         problem = resolve_section(r.section, site)
         if problem:
-            findings.append(Finding("error", r.id, f"section {problem}"))
+            findings.append(Finding(ERROR, r.id, f"section {problem}"))
     return findings
 
 
@@ -476,11 +484,11 @@ def check_diagrams(diagrams: list[Diagram]) -> list[Finding]:
     for d in diagrams:
         for nid in d.nodes:
             if not d.is_ref(nid) and defined[nid] != d.where:
-                findings.append(Finding("error", d.where, f"node {nid} already defined in {defined[nid]}"))
+                findings.append(Finding(ERROR, d.where, f"node {nid} already defined in {defined[nid]}"))
     for d in diagrams:
-        findings.extend(Finding("error", d.where, problem) for problem in d.problems)
+        findings.extend(Finding(ERROR, d.where, problem) for problem in d.problems)
         for nid in sorted(d.used_ids - set(d.nodes)):
-            findings.append(Finding("error", d.where, f"node {nid} is used but has no quoted, shaped definition in this diagram"))
+            findings.append(Finding(ERROR, d.where, f"node {nid} is used but has no quoted, shaped definition in this diagram"))
     return findings
 
 
@@ -491,7 +499,7 @@ def check_refs(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
     for d in diagrams:
         for nid in d.nodes:
             if d.is_ref(nid) and nid not in defined and nid not in foundation:
-                findings.append(Finding("error", d.where, f"ref {nid} has no definition in any diagram and is not a foundation inventory row"))
+                findings.append(Finding(ERROR, d.where, f"ref {nid} has no definition in any diagram and is not a foundation inventory row"))
     return findings
 
 
@@ -508,18 +516,18 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
                 leaves.setdefault(nid, d.where)
     for nid, where in sorted(leaves.items()):
         if nid not in by_id:
-            findings.append(Finding("error", where, f"leaf {nid} has no inventory row"))
+            findings.append(Finding(ERROR, where, f"leaf {nid} has no inventory row"))
     for d in diagrams:
         for nid, node in d.nodes.items():
             row = by_id.get(nid)
             if row and label_first_line(node.label) != row.label:
-                findings.append(Finding("error", d.where, f"node {nid} label {label_first_line(node.label)!r} differs from its inventory label {row.label!r}"))
+                findings.append(Finding(ERROR, d.where, f"node {nid} label {label_first_line(node.label)!r} differs from its inventory label {row.label!r}"))
     for r in rows:
         if r.phase == FOUNDATION_PHASE:
             if r.id not in refs:
-                findings.append(Finding("error", r.id, "foundation row is not referenced by any ref node"))
+                findings.append(Finding(ERROR, r.id, "foundation row is not referenced by any ref node"))
         elif r.id not in leaves:
-            findings.append(Finding("error", r.id, "inventory row has no leaf definition in any diagram"))
+            findings.append(Finding(ERROR, r.id, "inventory row has no leaf definition in any diagram"))
     return findings
 
 
@@ -540,7 +548,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
     for t in terms:
         for target in MARKDOWN_LINK_RE.findall(str(t.get("derivation") or "")):
             if resolve_section(target, site) is None:
-                linked.add(target.split("#", 1)[0])
+                linked.add(split_section(target)[0])
     findings: list[Finding] = []
     for sub in SECTION_DIRS:
         for rel in site.pages_under(sub):
@@ -551,9 +559,9 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
                 continue
             if page.meta.get("kind") == "theory":
                 if rel not in linked:
-                    findings.append(Finding("error", rel, "theory page is not linked from any method section or glossary derivation"))
+                    findings.append(Finding(ERROR, rel, "theory page is not linked from any method section or glossary derivation"))
             else:
-                findings.append(Finding("error", rel, "page is neither in the inventory (method) nor marked kind: theory"))
+                findings.append(Finding(ERROR, rel, "page is neither in the inventory (method) nor marked kind: theory"))
     return findings
 
 
@@ -562,7 +570,7 @@ def check_headings(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
     units: dict[str, set[str]] = {}
     for section in [r.section for r in rows] + [str(t.get("reference") or "") for t in terms]:
         if SECTION_RE.match(section):
-            file, anchor = section.split("#", 1)
+            file, anchor = split_section(section)
             units.setdefault(file, set()).add(anchor)
     findings: list[Finding] = []
     for sub in SECTION_DIRS:
@@ -570,7 +578,7 @@ def check_headings(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
             page = site.page(rel)
             for h in page.headings if page else ():
                 if h.level == 2 and h.id not in units.get(rel, set()) and h.text not in STRUCTURAL_H2:
-                    findings.append(Finding("error", f"{rel}#{h.id}", f"H2 {h.text!r} is neither an inventory or glossary anchor nor a structural heading"))
+                    findings.append(Finding(ERROR, f"{rel}#{h.id}", f"H2 {h.text!r} is neither an inventory or glossary anchor nor a structural heading"))
     return findings
 
 
@@ -588,10 +596,10 @@ def load_glossary(glossary_dir: Path) -> tuple[list[dict], list[Finding]]:
         for i, t in enumerate(raw_terms):
             name = t.get("term") if isinstance(t, dict) else None
             if not isinstance(name, str) or not name:
-                findings.append(Finding("error", f"{yml.name}#terms[{i}]", "term must be a mapping with a non-empty `term` string"))
+                findings.append(Finding(ERROR, f"{yml.name}#terms[{i}]", "term must be a mapping with a non-empty `term` string"))
                 continue
             if name in seen:
-                findings.append(Finding("error", yml.name, f"term {name!r} also defined in {seen[name]}"))
+                findings.append(Finding(ERROR, yml.name, f"term {name!r} also defined in {seen[name]}"))
                 continue
             seen[name] = yml.name
             t["_file"] = yml.name
@@ -618,24 +626,24 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
         ref = str(t.get("reference") or "")
         problem = resolve_section(ref, site)
         if problem:
-            findings.append(Finding("error", where, f"reference {problem}"))
-        elif glossary_file_for(ref.split("#", 1)[0]) != t["_file"]:
-            findings.append(Finding("error", where, f"term belongs in glossary/{glossary_file_for(ref.split('#', 1)[0])}, the file named after its reference page"))
+            findings.append(Finding(ERROR, where, f"reference {problem}"))
+        elif (home := glossary_file_for(split_section(ref)[0])) != t["_file"]:
+            findings.append(Finding(ERROR, where, f"term belongs in {GLOSSARY_DIR}/{home}, the file named after its reference page"))
         if "depends_on" in t and _depends_on(t) is None:
-            findings.append(Finding("error", where, "depends_on must be a list of term names"))
+            findings.append(Finding(ERROR, where, "depends_on must be a list of term names"))
             continue
         if t.get("foundation"):
             if not ref.startswith(FOUNDATION_DIR):
-                findings.append(Finding("error", where, f"foundation term must be homed under {FOUNDATION_DIR}"))
+                findings.append(Finding(ERROR, where, f"foundation term must be homed under {FOUNDATION_DIR}"))
             if _depends_on(t):
-                findings.append(Finding("error", where, "foundation term cannot depend on other terms"))
+                findings.append(Finding(ERROR, where, "foundation term cannot depend on other terms"))
             continue
         if "depends_on" not in t:
-            findings.append(Finding("warning", where, "no derivation chain yet (depends_on absent)"))
+            findings.append(Finding(WARNING, where, "no derivation chain yet (depends_on absent)"))
             continue
         for dep in _depends_on(t):
             if dep not in by_name:
-                findings.append(Finding("error", where, f"depends_on {dep!r} is not a glossary term"))
+                findings.append(Finding(ERROR, where, f"depends_on {dep!r} is not a glossary term"))
 
     # Three-colour depth-first walk: each term is expanded once, each cycle reported once.
     state: dict[str, str] = {}
@@ -653,7 +661,7 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
         state[name] = "open"
         deps = [d for d in _depends_on(t) if d in by_name]
         if not deps:
-            findings.append(Finding("error", f"{t['_file']}:{name}", "chain ends at a non-foundation term"))
+            findings.append(Finding(ERROR, f"{t['_file']}:{name}", "chain ends at a non-foundation term"))
         for d in deps:
             walk(d, stack + [name])
         state[name] = "done"
@@ -662,7 +670,7 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
         walk(t["term"], [])
     for loop in sorted(cycles):
         first = by_name[loop[0]]
-        findings.append(Finding("error", f"{first['_file']}:{loop[0]}", f"cycle: {' -> '.join(loop + (loop[0],))}"))
+        findings.append(Finding(ERROR, f"{first['_file']}:{loop[0]}", f"cycle: {' -> '.join(loop + (loop[0],))}"))
     return findings
 
 
@@ -681,7 +689,7 @@ def first_mention_warnings(site: Site, terms: list[dict]) -> list[Finding]:
         for p, text in texts:
             if pattern.search(text):
                 if p != ref_file:
-                    findings.append(Finding("warning", f"{t['_file']}:{t['term']}",
+                    findings.append(Finding(WARNING, f"{t['_file']}:{t['term']}",
                                             f"first mentioned on {p}, reference points to {ref_file}"))
                 break
     return findings
@@ -690,11 +698,15 @@ def first_mention_warnings(site: Site, terms: list[dict]) -> list[Finding]:
 # ---------------------------------------------------------------- driver
 
 def run_all(config_file: Path, docs_dir: Path) -> list[Finding]:
-    site = Site(config_file, docs_dir)
+    return audit_site(Site(load_site_config(config_file), docs_dir))
+
+
+def audit_site(site: Site) -> list[Finding]:
     findings: list[Finding] = []
-    rows, f = load_inventory(docs_dir.joinpath(*INVENTORY_PATH))
+    rows, f = load_inventory(site.docs_dir.joinpath(*INVENTORY_PATH))
     findings += f
-    terms, f = load_glossary(docs_dir / "glossary") if (docs_dir / "glossary").is_dir() else ([], [])
+    glossary_dir = site.docs_dir / GLOSSARY_DIR
+    terms, f = load_glossary(glossary_dir) if glossary_dir.is_dir() else ([], [])
     findings += f
     diagrams = collect_diagrams(site)
     findings += check_diagrams(diagrams)
@@ -706,18 +718,18 @@ def run_all(config_file: Path, docs_dir: Path) -> list[Finding]:
     findings += check_glossary(terms, site)
     findings += first_mention_warnings(site, terms)
     findings += site.findings
-    return sorted(set(findings), key=lambda x: (x.level != "error", x.where, x.message))
+    return sorted(set(findings), key=lambda x: (x.level != ERROR, x.where, x.message))
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     args = parser.parse_args(argv)
-    config_file = args.root / "mkdocs.yml"
-    findings = run_all(config_file, Path(load_site_config(config_file)["docs_dir"]))
+    cfg = load_site_config(args.root / "mkdocs.yml")
+    findings = audit_site(Site(cfg, Path(cfg["docs_dir"])))
     for f in findings:
         print(f)
-    errors = sum(f.level == "error" for f in findings)
+    errors = sum(f.level == ERROR for f in findings)
     print(f"{errors} error(s), {len(findings) - errors} warning(s)")
     return 1 if errors else 0
 

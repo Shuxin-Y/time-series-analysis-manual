@@ -19,7 +19,7 @@ log = logging.getLogger("mkdocs.plugins.tsam_hooks")
 
 
 def write_glossary_index(docs_dir: Path) -> bool:
-    gdir = docs_dir / "glossary"
+    gdir = docs_dir / audit.GLOSSARY_DIR
     files = sorted(p.name for p in gdir.glob("*.yml") if p.name != audit.GLOSSARY_INDEX_NAME)
     content = yaml.safe_dump({"files": files}, sort_keys=False)
     target = gdir / audit.GLOSSARY_INDEX_NAME
@@ -32,7 +32,7 @@ def write_glossary_index(docs_dir: Path) -> bool:
 def on_pre_build(config, **kwargs) -> None:
     docs_dir = Path(config["docs_dir"])
     if write_glossary_index(docs_dir):
-        log.info("wrote glossary/%s", audit.GLOSSARY_INDEX_NAME)
+        log.info("wrote %s/%s", audit.GLOSSARY_DIR, audit.GLOSSARY_INDEX_NAME)
     for f in audit.run_all(Path(config.config_file_path), docs_dir):
-        logger = log.warning if f.level == "error" else log.info
+        logger = log.warning if f.level == audit.ERROR else log.info
         logger("audit %s %s: %s", f.level, f.where, f.message)
