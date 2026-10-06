@@ -26,6 +26,8 @@ from pymdownx.snippets import SnippetMissingError
 
 ERROR, WARNING = "error", "warning"
 AUDIT_SKIP_MARKER = "%% audit: skip"
+# The only pages whose diagrams are illustrative; anywhere else the marker is an error and the diagram is audited.
+AUDIT_SKIP_PAGES = ("design-system-showcase.md", "00-foundations/do-you-need-time-series-analysis.md")
 FOUNDATION_PHASE = "F"
 FOUNDATION_DIR = "00-foundations/"
 SECTION_DIRS = ("reference", "01-workflow")
@@ -326,9 +328,12 @@ def collect_diagrams(site: Site) -> list[Diagram]:
         if page is None:
             continue
         for n, src in enumerate(page.mermaid_sources, 1):
-            if AUDIT_SKIP_MARKER in src:
+            if AUDIT_SKIP_MARKER in src and rel in AUDIT_SKIP_PAGES:
                 continue
-            diagrams.append(parse_diagram(src, f"{rel}#mermaid-{n}"))
+            d = parse_diagram(src, f"{rel}#mermaid-{n}")
+            if AUDIT_SKIP_MARKER in src:
+                d.problems.append(f"'{AUDIT_SKIP_MARKER}' is allowed only on {', '.join(AUDIT_SKIP_PAGES)}")
+            diagrams.append(d)
     return diagrams
 
 

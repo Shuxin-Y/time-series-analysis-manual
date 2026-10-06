@@ -69,13 +69,20 @@ def test_unquoted_label_is_not_a_definition():
 
 
 def test_collect_diagrams_skips_marked_and_records_where(tmp_path):
-    sitekit.write_project(tmp_path, {"a/page.md":
+    sitekit.write_project(tmp_path, {"design-system-showcase.md":
         "# A\n\n```mermaid\ngraph TD\n    X_A[\"a\"] --> X_B[\"b\"]\n```\n\n"
         "```mermaid\n%% audit: skip\ngraph TD\n    Y_A[\"a\"]\n```\n"})
     diagrams = audit.collect_diagrams(sitekit.site(tmp_path))
     assert len(diagrams) == 1
-    assert diagrams[0].where == "a/page.md#mermaid-1"
+    assert diagrams[0].where == "design-system-showcase.md#mermaid-1"
     assert set(diagrams[0].nodes) == {"X_A", "X_B"}
+
+
+def test_skip_marker_elsewhere_is_an_error_and_the_diagram_is_audited(tmp_path):
+    sitekit.write_project(tmp_path, {"01-workflow/p03.md": "# P3\n\n```mermaid\n%% audit: skip\ngraph TD\n    P3_A[\"a\"]\n```\n"})
+    diagrams = audit.collect_diagrams(sitekit.site(tmp_path))
+    assert set(diagrams[0].nodes) == {"P3_A"}
+    assert any("allowed only on design-system-showcase.md" in f.message for f in audit.check_diagrams(diagrams))
 
 
 def test_collect_diagrams_sees_every_fence_form_the_pipeline_renders(tmp_path):
