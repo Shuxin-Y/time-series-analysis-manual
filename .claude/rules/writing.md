@@ -24,7 +24,7 @@ Single home of the content rules: what a section contains and where a concept li
 
 ## Before writing a section
 
-1. Locate its leaf node in a workflow sub-diagram, or add one, and add its inventory row.
+1. Locate its leaf node in a workflow sub-diagram, or add one, and add its inventory row. Its `section` (and any glossary `reference`) points at a heading anchor; ids on paragraphs, `<a id>` tags and footnotes are not targets.
 2. Decide: method section or theory section.
 3. Check the concept is not already developed elsewhere (`grep` the glossary `reference` fields). If it is, link; do not re-explain.
 

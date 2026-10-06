@@ -341,6 +341,8 @@ def collect_diagrams(site: Site) -> list[Diagram]:
 
 # ---------------------------------------------------------------- inventory
 
+# Inventory sections and glossary references are `path.md#anchor`, and the anchor must be the id of a rendered
+# heading: `<a id>`, attr-list ids on paragraphs and footnote ids are not targets (a node is a section).
 SECTION_RE = re.compile(r"^[\w./-]+\.md#[\w-]+$")
 SECTION_FORMAT = "path/file.md#anchor"
 

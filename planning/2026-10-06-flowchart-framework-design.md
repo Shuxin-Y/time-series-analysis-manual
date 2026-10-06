@@ -315,7 +315,7 @@ docs/
 
 ### 10.3 Paths
 
-Both the inventory and the glossary use `docs/`-relative source paths with the `.md` extension and a heading anchor, for example `reference/10-volatility/garch.md#garch-family`. JavaScript converts them to site URLs (strip `.md`, directory URL, anchor). Anchors must equal the Python-Markdown `toc` default slugify of the heading text, which is what MkDocs generates. The existing glossary `reference` values (site paths ending in `.html#…`) are converted during migration.
+Both the inventory and the glossary use `docs/`-relative source paths with the `.md` extension and a heading anchor, for example `reference/10-volatility/garch.md#garch-family`. JavaScript converts them to site URLs (strip `.md`, directory URL, anchor). Anchors must equal the Python-Markdown `toc` default slugify of the heading text, which is what MkDocs generates; inventory and glossary targets must be heading anchors (the audit reads the rendered heading ids), so `<a id>` tags, attr-list ids on paragraphs and footnote ids are not targets. The existing glossary `reference` values (site paths ending in `.html#…`) are converted during migration.
 
 ### 10.4 Inventory format
 
