@@ -4,8 +4,8 @@
 
 ## Sub-chart
 
-!!! note "Diagram pending"
-    To-do item from the flowchart inventory (node `P2_CAUSAL`): draw this sub-chart. Structure: purpose-specific preliminary questions, then the spine phases with this purpose's emphasis, then purpose-specific leaves, then the P10 inference and P11 metrics below.
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CAUSAL`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## P10 inference for this purpose
 

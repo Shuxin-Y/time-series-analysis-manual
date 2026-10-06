@@ -23,4 +23,4 @@ graph TD
 ## B4 Functional
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B4`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `B4`). Write this section following the content rules in `.claude/rules/writing.md`.

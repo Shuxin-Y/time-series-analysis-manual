@@ -6,13 +6,13 @@ Routing on the multivariate, global and exogenous-variable flags, then the model
 
 ## Sub-diagram
 
-!!! note "Diagram pending"
-    To-do item from the flowchart inventory (node `P6`): draw the P6 sub-diagram following the decision-flowchart notation in `DESIGN-SYSTEM.md`; its leaf nodes get rows in `docs/flowcharts/inventory.yml`.
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Phase guide
 
 !!! note "Section pending"
-    Procedural guide to this phase: which tests to run, in which order, and where each outcome leads.
+    To-do item created from the flowchart inventory (node `P6`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ### Topics carried over from the previous outline
 

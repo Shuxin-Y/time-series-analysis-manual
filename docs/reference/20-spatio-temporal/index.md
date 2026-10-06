@@ -23,4 +23,4 @@ graph TD
 ## B5 Spatial and network
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B5`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `B5`). Write this section following the content rules in `.claude/rules/writing.md`.

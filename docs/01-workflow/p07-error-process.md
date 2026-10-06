@@ -116,39 +116,39 @@ P7 is specified once. After joint estimation in P8, P9 re-runs steps 1 to 5 on t
 ## Test residual autocorrelation
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_MEAN_TESTS`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_MEAN_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Test conditional heteroskedasticity
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_VAR_TESTS`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_VAR_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Test the distribution of standardised innovations
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_DIST_TESTS`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_DIST_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Test for variance regimes
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_REGIME_TESTS`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_REGIME_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Test innovation correlation structure
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_CORR_TESTS`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_CORR_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Test overdispersion of count innovations
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_COUNT_TESTS`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_COUNT_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Time-rescaling check of event-time residuals
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_RESCALING`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_RESCALING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Assemble the joint model
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_OUT`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_OUT`). Write this section following the content rules in `.claude/rules/writing.md`.

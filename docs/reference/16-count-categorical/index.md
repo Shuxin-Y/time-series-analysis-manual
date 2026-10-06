@@ -23,9 +23,9 @@ graph TD
 ## B1 Counts and categorical
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B1`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `B1`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## INGARCH and negative-binomial innovations
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_INGARCH`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_INGARCH`). Write this section following the content rules in `.claude/rules/writing.md`.

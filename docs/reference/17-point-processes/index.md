@@ -23,9 +23,9 @@ graph TD
 ## B2 Event times
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B2`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `B2`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Intensity misspecification
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_INTENSITY`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+    To-do item created from the flowchart inventory (node `P7_INTENSITY`). Write this section following the content rules in `.claude/rules/writing.md`.

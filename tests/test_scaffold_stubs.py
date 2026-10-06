@@ -40,7 +40,7 @@ def test_scaffold_creates_file_appends_heading_and_is_idempotent(tmp_path):
     assert "append #garch to reference/10-volatility/index.md" in actions
     assert "create reference/15-continuous-time/index.md" in actions
     vol = (root / "docs" / "reference" / "10-volatility" / "index.md").read_text(encoding="utf-8")
-    assert "\n## GARCH\n" in vol and "Section pending" in vol and "`P7_GARCH`" in vol
+    assert "\n## GARCH\n" in vol and scaffold.pending_note("P7_GARCH") in vol
     ct = (root / "docs" / "reference" / "15-continuous-time" / "index.md").read_text(encoding="utf-8")
     assert ct.startswith("# Continuous Time\n")
     assert "## Jump diffusion" in ct
@@ -74,3 +74,14 @@ def test_main_reports_a_malformed_row_and_exits_1(tmp_path, capsys):
     assert scaffold.main(["--root", str(tmp_path), "--dry-run"]) == 1
     err = capsys.readouterr().err
     assert "inventory.yml#nodes[0]: missing keys ['areas']" in err
+
+
+def test_every_pending_note_in_the_book_uses_the_one_template():
+    import re
+
+    template = re.escape(scaffold.PENDING).replace(r"\{source\}", "(flowchart inventory|glossary)").replace(
+        r"\{kind\}", "(node|term)").replace(r"\{key\}", "[^`]+")
+    for page in sorted((sitekit.REPO / "docs").rglob("*.md")):
+        text = page.read_text(encoding="utf-8")
+        for m in re.finditer(r'^!!! note "[^"]*[Pp]ending"\n.*\n', text, re.M):
+            assert re.fullmatch(template, m.group(0)), (page, m.group(0))

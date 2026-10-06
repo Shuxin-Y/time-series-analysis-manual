@@ -15,11 +15,17 @@ from markdown.extensions.toc import slugify  # noqa: E402
 
 from audit_flowcharts import ERROR, INVENTORY_PATH, Finding, Row, load_inventory, load_site_config, render_page, site_markdown  # noqa: E402
 
+# The one wording of every pending note in docs/: it names the node (or, for a glossary home with no node,
+# the term) so a grep for the id finds every open item.
 PENDING = (
     '!!! note "Section pending"\n'
-    "    To-do item created from the flowchart inventory (node `{id}`). "
-    "Write this section following the content rules in `DESIGN-SYSTEM.md`.\n"
+    "    To-do item created from the {source} ({kind} `{key}`). "
+    "Write this section following the content rules in `.claude/rules/writing.md`.\n"
 )
+
+
+def pending_note(node_id: str) -> str:
+    return PENDING.format(source="flowchart inventory", kind="node", key=node_id)
 
 
 def title_from_path(rel: str) -> str:
@@ -48,17 +54,14 @@ def scaffold(root: Path, dry_run: bool) -> tuple[list[str], list[Finding]]:
             actions.append(f"create {row.file}")
             if not dry_run:
                 target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_text(
-                    f"# {title_from_path(row.file)}\n\nPending page created from the flowchart inventory.\n",
-                    encoding="utf-8",
-                )
+                target.write_text(f"# {title_from_path(row.file)}\n", encoding="utf-8")
         text = target.read_text(encoding="utf-8") if target.is_file() else ""
         if row.anchor in render_page(md, text).anchors:
             continue
         actions.append(f"append #{row.anchor} to {row.file}")
         if not dry_run:
             with target.open("a", encoding="utf-8") as fh:
-                fh.write(f"\n{heading_for(row)}\n\n{PENDING.format(id=row.id)}")
+                fh.write(f"\n{heading_for(row)}\n\n{pending_note(row.id)}")
     return actions, findings
 
 

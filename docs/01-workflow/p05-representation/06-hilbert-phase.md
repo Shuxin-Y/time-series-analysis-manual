@@ -4,5 +4,5 @@
 
 ## Sub-chart
 
-!!! note "Diagram pending"
-    To-do item from the flowchart inventory (node `P5_HILBERT`): draw this sub-chart. Structure: when to choose this representation, representation-specific transforms and estimators, available P6 model families as references, back to P6.
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_HILBERT`). Write this section following the content rules in `.claude/rules/writing.md`.
