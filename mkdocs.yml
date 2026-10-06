@@ -111,6 +111,10 @@ plugins:
   - autorefs
   - tags
 
+# Build hooks: glossary index generation and the flowchart/glossary audit
+hooks:
+  - scripts/mkdocs_hooks.py
+
 # Extra JavaScript
 extra_javascript:
   - javascripts/mathjax.js
