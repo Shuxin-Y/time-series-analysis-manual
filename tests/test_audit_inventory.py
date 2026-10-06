@@ -123,3 +123,47 @@ def test_check_inventory_targets_reports_missing_file_and_anchor(tmp_path):
     assert "P7_GARCH" not in where
     assert "anchor #stochastic-volatility not found" in where["P7_SV"]
     assert "does not exist" in where["P7_X"]
+
+
+def inventory_findings(tmp_path, body):
+    inv = tmp_path / "inventory.yml"
+    inv.write_text(textwrap.dedent(body), encoding="utf-8")
+    return audit.load_inventory(inv)
+
+
+ROW = 'id: P7_GARCH\n    label: "GARCH"\n    phase: P7\n    section: "reference/10-volatility/index.md#garch"\n'
+
+
+def test_areas_must_be_a_list_of_area_numbers(tmp_path):
+    for areas in ('"31"', "31", "[0]", "[35]", "[true]", '["10"]'):
+        rows, findings = inventory_findings(tmp_path, f"nodes:\n  - {ROW}    areas: {areas}\n")
+        assert rows == [] and "must be a list of area numbers 1-34" in findings[0].message, areas
+
+
+def test_rows_are_validated_structurally(tmp_path):
+    cases = {
+        "nodes:\n  - just a string\n": "row must be a mapping",
+        f"nodes:\n  - {ROW.replace('P7_GARCH', 'p7_garch')}    areas: [10]\n": "SCREAMING_SNAKE_CASE string",
+        f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: NO')}    areas: [10]\n": "must be a SCREAMING_SNAKE_CASE string",
+        f"nodes:\n  - {ROW.replace('phase: P7', 'phase: P12')}    areas: [10]\n": "phase 'P12' must be one of",
+        f"nodes:\n  - {ROW.replace('phase: P7', 'phase: P11')}    areas: [10]\n": "owner prefix P11_",
+        f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: P7').replace('phase: P7', 'phase: P7')}    areas: [10]\n": "master boxes P0-P11",
+        f"nodes:\n  - {ROW.replace('phase: P7', 'phase: MASTER')}    areas: [10]\n": "master boxes P0-P11",
+    }
+    for body, expected in cases.items():
+        rows, findings = inventory_findings(tmp_path, body)
+        assert rows == [] and expected in findings[0].message, (body, findings)
+
+
+def test_branch_entries_take_the_phase_of_their_owning_diagram(tmp_path):
+    rows, findings = inventory_findings(tmp_path, f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: B7').replace('phase: P7', 'phase: P1')}    areas: [22]\n")
+    assert findings == [] and rows[0].id == "B7"
+
+
+def test_invalid_yaml_and_duplicate_keys_are_findings_naming_the_file(tmp_path):
+    rows, findings = inventory_findings(tmp_path, "nodes:\n  - id: [unclosed\n")
+    assert rows == [] and findings[0].where == "inventory.yml" and "invalid YAML" in findings[0].message
+    rows, findings = inventory_findings(tmp_path, f"nodes:\n  - {ROW}    areas: [10]\n    phase: P8\n")
+    assert rows == [] and "duplicate key 'phase'" in findings[0].message
+    rows, findings = inventory_findings(tmp_path, "- just\n- a list\n")
+    assert "top level must be a mapping with a `nodes` list" in findings[0].message

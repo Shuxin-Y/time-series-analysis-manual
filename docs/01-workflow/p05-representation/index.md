@@ -10,13 +10,13 @@ Six representations are distinguished. Transforms and estimators that belong to 
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P5_IN(["Transformed series from P4"]) --> P5_CHARACTER{"Dominant character?"}
-    P5_CHARACTER -->|"Sequential dependence"| P5_TIME_DOMAIN["1 Time domain"]
-    P5_CHARACTER -->|"Periodic"| P5_FREQUENCY_DOMAIN["2 Frequency domain"]
-    P5_CHARACTER -->|"Spectrum changes over time"| P5_TIME_FREQUENCY["3 Time-frequency"]
-    P5_CHARACTER -->|"Latent states, gaps"| P5_STATE_SPACE["4 State space"]
-    P5_CHARACTER -->|"Curves"| P5_FUNCTIONAL["5 Functional"]
-    P5_CHARACTER -->|"Instantaneous frequency"| P5_HILBERT["6 Hilbert and phase"]
-    P5_TIME_DOMAIN & P5_FREQUENCY_DOMAIN & P5_TIME_FREQUENCY & P5_STATE_SPACE & P5_FUNCTIONAL & P5_HILBERT --> P6[["P6 Conditional-mean model class"]]
+    P5_CHARACTER -->|"Sequential dependence"| P5_TIME_DOMAIN["Representation 1: Time domain"]
+    P5_CHARACTER -->|"Periodic"| P5_FREQUENCY_DOMAIN["Representation 2: Frequency domain"]
+    P5_CHARACTER -->|"Spectrum changes over time"| P5_TIME_FREQUENCY["Representation 3: Time-frequency"]
+    P5_CHARACTER -->|"Latent states, gaps"| P5_STATE_SPACE["Representation 4: State space"]
+    P5_CHARACTER -->|"Curves"| P5_FUNCTIONAL["Representation 5: Functional"]
+    P5_CHARACTER -->|"Instantaneous frequency"| P5_HILBERT["Representation 6: Hilbert and phase"]
+    P5_TIME_DOMAIN & P5_FREQUENCY_DOMAIN & P5_TIME_FREQUENCY & P5_STATE_SPACE & P5_FUNCTIONAL & P5_HILBERT --> P6[["P6: Conditional-mean model class"]]
     class P5_IN terminator
     class P5_CHARACTER decision
     class P5_TIME_DOMAIN,P5_FREQUENCY_DOMAIN,P5_TIME_FREQUENCY,P5_STATE_SPACE,P5_FUNCTIONAL,P5_HILBERT process

@@ -1,0 +1,56 @@
+# Glossary: Stochastic Processes
+
+terms:
+
+  - term: "Stationarity"
+    definition: "A time series is stationary if its statistical properties do not change over time."
+    mathematical: |
+      **Weak (covariance) stationarity** requires:
+      - Constant mean: $E[y_t] = \mu$ for all $t$
+      - Constant variance: $\text{Var}(y_t) = \sigma^2$ for all $t$
+      - Autocovariance depends only on lag: $\gamma_k = \text{Cov}(y_t, y_{t-k})$
+
+      **Strict stationarity**: The joint distribution $(y_{t_1}, \ldots, y_{t_n})$ is identical to $(y_{t_1+h}, \ldots, y_{t_n+h})$ for any $h$.
+    historical: |
+      - 1927: Yule introduces autoregressive processes
+      - 1938: Wold decomposition theorem established
+      - 1970: Box-Jenkins methodology formalises stationarity requirements
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#stochastic-processes"
+
+  - term: "White Noise"
+    definition: "A sequence of uncorrelated random variables with zero mean and constant variance."
+    mathematical: |
+      A process $\\{\varepsilon_t\\}$ is white noise if:
+      - $E[\varepsilon_t] = 0$ for all $t$
+      - $\text{Var}(\varepsilon_t) = \sigma^2$ for all $t$
+      - $\text{Cov}(\varepsilon_t, \varepsilon_s) = 0$ for $t \neq s$
+
+      **Strong white noise** additionally requires independence: $\varepsilon_t \perp \varepsilon_s$ for $t \neq s$
+
+      **Gaussian white noise**: $\varepsilon_t \sim N(0, \sigma^2)$ i.i.d.
+    historical: |
+      - 1938: Wold decomposition theorem establishes white noise as the irreducible innovation component
+      - 1970: Box and Jenkins formalise residual white noise as the diagnostic criterion for model adequacy
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"
+
+  - term: "Probability density"
+    definition: "Probability per unit volume. For a continuous variable the probability of any exact value is zero; the density is the limit of the probability of a small neighbourhood divided by its volume."
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#probability-density"
+
+  - term: "Independence"
+    definition: "Random variables are independent when their joint distribution equals the product of their marginal distributions. Independence implies uncorrelatedness; the converse fails."
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#independence"
+
+  - term: "Kolmogorov extension theorem"
+    definition: "A consistent family of finite-dimensional joint distributions determines a unique probability law for the whole stochastic process. This is what makes it legitimate to define a model class as a family of distributions for the entire sequence."
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#kolmogorov-extension-theorem"
+
+  - term: "KL divergence"
+    definition: "The Kullback-Leibler divergence from a true distribution to a model distribution is the expected log-ratio of their densities under the truth. It is non-negative and zero only when the two coincide."
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#kl-divergence"

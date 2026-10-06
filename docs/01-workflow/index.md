@@ -7,18 +7,18 @@ The general flowchart is the spine of this book. The master diagram below shows 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    MASTER_START(["Raw time-stamped data"]) --> P0["P0 Data acquisition and cleaning"]
-    P0 --> P1["P1 Data-type gate"]
-    P1 --> P2["P2 Purpose"]
-    P2 --> P3["P3 Exploratory diagnostics"]
-    P3 --> P4["P4 Transformations"]
-    P4 --> P5["P5 Representation selection"]
-    P5 --> P6["P6 Conditional-mean model class"]
-    P6 --> P7["P7 Error-process specification"]
-    P7 --> P8["P8 Estimation"]
-    P8 --> P9["P9 Diagnostics and model selection"]
-    P9 --> P10["P10 Inference and interpretation"]
-    P10 --> P11["P11 Validation and deployment"]
+    MASTER_START(["Raw time-stamped data"]) --> P0["P0: Data acquisition and cleaning"]
+    P0 --> P1["P1: Data-type gate"]
+    P1 --> P2["P2: Purpose"]
+    P2 --> P3["P3: Exploratory diagnostics"]
+    P3 --> P4["P4: Transformations"]
+    P4 --> P5["P5: Representation selection"]
+    P5 --> P6["P6: Conditional-mean model class"]
+    P6 --> P7["P7: Error-process specification"]
+    P7 --> P8["P8: Estimation"]
+    P8 --> P9["P9: Diagnostics and model selection"]
+    P9 --> P10["P10: Inference and interpretation"]
+    P10 --> P11["P11: Validation and deployment"]
     P9 -.->|"Mean misspecified"| P6
     P9 -.->|"Innovations misspecified"| P7
     P11 -.->|"Drift detected"| P8

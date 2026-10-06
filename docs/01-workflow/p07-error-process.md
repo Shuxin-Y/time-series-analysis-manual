@@ -22,7 +22,7 @@ graph TD
     P7_MEAN_DEP -->|"None"| P7_VAR_TESTS
     P7_MEAN_DEP -->|"Short memory"| P7_ARMA_ERRORS["Regression with ARMA errors"]
     P7_MEAN_DEP -->|"Slow decay"| P7_ARFIMA_ERRORS["ARFIMA errors"]
-    P7_MEAN_DEP -.->|"Already ARMA: raise the order"| P6[["P6 Conditional-mean model class"]]
+    P7_MEAN_DEP -.->|"Already ARMA: raise the order"| P6[["P6: Conditional-mean model class"]]
     P7_ARMA_ERRORS & P7_ARFIMA_ERRORS --> P7_VAR_TESTS["Test conditional heteroskedasticity<br/>ARCH-LM, McLeod-Li"]
     P7_VAR_TESTS --> P7_VAR_DEP{"Variance dependence?"}
     P7_VAR_DEP -->|"None"| P7_DIST_TESTS
@@ -54,7 +54,7 @@ graph TD
     P7_CORR -->|"Time-varying"| P7_DCC["Dynamic conditional correlation and BEKK"]
     P7_CORR -->|"Non-Gaussian dependence"| P7_COPULA["Copula dependence"]
     P7_CCC & P7_DCC & P7_COPULA --> P7_OUT["Assemble the joint model<br/>mean + innovations"]
-    P7_OUT --> P8[["P8 Estimation"]]
+    P7_OUT --> P8[["P8: Estimation"]]
     F_WHITE_NOISE[["White noise, martingale difference, independence"]] -.- P7_MEAN_DEP
     F_WOLD[["Wold decomposition"]] -.- P7_ARMA_ERRORS
     F_LONG_MEMORY[["Long memory and hyperbolic decay"]] -.- P7_ARFIMA_ERRORS

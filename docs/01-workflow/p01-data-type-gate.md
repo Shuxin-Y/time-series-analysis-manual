@@ -26,10 +26,10 @@ graph TD
     P1_MULTIVARIATE_FLAG --> P1_OUT
     B7 --> P1_GLOBAL_FLAG["Set flag: global model"]
     P1_GLOBAL_FLAG --> P1_OUT
-    B3 -.->|"Resample"| P0[["P0 Data acquisition and cleaning"]]
-    B3 --> P5[["P5 Representation selection"]]
+    B3 -.->|"Resample"| P0[["P0: Data acquisition and cleaning"]]
+    B3 --> P5[["P5: Representation selection"]]
     B4 --> P5
-    B1 --> P8[["P8 Estimation"]]
+    B1 --> P8[["P8: Estimation"]]
     B2 --> P8
     B5 --> P8
     B6 --> P8

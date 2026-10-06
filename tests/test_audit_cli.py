@@ -12,7 +12,7 @@ def test_main_exit_status_follows_errors(tmp_path, capsys):
     (docs / "01-workflow").mkdir()
     sitekit.write_project(root, {}, nav=["01-workflow/index.md"])
     (docs / "01-workflow" / "index.md").write_text(
-        '# P0: Data\n\n```mermaid\ngraph TD\n    P0["P0 Data"] --> P1["P1 Gate"]\n```\n', encoding="utf-8")
+        '# P0: Data\n\n```mermaid\ngraph TD\n    P0["P0: Data"] --> P1["P1 Gate"]\n```\n', encoding="utf-8")
     (docs / "flowcharts" / "inventory.yml").write_text(textwrap.dedent('''
         nodes:
           - id: P0

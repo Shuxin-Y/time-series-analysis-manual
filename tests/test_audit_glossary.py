@@ -19,7 +19,7 @@ def make_docs(tmp_path):
     return docs
 
 
-GLOSSARY = textwrap.dedent('''
+ROOTS = textwrap.dedent('''
     terms:
       - term: "Independence"
         definition: "d"
@@ -29,6 +29,11 @@ GLOSSARY = textwrap.dedent('''
         definition: "d"
         foundation: true
         reference: "00-foundations/stochastic-processes.md#law-of-large-numbers"
+''')
+
+
+GLOSSARY = textwrap.dedent('''
+    terms:
       - term: "Joint density"
         definition: "d"
         derivation: "1. because of [Why MLE](theory.md)"
@@ -73,7 +78,8 @@ def test_load_glossary_merges_files_and_flags_duplicates(tmp_path):
 
 def test_check_glossary_levels(tmp_path):
     docs = make_docs(tmp_path)
-    (docs / "glossary" / "g.yml").write_text(GLOSSARY, encoding="utf-8")
+    (docs / "glossary" / "stochastic-processes.yml").write_text(ROOTS, encoding="utf-8")
+    (docs / "glossary" / "04-estimation.yml").write_text(GLOSSARY, encoding="utf-8")
     terms, _ = audit.load_glossary(docs / "glossary")
     findings = audit.check_glossary(terms, sitekit.site(tmp_path))
     by_term = {}
@@ -148,3 +154,91 @@ def test_theory_page_is_not_cleared_by_a_link_to_another_page_with_the_same_name
     findings = audit.check_sections(sitekit.site(tmp_path), rows, [])
     wheres = {f.where for f in findings if "not linked" in f.message}
     assert wheres == {"reference/10-volatility/theory.md"}
+
+
+def glossary_findings(tmp_path, files):
+    docs = make_docs(tmp_path)
+    for name, body in files.items():
+        (docs / "glossary" / name).write_text(textwrap.dedent(body), encoding="utf-8")
+    terms, findings = audit.load_glossary(docs / "glossary")
+    return findings + audit.check_glossary(terms, sitekit.site(tmp_path))
+
+
+def test_glossary_yaml_errors_and_duplicate_keys_are_findings(tmp_path):
+    findings = glossary_findings(tmp_path, {
+        "stochastic-processes.yml": 'terms:\n  - term: "Independence"\n    reference: "00-foundations/stochastic-processes.md#independence"\n    reference: "00-foundations/stochastic-processes.md#law-of-large-numbers"\n',
+        "04-estimation.yml": "terms: [unclosed\n",
+    })
+    messages = {f.where: f.message for f in findings}
+    assert "duplicate key 'reference'" in messages["stochastic-processes.yml"]
+    assert "invalid YAML" in messages["04-estimation.yml"]
+
+
+def test_depends_on_must_be_a_list_of_names(tmp_path):
+    findings = glossary_findings(tmp_path, {"04-estimation.yml": '''
+        terms:
+          - term: "Joint density"
+            depends_on: "Independence"
+            reference: "reference/04-estimation/index.md#joint-density"
+    '''})
+    assert [f.message for f in findings if f.level == "error"] == ["depends_on must be a list of term names"]
+
+
+def test_foundation_terms_live_in_part_0_and_have_no_dependencies(tmp_path):
+    findings = glossary_findings(tmp_path, {
+        "04-estimation.yml": '''
+            terms:
+              - term: "Joint density"
+                foundation: true
+                reference: "reference/04-estimation/index.md#joint-density"
+        ''',
+        "stochastic-processes.yml": '''
+            terms:
+              - term: "Independence"
+                foundation: true
+                depends_on: ["Joint density"]
+                reference: "00-foundations/stochastic-processes.md#independence"
+        ''',
+    })
+    messages = {f.where: f.message for f in findings}
+    assert "must be homed under 00-foundations/" in messages["04-estimation.yml:Joint density"]
+    assert "cannot depend on other terms" in messages["stochastic-processes.yml:Independence"]
+
+
+def test_term_must_live_in_the_file_named_after_its_reference_page(tmp_path):
+    findings = glossary_findings(tmp_path, {"misc.yml": '''
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+          - term: "Joint density"
+            depends_on: ["Independence"]
+            reference: "reference/04-estimation/index.md#joint-density"
+    '''})
+    messages = sorted(f.message for f in findings)
+    assert messages == ["term belongs in glossary/04-estimation.yml, the file named after its reference page",
+                        "term belongs in glossary/stochastic-processes.yml, the file named after its reference page"]
+
+
+def test_each_cycle_is_reported_once(tmp_path):
+    make_docs(tmp_path)
+    terms = [{"term": n, "_file": "04-estimation.yml", "depends_on": [d], "reference": "reference/04-estimation/index.md#joint-density"}
+             for n, d in (("B", "C"), ("C", "A"), ("A", "B"))]
+    cycles = [f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if "cycle" in f.message]
+    assert cycles == ["cycle: A -> B -> C -> A"]
+
+
+def test_chain_walk_is_linear_on_shared_upstream_terms(tmp_path):
+    import time
+    layers = 40
+    terms = [{"term": "ROOT", "foundation": True, "reference": "00-foundations/stochastic-processes.md#independence", "_file": "stochastic-processes.yml"}]
+    for layer in range(layers):
+        below = ["ROOT"] if layer == 0 else [f"L{layer - 1}A", f"L{layer - 1}B"]
+        for side in "AB":
+            terms.append({"term": f"L{layer}{side}", "depends_on": below, "_file": "04-estimation.yml",
+                          "reference": "reference/04-estimation/index.md#joint-density"})
+    make_docs(tmp_path)
+    start = time.perf_counter()
+    findings = audit.check_glossary(terms, sitekit.site(tmp_path))
+    assert time.perf_counter() - start < 2
+    assert [f for f in findings if f.level == "error"] == []

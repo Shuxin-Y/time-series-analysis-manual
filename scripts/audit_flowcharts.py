@@ -26,6 +26,7 @@ from pymdownx.snippets import SnippetMissingError
 
 AUDIT_SKIP_MARKER = "%% audit: skip"
 FOUNDATION_PHASE = "F"
+FOUNDATION_DIR = "00-foundations/"
 SECTION_DIRS = ("reference", "01-workflow")
 FIRST_MENTION_PREFIXES = ("00-foundations/", "reference/")
 GLOSSARY_INDEX_NAME = "index.yml"
@@ -328,6 +329,68 @@ def collect_diagrams(site: Site) -> list[Diagram]:
 SECTION_RE = re.compile(r"^[\w./-]+\.md#[\w-]+$")
 MARKDOWN_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
+MASTER_PHASE = "MASTER"
+MASTER_IDS = frozenset(f"P{i}" for i in range(12))
+BRANCH_IDS = frozenset(f"B{i}" for i in range(1, 8))
+PHASES = MASTER_IDS | BRANCH_IDS | {MASTER_PHASE, FOUNDATION_PHASE}
+AREAS = range(1, 35)
+
+
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """SafeLoader that rejects a mapping with the same key twice (PyYAML keeps the last silently)."""
+
+
+def _construct_unique_mapping(loader: _UniqueKeyLoader, node: yaml.MappingNode, deep: bool = False) -> dict:
+    seen = set()
+    for key_node, _ in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in seen:
+            raise yaml.constructor.ConstructorError(None, None, f"duplicate key {key!r}", key_node.start_mark)
+        seen.add(key)
+    return loader.construct_mapping(node, deep=deep)
+
+
+_UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _construct_unique_mapping)
+
+
+def load_yaml(path: Path, key: str) -> tuple[list, list[Finding]]:
+    """The list under top-level `key`, or a finding naming the file when the YAML or its shape is invalid."""
+    try:
+        data = yaml.load(path.read_text(encoding="utf-8"), Loader=_UniqueKeyLoader)
+    except yaml.YAMLError as exc:
+        return [], [Finding("error", path.name, f"invalid YAML: {exc}")]
+    if not isinstance(data, dict) or not isinstance(data.get(key), list):
+        return [], [Finding("error", path.name, f"top level must be a mapping with a `{key}` list")]
+    return data[key], []
+
+
+def row_problem(raw: object) -> str | None:
+    """Why an inventory row is malformed, or None."""
+    if not isinstance(raw, dict):
+        return "row must be a mapping"
+    missing = [k for k in REQUIRED_ROW_KEYS if k not in raw]
+    if missing:
+        return f"missing keys {missing}"
+    rid, phase, areas = raw["id"], raw["phase"], raw["areas"]
+    if not isinstance(rid, str) or not NODE_ID_RE.match(rid):
+        return f"id {rid!r} must be a SCREAMING_SNAKE_CASE string"
+    if not isinstance(raw["label"], str) or not raw["label"].strip():
+        return "label must be a non-empty string"
+    if phase not in PHASES:
+        return f"phase {phase!r} must be one of P0-P11, B1-B7, {MASTER_PHASE} or {FOUNDATION_PHASE}"
+    if not isinstance(areas, list) or not all(type(a) is int and a in AREAS for a in areas):
+        return f"areas {areas!r} must be a list of area numbers 1-34"
+    if not isinstance(raw["section"], str) or not SECTION_RE.match(raw["section"]):
+        return f"section {raw['section']!r} must look like path/file.md#anchor"
+    if (rid in MASTER_IDS) != (phase == MASTER_PHASE):
+        return f"phase {MASTER_PHASE} is for the master boxes P0-P11 and only them (id {rid}, phase {phase})"
+    if rid in BRANCH_IDS:
+        return None if phase != FOUNDATION_PHASE else f"branch entry {rid} cannot be a foundation row"
+    if phase == MASTER_PHASE:
+        return None
+    if not rid.startswith(f"{phase}_"):
+        return f"id {rid} must carry the owner prefix {phase}_"
+    return None
 
 
 @dataclass(frozen=True)
@@ -350,25 +413,20 @@ class Row:
 def load_inventory(path: Path) -> tuple[list[Row], list[Finding]]:
     if not path.is_file():
         return [], [Finding("error", str(path), "inventory file does not exist")]
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    raw_rows, findings = load_yaml(path, "nodes")
     rows: list[Row] = []
-    findings: list[Finding] = []
     seen: set[str] = set()
-    for i, raw in enumerate(data.get("nodes") or []):
+    for i, raw in enumerate(raw_rows):
         where = f"{path.name}#nodes[{i}]"
-        missing = [k for k in REQUIRED_ROW_KEYS if k not in raw]
-        if missing:
-            findings.append(Finding("error", where, f"missing keys {missing}"))
-            continue
-        if not SECTION_RE.match(str(raw["section"])):
-            findings.append(Finding("error", where, f"section {raw['section']!r} must look like path/file.md#anchor"))
+        problem = row_problem(raw)
+        if problem:
+            findings.append(Finding("error", where, problem))
             continue
         if raw["id"] in seen:
             findings.append(Finding("error", where, f"duplicate inventory id {raw['id']}"))
             continue
         seen.add(raw["id"])
-        rows.append(Row(str(raw["id"]), str(raw["label"]), str(raw["phase"]),
-                        tuple(int(a) for a in raw["areas"] or []), str(raw["section"])))
+        rows.append(Row(raw["id"], raw["label"], raw["phase"], tuple(raw["areas"]), raw["section"]))
     return rows, findings
 
 
@@ -445,6 +503,11 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
     for nid, where in sorted(leaves.items()):
         if nid not in by_id:
             findings.append(Finding("error", where, f"leaf {nid} has no inventory row"))
+    for d in diagrams:
+        for nid, node in d.nodes.items():
+            row = by_id.get(nid)
+            if row and label_first_line(node.label) != row.label:
+                findings.append(Finding("error", d.where, f"node {nid} label {label_first_line(node.label)!r} differs from its inventory label {row.label!r}"))
     for r in rows:
         if r.phase == FOUNDATION_PHASE:
             if r.id not in refs:
@@ -497,11 +560,12 @@ def load_glossary(glossary_dir: Path) -> tuple[list[dict], list[Finding]]:
     for yml in sorted(glossary_dir.glob("*.yml")):
         if yml.name == GLOSSARY_INDEX_NAME:
             continue
-        data = yaml.safe_load(yml.read_text(encoding="utf-8")) or {}
-        for t in data.get("terms") or []:
-            name = t.get("term")
-            if not name:
-                findings.append(Finding("error", yml.name, "term without a name"))
+        raw_terms, f = load_yaml(yml, "terms")
+        findings += f
+        for i, t in enumerate(raw_terms):
+            name = t.get("term") if isinstance(t, dict) else None
+            if not isinstance(name, str) or not name:
+                findings.append(Finding("error", f"{yml.name}#terms[{i}]", "term must be a mapping with a non-empty `term` string"))
                 continue
             if name in seen:
                 findings.append(Finding("error", yml.name, f"term {name!r} also defined in {seen[name]}"))
@@ -512,40 +576,70 @@ def load_glossary(glossary_dir: Path) -> tuple[list[dict], list[Finding]]:
     return terms, findings
 
 
+def glossary_file_for(reference_file: str) -> str:
+    """The glossary file a term belongs in: named after its reference page, or the directory of an index.md."""
+    path = Path(reference_file)
+    return f"{path.parent.name if path.name == 'index.md' else path.stem}.yml"
+
+
+def _depends_on(t: dict) -> list[str] | None:
+    deps = t.get("depends_on")
+    return deps if isinstance(deps, list) and all(isinstance(d, str) for d in deps) else None
+
+
 def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
     findings: list[Finding] = []
     by_name = {t["term"]: t for t in terms}
     for t in terms:
         where = f"{t['_file']}:{t['term']}"
-        problem = resolve_section(str(t.get("reference") or ""), site)
+        ref = str(t.get("reference") or "")
+        problem = resolve_section(ref, site)
         if problem:
             findings.append(Finding("error", where, f"reference {problem}"))
-        if "depends_on" not in t and not t.get("foundation"):
+        elif glossary_file_for(ref.split("#", 1)[0]) != t["_file"]:
+            findings.append(Finding("error", where, f"term belongs in glossary/{glossary_file_for(ref.split('#', 1)[0])}, the file named after its reference page"))
+        if "depends_on" in t and _depends_on(t) is None:
+            findings.append(Finding("error", where, "depends_on must be a list of term names"))
+            continue
+        if t.get("foundation"):
+            if not ref.startswith(FOUNDATION_DIR):
+                findings.append(Finding("error", where, f"foundation term must be homed under {FOUNDATION_DIR}"))
+            if _depends_on(t):
+                findings.append(Finding("error", where, "foundation term cannot depend on other terms"))
+            continue
+        if "depends_on" not in t:
             findings.append(Finding("warning", where, "no derivation chain yet (depends_on absent)"))
             continue
-        for dep in t.get("depends_on") or []:
+        for dep in _depends_on(t):
             if dep not in by_name:
                 findings.append(Finding("error", where, f"depends_on {dep!r} is not a glossary term"))
 
+    # Three-colour depth-first walk: each term is expanded once, each cycle reported once.
+    state: dict[str, str] = {}
+    cycles: set[tuple[str, ...]] = set()
+
     def walk(name: str, stack: list[str]) -> None:
         t = by_name[name]
-        if t.get("foundation"):
+        if t.get("foundation") or state.get(name) == "done" or _depends_on(t) is None:
             return
-        if name in stack:
-            findings.append(Finding("error", f"{t['_file']}:{name}", f"cycle: {' -> '.join(stack[stack.index(name):] + [name])}"))
+        if state.get(name) == "open":
+            loop = stack[stack.index(name):]
+            start = loop.index(min(loop))
+            cycles.add(tuple(loop[start:] + loop[:start]))
             return
-        if "depends_on" not in t:
-            return  # chain not written yet; warned above
-        deps = [d for d in (t.get("depends_on") or []) if d in by_name]
+        state[name] = "open"
+        deps = [d for d in _depends_on(t) if d in by_name]
         if not deps:
             findings.append(Finding("error", f"{t['_file']}:{name}", "chain ends at a non-foundation term"))
-            return
         for d in deps:
             walk(d, stack + [name])
+        state[name] = "done"
 
     for t in terms:
-        if "depends_on" in t and not t.get("foundation"):
-            walk(t["term"], [])
+        walk(t["term"], [])
+    for loop in sorted(cycles):
+        first = by_name[loop[0]]
+        findings.append(Finding("error", f"{first['_file']}:{loop[0]}", f"cycle: {' -> '.join(loop + (loop[0],))}"))
     return findings
 
 

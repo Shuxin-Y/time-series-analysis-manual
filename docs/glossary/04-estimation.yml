@@ -1,0 +1,14 @@
+# Glossary: 4. Estimation
+
+terms:
+
+  - term: "Joint density"
+    definition: "The probability per unit volume of the whole sample (y_1, ..., y_T) regarded as one point in R^T."
+    derivation: |
+      1. The T observations form one point in $\mathbb{R}^T$. The joint density $p(y_1, \ldots, y_T; \theta)$ is the probability per unit volume near that point. A density is used because a continuous variable takes any exact value with probability zero; only "falls in a small neighbourhood" has positive probability, and dividing by the neighbourhood's volume gives the density. The volume factor does not depend on $\theta$, so it does not move the argmax.
+      2. The object must be joint because the information about $\theta$ sits in the relations between observations. In AR(1), $\phi$ appears only in the conditional distribution of $y_t$ given $y_{t-1}$; the marginal $\mathcal{N}(0, \sigma^2/(1-\phi^2))$ confounds $\phi$ with $\sigma$. Using marginals alone discards the part being estimated.
+      3. A process has a joint distribution to speak of because of the Kolmogorov extension theorem: a consistent family of finite-dimensional joint distributions determines the law of the whole process. This is also what makes the model-class definition "a family of distributions indexed by parameters" legitimate.
+      4. Density and likelihood are one function read two ways. Fix $\theta$ and vary $y$: a density, integrating to one over $y$. Fix the observed $y$ and vary $\theta$: a likelihood, which does not integrate to one over $\theta$, so it is not a probability distribution of $\theta$. Adding a prior makes it one; that is the link to Bayesian estimation.
+      5. "Highest data density" means "most reasonable $\theta$" because $\frac{1}{T}\log L(\theta) \to \mathbb{E}[\log p(y; \theta)]$, and maximising that minimises $\mathrm{KL}(\text{truth} \,\|\, p_\theta)$. MLE picks the model closest to the truth in KL divergence, even when the model class is wrong (the QMLE pseudo-true value).
+    depends_on: ["Probability density", "Independence", "Kolmogorov extension theorem", "KL divergence", "Law of large numbers"]
+    reference: "reference/04-estimation/index.md#joint-density"

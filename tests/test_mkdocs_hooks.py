@@ -29,7 +29,7 @@ def test_on_pre_build_logs_errors_as_warnings(tmp_path, caplog):
     docs = tmp_path / "docs"
     (docs / "glossary").mkdir(parents=True)
     (docs / "flowcharts").mkdir()
-    (docs / "flowcharts" / "inventory.yml").write_text("nodes:\n  - id: X\n    label: x\n    phase: P0\n    areas: []\n    section: 'a/b.md#c'\n", encoding="utf-8")
+    (docs / "flowcharts" / "inventory.yml").write_text("nodes:\n  - id: P0_X\n    label: x\n    phase: P0\n    areas: []\n    section: 'a/b.md#c'\n", encoding="utf-8")
     with caplog.at_level(logging.INFO, logger="mkdocs.plugins.tsam_hooks"):
         hooks.on_pre_build(audit.load_site_config(sitekit.write_project(tmp_path, {})))
     warnings = [r for r in caplog.records if r.levelno == logging.WARNING]

@@ -44,3 +44,11 @@ def test_check_nodes_vs_inventory_both_directions():
     assert "no leaf definition" in messages["P7_ORPHAN"]
     assert "not referenced by any ref node" in messages["F_LONELY"]
     assert "P7_GARCH" not in messages and "F_WOLD" not in messages
+
+
+def test_diagram_label_first_line_must_equal_the_inventory_label():
+    d = diagram('graph TD\n    P7_GARCH["Symmetric GARCH<br/>sigma"] --> P7_SV["Stochastic volatility<br/>latent"]\n', "p07.md#mermaid-1")
+    rows = [audit.Row("P7_GARCH", "GARCH", "P7", (10,), "reference/10-volatility/index.md#garch"),
+            audit.Row("P7_SV", "Stochastic volatility", "P7", (10,), "reference/10-volatility/index.md#stochastic-volatility")]
+    messages = [f.message for f in audit.check_nodes_vs_inventory([d], rows)]
+    assert messages == ["node P7_GARCH label 'Symmetric GARCH' differs from its inventory label 'GARCH'"]
