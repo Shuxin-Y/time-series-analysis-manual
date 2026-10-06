@@ -203,6 +203,46 @@ nav:
       - 06-feature-extraction/index.md
   - Validation & Deployment:
       - 07-validation-deployment/index.md
+  - Reference:
+      - Theory & Inference:
+          - reference/01-math-foundations/index.md
+          - reference/04-estimation/index.md
+          - reference/05-hypothesis-testing/index.md
+          - reference/06-model-selection/index.md
+          - reference/25-simulation/index.md
+          - reference/27-regression-time-series/index.md
+          - reference/28-nonstationarity-theory/index.md
+      - Core Models:
+          - reference/02-fundamentals/index.md
+          - reference/03-classical/index.md
+          - reference/07-long-memory/index.md
+          - reference/08-nonlinear/index.md
+          - reference/09-multivariate/index.md
+          - reference/10-volatility/index.md
+          - reference/29-seasonality-calendar/index.md
+          - reference/30-structural-change/index.md
+          - reference/32-panel-time-series/index.md
+      - Specialized Models:
+          - reference/11-state-space/index.md
+          - reference/12-bayesian/index.md
+          - reference/15-continuous-time/index.md
+          - reference/16-count-categorical/index.md
+          - reference/17-point-processes/index.md
+          - reference/33-system-identification/index.md
+      - Representations & Signals:
+          - reference/13-spectral-analysis/index.md
+          - reference/14-functional-high-frequency/index.md
+          - reference/19-classification-anomaly/index.md
+          - reference/20-spatio-temporal/index.md
+      - ML, Forecasting & Practice:
+          - reference/18-machine-learning/index.md
+          - reference/21-causal-inference/index.md
+          - reference/22-forecasting-practice/index.md
+          - reference/23-online-adaptive/index.md
+          - reference/24-robust-nonparametric/index.md
+          - reference/26-applied-domains/index.md
+          - reference/31-data-preparation/index.md
+          - reference/34-probabilistic-forecasting/index.md
   - Appendices:
       - appendices/index.md
       - "Appendix A: OLS Derivation": appendices/A-ols-derivation.md
