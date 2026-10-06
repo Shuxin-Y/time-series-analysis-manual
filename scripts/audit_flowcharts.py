@@ -28,6 +28,13 @@ AUDIT_SKIP_MARKER = "%% audit: skip"
 FOUNDATION_PHASE = "F"
 FOUNDATION_DIR = "00-foundations/"
 SECTION_DIRS = ("reference", "01-workflow")
+# H2 headings that structure a chapter rather than teach a content unit (documented in DESIGN-SYSTEM.md).
+STRUCTURAL_H2 = frozenset({
+    "Sub-diagram", "Branch sub-diagram", "Phase guide", "Question order", "Part 0 hooks", "Relation to P9",
+    "Routing variables", "Branches", "Quick navigation", "Purpose selector", "Representation selector",
+    "Master diagram", "How to read the diagrams", "Sub-chart", "P10 inference for this purpose",
+    "P11 metrics for this purpose", "Topics carried over from the previous outline", "References",
+})
 FIRST_MENTION_PREFIXES = ("00-foundations/", "reference/")
 GLOSSARY_INDEX_NAME = "index.yml"
 INVENTORY_PATH = ("flowcharts", "inventory.yml")
@@ -551,6 +558,23 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
     return findings
 
 
+def check_headings(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
+    """Every H2 under SECTION_DIRS is a content unit (an inventory or glossary anchor) or a structural heading."""
+    units: dict[str, set[str]] = {}
+    for section in [r.section for r in rows] + [str(t.get("reference") or "") for t in terms]:
+        if SECTION_RE.match(section):
+            file, anchor = section.split("#", 1)
+            units.setdefault(file, set()).add(anchor)
+    findings: list[Finding] = []
+    for sub in SECTION_DIRS:
+        for rel in site.pages_under(sub):
+            page = site.page(rel)
+            for h in page.headings if page else ():
+                if h.level == 2 and h.id not in units.get(rel, set()) and h.text not in STRUCTURAL_H2:
+                    findings.append(Finding("error", f"{rel}#{h.id}", f"H2 {h.text!r} is neither an inventory or glossary anchor nor a structural heading"))
+    return findings
+
+
 # ---------------------------------------------------------------- glossary
 
 def load_glossary(glossary_dir: Path) -> tuple[list[dict], list[Finding]]:
@@ -679,6 +703,7 @@ def run_all(config_file: Path, docs_dir: Path) -> list[Finding]:
     findings += check_nodes_vs_inventory(diagrams, rows)
     findings += check_inventory_targets(rows, site)
     findings += check_sections(site, rows, terms)
+    findings += check_headings(site, rows, terms)
     findings += check_glossary(terms, site)
     findings += first_mention_warnings(site, terms)
     findings += site.findings

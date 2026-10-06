@@ -242,3 +242,13 @@ def test_chain_walk_is_linear_on_shared_upstream_terms(tmp_path):
     findings = audit.check_glossary(terms, sitekit.site(tmp_path))
     assert time.perf_counter() - start < 2
     assert [f for f in findings if f.level == "error"] == []
+
+
+def test_every_h2_under_reference_and_workflow_is_a_content_unit_or_structural(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "reference" / "04-estimation" / "index.md").write_text(
+        "# Estimation\n\n## Joint density\n\n## Maximum likelihood\n\n## References\n\n### Detail\n", encoding="utf-8")
+    (docs / "01-workflow" / "index.md").write_text("# Workflow\n\n## Master diagram\n\n## EGARCH\n", encoding="utf-8")
+    terms = [{"term": "Joint density", "reference": "reference/04-estimation/index.md#joint-density"}]
+    findings = audit.check_headings(sitekit.site(tmp_path), [], terms)
+    assert sorted(f.where for f in findings) == ["01-workflow/index.md#egarch", "reference/04-estimation/index.md#maximum-likelihood"]

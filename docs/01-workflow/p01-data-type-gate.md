@@ -68,11 +68,6 @@ graph TD
 | B6 Wide panel | [Panel Time Series](../reference/32-panel-time-series/index.md) | P8, P10 |
 | B7 Many similar series | this page | Stays on the spine with the global flag set |
 
-## Phase guide
-
-!!! note "Section pending"
-    Procedural guide to this phase: which tests to run, in which order, and where each outcome leads.
-
 ## B7 Many similar series
 
 !!! note "Section pending"

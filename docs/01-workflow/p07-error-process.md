@@ -113,11 +113,6 @@ Terminals name **model → estimator → inference**; for example, regression + 
 
 P7 is specified once. After joint estimation in P8, P9 re-runs steps 1 to 5 on the complete model and loops back to P6 or P7 on failure.
 
-## Phase guide
-
-!!! note "Section pending"
-    Procedural guide to this phase: which tests to run, in which order, and where each outcome leads.
-
 ## Test residual autocorrelation
 
 !!! note "Section pending"
