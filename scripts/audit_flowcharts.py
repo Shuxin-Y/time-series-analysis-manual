@@ -1,4 +1,3 @@
-# scripts/audit_flowcharts.py
 """Audit the flowchart framework: Mermaid diagrams, the leaf-node inventory, and the glossary.
 
 Run: python scripts/audit_flowcharts.py [--root PATH]

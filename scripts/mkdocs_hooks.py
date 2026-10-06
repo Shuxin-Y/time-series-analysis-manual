@@ -1,4 +1,3 @@
-# scripts/mkdocs_hooks.py
 """MkDocs hooks: generate docs/glossary/index.yml and surface audit findings as build warnings.
 
 Registered in mkdocs.yml under `hooks:`. Under `mkdocs build --strict` every audit error fails the build.

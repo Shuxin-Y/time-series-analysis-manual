@@ -1,4 +1,3 @@
-# tests/test_audit_cli.py
 import textwrap
 
 import audit_flowcharts as audit

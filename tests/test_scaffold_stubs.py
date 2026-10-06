@@ -1,4 +1,3 @@
-# tests/test_scaffold_stubs.py
 import textwrap
 
 import audit_flowcharts as audit

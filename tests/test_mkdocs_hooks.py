@@ -1,4 +1,3 @@
-# tests/test_mkdocs_hooks.py
 import logging
 
 import mkdocs_hooks as hooks

@@ -1,4 +1,3 @@
-# scripts/scaffold_stubs.py
 """Create pending stub sections for inventory rows whose target file or heading is missing.
 
 Run: python scripts/scaffold_stubs.py [--root PATH] [--dry-run]
