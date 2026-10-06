@@ -221,7 +221,7 @@ Every phase receives at least one area; every area lands in at least one phase.
 
 - **Method section**: what to do and when. Must be a leaf node. Its home chapter follows the split in section 10.2.
 - **Theory section**: why it holds. Need not be a node, but must be linked from at least one method section or one glossary derivation chain. Marked with `kind: theory` in the page's YAML front matter.
-- **Heading rule.** On a page under `reference/` or `01-workflow/`, every H2 is an inventory anchor (a leaf's section) or a structural heading (`STRUCTURAL_H2` in `scripts/audit_flowcharts.py`, the one home of that list). Headings H3 and deeper under a leaf's H2 belong to that leaf and need no node of their own. A glossary `reference` anchor is valid as a leaf's own heading, as an H3 or deeper under a leaf's H2, or as any heading, H2 included, on a `kind: theory` page.
+- **Heading rule.** On a page under `reference/` or `01-workflow/`, every H2 is an inventory anchor (a leaf's section) or a structural heading (`STRUCTURAL_H2` in `scripts/audit_flowcharts.py`, the one home of that list). Headings H3 and deeper under a leaf's H2 belong to that leaf and need no node of their own. An H3 or deeper heading inherits its H2's status: under a leaf's H2 it belongs to that leaf; under a structural H2, or before the first H2, it is not allowed unless it is itself a leaf's heading or the page is `kind: theory`. A glossary `reference` anchor is valid as a leaf's own heading, as an H3 or deeper under a leaf's H2, or as any heading, H2 included, on a `kind: theory` page.
 
 ### 9.2 Terminals and body text
 

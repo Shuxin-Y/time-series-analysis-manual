@@ -14,7 +14,7 @@ Routing on the multivariate, global and exogenous-variable flags, then the model
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-### Topics carried over from the previous outline
+**Topics carried over from the previous outline**
 
 - ARIMA models
 - Seasonal models (SARIMA)

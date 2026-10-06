@@ -14,7 +14,7 @@ Distribution, variance stability, trend-stationary versus difference-stationary 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-### Topics carried over from the previous outline
+**Topics carried over from the previous outline**
 
 - Descriptive statistics
 - Distributional analysis

@@ -251,7 +251,8 @@ def test_every_h2_under_reference_and_workflow_is_a_leaf_or_structural(tmp_path)
     (docs / "01-workflow" / "index.md").write_text("# Workflow\n\n## Master diagram\n\n## EGARCH\n", encoding="utf-8")
     rows = [audit.Row("P8_MLE", "Maximum likelihood", "P8", (4,), "reference/04-estimation/index.md#maximum-likelihood")]
     findings = audit.check_headings(sitekit.site(tmp_path), rows, [])
-    assert sorted(f.where for f in findings) == ["01-workflow/index.md#egarch", "reference/04-estimation/index.md#joint-density"]
+    assert sorted(f.where for f in findings) == ["01-workflow/index.md#egarch", "reference/04-estimation/index.md#detail",
+                                                 "reference/04-estimation/index.md#joint-density"]
 
 
 def test_glossary_homes_sit_in_a_leaf_section_or_on_a_theory_page(tmp_path):
@@ -269,7 +270,7 @@ def test_glossary_homes_sit_in_a_leaf_section_or_on_a_theory_page(tmp_path):
              term("Score", "reference/04-estimation/index.md#score"),                    # H3 under a structural H2
              term("Estimation", "reference/04-estimation/index.md#estimation")]          # H1 of a non-leaf page
     findings = audit.check_headings(sitekit.site(tmp_path), rows, terms)
-    assert sorted(f.where for f in findings) == ["x.yml:Estimation", "x.yml:Score"]
+    assert sorted(f.where for f in findings) == ["reference/04-estimation/index.md#score", "x.yml:Estimation", "x.yml:Score"]
 
 def test_first_mention_scan_covers_workflow_pages(tmp_path):
     docs = make_docs(tmp_path)
@@ -299,3 +300,15 @@ def test_first_mention_scan_skips_pages_where_the_glossary_is_disabled(tmp_path)
     sitekit.write_project(tmp_path, {}, nav=["index.md", "01-workflow/p00-data.md"])
     terms = [{"term": "Imputation", "_file": "p00-data.yml", "reference": "01-workflow/p00-data.md#p0"}]
     assert audit.first_mention_warnings(sitekit.site(tmp_path), terms) == []
+
+
+def test_subsections_inherit_their_h2_status(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "01-workflow" / "p03.md").write_text(
+        "# P3\n\n### Before any H2\n\n## Phase guide\n\n### EGARCH method\n\n## ADF\n\n### Lag choice\n", encoding="utf-8")
+    (docs / "reference" / "04-estimation" / "theory.md").write_text(
+        "---\nkind: theory\n---\n# Why MLE\n\n### Intuition\n", encoding="utf-8")
+    rows = [audit.Row("P3_ADF", "ADF", "P3", (5,), "01-workflow/p03.md#adf")]
+    findings = audit.check_headings(sitekit.site(tmp_path), rows, [])
+    assert sorted(f.where for f in findings) == ["01-workflow/p03.md#before-any-h2", "01-workflow/p03.md#egarch-method",
+                                                 "reference/04-estimation/index.md#joint-density"]

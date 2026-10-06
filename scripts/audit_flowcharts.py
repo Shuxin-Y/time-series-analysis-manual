@@ -609,8 +609,9 @@ def check_headings(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
 
     Every H2 is an inventory anchor or a STRUCTURAL_H2 entry (on a `kind: theory` page it may also be a glossary
     anchor). A glossary `reference` anchor is valid when it is itself an inventory anchor, when it is an H3 or
-    deeper under an inventory-anchored H2, or when it is any heading on a `kind: theory` page. Headings under an
-    inventory-anchored H2 belong to that leaf and need no node.
+    deeper under an inventory-anchored H2, or when it is any heading on a `kind: theory` page. An H3 or deeper
+    heading inherits its H2's status: under a leaf's H2 it belongs to that leaf and needs no node; under a
+    structural H2, or before the first H2, it is an error unless it is itself a leaf or the page is `kind: theory`.
     """
     leaf_anchors: dict[str, set[str]] = {}
     for r in rows:
@@ -635,6 +636,8 @@ def check_headings(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
                     parent = h.id
                     if h.id not in leaves and h.text not in STRUCTURAL_H2 and not (theory and h.id in page_homes):
                         findings.append(Finding(ERROR, f"{rel}#{h.id}", f"H2 {h.text!r} is neither an inventory anchor nor a structural heading"))
+                elif h.level >= 3 and not (theory or parent in leaves or h.id in leaves):
+                    findings.append(Finding(ERROR, f"{rel}#{h.id}", f"H{h.level} {h.text!r} is not under a leaf's H2; a subsection belongs to a leaf"))
                 if h.id in page_homes and not (theory or h.id in leaves or (h.level >= 3 and parent in leaves)):
                     findings.extend(Finding(ERROR, where, f"glossary home {rel}#{h.id} must be a leaf's own heading, an H3 or deeper under a leaf's H2, or a heading on a kind: theory page")
                                     for where in page_homes[h.id])

@@ -37,7 +37,7 @@ graph TD
 |---|---|---|
 | Pending | Pending | Pending |
 
-### Topics carried over from the previous outline
+**Topics carried over from the previous outline**
 
 - Fourier theory
 - Power spectral density

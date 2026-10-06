@@ -14,7 +14,7 @@ Sampling rate and resolution; timestamp alignment, time zones, daylight-saving t
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-### Topics carried over from the previous outline
+**Topics carried over from the previous outline**
 
 - Inspection and sampling: data quality, sampling rates, alignment
 - Missing data: imputation strategies and segmentation

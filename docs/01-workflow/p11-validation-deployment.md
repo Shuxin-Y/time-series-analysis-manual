@@ -14,7 +14,7 @@ Rolling-origin validation and backtesting, purpose-specific metrics, documentati
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-### Topics carried over from the previous outline
+**Topics carried over from the previous outline**
 
 - Model validation
 - Out-of-sample testing
