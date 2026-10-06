@@ -111,6 +111,21 @@ plugins:
       separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
   - autorefs
   - tags
+  # Pages moved or folded into the workflow by the flowchart framework keep their published URLs
+  - redirects:
+      redirect_maps:
+        00-introduction/logic-of-statistical-analysis.md: 00-foundations/logic-of-statistical-analysis.md
+        00-introduction/do-you-need-time-series-analysis.md: 00-foundations/do-you-need-time-series-analysis.md
+        00-introduction/overview.md: 00-foundations/ols-assumptions.md
+        01-master-flowchart/01-general-flowchart.md: 01-workflow/index.md
+        01-master-flowchart/02-purpose-workflow.md: 01-workflow/p02-purpose/index.md
+        01-master-flowchart/03-representation-workflow.md: 01-workflow/p05-representation/index.md
+        02-data-preparation/index.md: 01-workflow/p00-data.md
+        03-exploratory-analysis/index.md: 01-workflow/p03-exploratory-diagnostics.md
+        04-frequency-domain/index.md: 01-workflow/p05-representation/index.md
+        05-modelling/index.md: 01-workflow/p06-mean-model-class.md
+        06-feature-extraction/index.md: 01-workflow/p02-purpose/07-feature-extraction-classification.md
+        07-validation-deployment/index.md: 01-workflow/p11-validation-deployment.md
 
 # Build hooks: glossary index generation and the flowchart/glossary audit
 hooks:
