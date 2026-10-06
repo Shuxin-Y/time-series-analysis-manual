@@ -142,6 +142,7 @@ the sole signal):
 Brand palette:
 
 ```mermaid
+%% audit: skip
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     START(["Time-stamped data"]) --> ROOT_TEST["Run ADF + KPSS"]
@@ -163,6 +164,7 @@ graph TD
 Colorblind-safe palette (same diagram):
 
 ```mermaid
+%% audit: skip
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     START(["Time-stamped data"]) --> ROOT_TEST["Run ADF + KPSS"]

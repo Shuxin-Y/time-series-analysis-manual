@@ -114,7 +114,7 @@ Content uses Material's default centred column width; the responsive and print r
 
 ## Tier 2a — Components
 
-Components are the reusable building blocks an author drops into a chapter. Each entry below records its purpose, when to use it, the copy-paste markup, a note on what renders, and a do/don't. All markup and class names are read from `docs/00-introduction/*.md`, `docs/stylesheets/extra.css`, and `docs/javascripts/glossary.js`; those files are the implementation, and this catalog mirrors them.
+Components are the reusable building blocks an author drops into a chapter. Each entry below records its purpose, when to use it, the copy-paste markup, a note on what renders, and a do/don't. All markup and class names are read from `docs/00-foundations/*.md`, `docs/stylesheets/extra.css`, and `docs/javascripts/glossary.js`; those files are the implementation, and this catalog mirrors them.
 
 ### Admonitions
 

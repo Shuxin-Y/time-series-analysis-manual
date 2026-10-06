@@ -46,6 +46,7 @@ If this condition holds, a linear regression model with i.i.d. errors (estimated
 The decision distills into a sequence: identify the visible structure, fit a linear regression model with the engineered features by OLS, and let residual diagnostics decide whether the model itself needs to be replaced. The flowchart below traces the path from a [prepared series](../02-data-preparation/index.md) to a model class.
 
 ```mermaid
+%% audit: skip
 graph TD
     START([Time-stamped data]) --> PLOT[Plot the series<br/>Inspect raw ACF]
     PLOT --> UNITROOT{Unit root?<br/>ADF + KPSS}

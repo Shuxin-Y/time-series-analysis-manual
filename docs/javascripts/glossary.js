@@ -18,7 +18,7 @@
   // the path works both on localhost (root = /) and GitHub Pages (root = /repo-name/).
   // Add a new entry here whenever a chapter introduces its first glossary term.
   const GLOSSARY_CHAPTERS = [
-    '00-introduction',
+    '00-foundations',
     '02-data-preparation',
     '03-exploratory-analysis',
     '04-frequency-domain',
@@ -26,7 +26,7 @@
   ];
 
   const ENABLED_PATHS = [
-    '/00-introduction/',
+    '/00-foundations/',
     '/01-master-flowchart/',
     '/02-data-preparation/',
     '/03-exploratory-analysis/',

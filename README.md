@@ -97,4 +97,4 @@ Code: [MIT License](LICENSE-CODE)
 
 ---
 
-**[Read Online](https://shuxin-y.github.io/time-series-analysis-manual)** | **[Get Started](docs/00-introduction/overview.md)**
+**[Read Online](https://shuxin-y.github.io/time-series-analysis-manual)** | **[Get Started](docs/00-foundations/ols-assumptions.md)**

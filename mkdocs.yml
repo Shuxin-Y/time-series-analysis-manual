@@ -153,10 +153,12 @@ extra:
 # Navigation structure
 nav:
   - Home: index.md
-  - Introduction:
-      - 00-introduction/logic-of-statistical-analysis.md
-      - 00-introduction/do-you-need-time-series-analysis.md
-      - 00-introduction/overview.md
+  - Foundations:
+      - 00-foundations/logic-of-statistical-analysis.md
+      - 00-foundations/do-you-need-time-series-analysis.md
+      - 00-foundations/ols-assumptions.md
+      - 00-foundations/stochastic-processes.md
+      - 00-foundations/asymptotics.md
   - Flowcharts:
       - 01-master-flowchart/01-general-flowchart.md
       - 01-master-flowchart/02-purpose-workflow.md
