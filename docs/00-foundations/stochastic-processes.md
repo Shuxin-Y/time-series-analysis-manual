@@ -48,3 +48,23 @@ The sections are created from the flowchart inventory and written in Plan B.
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `F_TIME_RESCALING`). Write this section following the content rules in `DESIGN-SYSTEM.md`.
+
+## Probability density
+
+!!! note "Section pending"
+    Root of the joint-density chain: probability per unit volume; why continuous variables need densities.
+
+## Independence
+
+!!! note "Section pending"
+    Root: the joint distribution factorises into marginals; relation to uncorrelatedness and martingale differences.
+
+## Kolmogorov extension theorem
+
+!!! note "Section pending"
+    Root: a consistent family of finite-dimensional distributions determines the law of a process.
+
+## KL divergence
+
+!!! note "Section pending"
+    Root: maximising average log-likelihood minimises Kullback-Leibler divergence to the truth.

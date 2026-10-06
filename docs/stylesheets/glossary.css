@@ -297,3 +297,69 @@
 .glossary-drawer-body::-webkit-scrollbar-thumb:hover {
   background: var(--md-default-fg-color--light);
 }
+
+/* ---- Derivation chain: chips, back button, breadcrumbs, root badge ---- */
+.glossary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.glossary-chip {
+  font: inherit;
+  font-size: 0.85em;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--md-primary-fg-color);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-primary-fg-color);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.glossary-chip:hover,
+.glossary-chip:focus {
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  outline: none;
+}
+
+.glossary-chip--missing {
+  border-style: dashed;
+  color: var(--md-default-fg-color--light);
+  cursor: default;
+}
+
+.glossary-back {
+  font: inherit;
+  font-size: 0.85em;
+  margin-bottom: 0.25rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--md-accent-fg-color);
+  cursor: pointer;
+}
+
+.glossary-crumbs {
+  font-size: 0.75em;
+  color: var(--md-default-fg-color--light);
+  margin-top: 0.25rem;
+}
+
+.glossary-root {
+  font-size: 0.6em;
+  vertical-align: middle;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: var(--md-accent-fg-color);
+  color: var(--md-accent-bg-color);
+}
+
+.glossary-section .derivation ol {
+  padding-left: 1.25rem;
+}
+
+.glossary-section .derivation li {
+  margin-bottom: 0.6rem;
+}

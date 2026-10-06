@@ -1,4 +1,4 @@
-# Glossary: Chapter 05 — Modelling
+# Glossary: 3. Classical Models
 
 terms:
 
@@ -17,4 +17,4 @@ terms:
       - 1927: Yule introduces autoregressive processes
       - 1937: Slutsky introduces moving average processes
       - 1970: Box and Jenkins publish the comprehensive ARIMA methodology
-    reference: "05-modelling/01-arima.html"
+    reference: "reference/03-classical/index.md#3-classical-models"
