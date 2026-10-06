@@ -252,3 +252,13 @@ def test_every_h2_under_reference_and_workflow_is_a_content_unit_or_structural(t
     terms = [{"term": "Joint density", "reference": "reference/04-estimation/index.md#joint-density"}]
     findings = audit.check_headings(sitekit.site(tmp_path), [], terms)
     assert sorted(f.where for f in findings) == ["01-workflow/index.md#egarch", "reference/04-estimation/index.md#maximum-likelihood"]
+
+
+def test_first_mention_scan_covers_workflow_pages(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "01-workflow" / "p00-data.md").write_text("# P0\n\nImputation fills gaps.\n", encoding="utf-8")
+    (docs / "reference" / "31-data").mkdir(parents=True)
+    (docs / "reference" / "31-data" / "index.md").write_text("# Data\n\nImputation again.\n", encoding="utf-8")
+    sitekit.write_project(tmp_path, {}, nav=["01-workflow/p00-data.md", "reference/31-data/index.md"])
+    terms = [{"term": "Imputation", "_file": "p00-data.yml", "reference": "01-workflow/p00-data.md#p0"}]
+    assert audit.first_mention_warnings(sitekit.site(tmp_path), terms) == []

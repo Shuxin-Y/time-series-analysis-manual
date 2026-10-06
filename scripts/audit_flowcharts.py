@@ -35,7 +35,6 @@ STRUCTURAL_H2 = frozenset({
     "Master diagram", "How to read the diagrams", "Sub-chart", "P10 inference for this purpose",
     "P11 metrics for this purpose", "Topics carried over from the previous outline", "References",
 })
-FIRST_MENTION_PREFIXES = ("00-foundations/", "reference/")
 GLOSSARY_INDEX_NAME = "index.yml"
 INVENTORY_PATH = ("flowcharts", "inventory.yml")
 
@@ -672,7 +671,7 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
 def first_mention_warnings(site: Site, terms: list[dict]) -> list[Finding]:
     texts: list[tuple[str, str]] = []
     for p in site.nav_pages():
-        page = site.page(p) if p.startswith(FIRST_MENTION_PREFIXES) else None
+        page = site.page(p)
         if page is not None:
             texts.append((p, page.text))
     findings: list[Finding] = []
