@@ -29,6 +29,9 @@ class Finding:
     where: str
     message: str
 
+    def __str__(self) -> str:
+        return f"{self.level.upper():7} {self.where}: {self.message}"
+
 
 @dataclass(frozen=True)
 class Node:
@@ -434,7 +437,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     findings = run_all(args.root)
     for f in findings:
-        print(f"{f.level.upper():7} {f.where}: {f.message}")
+        print(f)
     errors = sum(f.level == "error" for f in findings)
     print(f"{errors} error(s), {len(findings) - errors} warning(s)")
     return 1 if errors else 0

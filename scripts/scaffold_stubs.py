@@ -66,7 +66,7 @@ def main(argv: list[str] | None = None) -> int:
     # Rows the loader rejects are not scaffolded; report them so a broken inventory cannot pass silently.
     _, findings = load_inventory((args.root / "docs").joinpath(*INVENTORY_PATH))
     for f in findings:
-        print(f"{f.level.upper():7} {f.where}: {f.message}", file=sys.stderr)
+        print(f, file=sys.stderr)
     for action in scaffold(args.root, args.dry_run):
         print(action)
     return 1 if any(f.level == "error" for f in findings) else 0
