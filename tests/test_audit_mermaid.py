@@ -144,6 +144,11 @@ def test_subgraph_headers_are_clusters_not_nodes():
     assert d.clusters == {"SG_A"} and set(d.nodes) == {"P3_A"} and msgs == []
 
 
+def test_an_edge_to_a_cluster_is_not_an_undefined_node():
+    d, msgs = problems('graph TD\n    subgraph SG_A["Group"]\n        P3_A["a"]\n    end\n    SG_A --> P3_B["b"]\n')
+    assert "SG_A" in d.used_ids and msgs == []
+
+
 def test_click_directives_and_urls_are_errors():
     _, msgs = problems('graph TD\n    P3_A["a"]\n    click P3_A "https://example.org/"\n')
     assert any("click directive" in m for m in msgs)

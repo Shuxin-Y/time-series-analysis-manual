@@ -487,7 +487,7 @@ def check_diagrams(diagrams: list[Diagram]) -> list[Finding]:
                 findings.append(Finding(ERROR, d.where, f"node {nid} already defined in {defined[nid]}"))
     for d in diagrams:
         findings.extend(Finding(ERROR, d.where, problem) for problem in d.problems)
-        for nid in sorted(d.used_ids - set(d.nodes)):
+        for nid in sorted(d.used_ids - set(d.nodes) - d.clusters):
             findings.append(Finding(ERROR, d.where, f"node {nid} is used but has no quoted, shaped definition in this diagram"))
     return findings
 
