@@ -107,6 +107,9 @@ def test_glossary_chip_opens_the_upstream_term(page, site_url):
                              "1. **Reject $H_0$** if $s<t$, see [Joint density](reference/04-estimation/maximum-likelihood.md#joint-density)")
     assert "<strong>Reject $H_0$</strong>" in rendered and "$s&lt;t$" in rendered
     assert 'href="' + site_url + 'reference/04-estimation/maximum-likelihood/#joint-density"' in rendered
+    unanchored = page.evaluate("t => window.tsamGlossary.renderMarkdown(t)",
+                               "[a](reference/04-estimation/index.md) and [b](../x.md#y)")
+    assert "<a " not in unanchored  # the drawer renders only the audit's SECTION_RE link form
     for disabled in ("", "design-system-showcase/"):  # GLOSSARY_DISABLED_PAGES, read from glossary/index.yml
         fetched = []
 

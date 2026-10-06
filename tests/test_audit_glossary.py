@@ -36,7 +36,7 @@ GLOSSARY = textwrap.dedent('''
     terms:
       - term: "Joint density"
         definition: "d"
-        derivation: "1. because of [Why MLE](theory.md)"
+        derivation: "1. because of [Why MLE](reference/04-estimation/theory.md#why-mle)"
         depends_on: ["Independence", "Law of large numbers"]
         reference: "reference/04-estimation/index.md#joint-density"
       - term: "Dead end"
@@ -332,3 +332,21 @@ def test_theory_page_linkage_counts_area_landing_pages_but_not_self_links(tmp_pa
     assert any(f.where == "reference/04-estimation/theory.md" for f in audit.check_sections(site, [], self_link))
     (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\nSee [Why MLE](theory.md).\n", encoding="utf-8")
     assert not any(f.where == "reference/04-estimation/theory.md" for f in audit.check_sections(sitekit.site(tmp_path), [], self_link))
+
+
+def test_every_link_in_glossary_text_must_be_a_resolving_section(tmp_path):
+    findings = glossary_findings(tmp_path, {"stochastic-processes.yml": '''
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+            historical: "See [gone](reference/04-estimation/index.md#no-such-anchor)."
+            mathematical: "See [up](../reference/04-estimation/index.md#joint-density) and [bare](reference/04-estimation/index.md)."
+            derivation: "1. [fine](reference/04-estimation/index.md#joint-density)"
+    '''})
+    messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
+    assert messages == [
+        "historical link anchor #no-such-anchor not found in reference/04-estimation/index.md",
+        "mathematical link '../reference/04-estimation/index.md#joint-density' must look like path/file.md#anchor",
+        "mathematical link 'reference/04-estimation/index.md' must look like path/file.md#anchor",
+    ]

@@ -343,7 +343,8 @@ def collect_diagrams(site: Site) -> list[Diagram]:
 
 # Inventory sections and glossary references are `path.md#anchor`, and the anchor must be the id of a rendered
 # heading: `<a id>`, attr-list ids on paragraphs and footnote ids are not targets (a node is a section).
-SECTION_RE = re.compile(r"^[\w./-]+\.md#[\w-]+$")
+# Path segments may not start with "." (no `..` and no hidden files); glossary.js DOC_LINK_RE mirrors this form.
+SECTION_RE = re.compile(r"^(?:[\w-][\w.-]*/)*[\w-][\w.-]*\.md#[\w-]+$")
 SECTION_FORMAT = "path/file.md#anchor"
 
 
@@ -569,7 +570,9 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
 
 # ---------------------------------------------------------------- sections
 
-MARKDOWN_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
+# Any Markdown link in glossary text; its target must be a SECTION_RE `path.md#anchor` that resolves.
+GLOSSARY_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)\s]+)\)")
+GLOSSARY_TEXT_FIELDS = ("mathematical", "derivation", "historical")
 AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 
 
@@ -589,7 +592,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
             linked.update(split_section(target)[0] for href in page.links if (target := resolve_link(href, f)))
     for t in terms:
         home = split_section(str(t.get("reference") or ""))[0]
-        for target in MARKDOWN_LINK_RE.findall(str(t.get("derivation") or "")):
+        for target in GLOSSARY_LINK_RE.findall(str(t.get("derivation") or "")):
             if resolve_section(target, site) is None and split_section(target)[0] != home:
                 linked.add(split_section(target)[0])
     findings: list[Finding] = []
@@ -701,6 +704,11 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
             findings.append(Finding(ERROR, where, f"reference {problem}"))
         elif (home := glossary_file_for(split_section(ref)[0])) != t["_file"]:
             findings.append(Finding(ERROR, where, f"term belongs in {GLOSSARY_DIR}/{home}, the file named after its reference page"))
+        for fld in GLOSSARY_TEXT_FIELDS:
+            for target in GLOSSARY_LINK_RE.findall(str(t.get(fld) or "")):
+                link_problem = resolve_section(target, site)
+                if link_problem:
+                    findings.append(Finding(ERROR, where, f"{fld} link {link_problem}"))
         if "foundation" in t and not _is_foundation(t):
             findings.append(Finding(ERROR, where, f"foundation must be absent or exactly true, not {t['foundation']!r}"))
         if split_section(ref)[0] in GLOSSARY_DISABLED_PAGES:
