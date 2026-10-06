@@ -265,3 +265,182 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
         elif r.id not in leaves:
             findings.append(Finding("error", r.id, "inventory row has no leaf definition in any diagram"))
     return findings
+
+
+# ---------------------------------------------------------------- sections
+
+def check_sections(docs_dir: Path, rows: list[Row], terms: list[dict]) -> list[Finding]:
+    """Every page under SECTION_DIRS is a method page (in the inventory) or a linked theory page."""
+    method_files = {r.file for r in rows}
+    corpus: list[str] = []
+    for f in sorted(method_files):
+        p = docs_dir / f
+        if p.is_file():
+            corpus.append(p.read_text(encoding="utf-8"))
+    corpus.extend(str(t.get("derivation") or "") for t in terms)
+    haystack = "\n".join(corpus)
+    findings: list[Finding] = []
+    for sub in SECTION_DIRS:
+        base = docs_dir / sub
+        if not base.is_dir():
+            continue
+        for md in sorted(base.rglob("*.md")):
+            rel = md.relative_to(docs_dir).as_posix()
+            if md.name == "index.md" or rel in method_files:
+                continue
+            text = md.read_text(encoding="utf-8")
+            if front_matter(text).get("kind") == "theory":
+                if md.name not in haystack and rel not in haystack:
+                    findings.append(Finding("error", rel, "theory page is not linked from any method section or glossary derivation"))
+            else:
+                findings.append(Finding("error", rel, "page is neither in the inventory (method) nor marked kind: theory"))
+    return findings
+
+
+# ---------------------------------------------------------------- glossary
+
+def load_glossary(glossary_dir: Path) -> tuple[list[dict], list[Finding]]:
+    terms: list[dict] = []
+    findings: list[Finding] = []
+    seen: dict[str, str] = {}
+    for yml in sorted(glossary_dir.glob("*.yml")):
+        if yml.name == "index.yml":
+            continue
+        data = yaml.safe_load(yml.read_text(encoding="utf-8")) or {}
+        for t in data.get("terms") or []:
+            name = t.get("term")
+            if not name:
+                findings.append(Finding("error", yml.name, "term without a name"))
+                continue
+            if name in seen:
+                findings.append(Finding("error", yml.name, f"term {name!r} also defined in {seen[name]}"))
+                continue
+            seen[name] = yml.name
+            t["_file"] = yml.name
+            terms.append(t)
+    return terms, findings
+
+
+def check_glossary(terms: list[dict], docs_dir: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    by_name = {t["term"]: t for t in terms}
+    anchors: dict[str, set[str]] = {}
+    for t in terms:
+        where = f"{t['_file']}:{t['term']}"
+        ref = str(t.get("reference") or "")
+        if not SECTION_RE.match(ref):
+            findings.append(Finding("error", where, "reference must look like path/file.md#anchor"))
+        else:
+            file, anchor = ref.split("#", 1)
+            target = docs_dir / file
+            if not target.is_file():
+                findings.append(Finding("error", where, f"reference file {file} does not exist"))
+            else:
+                anchors.setdefault(file, heading_anchors(target.read_text(encoding="utf-8")))
+                if anchor not in anchors[file]:
+                    findings.append(Finding("error", where, f"reference anchor #{anchor} not found in {file}"))
+        if "depends_on" not in t and not t.get("foundation"):
+            findings.append(Finding("warning", where, "no derivation chain yet (depends_on absent)"))
+            continue
+        for dep in t.get("depends_on") or []:
+            if dep not in by_name:
+                findings.append(Finding("error", where, f"depends_on {dep!r} is not a glossary term"))
+
+    def walk(name: str, stack: list[str]) -> None:
+        t = by_name[name]
+        if t.get("foundation"):
+            return
+        if name in stack:
+            findings.append(Finding("error", f"{t['_file']}:{name}", f"cycle: {' -> '.join(stack[stack.index(name):] + [name])}"))
+            return
+        if "depends_on" not in t:
+            return  # chain not written yet; warned above
+        deps = [d for d in (t.get("depends_on") or []) if d in by_name]
+        if not deps:
+            findings.append(Finding("error", f"{t['_file']}:{name}", "chain ends at a non-foundation term"))
+            return
+        for d in deps:
+            walk(d, stack + [name])
+
+    for t in terms:
+        if "depends_on" in t and not t.get("foundation"):
+            walk(t["term"], [])
+    return findings
+
+
+# ---------------------------------------------------------------- navigation and first mention
+
+def nav_pages(mkdocs_yml: Path) -> list[str]:
+    """Flatten `nav:` into page paths in reading order. BaseLoader keeps !!python tags as plain scalars."""
+    cfg = yaml.load(mkdocs_yml.read_text(encoding="utf-8"), Loader=yaml.BaseLoader) or {}
+    pages: list[str] = []
+
+    def walk(item) -> None:
+        if isinstance(item, str):
+            pages.append(item)
+        elif isinstance(item, list):
+            for i in item:
+                walk(i)
+        elif isinstance(item, dict):
+            for v in item.values():
+                walk(v)
+
+    walk(cfg.get("nav", []))
+    return pages
+
+
+def first_mention_warnings(pages: list[str], terms: list[dict], docs_dir: Path) -> list[Finding]:
+    texts: list[tuple[str, str]] = []
+    for p in pages:
+        f = docs_dir / p
+        if p.startswith(FIRST_MENTION_PREFIXES) and f.is_file():
+            texts.append((p, CODE_FENCE_RE.sub("", strip_front_matter(f.read_text(encoding="utf-8")))))
+    findings: list[Finding] = []
+    for t in terms:
+        ref_file = str(t.get("reference") or "").split("#", 1)[0]
+        pattern = re.compile(r"(?<!\w)" + re.escape(t["term"]) + r"(?!\w)", re.I)
+        for p, text in texts:
+            if pattern.search(text):
+                if p != ref_file:
+                    findings.append(Finding("warning", f"{t.get('_file', '?')}:{t['term']}",
+                                            f"first mentioned on {p}, reference points to {ref_file}"))
+                break
+    return findings
+
+
+# ---------------------------------------------------------------- driver
+
+def run_all(root: Path) -> list[Finding]:
+    docs = root / "docs"
+    findings: list[Finding] = []
+    rows, f = load_inventory(docs / "flowcharts" / "inventory.yml")
+    findings += f
+    terms, f = load_glossary(docs / "glossary") if (docs / "glossary").is_dir() else ([], [])
+    findings += f
+    diagrams = collect_diagrams(docs)
+    findings += check_diagrams(diagrams)
+    findings += check_refs(diagrams, rows)
+    findings += check_nodes_vs_inventory(diagrams, rows)
+    findings += check_inventory_targets(rows, docs)
+    findings += check_sections(docs, rows, terms)
+    findings += check_glossary(terms, docs)
+    mk = root / "mkdocs.yml"
+    if mk.is_file():
+        findings += first_mention_warnings(nav_pages(mk), terms, docs)
+    return sorted(set(findings), key=lambda x: (x.level != "error", x.where, x.message))
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
+    args = parser.parse_args(argv)
+    findings = run_all(args.root)
+    for f in findings:
+        print(f"{f.level.upper():7} {f.where}: {f.message}")
+    errors = sum(f.level == "error" for f in findings)
+    print(f"{errors} error(s), {len(findings) - errors} warning(s)")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

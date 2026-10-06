@@ -1,0 +1,136 @@
+# tests/test_audit_glossary.py
+import textwrap
+
+import audit_flowcharts as audit
+
+
+def make_docs(tmp_path):
+    docs = tmp_path / "docs"
+    (docs / "glossary").mkdir(parents=True)
+    (docs / "00-foundations").mkdir()
+    (docs / "reference" / "04-estimation").mkdir(parents=True)
+    (docs / "01-workflow").mkdir()
+    (docs / "00-foundations" / "stochastic-processes.md").write_text("# Stochastic processes\n\n## Independence\n\n## Law of large numbers\n", encoding="utf-8")
+    (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\n## Joint density\n\nThe joint density is defined here. See [theory](theory.md).\n", encoding="utf-8")
+    (docs / "reference" / "04-estimation" / "theory.md").write_text("---\nkind: theory\n---\n# Why MLE\n", encoding="utf-8")
+    (docs / "reference" / "04-estimation" / "stray.md").write_text("# Stray\n", encoding="utf-8")
+    (docs / "01-workflow" / "index.md").write_text("# Workflow\n", encoding="utf-8")
+    return docs
+
+
+GLOSSARY = textwrap.dedent('''
+    terms:
+      - term: "Independence"
+        definition: "d"
+        foundation: true
+        reference: "00-foundations/stochastic-processes.md#independence"
+      - term: "Law of large numbers"
+        definition: "d"
+        foundation: true
+        reference: "00-foundations/stochastic-processes.md#law-of-large-numbers"
+      - term: "Joint density"
+        definition: "d"
+        derivation: "1. because of [Why MLE](theory.md)"
+        depends_on: ["Independence", "Law of large numbers"]
+        reference: "reference/04-estimation/index.md#joint-density"
+      - term: "Dead end"
+        definition: "d"
+        depends_on: []
+        reference: "reference/04-estimation/index.md#joint-density"
+      - term: "Not yet"
+        definition: "d"
+        reference: "reference/04-estimation/index.md#joint-density"
+      - term: "Cycle A"
+        definition: "d"
+        depends_on: ["Cycle B"]
+        reference: "reference/04-estimation/index.md#joint-density"
+      - term: "Cycle B"
+        definition: "d"
+        depends_on: ["Cycle A"]
+        reference: "reference/04-estimation/index.md#joint-density"
+      - term: "Bad ref"
+        definition: "d"
+        foundation: true
+        reference: "reference/04-estimation/index.md#nope"
+      - term: "Unknown dep"
+        definition: "d"
+        depends_on: ["Ghost"]
+        reference: "reference/04-estimation/index.md#joint-density"
+''')
+
+
+def test_load_glossary_merges_files_and_flags_duplicates(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "glossary" / "a.yml").write_text('terms:\n  - term: "X"\n    definition: "d"\n', encoding="utf-8")
+    (docs / "glossary" / "b.yml").write_text('terms:\n  - term: "X"\n    definition: "d"\n  - term: "Y"\n    definition: "d"\n', encoding="utf-8")
+    (docs / "glossary" / "index.yml").write_text("files: [a.yml, b.yml]\n", encoding="utf-8")
+    terms, findings = audit.load_glossary(docs / "glossary")
+    assert [t["term"] for t in terms] == ["X", "Y"]
+    assert terms[0]["_file"] == "a.yml"
+    assert any("also defined in a.yml" in f.message for f in findings)
+
+
+def test_check_glossary_levels(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "glossary" / "g.yml").write_text(GLOSSARY, encoding="utf-8")
+    terms, _ = audit.load_glossary(docs / "glossary")
+    findings = audit.check_glossary(terms, docs)
+    by_term = {}
+    for f in findings:
+        by_term.setdefault(f.where.split(":", 1)[-1], []).append(f)
+    assert "Joint density" not in by_term
+    assert "Independence" not in by_term
+    assert by_term["Not yet"][0].level == "warning"
+    assert "depends_on absent" in by_term["Not yet"][0].message
+    assert any(f.level == "error" and "non-foundation" in f.message for f in by_term["Dead end"])
+    assert any("cycle" in f.message for f in findings)
+    assert any("anchor #nope not found" in f.message for f in by_term["Bad ref"])
+    assert any("'Ghost' is not a glossary term" in f.message for f in by_term["Unknown dep"])
+
+
+def test_check_sections_method_theory_and_stray(tmp_path):
+    docs = make_docs(tmp_path)
+    rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
+    terms = [{"term": "x", "derivation": ""}]
+    findings = audit.check_sections(docs, rows, terms)
+    wheres = {f.where: f.message for f in findings}
+    assert "reference/04-estimation/theory.md" not in wheres            # linked from index.md
+    assert "neither in the inventory" in wheres["reference/04-estimation/stray.md"]
+    assert "01-workflow/index.md" not in wheres                         # index pages exempt
+
+
+def test_check_sections_unlinked_theory_is_an_error(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\n## Joint density\n", encoding="utf-8")
+    rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
+    findings = audit.check_sections(docs, rows, [])
+    assert any(f.where == "reference/04-estimation/theory.md" and "not linked" in f.message for f in findings)
+
+
+def test_nav_pages_flattens_and_tolerates_python_tags(tmp_path):
+    yml = tmp_path / "mkdocs.yml"
+    yml.write_text(textwrap.dedent('''
+        markdown_extensions:
+          - pymdownx.emoji:
+              emoji_index: !!python/name:material.extensions.emoji.twemoji
+        nav:
+          - Home: index.md
+          - Foundations:
+              - 00-foundations/a.md
+              - Sub:
+                  - 00-foundations/b.md
+          - reference/04-estimation/index.md
+    '''), encoding="utf-8")
+    assert audit.nav_pages(yml) == ["index.md", "00-foundations/a.md", "00-foundations/b.md", "reference/04-estimation/index.md"]
+
+
+def test_first_mention_warning_only_when_pages_differ(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "00-foundations" / "early.md").write_text("# Early\n\nThe joint density appears here first.\n", encoding="utf-8")
+    terms = [{"term": "Joint density", "_file": "g.yml", "reference": "reference/04-estimation/index.md#joint-density"},
+             {"term": "Independence", "_file": "g.yml", "reference": "00-foundations/stochastic-processes.md#independence"}]
+    pages = ["00-foundations/early.md", "00-foundations/stochastic-processes.md", "reference/04-estimation/index.md"]
+    findings = audit.first_mention_warnings(pages, terms, docs)
+    assert len(findings) == 1
+    assert findings[0].level == "warning"
+    assert "first mentioned on 00-foundations/early.md" in findings[0].message
