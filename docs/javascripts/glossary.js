@@ -194,7 +194,7 @@
         <div class="glossary-drawer-header">
           <div>
             ${backButton}
-            <h3>${escapeHtml(termData.term)}${termData.foundation ? ' <span class="glossary-root" title="Foundation: root of derivation chains">root</span>' : ''}</h3>
+            <h3>${escapeHtml(termData.term)}${termData.foundation === true ? ' <span class="glossary-root" title="Foundation: root of derivation chains">root</span>' : ''}</h3>
             ${drawerStack.length > 1 ? `<div class="glossary-crumbs">${crumbs}</div>` : ''}
           </div>
           <button class="close-drawer" aria-label="Close">

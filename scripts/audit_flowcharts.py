@@ -621,6 +621,10 @@ def glossary_file_for(reference_file: str) -> str:
     return f"{path.parent.name if path.name == 'index.md' else path.stem}.yml"
 
 
+def _is_foundation(t: dict) -> bool:
+    return t.get("foundation") is True
+
+
 def _depends_on(t: dict) -> list[str] | None:
     deps = t.get("depends_on")
     return deps if isinstance(deps, list) and all(isinstance(d, str) for d in deps) else None
@@ -637,10 +641,14 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
             findings.append(Finding(ERROR, where, f"reference {problem}"))
         elif (home := glossary_file_for(split_section(ref)[0])) != t["_file"]:
             findings.append(Finding(ERROR, where, f"term belongs in {GLOSSARY_DIR}/{home}, the file named after its reference page"))
+        if "foundation" in t and not _is_foundation(t):
+            findings.append(Finding(ERROR, where, f"foundation must be absent or exactly true, not {t['foundation']!r}"))
+        if split_section(ref)[0] == "index.md":
+            findings.append(Finding(ERROR, where, "term cannot be homed on the home page, where the glossary is disabled"))
         if "depends_on" in t and _depends_on(t) is None:
             findings.append(Finding(ERROR, where, "depends_on must be a list of term names"))
             continue
-        if t.get("foundation"):
+        if _is_foundation(t):
             if not ref.startswith(FOUNDATION_DIR):
                 findings.append(Finding(ERROR, where, f"foundation term must be homed under {FOUNDATION_DIR}"))
             if _depends_on(t):
@@ -659,7 +667,7 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
 
     def walk(name: str, stack: list[str]) -> None:
         t = by_name[name]
-        if t.get("foundation") or state.get(name) == "done" or _depends_on(t) is None:
+        if _is_foundation(t) or state.get(name) == "done" or _depends_on(t) is None:
             return
         if state.get(name) == "open":
             loop = stack[stack.index(name):]

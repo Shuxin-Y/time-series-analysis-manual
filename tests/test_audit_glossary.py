@@ -262,3 +262,14 @@ def test_first_mention_scan_covers_workflow_pages(tmp_path):
     sitekit.write_project(tmp_path, {}, nav=["01-workflow/p00-data.md", "reference/31-data/index.md"])
     terms = [{"term": "Imputation", "_file": "p00-data.yml", "reference": "01-workflow/p00-data.md#p0"}]
     assert audit.first_mention_warnings(sitekit.site(tmp_path), terms) == []
+
+
+def test_foundation_must_be_exactly_true_and_home_page_is_not_a_home(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "index.md").write_text("# Home\n\n## Overview\n", encoding="utf-8")
+    terms = [{"term": "Independence", "_file": "stochastic-processes.yml", "foundation": "false",
+              "reference": "00-foundations/stochastic-processes.md#independence"},
+             {"term": "Home term", "_file": ".yml", "depends_on": ["Independence"], "reference": "index.md#overview"}]
+    messages = {f.where: f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.level == "error"}
+    assert "must be absent or exactly true, not 'false'" in messages["stochastic-processes.yml:Independence"]
+    assert any("home page" in f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.where == ".yml:Home term")
