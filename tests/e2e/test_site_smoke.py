@@ -89,6 +89,10 @@ def test_glossary_chip_opens_the_upstream_term(page, site_url):
     drawer.locator('.glossary-chip[data-term="Independence"]').click()
     page.wait_for_function("() => document.querySelector('.glossary-drawer h3').textContent.startsWith('Independence')")
     assert "Joint density" in page.locator(".glossary-crumbs").inner_text()
+    for disabled in ("", "design-system-showcase/"):  # GLOSSARY_DISABLED_PAGES, read from glossary/index.yml
+        page.goto(site_url + disabled)
+        page.wait_for_load_state("networkidle")
+        assert page.locator(".glossary-term").count() == 0, disabled
 
 
 def test_no_console_errors(page, site_url):

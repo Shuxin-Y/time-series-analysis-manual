@@ -21,7 +21,7 @@ log = logging.getLogger("mkdocs.plugins.tsam_hooks")
 def write_glossary_index(docs_dir: Path) -> bool:
     gdir = docs_dir / audit.GLOSSARY_DIR
     files = sorted(p.name for p in gdir.glob("*.yml") if p.name != audit.GLOSSARY_INDEX_NAME)
-    content = yaml.safe_dump({"files": files}, sort_keys=False)
+    content = yaml.safe_dump({"files": files, "disabled_pages": list(audit.GLOSSARY_DISABLED_PAGES)}, sort_keys=False)
     target = gdir / audit.GLOSSARY_INDEX_NAME
     if target.is_file() and target.read_text(encoding="utf-8") == content:
         return False

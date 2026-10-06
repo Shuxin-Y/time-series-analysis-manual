@@ -15,7 +15,7 @@ def test_write_glossary_index_lists_yml_files_and_skips_itself(tmp_path):
     (g / "a.yml").write_text("terms: []\n", encoding="utf-8")
     (g / "index.yml").write_text("stale\n", encoding="utf-8")
     assert hooks.write_glossary_index(tmp_path) is True
-    assert (g / "index.yml").read_text(encoding="utf-8") == "files:\n- a.yml\n- b.yml\n"
+    assert (g / "index.yml").read_text(encoding="utf-8") == "files:\n- a.yml\n- b.yml\ndisabled_pages:\n- index.md\n- design-system-showcase.md\n"
 
 
 def test_write_glossary_index_does_not_rewrite_identical_content(tmp_path):

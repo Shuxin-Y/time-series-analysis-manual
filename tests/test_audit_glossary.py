@@ -290,3 +290,12 @@ def test_foundation_must_be_exactly_true_and_home_page_is_not_a_home(tmp_path):
     messages = {f.where: f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.level == "error"}
     assert "must be absent or exactly true, not 'false'" in messages["stochastic-processes.yml:Independence"]
     assert any("home page" in f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.where == ".yml:Home term")
+
+
+def test_first_mention_scan_skips_pages_where_the_glossary_is_disabled(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "index.md").write_text("# Home\n\nImputation listed here.\n", encoding="utf-8")
+    (docs / "01-workflow" / "p00-data.md").write_text("# P0\n\nImputation fills gaps.\n", encoding="utf-8")
+    sitekit.write_project(tmp_path, {}, nav=["index.md", "01-workflow/p00-data.md"])
+    terms = [{"term": "Imputation", "_file": "p00-data.yml", "reference": "01-workflow/p00-data.md#p0"}]
+    assert audit.first_mention_warnings(sitekit.site(tmp_path), terms) == []

@@ -40,6 +40,8 @@ STRUCTURAL_H2 = frozenset({
 })
 GLOSSARY_DIR = "glossary"
 GLOSSARY_INDEX_NAME = "index.yml"
+# Pages where the glossary drawer is switched off; the hook writes this list into the glossary index for glossary.js.
+GLOSSARY_DISABLED_PAGES = ("index.md", "design-system-showcase.md")
 INVENTORY_PATH = ("flowcharts", "inventory.yml")
 
 
@@ -731,7 +733,7 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
 def first_mention_warnings(site: Site, terms: list[dict]) -> list[Finding]:
     texts: list[tuple[str, str]] = []
     for p in site.nav_pages():
-        page = site.page(p)
+        page = site.page(p) if p not in GLOSSARY_DISABLED_PAGES else None
         if page is not None:
             texts.append((p, page.text))
     findings: list[Finding] = []

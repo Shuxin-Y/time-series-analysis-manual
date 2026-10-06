@@ -15,31 +15,29 @@
 (function() {
   'use strict';
 
-  // Pages where the glossary is switched off: the home page and the design showcase.
-  const DISABLED_PATHS = ['/design-system-showcase/'];
-
-  let termsPromise = null;
+  let glossaryPromise = null;
   let allTerms = [];
   let drawerStack = [];
 
-  function isGlossaryEnabled() {
-    const path = window.location.pathname;
-    const base = new URL(window.tsamSite.base(), window.location.origin).pathname;
-    if (path === base || path === base + 'index.html') return false;
-    return !DISABLED_PATHS.some(disabled => path.includes(disabled));
+  // glossary/index.yml (written by scripts/mkdocs_hooks.py) lists the term files and the pages where the
+  // glossary is switched off (GLOSSARY_DISABLED_PAGES in scripts/audit_flowcharts.py).
+  function isGlossaryEnabled(disabledPages) {
+    const here = window.location.pathname.replace(/index\.html$/, '');
+    return !disabledPages.some(page => new URL(window.tsamSite.docUrl(page)).pathname === here);
   }
 
   // Fetched once per page load; a failed file is logged by tsamSite.fetchText and contributes no terms.
   function loadGlossary() {
-    if (!termsPromise) {
-      termsPromise = (async () => {
-        let files = [];
+    if (!glossaryPromise) {
+      glossaryPromise = (async () => {
+        let index = {};
         try {
-          files = ((jsyaml.load(await window.tsamSite.fetchText('glossary/index.yml')) || {}).files) || [];
+          index = jsyaml.load(await window.tsamSite.fetchText('glossary/index.yml')) || {};
         } catch (error) {
           console.error('glossary: file list unusable', error);
-          return [];
+          return { terms: [], disabledPages: [] };
         }
+        const files = index.files || [];
         const fetches = files.map(async name => {
           try {
             const data = jsyaml.load(await window.tsamSite.fetchText(`glossary/${name}`));
@@ -49,10 +47,10 @@
             return [];
           }
         });
-        return (await Promise.all(fetches)).flat();
+        return { terms: (await Promise.all(fetches)).flat(), disabledPages: index.disabled_pages || [] };
       })();
     }
-    return termsPromise;
+    return glossaryPromise;
   }
 
   function escapeRegex(string) {
@@ -256,8 +254,9 @@
   }
 
   async function initGlossary() {
-    if (!isGlossaryEnabled()) return;
-    allTerms = await loadGlossary();
+    const glossary = await loadGlossary();
+    if (!isGlossaryEnabled(glossary.disabledPages)) return;
+    allTerms = glossary.terms;
     if (allTerms.length === 0) { console.error('No glossary terms loaded'); return; }
     highlightTerms(allTerms);
     addClickHandlers();

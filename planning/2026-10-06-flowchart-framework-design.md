@@ -367,7 +367,7 @@ terms:
 | Sections | Every non-index `.md` under `reference/` and `01-workflow/` is referenced by an inventory row (method) or, if `kind: theory`, is the target of a resolved link on a method page or of an exact `path.md#anchor` link in a glossary derivation | error |
 | Headings | The heading rule of section 9.1 on every page under `reference/` and `01-workflow/`, index pages included: each H2 is an inventory anchor or a `STRUCTURAL_H2` entry (or a glossary anchor on a `kind: theory` page); each glossary `reference` anchor is a leaf's own heading, an H3 or deeper under a leaf's H2, or a heading on a `kind: theory` page | error |
 | Glossary | Every `depends_on` is a list of names that resolve to terms; every chain terminates at a `foundation: true` term; a foundation term is homed under `00-foundations/` and has no `depends_on`; no cycles, each reported once; `reference` anchor exists; no duplicate keys, so exactly one `reference` per term; each term sits in the glossary file named after its reference page. A term with no `depends_on` key is a chain not yet written and is reported as a warning; a term with an empty `depends_on` and no `foundation: true` is a dead end and is an error | error |
-| Glossary | Scan every `nav:` page in order; list terms whose first-mention page differs from the `reference` page, for manual review | warning |
+| Glossary | Scan every `nav:` page in order except the pages where the glossary is disabled (`GLOSSARY_DISABLED_PAGES`: the home page and the design-system showcase, which also feed the drawer through `glossary/index.yml`); list terms whose first-mention page differs from the `reference` page, for manual review | warning |
 
 Node classification in Mermaid: a node is `ref` when it uses the `[[ ]]` shape or is assigned the `ref` class; otherwise it is defined. Among defined nodes, leaf status follows the shape rule in section 10.1. `index.md` pages are exempt from the page-level sections check, not from the heading check.
 
@@ -398,7 +398,7 @@ The framework is implemented before content is written, in two separate plans.
 
 - **Depth cap per leaf section.** Not decided. The why-chain moved to the drawer, so body sections are shorter than first estimated; a cap is still needed for planning volume.
 - **Theory-section detection.** The `kind: theory` front-matter marker is the proposed mechanism; confirm during implementation that MkDocs Material does not render the key.
-- **First-mention warning noise.** The warning-level glossary scan may be noisy because Part 0 mentions many later-homed models as examples. Keep it a warning and review after the first run.
+- **First-mention warning noise.** The warning-level glossary scan is noisy where a page mentions many later-homed terms as examples: Part 0, and the temporary phase-page homes until each term is re-pointed to its own leaf. Pages where the glossary is disabled (home, showcase) are not scanned. Keep it a warning and review after each round.
 
 ## 14. Acceptance criteria for the implementation plan
 
