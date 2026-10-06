@@ -12,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from audit_flowcharts import Row, heading_anchors, load_inventory, slugify  # noqa: E402
+from audit_flowcharts import INVENTORY_PATH, Row, heading_anchors, load_inventory, slugify  # noqa: E402
 
 PENDING = (
     '!!! note "Section pending"\n'
@@ -36,7 +36,7 @@ def heading_for(row: Row) -> str:
 
 def scaffold(root: Path, dry_run: bool = False) -> list[str]:
     docs = root / "docs"
-    rows, _ = load_inventory(docs / "flowcharts" / "inventory.yml")
+    rows, _ = load_inventory(docs.joinpath(*INVENTORY_PATH))
     actions: list[str] = []
     for row in rows:
         target = docs / row.file
@@ -63,9 +63,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
+    # Rows the loader rejects are not scaffolded; report them so a broken inventory cannot pass silently.
+    _, findings = load_inventory((args.root / "docs").joinpath(*INVENTORY_PATH))
+    for f in findings:
+        print(f"{f.level.upper():7} {f.where}: {f.message}", file=sys.stderr)
     for action in scaffold(args.root, args.dry_run):
         print(action)
-    return 0
+    return 1 if any(f.level == "error" for f in findings) else 0
 
 
 if __name__ == "__main__":

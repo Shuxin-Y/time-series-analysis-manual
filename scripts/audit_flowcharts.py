@@ -19,6 +19,8 @@ AUDIT_SKIP_MARKER = "%% audit: skip"
 FOUNDATION_PHASE = "F"
 SECTION_DIRS = ("reference", "01-workflow")
 FIRST_MENTION_PREFIXES = ("00-foundations/", "reference/")
+GLOSSARY_INDEX_NAME = "index.yml"
+INVENTORY_PATH = ("flowcharts", "inventory.yml")
 
 
 @dataclass(frozen=True)
@@ -137,7 +139,7 @@ def heading_anchors(text: str) -> set[str]:
             used.add(attr.group(1))
             continue
         unique(slugify(LINK_TEXT_RE.sub(r"\1", heading), "-"), used)
-    used.update(EXPLICIT_ANCHOR_RE.findall(text))
+    used.update(EXPLICIT_ANCHOR_RE.findall(body))
     return used
 
 
@@ -218,15 +220,11 @@ def _defined_ids(diagrams: list[Diagram]) -> dict[str, str]:
 
 def check_diagrams(diagrams: list[Diagram]) -> list[Finding]:
     findings: list[Finding] = []
-    defined: dict[str, str] = {}
+    defined = _defined_ids(diagrams)
     for d in diagrams:
         for nid in d.nodes:
-            if d.is_ref(nid):
-                continue
-            if nid in defined:
+            if not d.is_ref(nid) and defined[nid] != d.where:
                 findings.append(Finding("error", d.where, f"node {nid} already defined in {defined[nid]}"))
-            else:
-                defined[nid] = d.where
     for d in diagrams:
         for nid in sorted(d.edge_ids - set(d.nodes)):
             findings.append(Finding("error", d.where, f"node {nid} is used in an edge but has no shaped definition in this diagram"))
@@ -304,7 +302,7 @@ def load_glossary(glossary_dir: Path) -> tuple[list[dict], list[Finding]]:
     findings: list[Finding] = []
     seen: dict[str, str] = {}
     for yml in sorted(glossary_dir.glob("*.yml")):
-        if yml.name == "index.yml":
+        if yml.name == GLOSSARY_INDEX_NAME:
             continue
         data = yaml.safe_load(yml.read_text(encoding="utf-8")) or {}
         for t in data.get("terms") or []:
@@ -402,7 +400,7 @@ def first_mention_warnings(pages: list[str], terms: list[dict], docs_dir: Path) 
         for p, text in texts:
             if pattern.search(text):
                 if p != ref_file:
-                    findings.append(Finding("warning", f"{t.get('_file', '?')}:{t['term']}",
+                    findings.append(Finding("warning", f"{t['_file']}:{t['term']}",
                                             f"first mentioned on {p}, reference points to {ref_file}"))
                 break
     return findings
@@ -413,7 +411,7 @@ def first_mention_warnings(pages: list[str], terms: list[dict], docs_dir: Path) 
 def run_all(root: Path) -> list[Finding]:
     docs = root / "docs"
     findings: list[Finding] = []
-    rows, f = load_inventory(docs / "flowcharts" / "inventory.yml")
+    rows, f = load_inventory(docs.joinpath(*INVENTORY_PATH))
     findings += f
     terms, f = load_glossary(docs / "glossary") if (docs / "glossary").is_dir() else ([], [])
     findings += f
