@@ -1,8 +1,10 @@
 """Browser smoke test: build the site, serve it, click a flowchart leaf and walk a glossary chain.
 
-Needs Playwright with Chromium (`pip install playwright && playwright install chromium`); skipped otherwise.
+Needs Playwright (pinned in requirements-docs.txt) with Chromium (`playwright install chromium`). Without them the
+tests skip, unless TSAM_REQUIRE_E2E=1 is set (as in CI), in which case they fail.
 The CDN scripts (Mermaid, MathJax, js-yaml) are loaded from the network, as on the published site.
 """
+import os
 import re
 import socket
 import threading
@@ -12,7 +14,19 @@ from pathlib import Path
 
 import pytest
 
-sync_api = pytest.importorskip("playwright.sync_api")
+REQUIRE_E2E = os.environ.get("TSAM_REQUIRE_E2E") == "1"
+
+
+def unavailable(reason: str) -> None:
+    if REQUIRE_E2E:
+        pytest.fail(f"{reason} (TSAM_REQUIRE_E2E=1)", pytrace=False)
+    pytest.skip(reason, allow_module_level=True)
+
+
+try:
+    from playwright import sync_api
+except ImportError:
+    unavailable("Playwright is not installed")
 
 REPO = Path(__file__).resolve().parents[2]
 # Material's repository widget asks api.github.com for the latest release; the repository has none (404).
@@ -48,7 +62,7 @@ def page():
         try:
             browser = p.chromium.launch()
         except sync_api.Error as exc:
-            pytest.skip(f"Chromium is not installed for Playwright: {exc}")
+            unavailable(f"Chromium is not installed for Playwright: {exc}")
         page = browser.new_page()
         page.console_errors = []
 

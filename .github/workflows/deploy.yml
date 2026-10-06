@@ -46,12 +46,12 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements-docs.txt
 
-      - name: Install browser for the site smoke test
-        run: |
-          pip install playwright
-          playwright install --with-deps chromium
+      - name: Install the browser for the pinned Playwright
+        run: playwright install --with-deps chromium
 
-      - name: Run tests
+      - name: Run tests (the browser smoke test must run, not skip)
+        env:
+          TSAM_REQUIRE_E2E: "1"
         run: pytest tests -q
 
       - name: Audit flowcharts, inventory and glossary

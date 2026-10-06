@@ -8,3 +8,5 @@ markdown>=3.5.0
 pyyaml>=6.0.1
 pytest>=7.3.0
 mkdocs-redirects>=1.2.1
+# Browser smoke test (tests/e2e); browsers are installed with `playwright install chromium`
+playwright==1.63.0

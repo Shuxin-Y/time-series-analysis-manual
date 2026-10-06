@@ -21,7 +21,8 @@ venv/bin/mkdocs serve
 venv/bin/mkdocs build --strict
 
 # Tests, audit, stub scaffolding
-venv/bin/pytest tests -q
+venv/bin/pytest tests -q                           # e2e smoke test needs: venv/bin/playwright install chromium
+TSAM_REQUIRE_E2E=1 venv/bin/pytest tests -q        # as CI runs it: the browser test fails instead of skipping
 venv/bin/python scripts/audit_flowcharts.py        # exit 1 on any error; run from the repository root (snippets base path)
 venv/bin/python scripts/scaffold_stubs.py --dry-run  # pending sections the inventory still needs
 
@@ -64,7 +65,7 @@ MathJax, Mermaid and the glossary hook into Material's `document$.subscribe()`; 
 
 ## CI/CD
 
-GitHub Actions (`.github/workflows/deploy.yml`) runs the same gates on every pull request to main and on every push to main: install `requirements-docs.txt` and Playwright Chromium, run `pytest` (including the browser smoke test in `tests/e2e/`), run the audit, build with `mkdocs build --strict`. The audit also runs inside the strict build through the pre-build hook; the explicit step is kept so an audit failure is reported on its own, before the build. Only a push to main deploys to GitHub Pages.
+GitHub Actions (`.github/workflows/deploy.yml`) runs the same gates on every pull request to main and on every push to main: install `requirements-docs.txt` (Playwright pinned there) and its Chromium, run `pytest` with `TSAM_REQUIRE_E2E=1` (including the browser smoke test in `tests/e2e/`), run the audit, build with `mkdocs build --strict`. The audit also runs inside the strict build through the pre-build hook; the explicit step is kept so an audit failure is reported on its own, before the build. Only a push to main deploys to GitHub Pages.
 
 ## Basic
 
