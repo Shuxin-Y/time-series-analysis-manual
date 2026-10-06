@@ -410,8 +410,9 @@ code {
 
 /* ===== Mermaid Diagrams ===== */
 
-/* Better mermaid diagram styling */
-.mermaid {
+/* Better mermaid diagram styling. mermaid-init.js replaces each .mermaid source block with a .mermaid-container. */
+.mermaid,
+.mermaid-container {
   text-align: center;
   background: var(--md-default-bg-color);
   padding: 1rem;
@@ -625,7 +626,8 @@ code {
   }
 
   /* Adjust mermaid diagrams */
-  .mermaid {
+  .mermaid,
+  .mermaid-container {
     overflow-x: auto;
   }
 }
