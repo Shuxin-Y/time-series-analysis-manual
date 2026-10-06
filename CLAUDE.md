@@ -61,7 +61,7 @@ MathJax, Mermaid and the glossary hook into Material's `document$.subscribe()`; 
 - **No emojis** in content or diagrams.
 - **Content rules** (node = content unit, why-chains in the drawer, single source, heading rule): `.claude/rules/writing.md`, their one home.
 - **Primary notation:** conditional-expectation form.
-- **Design system:** `DESIGN-SYSTEM.md` governs appearance, flowchart notation, tables and figures. The content rules have one home, `.claude/rules/writing.md`.
+- **Design system:** `DESIGN-SYSTEM.md` governs appearance, flowchart notation, tables and figures.
 
 ## CI/CD
 
