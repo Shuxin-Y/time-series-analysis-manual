@@ -66,7 +66,7 @@ All four hook into Material's `document$.subscribe()` for SPA navigation:
 
 ## CI/CD
 
-GitHub Actions (`.github/workflows/deploy.yml`): on push to main, installs `requirements-docs.txt`, runs `pytest`, runs the audit, builds with `mkdocs build --strict`, deploys to GitHub Pages.
+GitHub Actions (`.github/workflows/deploy.yml`) runs the same gates on every pull request to main and on every push to main: install `requirements-docs.txt` and Playwright Chromium, run `pytest` (including the browser smoke test in `tests/e2e/`), run the audit, build with `mkdocs build --strict`. The audit also runs inside the strict build through the pre-build hook; the explicit step is kept so an audit failure is reported on its own, before the build. Only a push to main deploys to GitHub Pages.
 
 ## Basic
 
