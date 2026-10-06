@@ -110,7 +110,7 @@ def _parse_node(piece: str, labels: list[str], d: Diagram) -> None:
     d.used_ids.add(nid)
     if not rest:
         return
-    if rest.startswith(":::"):
+    if ":::" in rest:
         d.problems.append(f"node {nid} uses inline :::class; assign classes with class statements")
         return
     opener = next((o for o in MERMAID_OPENERS if rest.startswith(o)), None)

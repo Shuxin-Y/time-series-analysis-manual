@@ -161,3 +161,8 @@ def test_every_edge_form_contributes_its_ids():
                        '    P3_C -. maybe .-> P3_D["d"]\n    P3_D -- yes --> P3_E["e"]\n    P3_E <--> P3_F\n')
     assert d.used_ids == {"P3_A", "P3_B", "P3_C", "P3_D", "P3_E", "P3_F"}
     assert msgs == ["node P3_F is used but has no quoted, shaped definition in this diagram"]
+
+
+def test_inline_class_after_a_shape_names_the_inline_class_rule():
+    _, msgs = problems('graph TD\n    P3_A["a"]:::ref\n')
+    assert any("P3_A uses inline :::class" in m for m in msgs)
