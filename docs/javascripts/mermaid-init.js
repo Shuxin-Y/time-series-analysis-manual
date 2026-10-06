@@ -65,6 +65,10 @@
                 container.className = 'mermaid-container';
                 container.innerHTML = result.svg;
                 element.replaceWith(container);
+                container.dispatchEvent(new CustomEvent('mermaid:rendered', {
+                  bubbles: true,
+                  detail: { container: container }
+                }));
               }).catch(error => {
                 console.error('Mermaid rendering error:', error);
                 element.innerHTML = `<pre>Error rendering diagram: ${error.message}</pre>`;

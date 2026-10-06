@@ -119,9 +119,10 @@ hooks:
 extra_javascript:
   - javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js
-  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
-  - javascripts/mermaid-init.js
   - https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/flowchart-links.js
+  - javascripts/mermaid-init.js
   - javascripts/glossary.js
 
 # Extra CSS

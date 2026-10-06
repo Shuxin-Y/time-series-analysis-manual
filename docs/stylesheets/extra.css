@@ -419,6 +419,23 @@ code {
   border: 1px solid var(--md-default-fg-color--lightest);
 }
 
+/* Flowchart nodes that resolve to a section via docs/flowcharts/inventory.yml */
+.mermaid-container .flowchart-link {
+  cursor: pointer;
+}
+
+.mermaid-container .flowchart-link:hover rect,
+.mermaid-container .flowchart-link:hover polygon,
+.mermaid-container .flowchart-link:focus rect,
+.mermaid-container .flowchart-link:focus polygon {
+  stroke-width: 2px;
+  filter: brightness(0.96);
+}
+
+.mermaid-container .flowchart-link:focus {
+  outline: none;
+}
+
 /* ===== Navigation & TOC ===== */
 
 /* Better TOC styling */
