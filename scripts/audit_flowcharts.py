@@ -31,12 +31,12 @@ AUDIT_SKIP_PAGES = ("design-system-showcase.md", "00-foundations/do-you-need-tim
 FOUNDATION_PHASE = "F"
 FOUNDATION_DIR = "00-foundations/"
 SECTION_DIRS = ("reference", "01-workflow")
-# H2 headings that structure a chapter rather than teach a content unit (documented in DESIGN-SYSTEM.md).
+# H2 headings that structure a chapter rather than teach a content unit; the one home of this list.
 STRUCTURAL_H2 = frozenset({
     "Sub-diagram", "Branch sub-diagram", "Phase guide", "Question order", "Part 0 hooks", "Relation to P9",
     "Routing variables", "Branches", "Quick navigation", "Purpose selector", "Representation selector",
     "Master diagram", "How to read the diagrams", "Sub-chart", "P10 inference for this purpose",
-    "P11 metrics for this purpose", "Topics carried over from the previous outline", "References",
+    "P11 metrics for this purpose", "References",
 })
 GLOSSARY_DIR = "glossary"
 GLOSSARY_INDEX_NAME = "index.yml"

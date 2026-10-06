@@ -58,9 +58,7 @@ MathJax, Mermaid and the glossary hook into Material's `document$.subscribe()`; 
 ## Content Conventions
 
 - **No emojis** in content or diagrams.
-- **Node = content unit.** Add or locate the leaf node first, then write the section. Node IDs are owner-prefixed `SCREAMING_SNAKE_CASE`; never label nodes "Ch N".
-- **Why-chains in the drawer, not the body.** Body text: one sentence per claim, methods named as glossary terms. Derivations go in the term's `derivation` with `depends_on` back to Part 0 roots. Every noun in a chain is itself a term.
-- **Single source.** First occurrence in `nav:` order develops a concept; later occurrences only name it. Appendices are link indexes.
+- **Content rules** (node = content unit, why-chains in the drawer, single source, heading rule): `.claude/rules/writing.md`, their one home.
 - **Primary notation:** conditional-expectation form.
 - **Design system:** `DESIGN-SYSTEM.md` governs appearance, flowchart notation, tables and figures. The content rules have one home, `.claude/rules/writing.md`.
 
