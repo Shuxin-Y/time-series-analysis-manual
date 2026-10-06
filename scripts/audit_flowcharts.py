@@ -570,23 +570,27 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
 # ---------------------------------------------------------------- sections
 
 MARKDOWN_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
+AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 
 
 def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
     """Every non-index page under SECTION_DIRS is a method page (in the inventory) or a linked theory page.
 
-    A theory page is linked when a link on a method page resolves to it, or when a glossary derivation
-    links to one of its anchors in the exact docs-relative `path.md#anchor` form.
+    A theory page is linked when a link on a method page or on an area landing page (`reference/NN-*/index.md`)
+    resolves to it, or when a glossary derivation links to one of its anchors in the exact docs-relative
+    `path.md#anchor` form. A derivation link to the term's own reference page does not count: it is a self-link.
     """
     method_files = {r.file for r in rows}
+    sources = sorted(method_files | {rel for rel in site.pages_under("reference") if AREA_LANDING_RE.match(rel)})
     linked: set[str] = set()
-    for f in sorted(method_files):
+    for f in sources:
         page = site.page(f)
         if page is not None:
             linked.update(split_section(target)[0] for href in page.links if (target := resolve_link(href, f)))
     for t in terms:
+        home = split_section(str(t.get("reference") or ""))[0]
         for target in MARKDOWN_LINK_RE.findall(str(t.get("derivation") or "")):
-            if resolve_section(target, site) is None:
+            if resolve_section(target, site) is None and split_section(target)[0] != home:
                 linked.add(split_section(target)[0])
     findings: list[Finding] = []
     for sub in SECTION_DIRS:
@@ -598,7 +602,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
                 continue
             if page.meta.get("kind") == "theory":
                 if rel not in linked:
-                    findings.append(Finding(ERROR, rel, "theory page is not linked from any method section or glossary derivation"))
+                    findings.append(Finding(ERROR, rel, "theory page is not linked from a method section, an area landing page or another term's derivation"))
             else:
                 findings.append(Finding(ERROR, rel, "page is neither in the inventory (method) nor marked kind: theory"))
     return findings

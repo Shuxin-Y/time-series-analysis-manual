@@ -320,3 +320,15 @@ def test_a_second_h1_closes_the_previous_leaf_section(tmp_path):
     rows = [audit.Row("P3_ADF", "ADF", "P3", (5,), "01-workflow/p03.md#adf")]
     findings = [f.where for f in audit.check_headings(sitekit.site(tmp_path), rows, []) if f.where.startswith("01-workflow/")]
     assert findings == ["01-workflow/p03.md#orphan"]
+
+
+def test_theory_page_linkage_counts_area_landing_pages_but_not_self_links(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n", encoding="utf-8")
+    (docs / "reference" / "04-estimation" / "theory.md").write_text("---\nkind: theory\n---\n# Why MLE\n\n## Joint density\n", encoding="utf-8")
+    self_link = [{"term": "Joint density", "reference": "reference/04-estimation/theory.md#joint-density",
+                  "derivation": "1. see [here](reference/04-estimation/theory.md#joint-density)"}]
+    site = sitekit.site(tmp_path)
+    assert any(f.where == "reference/04-estimation/theory.md" for f in audit.check_sections(site, [], self_link))
+    (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\nSee [Why MLE](theory.md).\n", encoding="utf-8")
+    assert not any(f.where == "reference/04-estimation/theory.md" for f in audit.check_sections(sitekit.site(tmp_path), [], self_link))
