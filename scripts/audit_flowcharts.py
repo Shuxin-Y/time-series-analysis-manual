@@ -235,11 +235,12 @@ class _RenderCollector(HTMLParser):
         if self._mermaid is not None:
             self._mermaid.append(data)
             return
-        if any(role == "permalink" or tag in TEXT_EXCLUDED_TAGS for tag, role in self._stack):
+        if any(role == "permalink" for _, role in self._stack):
             return
         if self._heading is not None:
-            self._heading[2].append(data)
-        self.text.append(data)
+            self._heading[2].append(data)  # heading text keeps inline code
+        if not any(tag in TEXT_EXCLUDED_TAGS for tag, _ in self._stack):
+            self.text.append(data)
 
 
 def load_site_config(config_file: Path) -> MkDocsConfig:

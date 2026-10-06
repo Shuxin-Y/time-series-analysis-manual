@@ -167,3 +167,9 @@ def test_invalid_yaml_and_duplicate_keys_are_findings_naming_the_file(tmp_path):
     assert rows == [] and "duplicate key 'phase'" in findings[0].message
     rows, findings = inventory_findings(tmp_path, "- just\n- a list\n")
     assert "top level must be a mapping with a `nodes` list" in findings[0].message
+
+
+def test_heading_text_keeps_inline_code_and_prose_text_drops_it():
+    page = render("# A `code` head\n\nSome `x = 1` prose.\n")
+    assert page.headings[0].text == "A code head"
+    assert "x = 1" not in page.text and "Some" in page.text
