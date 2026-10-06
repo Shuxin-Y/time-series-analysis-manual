@@ -52,9 +52,11 @@ class Node:
 @dataclass
 class Diagram:
     where: str
-    nodes: dict[str, Node] = field(default_factory=dict)
-    edge_ids: set[str] = field(default_factory=set)
+    nodes: dict[str, Node] = field(default_factory=dict)  # ids with a quoted, allowed shape
+    used_ids: set[str] = field(default_factory=set)  # every id written in a node position
     classes: dict[str, set[str]] = field(default_factory=dict)
+    clusters: set[str] = field(default_factory=set)  # subgraph ids; never nodes
+    problems: list[str] = field(default_factory=list)  # syntax the audit rejects
 
     def is_ref(self, node_id: str) -> bool:
         node = self.nodes[node_id]
@@ -68,35 +70,91 @@ class Diagram:
 # ---------------------------------------------------------------- Mermaid parsing
 
 SHAPES = {"([": "terminator", "[[": "subroutine", "[/": "data", "[": "rect", "{": "diamond"}
-NODE_RE = re.compile(
-    r'(?<![\w-])([A-Z][A-Z0-9_]*)(\(\[|\[\[|\[/|\[|\{)"((?:[^"\\]|\\.)*)"(\]\)|\]\]|/\]|\]|\})'
-)
-CLASS_RE = re.compile(r"^\s*class\s+([A-Z0-9_,\s]+?)\s+([A-Za-z_][\w-]*)\s*$", re.M)
-ARROW_RE = re.compile(r"\s*(?:-->|-\.->|==>|-\.-|---)\s*(?:\|[^|]*\|)?\s*")
-ID_RE = re.compile(r"^([A-Z][A-Z0-9_]*)")
-SKIP_LINE_RE = re.compile(r"^\s*(%%|graph\b|flowchart\b|classDef\b|class\b|subgraph\b|end\b|direction\b)")
+CLOSERS = {"([": "])", "[[": "]]", "[/": "/]", "[": "]", "{": "}"}
+# Every node opener Mermaid accepts, longest first, so an unlisted shape is named rather than misread.
+MERMAID_OPENERS = ("(((", "((", "([", "[[", "[(", "[/", "[\\", "{{", "(", "[", "{", ">")
+NODE_ID_RE = re.compile(r"^[A-Z][A-Z0-9_]*$")
+TOKEN_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)(.*)$", re.S)
 QUOTED_RE = re.compile(r'"(?:[^"\\]|\\.)*"')
+PLACEHOLDER_RE = re.compile(r"\x00(\d+)\x00")
+# `A -- text --> B` and `A -. text .-> B` carry the edge text between two halves of the arrow.
+TEXT_EDGE_RE = re.compile(r"(?<=\s)(?:--|==|-\.)\s+[^\x00|]+?\s+(?:-->|==>|\.->|---|===|-\.-|--[ox]|==[ox])(?=\s|$)")
+EDGE_RE = re.compile(r"\s*(?:<|(?<=\s)[ox])?[-=.]{2,}(?:>|[ox](?=[\s|]|$))?(?:\|[^|]*\|)?\s*")
+CLASS_RE = re.compile(r"^class\s+(\S+)\s+([A-Za-z_][\w-]*)\s*;?$")
+SUBGRAPH_RE = re.compile(r"^subgraph\s+([A-Za-z_][A-Za-z0-9_]*)?")
+IGNORED_LINE_RE = re.compile(r"^(?:graph|flowchart)\b|^(?:classDef|style|linkStyle|direction)\s|^end\s*;?$")
+URL_RE = re.compile(r"https?://|href\s*=", re.I)
+BR_RE = re.compile(r"<br\s*/?>", re.I)
+
+
+def label_first_line(label: str) -> str:
+    return BR_RE.split(label, 1)[0].strip()
+
+
+def _parse_node(piece: str, labels: list[str], d: Diagram) -> None:
+    m = TOKEN_RE.match(piece)
+    if not m:
+        d.problems.append(f"cannot read node expression {piece!r}")
+        return
+    nid, rest = m.group(1), m.group(2).strip()
+    if not NODE_ID_RE.match(nid):
+        d.problems.append(f"node id {nid!r} is not SCREAMING_SNAKE_CASE")
+    d.used_ids.add(nid)
+    if not rest:
+        return
+    if rest.startswith(":::"):
+        d.problems.append(f"node {nid} uses inline :::class; assign classes with class statements")
+        return
+    opener = next((o for o in MERMAID_OPENERS if rest.startswith(o)), None)
+    if opener is None:
+        d.problems.append(f"cannot read node expression {piece!r}")
+        return
+    if opener not in SHAPES:
+        d.problems.append(f"node {nid} uses shape {opener!r}, which the notation does not allow")
+        return
+    label = re.fullmatch(r"\x00(\d+)\x00" + re.escape(CLOSERS[opener]), rest[len(opener):])
+    if not label:
+        return  # unquoted label: not a definition; reported as used without a shaped definition
+    shape = SHAPES[opener]
+    previous = d.nodes.get(nid)
+    if previous and previous.shape != shape:
+        d.problems.append(f"node {nid} is drawn as {previous.shape} and as {shape}; Mermaid renders the last")
+    d.nodes[nid] = Node(nid, shape, labels[int(label.group(1))][1:-1])
 
 
 def parse_diagram(source: str, where: str) -> Diagram:
     d = Diagram(where=where)
-    for m in NODE_RE.finditer(source):
-        node_id, opener, label = m.group(1), m.group(2), m.group(3)
-        d.nodes.setdefault(node_id, Node(node_id, SHAPES[opener], label))
-    for m in CLASS_RE.finditer(source):
-        for node_id in re.split(r"[,\s]+", m.group(1).strip()):
-            if node_id:
-                d.classes.setdefault(node_id, set()).add(m.group(2))
     for raw in source.splitlines():
-        line = raw.strip()
-        if not line or SKIP_LINE_RE.match(line) or not ARROW_RE.search(line):
+        line = raw.strip().rstrip(";").strip()
+        if not line or line.startswith("%%") or IGNORED_LINE_RE.match(line):
             continue
-        unquoted = QUOTED_RE.sub('""', line)
-        for part in ARROW_RE.split(unquoted):
+        if URL_RE.search(line):
+            d.problems.append(f"diagram contains a URL ({line!r}); node links come from the inventory")
+        if re.match(r"^click\b", line):
+            d.problems.append(f"click directive {line!r}; node links come from the inventory")
+            continue
+        cls = CLASS_RE.match(line)
+        if cls:
+            for node_id in cls.group(1).split(","):
+                if node_id:
+                    d.classes.setdefault(node_id, set()).add(cls.group(2))
+            continue
+        sub = SUBGRAPH_RE.match(line)
+        if sub:
+            if sub.group(1):
+                d.clusters.add(sub.group(1))
+            continue
+        labels: list[str] = []
+
+        def mask(m: re.Match) -> str:
+            labels.append(m.group(0))
+            return f"\x00{len(labels) - 1}\x00"
+
+        masked = TEXT_EDGE_RE.sub(" --> ", QUOTED_RE.sub(mask, line))
+        for part in EDGE_RE.split(masked):
             for piece in part.split("&"):
-                m = ID_RE.match(piece.strip())
-                if m:
-                    d.edge_ids.add(m.group(1))
+                if piece.strip():
+                    _parse_node(piece.strip(), labels, d)
     return d
 
 
@@ -356,8 +414,9 @@ def check_diagrams(diagrams: list[Diagram]) -> list[Finding]:
             if not d.is_ref(nid) and defined[nid] != d.where:
                 findings.append(Finding("error", d.where, f"node {nid} already defined in {defined[nid]}"))
     for d in diagrams:
-        for nid in sorted(d.edge_ids - set(d.nodes)):
-            findings.append(Finding("error", d.where, f"node {nid} is used in an edge but has no shaped definition in this diagram"))
+        findings.extend(Finding("error", d.where, problem) for problem in d.problems)
+        for nid in sorted(d.used_ids - set(d.nodes)):
+            findings.append(Finding("error", d.where, f"node {nid} is used but has no quoted, shaped definition in this diagram"))
     return findings
 
 

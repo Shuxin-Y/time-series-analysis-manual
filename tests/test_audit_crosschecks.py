@@ -21,7 +21,7 @@ def test_check_diagrams_flags_bare_edge_ids():
     findings = audit.check_diagrams([A, B])
     bare = [f for f in findings if "P8_GHOST" in f.message]
     assert bare and bare[0].level == "error"
-    assert "no shaped definition" in bare[0].message
+    assert "no quoted, shaped definition" in bare[0].message
 
 
 def test_check_refs_resolve_to_definitions_or_foundation_rows():

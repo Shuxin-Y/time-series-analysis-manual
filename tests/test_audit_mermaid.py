@@ -39,10 +39,10 @@ def test_parse_diagram_recognises_every_shape():
     assert d.nodes["P7_ARMA_ERRORS"].label == "Regression with ARMA errors"
 
 
-def test_parse_diagram_collects_edge_ids_including_chains_and_dotted_links():
+def test_parse_diagram_collects_used_ids_including_chains_and_dotted_links():
     d = audit.parse_diagram(SAMPLE, "p07.md:10")
     assert {"P7_IN", "P7_MEAN_DEP", "P7_ARMA_ERRORS", "P6", "P7_MIXED_FREQ_FLAG",
-            "P7_OUT", "P7_DATA", "F_WOLD"} <= d.edge_ids
+            "P7_OUT", "P7_DATA", "F_WOLD"} <= d.used_ids
 
 
 def test_parse_diagram_reads_class_statements():
@@ -65,7 +65,7 @@ def test_leaf_and_ref_classification():
 def test_unquoted_label_is_not_a_definition():
     d = audit.parse_diagram('graph TD\n    A["a"] --> P7_GARCH[GARCH]\n', "x.md:1")
     assert "P7_GARCH" not in d.nodes
-    assert "P7_GARCH" in d.edge_ids
+    assert "P7_GARCH" in d.used_ids
 
 
 def test_collect_diagrams_skips_marked_and_records_where(tmp_path):
@@ -108,3 +108,51 @@ def test_collect_diagrams_sees_every_fence_form_the_pipeline_renders(tmp_path):
     ''')})
     diagrams = audit.collect_diagrams(sitekit.site(tmp_path))
     assert sorted(n for d in diagrams for n in d.nodes) == ["FOUR_A", "IN_A", "TAB_A", "TILDE_A"]
+
+
+def problems(src):
+    d = audit.parse_diagram(src, "x.md#mermaid-1")
+    return d, [f.message for f in audit.check_diagrams([d])]
+
+
+def test_comment_lines_define_nothing():
+    d, msgs = problems('graph TD\n    %% P3_OLD["commented out"]\n    P3_A["a"]\n')
+    assert set(d.nodes) == {"P3_A"} and msgs == []
+
+
+def test_lowercase_ids_and_unknown_shapes_are_errors():
+    d, msgs = problems('graph TD\n    P3_A["a"] --> p3_lower["lowercase"]\n    P3_B("round")\n    P3_C{{"hexagon"}}\n')
+    assert any("'p3_lower' is not SCREAMING_SNAKE_CASE" in m for m in msgs)
+    assert any("P3_B uses shape '('" in m for m in msgs)
+    assert any("P3_C uses shape '{{'" in m for m in msgs)
+
+
+def test_standalone_unquoted_definition_is_an_error():
+    d, msgs = problems('graph TD\n    P3_A["a"]\n    P3_B[unquoted]\n')
+    assert "P3_B" not in d.nodes
+    assert any("P3_B is used but has no quoted, shaped definition" in m for m in msgs)
+
+
+def test_two_shapes_for_one_id_is_an_error_and_the_last_wins():
+    d, msgs = problems('graph TD\n    P3_A[["ref first"]] --> P3_B["b"]\n    P3_A["then a leaf"]\n')
+    assert d.nodes["P3_A"].shape == "rect"
+    assert any("P3_A is drawn as subroutine and as rect" in m for m in msgs)
+
+
+def test_subgraph_headers_are_clusters_not_nodes():
+    d, msgs = problems('graph TD\n    subgraph SG_A["Group"]\n        P3_A["a"]\n    end\n')
+    assert d.clusters == {"SG_A"} and set(d.nodes) == {"P3_A"} and msgs == []
+
+
+def test_click_directives_and_urls_are_errors():
+    _, msgs = problems('graph TD\n    P3_A["a"]\n    click P3_A "https://example.org/"\n')
+    assert any("click directive" in m for m in msgs)
+    _, msgs = problems('graph TD\n    P3_A["<a href=\'x\'>a</a>"]\n')
+    assert any("contains a URL" in m for m in msgs)
+
+
+def test_every_edge_form_contributes_its_ids():
+    d, msgs = problems('graph TD\n    P3_A["a"] --o P3_B["b"]\n    P3_B --x P3_C["c"]\n'
+                       '    P3_C -. maybe .-> P3_D["d"]\n    P3_D -- yes --> P3_E["e"]\n    P3_E <--> P3_F\n')
+    assert d.used_ids == {"P3_A", "P3_B", "P3_C", "P3_D", "P3_E", "P3_F"}
+    assert msgs == ["node P3_F is used but has no quoted, shaped definition in this diagram"]
