@@ -1,5 +1,8 @@
 import logging
 
+import pytest
+from mkdocs.config import load_config
+
 import audit_flowcharts as audit
 import mkdocs_hooks as hooks
 import sitekit
@@ -35,3 +38,25 @@ def test_on_pre_build_logs_errors_as_warnings(tmp_path, caplog):
     warnings = [r for r in caplog.records if r.levelno == logging.WARNING]
     assert any("inventory row has no leaf definition" in r.getMessage() for r in warnings)
     assert (docs / "glossary" / "index.yml").exists()
+
+
+def strict_build(tmp_path, anchor):
+    from mkdocs.commands.build import build
+
+    config = sitekit.write_project(tmp_path, {
+        "index.md": '# P0: Data\n\n```mermaid\ngraph TD\n    P0["P0: Data"]\n```\n',
+        "glossary/.keep": "",
+        "flowcharts/inventory.yml": f'nodes:\n  - {{id: P0, label: "P0: Data", phase: MASTER, areas: [31], section: "index.md#{anchor}"}}\n',
+    })
+    with config.open("a", encoding="utf-8") as fh:
+        fh.write(f"\nhooks:\n  - {sitekit.REPO / 'scripts' / 'mkdocs_hooks.py'}\n")
+    cfg = load_config(config_file=str(config), strict=True, site_dir=str(tmp_path / "site"))
+    build(cfg)
+
+
+def test_strict_build_aborts_on_an_audit_error(tmp_path):
+    from mkdocs.exceptions import Abort
+
+    strict_build(tmp_path / "ok", "p0-data")
+    with pytest.raises(Abort):
+        strict_build(tmp_path / "broken", "no-such-anchor")

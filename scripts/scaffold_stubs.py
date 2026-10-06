@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from markdown.extensions.toc import slugify  # noqa: E402
 
-from audit_flowcharts import INVENTORY_PATH, Row, load_inventory, load_site_config, render_page, site_markdown  # noqa: E402
+from audit_flowcharts import INVENTORY_PATH, Finding, Row, load_inventory, load_site_config, render_page, site_markdown  # noqa: E402
 
 PENDING = (
     '!!! note "Section pending"\n'
@@ -35,11 +35,12 @@ def heading_for(row: Row) -> str:
     return f"## {row.label} {{#{row.anchor}}}"
 
 
-def scaffold(root: Path, dry_run: bool = False) -> list[str]:
+def scaffold(root: Path, dry_run: bool) -> tuple[list[str], list[Finding]]:
+    """Actions taken (or planned, with dry_run) and the inventory findings; rejected rows are not scaffolded."""
     cfg = load_site_config(root / "mkdocs.yml")
     docs = Path(cfg["docs_dir"])
     md = site_markdown(cfg)
-    rows, _ = load_inventory(docs.joinpath(*INVENTORY_PATH))
+    rows, findings = load_inventory(docs.joinpath(*INVENTORY_PATH))
     actions: list[str] = []
     for row in rows:
         target = docs / row.file
@@ -58,7 +59,7 @@ def scaffold(root: Path, dry_run: bool = False) -> list[str]:
         if not dry_run:
             with target.open("a", encoding="utf-8") as fh:
                 fh.write(f"\n{heading_for(row)}\n\n{PENDING.format(id=row.id)}")
-    return actions
+    return actions, findings
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -66,11 +67,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
-    # Rows the loader rejects are not scaffolded; report them so a broken inventory cannot pass silently.
-    _, findings = load_inventory(Path(load_site_config(args.root / "mkdocs.yml")["docs_dir"]).joinpath(*INVENTORY_PATH))
+    actions, findings = scaffold(args.root, args.dry_run)
     for f in findings:
         print(f, file=sys.stderr)
-    for action in scaffold(args.root, args.dry_run):
+    for action in actions:
         print(action)
     return 1 if any(f.level == "error" for f in findings) else 0
 
