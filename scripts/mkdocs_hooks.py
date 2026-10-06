@@ -33,6 +33,6 @@ def on_pre_build(config, **kwargs) -> None:
     docs_dir = Path(config["docs_dir"])
     if write_glossary_index(docs_dir):
         log.info("wrote %s/%s", audit.GLOSSARY_DIR, audit.GLOSSARY_INDEX_NAME)
-    for f in audit.run_all(Path(config.config_file_path), docs_dir):
+    for f in audit.audit_site(audit.Site(config, docs_dir)):
         logger = log.warning if f.level == audit.ERROR else log.info
         logger("audit %s %s: %s", f.level, f.where, f.message)

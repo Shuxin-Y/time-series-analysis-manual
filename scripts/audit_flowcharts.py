@@ -700,10 +700,6 @@ def first_mention_warnings(site: Site, terms: list[dict]) -> list[Finding]:
 
 # ---------------------------------------------------------------- driver
 
-def run_all(config_file: Path, docs_dir: Path) -> list[Finding]:
-    return audit_site(Site(load_site_config(config_file), docs_dir))
-
-
 def audit_site(site: Site) -> list[Finding]:
     findings: list[Finding] = []
     rows, f = load_inventory(site.docs_dir.joinpath(*INVENTORY_PATH))
