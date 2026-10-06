@@ -17,7 +17,7 @@ Single home of the content rules: what a section contains and where a concept li
 
 ## Why-chains live in the glossary drawer
 
-- A term may carry `derivation` (numbered "because" steps, each naming the assumption it uses) and `depends_on` (upstream term names). Part 0 roots carry `foundation: true`, are homed under `docs/00-foundations/` and depend on nothing.
+- A term may carry `derivation` (numbered "because" steps, each naming the assumption it uses) and `depends_on` (upstream term names). Part 0 roots carry `foundation: true`, are homed under `docs/00-foundations/` and depend on nothing. Any other term is homed under `docs/reference/`, `docs/01-workflow/` or `docs/00-foundations/`; a home anywhere else (appendices, the home page, the showcase) is an error.
 - The drawer renders them as "Why it holds", "Rests on" (chips that open the upstream term, with a back stack) and "First developed in".
 - Every noun that appears in a chain is itself a term with its own entry: "joint density" is a term, not a step inside the MLE chain.
 - For time series, factorise likelihoods by the chain rule into conditional densities; i.i.d. is the special case. Never derive time-series MLE from an i.i.d. product.

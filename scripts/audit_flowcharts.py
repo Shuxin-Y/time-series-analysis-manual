@@ -31,6 +31,8 @@ AUDIT_SKIP_PAGES = ("design-system-showcase.md", "00-foundations/do-you-need-tim
 FOUNDATION_PHASE = "F"
 FOUNDATION_DIR = "00-foundations/"
 SECTION_DIRS = ("reference", "01-workflow")
+# Where a non-foundation glossary term may be homed; a foundation term only under FOUNDATION_DIR.
+TERM_HOME_DIRS = tuple(f"{d}/" for d in SECTION_DIRS) + (FOUNDATION_DIR,)
 # H2 headings that structure a chapter rather than teach a content unit; the one home of this list.
 STRUCTURAL_H2 = frozenset({
     "Sub-diagram", "Branch sub-diagram", "Phase guide", "Question order", "Part 0 hooks", "Relation to P9",
@@ -715,8 +717,8 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
                     findings.append(Finding(ERROR, where, f"{fld} link {link_problem}"))
         if "foundation" in t and not _is_foundation(t):
             findings.append(Finding(ERROR, where, f"foundation must be absent or exactly true, not {t['foundation']!r}"))
-        if split_section(ref)[0] in GLOSSARY_DISABLED_PAGES:
-            findings.append(Finding(ERROR, where, f"term cannot be homed on {split_section(ref)[0]}, where the glossary is disabled"))
+        if not _is_foundation(t) and SECTION_RE.match(ref) and not ref.startswith(TERM_HOME_DIRS):
+            findings.append(Finding(ERROR, where, f"term cannot be homed on {split_section(ref)[0]}; homes are under {', '.join(TERM_HOME_DIRS)}"))
         if "depends_on" in t and _depends_on(t) is None:
             findings.append(Finding(ERROR, where, "depends_on must be a list of term names"))
             continue

@@ -293,6 +293,19 @@ def test_foundation_must_be_exactly_true_and_home_page_is_not_a_home(tmp_path):
     assert any("cannot be homed on index.md" in f.message for f in errors if f.where == ".yml:Home term")
 
 
+def test_term_homes_are_confined_to_content_and_part_0_pages(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "appendices").mkdir()
+    (docs / "appendices" / "a.md").write_text("# A\n\n## OLS\n", encoding="utf-8")
+    terms = [{"term": "OLS", "_file": "a.yml", "depends_on": [], "reference": "appendices/a.md#ols"},
+             {"term": "Part 0 concept", "_file": "stochastic-processes.yml", "reference": "00-foundations/stochastic-processes.md#independence"},
+             {"term": "Root", "_file": "04-estimation.yml", "foundation": True, "reference": "reference/04-estimation/index.md#joint-density"}]
+    errors = {f.where: f.message for f in audit.check_glossary(terms, sitekit.site(tmp_path)) if f.level == "error" and "homed" in f.message}
+    assert "cannot be homed on appendices/a.md" in errors["a.yml:OLS"]
+    assert "stochastic-processes.yml:Part 0 concept" not in errors
+    assert "foundation term must be homed under 00-foundations/" in errors["04-estimation.yml:Root"]
+
+
 def test_first_mention_scan_skips_pages_where_the_glossary_is_disabled(tmp_path):
     docs = make_docs(tmp_path)
     (docs / "index.md").write_text("# Home\n\nImputation listed here.\n", encoding="utf-8")
