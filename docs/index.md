@@ -112,6 +112,14 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
         Monte Carlo, block/stationary/sieve bootstrap, simulation-based inference, numerical MLE, EM algorithm for state-space models, ABC for intractable likelihoods, variational inference.
 
+    === "27. Regression with TS Data"
+
+        OLS under temporal dependence, HAC inference (Newey-West, bandwidth choice), feasible GLS (Cochrane-Orcutt, Prais-Winsten), dynamic regression, distributed lags, trending regressors, spurious regression.
+
+    === "28. Nonstationarity Theory"
+
+        Unit-root asymptotics (functional CLT, Brownian limits), cointegration theory, near-unit roots and local-to-unity, fractional cointegration, explosive roots and bubble tests (PSY, GSADF).
+
 === "Core Models"
 
     === "2. Fundamentals"
@@ -161,6 +169,18 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
         - **Extreme value theory:** GEV, GPD, peaks-over-threshold, extremal index
         - **Rough volatility:** rough Heston, fBM-driven models, rough Bergomi
 
+    === "29. Seasonality & Calendar"
+
+        Seasonal unit roots (HEGY, Canova-Hansen, OCSB), seasonal adjustment (X-13, SEATS, STL as methodology), periodic autoregression (PAR), multiple seasonality (MSTL, TBATS, Fourier terms), calendar and holiday effects, cyclostationary processes.
+
+    === "30. Structural Change & TVP"
+
+        Break tests, time-varying parameter models, rolling and recursive estimation, forecasting under breaks (Pesaran-Timmermann), statistical process control (Shewhart, EWMA, CUSUM charts).
+
+    === "32. Panel Time Series"
+
+        Panel unit roots and cointegration, dynamic panel GMM (Arellano-Bond), heterogeneous panels (mean group, pooled mean group), cross-sectional dependence (CD test, CCE), large-N large-T asymptotics.
+
 === "Specialized Models"
 
     === "11. State-Space"
@@ -177,13 +197,17 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "16. Count & Categorical"
 
-        - **Integer-valued:** INAR, PAR, INGARCH, negative binomial autoregression
+        - **Integer-valued:** INAR, Poisson autoregression, INGARCH, negative binomial autoregression
         - **Categorical/qualitative:** Markov chains for discrete states, autoregressive logit/probit, multinomial time series
         - **Compositional:** Dirichlet regression, log-ratio transforms for constrained series
 
     === "17. Point Processes"
 
         Poisson process, Cox process, Hawkes process (self-exciting), renewal processes, temporal point process models, neural point processes, intensity estimation, Marked point processes.
+
+    === "33. System ID & Dynamical Systems"
+
+        ARX, ARMAX and Box-Jenkins transfer functions from the control perspective, subspace methods (N4SID), Hammerstein-Wiener, Takens embedding and phase-space reconstruction, dynamic mode decomposition, Koopman operators, SINDy.
 
 === "Representations & Signals"
 
@@ -262,6 +286,17 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
         - **Privacy-preserving methods:** federated learning for sequential data, differential privacy
         - **Ethics and fairness:** accountability in forecasting, bias in temporal predictions
 
+        Explicit sub-domains: condition monitoring and reliability (vibration analysis, degradation processes, remaining useful life), environmental trend methods (Mann-Kendall, Sen slope), epidemiology (Rt estimation, SIR fitting).
+
+    === "31. Data Preparation"
+
+        Imputation (interpolation, Kalman-smoother and multiple imputation), irregular sampling, the outlier taxonomy (AO, IO, LS, TC), temporal disaggregation and benchmarking (Chow-Lin, Denton), data revisions and real-time vintages, calendar alignment.
+
+    === "34. Probabilistic Forecasting"
+
+        Density and quantile forecasts, scoring rules (CRPS, pinball, log score), calibration and PIT histograms, CAViaR, multi-step strategies (recursive, direct, MIMO), intermittent demand (Croston, TSB), MinT reconciliation, judgmental forecasting.
+
+
 
 ---
 
@@ -297,7 +332,7 @@ If you use this manual in your research or work, please cite:
 
 This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 
-<!-- Abbreviation definitions — ordered by "What This Book Covers" sections 1–26 -->
+<!-- Abbreviation definitions — ordered by "What This Book Covers" areas 1–34 -->
 
 <!-- 1. Mathematical and Statistical Foundations -->
 *[LLN]: Law of Large Numbers
@@ -442,7 +477,7 @@ This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 Interna
 
 <!-- 16. Count and Categorical Time Series -->
 *[INAR]: Integer-valued Autoregressive
-*[PAR]: Poisson Autoregression
+*[PAR]: Periodic Autoregression
 *[INGARCH]: Integer-valued Generalized ARCH
 
 <!-- 17. Point Processes and Event-Time Series -->
@@ -499,3 +534,12 @@ This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 Interna
 *[fMRI]: Functional Magnetic Resonance Imaging
 *[IoT]: Internet of Things
 
+<!-- 27–34. Areas added in the flowchart framework -->
+*[HAC]: Heteroskedasticity-and-Autocorrelation-Consistent
+*[PSY]: Phillips-Shi-Yu bubble test
+*[HEGY]: Hylleberg-Engle-Granger-Yoo seasonal unit root test
+*[CCE]: Common Correlated Effects
+*[MinT]: Minimum Trace reconciliation
+*[PIT]: Probability Integral Transform
+*[SINDy]: Sparse Identification of Nonlinear Dynamics
+*[DMD]: Dynamic Mode Decomposition
