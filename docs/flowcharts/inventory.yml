@@ -22,7 +22,7 @@ nodes:
   - {id: B4, label: "B4 Functional",                            phase: B4, areas: [14],         section: "reference/14-functional-high-frequency/index.md#b4-functional"}
   - {id: B5, label: "B5 Spatial and network",                   phase: B5, areas: [20],         section: "reference/20-spatio-temporal/index.md#b5-spatial-and-network"}
   - {id: B6, label: "B6 Wide panel",                            phase: B6, areas: [32],         section: "reference/32-panel-time-series/index.md#b6-wide-panel"}
-  - {id: B7, label: "B7 Many similar series",                   phase: P1, areas: [22, 18, 34, 19], section: "01-workflow/p01-data-type-gate.md#b7-many-similar-series"}
+  - {id: B7, label: "B7 Many similar series",                   phase: B7, areas: [22, 18, 34, 19], section: "01-workflow/p01-data-type-gate.md#b7-many-similar-series"}
   # ---- P2 purposes
   - {id: P2_FORECASTING,   label: "Purpose 1: Forecasting",                                     phase: P2, areas: [22], section: "01-workflow/p02-purpose/01-forecasting.md#purpose-1-forecasting"}
   - {id: P2_CAUSAL,        label: "Purpose 2: Causal and structural inference",                 phase: P2, areas: [21], section: "01-workflow/p02-purpose/02-causal-inference.md#purpose-2-causal-and-structural-inference"}

@@ -50,5 +50,19 @@ def test_diagram_label_first_line_must_equal_the_inventory_label():
     d = diagram('graph TD\n    P7_GARCH["Symmetric GARCH<br/>sigma"] --> P7_SV["Stochastic volatility<br/>latent"]\n', "p07.md#mermaid-1")
     rows = [audit.Row("P7_GARCH", "GARCH", "P7", (10,), "reference/10-volatility/index.md#garch"),
             audit.Row("P7_SV", "Stochastic volatility", "P7", (10,), "reference/10-volatility/index.md#stochastic-volatility")]
-    messages = [f.message for f in audit.check_nodes_vs_inventory([d], rows)]
+    messages = [f.message for f in audit.check_nodes_vs_inventory([d], rows) if "label" in f.message]
     assert messages == ["node P7_GARCH label 'Symmetric GARCH' differs from its inventory label 'GARCH'"]
+
+
+def test_a_leaf_must_be_defined_on_its_phase_owner_page():
+    p3 = diagram('graph TD\n    P3_FOREIGN["Foreign"]\n', "01-workflow/p07-error-process.md#mermaid-1")
+    own = diagram('graph TD\n    P3_HOME["Home"]\n', "01-workflow/p03-exploratory-diagnostics.md#mermaid-1")
+    rows = [audit.Row("P3", "P3: Exploratory diagnostics", "MASTER", (2,), "01-workflow/p03-exploratory-diagnostics.md#p3"),
+            audit.Row("P3_FOREIGN", "Foreign", "P3", (2,), "01-workflow/p03-exploratory-diagnostics.md#foreign"),
+            audit.Row("P3_HOME", "Home", "P3", (2,), "01-workflow/p03-exploratory-diagnostics.md#home"),
+            audit.Row("P4_LOST", "Lost", "P4", (2,), "01-workflow/p04.md#lost")]
+    lost = diagram('graph TD\n    P4_LOST["Lost"]\n', "01-workflow/p04.md#mermaid-1")
+    messages = [f.message for f in audit.check_nodes_vs_inventory([p3, own, lost], rows) if "P3" in f.message or "P4" in f.message]
+    assert "leaf P3_FOREIGN of phase P3 is defined on 01-workflow/p07-error-process.md, but P3 is owned by 01-workflow/p03-exploratory-diagnostics.md" in messages
+    assert "leaf P4_LOST: phase P4 has no owner page (no inventory row P4)" in messages
+    assert not any("P3_HOME" in m for m in messages)

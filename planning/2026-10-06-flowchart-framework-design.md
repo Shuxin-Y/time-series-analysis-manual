@@ -331,7 +331,7 @@ nodes:
 
 One row per leaf node. Decision, flag and terminal nodes are not listed. Master phase boxes `P0`–`P11` are leaves (phase `MASTER`) whose sections are the phase pages. Rows of phase `F` are Part 0 sections: they have no diagram definition and must be referenced by at least one `ref` node.
 
-**Row validation.** Every row is a mapping. `id` is a string matching `^[A-Z][A-Z0-9_]*$`; `label` is a non-empty string; `phase` is one of P0–P11, B1–B7, MASTER, F; `areas` is a list of integers in 1–34; `section` matches `path.md#anchor` and its anchor is a heading id of the rendered page. The ID prefix equals the phase (`P7_GARCH` / `P7`), with two named exceptions: `P0`–`P11` carry phase MASTER and only they do, and `B1`–`B7` take the phase of the diagram that defines them. A YAML parse error, a duplicate key or a type error is a finding naming the file, never a traceback.
+**Row validation.** Every row is a mapping. `id` is a string matching `^[A-Z][A-Z0-9_]*$`; `label` is a non-empty string; `phase` is one of P0–P11, B1–B7, MASTER, F; `areas` is a list of integers in 1–34; `section` matches `path.md#anchor` and its anchor is a heading id of the rendered page. The ID prefix equals the phase (`P7_GARCH` / `P7`), with two named exceptions: `P0`–`P11` carry phase MASTER and only they do, and `B1`–`B7` carry their own ID as phase. Each phase has one owner page, the page of its phase box or branch entry row (MASTER: `01-workflow/index.md`; B7: the P1 page), and a leaf must be defined in a diagram on the owner page of its row's phase. A YAML parse error, a duplicate key or a type error is a finding naming the file, never a traceback.
 
 ### 10.5 Runtime node linking
 

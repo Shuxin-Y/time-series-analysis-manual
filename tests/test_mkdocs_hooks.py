@@ -44,9 +44,9 @@ def strict_build(tmp_path, anchor):
     from mkdocs.commands.build import build
 
     config = sitekit.write_project(tmp_path, {
-        "index.md": '# P0: Data\n\n```mermaid\ngraph TD\n    P0["P0: Data"]\n```\n',
+        "01-workflow/index.md": '# P0: Data\n\n```mermaid\ngraph TD\n    P0["P0: Data"]\n```\n',
         "glossary/.keep": "",
-        "flowcharts/inventory.yml": f'nodes:\n  - {{id: P0, label: "P0: Data", phase: MASTER, areas: [31], section: "index.md#{anchor}"}}\n',
+        "flowcharts/inventory.yml": f'nodes:\n  - {{id: P0, label: "P0: Data", phase: MASTER, areas: [31], section: "01-workflow/index.md#{anchor}"}}\n',
     })
     with config.open("a", encoding="utf-8") as fh:
         fh.write(f"\nhooks:\n  - {sitekit.REPO / 'scripts' / 'mkdocs_hooks.py'}\n")

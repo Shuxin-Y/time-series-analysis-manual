@@ -155,9 +155,11 @@ def test_rows_are_validated_structurally(tmp_path):
         assert rows == [] and expected in findings[0].message, (body, findings)
 
 
-def test_branch_entries_take_the_phase_of_their_owning_diagram(tmp_path):
-    rows, findings = inventory_findings(tmp_path, f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: B7').replace('phase: P7', 'phase: P1')}    areas: [22]\n")
+def test_branch_entries_carry_their_own_id_as_phase(tmp_path):
+    rows, findings = inventory_findings(tmp_path, f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: B7').replace('phase: P7', 'phase: B7')}    areas: [22]\n")
     assert findings == [] and rows[0].id == "B7"
+    rows, findings = inventory_findings(tmp_path, f"nodes:\n  - {ROW.replace('id: P7_GARCH', 'id: B1').replace('phase: P7', 'phase: P3')}    areas: [16]\n")
+    assert rows == [] and "branch entry B1 must have phase B1" in findings[0].message
 
 
 def test_invalid_yaml_and_duplicate_keys_are_findings_naming_the_file(tmp_path):

@@ -349,6 +349,7 @@ def split_section(section: str) -> tuple[str, str]:
     return file, anchor
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
 MASTER_PHASE = "MASTER"
+MASTER_PAGE = "01-workflow/index.md"  # owner page of the master boxes P0-P11
 MASTER_IDS = frozenset(f"P{i}" for i in range(12))
 BRANCH_IDS = frozenset(f"B{i}" for i in range(1, 8))
 PHASES = MASTER_IDS | BRANCH_IDS | {MASTER_PHASE, FOUNDATION_PHASE}
@@ -404,7 +405,7 @@ def row_problem(raw: object) -> str | None:
     if (rid in MASTER_IDS) != (phase == MASTER_PHASE):
         return f"phase {MASTER_PHASE} is for the master boxes P0-P11 and only them (id {rid}, phase {phase})"
     if rid in BRANCH_IDS:
-        return None if phase != FOUNDATION_PHASE else f"branch entry {rid} cannot be a foundation row"
+        return None if phase == rid else f"branch entry {rid} must have phase {rid}"
     if phase == MASTER_PHASE:
         return None
     if not rid.startswith(f"{phase}_"):
@@ -508,9 +509,17 @@ def check_refs(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
     return findings
 
 
+def owner_pages(rows: list[Row]) -> dict[str, str]:
+    """Phase -> the page whose diagram owns it: the page of the phase box (P0-P11) or branch entry (B1-B7)."""
+    owners = {MASTER_PHASE: MASTER_PAGE}
+    owners.update({r.id: r.file for r in rows if r.id in MASTER_IDS | BRANCH_IDS})
+    return owners
+
+
 def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
     findings: list[Finding] = []
     by_id = {r.id: r for r in rows}
+    owners = owner_pages(rows)
     leaves: dict[str, str] = {}
     refs: set[str] = set()
     for d in diagrams:
@@ -520,8 +529,15 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
             elif d.is_leaf(nid):
                 leaves.setdefault(nid, d.where)
     for nid, where in sorted(leaves.items()):
-        if nid not in by_id:
+        row = by_id.get(nid)
+        if row is None:
             findings.append(Finding(ERROR, where, f"leaf {nid} has no inventory row"))
+            continue
+        page, owner = split_section(where)[0], owners.get(row.phase)
+        if owner is None:
+            findings.append(Finding(ERROR, where, f"leaf {nid}: phase {row.phase} has no owner page (no inventory row {row.phase})"))
+        elif page != owner:
+            findings.append(Finding(ERROR, where, f"leaf {nid} of phase {row.phase} is defined on {page}, but {row.phase} is owned by {owner}"))
     for d in diagrams:
         for nid, node in d.nodes.items():
             row = by_id.get(nid)
