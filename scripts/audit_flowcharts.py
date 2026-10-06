@@ -354,6 +354,8 @@ def split_section(section: str) -> tuple[str, str]:
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
 MASTER_PHASE = "MASTER"
 MASTER_PAGE = "01-workflow/index.md"  # owner page of the master boxes P0-P11
+# P2 and P5 are chapters: their sub-chart pages own purpose- and representation-specific leaves (spec 7.1, 7.2).
+DIRECTORY_OWNED_PHASES = ("P2", "P5")
 MASTER_IDS = frozenset(f"P{i}" for i in range(12))
 BRANCH_IDS = frozenset(f"B{i}" for i in range(1, 8))
 PHASES = MASTER_IDS | BRANCH_IDS | {MASTER_PHASE, FOUNDATION_PHASE}
@@ -514,10 +516,19 @@ def check_refs(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
 
 
 def owner_pages(rows: list[Row]) -> dict[str, str]:
-    """Phase -> the page whose diagram owns it: the page of the phase box (P0-P11) or branch entry (B1-B7)."""
+    """Phase -> its owner: the page of the phase box (P0-P11) or branch entry (B1-B7), or for
+    DIRECTORY_OWNED_PHASES the directory of that page (a value ending in "/")."""
     owners = {MASTER_PHASE: MASTER_PAGE}
-    owners.update({r.id: r.file for r in rows if r.id in MASTER_IDS | BRANCH_IDS})
+    for r in rows:
+        if r.id in DIRECTORY_OWNED_PHASES:
+            owners[r.id] = posixpath.dirname(r.file) + "/"
+        elif r.id in MASTER_IDS | BRANCH_IDS:
+            owners[r.id] = r.file
     return owners
+
+
+def is_owned_by(page: str, owner: str) -> bool:
+    return page.startswith(owner) if owner.endswith("/") else page == owner
 
 
 def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
@@ -540,7 +551,7 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
         page, owner = split_section(where)[0], owners.get(row.phase)
         if owner is None:
             findings.append(Finding(ERROR, where, f"leaf {nid}: phase {row.phase} has no owner page (no inventory row {row.phase})"))
-        elif page != owner:
+        elif not is_owned_by(page, owner):
             findings.append(Finding(ERROR, where, f"leaf {nid} of phase {row.phase} is defined on {page}, but {row.phase} is owned by {owner}"))
     for d in diagrams:
         for nid, node in d.nodes.items():

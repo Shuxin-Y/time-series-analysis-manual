@@ -66,3 +66,14 @@ def test_a_leaf_must_be_defined_on_its_phase_owner_page():
     assert "leaf P3_FOREIGN of phase P3 is defined on 01-workflow/p07-error-process.md, but P3 is owned by 01-workflow/p03-exploratory-diagnostics.md" in messages
     assert "leaf P4_LOST: phase P4 has no owner page (no inventory row P4)" in messages
     assert not any("P3_HOME" in m for m in messages)
+
+
+def test_purpose_and_representation_leaves_may_sit_on_their_sub_chart_pages():
+    rows = [audit.Row("P2", "P2: Purpose", "MASTER", (19,), "01-workflow/p02-purpose/index.md#p2-purpose"),
+            audit.Row("P2_CPD_PELT", "PELT", "P2", (30,), "01-workflow/p02-purpose/04-change-point-detection.md#sub-chart"),
+            audit.Row("P2_STRAY", "Stray", "P2", (30,), "01-workflow/p02-purpose/04-change-point-detection.md#sub-chart")]
+    sub_chart = diagram('graph TD\n    P2_CPD_PELT["PELT"]\n', "01-workflow/p02-purpose/04-change-point-detection.md#mermaid-1")
+    outside = diagram('graph TD\n    P2_STRAY["Stray"]\n', "01-workflow/p03-exploratory-diagnostics.md#mermaid-1")
+    messages = [f.message for f in audit.check_nodes_vs_inventory([sub_chart, outside], rows)]
+    assert not any("P2_CPD_PELT" in m for m in messages)
+    assert "leaf P2_STRAY of phase P2 is defined on 01-workflow/p03-exploratory-diagnostics.md, but P2 is owned by 01-workflow/p02-purpose/" in messages
