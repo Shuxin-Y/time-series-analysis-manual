@@ -590,19 +590,39 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
 
 
 def check_headings(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
-    """Every H2 under SECTION_DIRS is a content unit (an inventory or glossary anchor) or a structural heading."""
-    units: dict[str, set[str]] = {}
-    for section in [r.section for r in rows] + [str(t.get("reference") or "") for t in terms]:
-        if SECTION_RE.match(section):
-            file, anchor = split_section(section)
-            units.setdefault(file, set()).add(anchor)
+    """Headings under SECTION_DIRS are leaf sections, structural headings, or glossary homes placed by the rule.
+
+    Every H2 is an inventory anchor or a STRUCTURAL_H2 entry (on a `kind: theory` page it may also be a glossary
+    anchor). A glossary `reference` anchor is valid when it is itself an inventory anchor, when it is an H3 or
+    deeper under an inventory-anchored H2, or when it is any heading on a `kind: theory` page. Headings under an
+    inventory-anchored H2 belong to that leaf and need no node.
+    """
+    leaf_anchors: dict[str, set[str]] = {}
+    for r in rows:
+        leaf_anchors.setdefault(r.file, set()).add(r.anchor)
+    homes: dict[str, dict[str, list[str]]] = {}  # page -> glossary anchor -> terms homed there
+    for t in terms:
+        ref = str(t.get("reference") or "")
+        if SECTION_RE.match(ref):
+            file, anchor = split_section(ref)
+            homes.setdefault(file, {}).setdefault(anchor, []).append(f"{t['_file']}:{t['term']}")
     findings: list[Finding] = []
     for sub in SECTION_DIRS:
         for rel in site.pages_under(sub):
             page = site.page(rel)
-            for h in page.headings if page else ():
-                if h.level == 2 and h.id not in units.get(rel, set()) and h.text not in STRUCTURAL_H2:
-                    findings.append(Finding(ERROR, f"{rel}#{h.id}", f"H2 {h.text!r} is neither an inventory or glossary anchor nor a structural heading"))
+            if page is None:
+                continue
+            theory = page.meta.get("kind") == "theory"
+            leaves, page_homes = leaf_anchors.get(rel, set()), homes.get(rel, {})
+            parent = None  # id of the enclosing H2
+            for h in page.headings:
+                if h.level == 2:
+                    parent = h.id
+                    if h.id not in leaves and h.text not in STRUCTURAL_H2 and not (theory and h.id in page_homes):
+                        findings.append(Finding(ERROR, f"{rel}#{h.id}", f"H2 {h.text!r} is neither an inventory anchor nor a structural heading"))
+                if h.id in page_homes and not (theory or h.id in leaves or (h.level >= 3 and parent in leaves)):
+                    findings.extend(Finding(ERROR, where, f"glossary home {rel}#{h.id} must be a leaf's own heading, an H3 or deeper under a leaf's H2, or a heading on a kind: theory page")
+                                    for where in page_homes[h.id])
     return findings
 
 

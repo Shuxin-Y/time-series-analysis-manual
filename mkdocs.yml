@@ -213,6 +213,7 @@ nav:
       - Theory & Inference:
           - reference/01-math-foundations/index.md
           - reference/04-estimation/index.md
+          - reference/04-estimation/maximum-likelihood.md
           - reference/05-hypothesis-testing/index.md
           - reference/06-model-selection/index.md
           - reference/25-simulation/index.md

@@ -244,15 +244,32 @@ def test_chain_walk_is_linear_on_shared_upstream_terms(tmp_path):
     assert [f for f in findings if f.level == "error"] == []
 
 
-def test_every_h2_under_reference_and_workflow_is_a_content_unit_or_structural(tmp_path):
+def test_every_h2_under_reference_and_workflow_is_a_leaf_or_structural(tmp_path):
     docs = make_docs(tmp_path)
     (docs / "reference" / "04-estimation" / "index.md").write_text(
         "# Estimation\n\n## Joint density\n\n## Maximum likelihood\n\n## References\n\n### Detail\n", encoding="utf-8")
     (docs / "01-workflow" / "index.md").write_text("# Workflow\n\n## Master diagram\n\n## EGARCH\n", encoding="utf-8")
-    terms = [{"term": "Joint density", "reference": "reference/04-estimation/index.md#joint-density"}]
-    findings = audit.check_headings(sitekit.site(tmp_path), [], terms)
-    assert sorted(f.where for f in findings) == ["01-workflow/index.md#egarch", "reference/04-estimation/index.md#maximum-likelihood"]
+    rows = [audit.Row("P8_MLE", "Maximum likelihood", "P8", (4,), "reference/04-estimation/index.md#maximum-likelihood")]
+    findings = audit.check_headings(sitekit.site(tmp_path), rows, [])
+    assert sorted(f.where for f in findings) == ["01-workflow/index.md#egarch", "reference/04-estimation/index.md#joint-density"]
 
+
+def test_glossary_homes_sit_in_a_leaf_section_or_on_a_theory_page(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "reference" / "04-estimation" / "index.md").write_text(
+        "# Estimation\n\n## Maximum likelihood\n\n### Likelihood\n\n## References\n\n### Score\n", encoding="utf-8")
+    (docs / "reference" / "04-estimation" / "theory.md").write_text(
+        "---\nkind: theory\n---\n# Why MLE\n\n## Joint density\n", encoding="utf-8")
+    rows = [audit.Row("P8_MLE", "Maximum likelihood", "P8", (4,), "reference/04-estimation/index.md#maximum-likelihood")]
+    def term(name, ref):
+        return {"term": name, "_file": "x.yml", "reference": ref}
+    terms = [term("Likelihood", "reference/04-estimation/index.md#likelihood"),          # H3 under a leaf H2
+             term("MLE", "reference/04-estimation/index.md#maximum-likelihood"),         # the leaf's own heading
+             term("Joint density", "reference/04-estimation/theory.md#joint-density"),   # H2 on a theory page
+             term("Score", "reference/04-estimation/index.md#score"),                    # H3 under a structural H2
+             term("Estimation", "reference/04-estimation/index.md#estimation")]          # H1 of a non-leaf page
+    findings = audit.check_headings(sitekit.site(tmp_path), rows, terms)
+    assert sorted(f.where for f in findings) == ["x.yml:Estimation", "x.yml:Score"]
 
 def test_first_mention_scan_covers_workflow_pages(tmp_path):
     docs = make_docs(tmp_path)

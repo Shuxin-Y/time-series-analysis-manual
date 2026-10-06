@@ -37,7 +37,7 @@ Out of scope: writing the content itself; the per-section depth cap (open, see s
 
 ### 3.3 Node = content unit
 
-Every leaf node links to one section. The three charts together are the table of contents in graph form. Content without a node does not enter the book. A node without content is a to-do item, visible in the audit.
+Every leaf node links to one section. The three charts together are the table of contents in graph form. Every method section is a leaf's section; its subsections (H3 and deeper) belong to that leaf and need no node of their own. Concept homes for glossary terms sit in a leaf's section (its heading or a subsection) or on a `kind: theory` page, which is linked from a method section or a glossary derivation. A node without content is a to-do item, visible in the audit.
 
 ## 4. The general flowchart: phases P0–P11
 
@@ -221,6 +221,7 @@ Every phase receives at least one area; every area lands in at least one phase.
 
 - **Method section**: what to do and when. Must be a leaf node. Its home chapter follows the split in section 10.2.
 - **Theory section**: why it holds. Need not be a node, but must be linked from at least one method section or one glossary derivation chain. Marked with `kind: theory` in the page's YAML front matter.
+- **Heading rule.** On a page under `reference/` or `01-workflow/`, every H2 is an inventory anchor (a leaf's section) or a structural heading (`STRUCTURAL_H2`). Headings H3 and deeper under a leaf's H2 belong to that leaf and need no node of their own. A glossary `reference` anchor is valid as a leaf's own heading, as an H3 or deeper under a leaf's H2, or as any heading, H2 included, on a `kind: theory` page.
 
 ### 9.2 Terminals and body text
 
@@ -364,7 +365,7 @@ terms:
 | Mermaid nodes | Defined (non-`ref`) IDs unique across all diagrams; every `ref` ID has a definition; every defined leaf ID has an inventory row; every inventory ID is defined in some diagram; label first line equals the inventory label; the parsing and no-URL rules of section 10.1 | error |
 | Inventory | Row validation of section 10.4; `section` file exists; anchor is a rendered heading id | error |
 | Sections | Every non-index `.md` under `reference/` and `01-workflow/` is referenced by an inventory row (method) or, if `kind: theory`, is the target of a resolved link on a method page or of an exact `path.md#anchor` link in a glossary derivation | error |
-| Headings | Every H2 on every page under `reference/` and `01-workflow/`, index pages included, is an inventory anchor, a glossary `reference` anchor, or a structural heading from `STRUCTURAL_H2` (listed in `DESIGN-SYSTEM.md`) | error |
+| Headings | The heading rule of section 9.1 on every page under `reference/` and `01-workflow/`, index pages included: each H2 is an inventory anchor or a `STRUCTURAL_H2` entry (or a glossary anchor on a `kind: theory` page); each glossary `reference` anchor is a leaf's own heading, an H3 or deeper under a leaf's H2, or a heading on a `kind: theory` page | error |
 | Glossary | Every `depends_on` is a list of names that resolve to terms; every chain terminates at a `foundation: true` term; a foundation term is homed under `00-foundations/` and has no `depends_on`; no cycles, each reported once; `reference` anchor exists; no duplicate keys, so exactly one `reference` per term; each term sits in the glossary file named after its reference page. A term with no `depends_on` key is a chain not yet written and is reported as a warning; a term with an empty `depends_on` and no `foundation: true` is a dead end and is an error | error |
 | Glossary | Scan every `nav:` page in order; list terms whose first-mention page differs from the `reference` page, for manual review | warning |
 

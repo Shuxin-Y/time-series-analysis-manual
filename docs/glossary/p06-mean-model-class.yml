@@ -1,4 +1,4 @@
-# Glossary: 3. Classical Models
+# Glossary: P6: Conditional-mean model class
 
 terms:
 
@@ -17,4 +17,4 @@ terms:
       - 1927: Yule introduces autoregressive processes
       - 1937: Slutsky introduces moving average processes
       - 1970: Box and Jenkins publish the comprehensive ARIMA methodology
-    reference: "reference/03-classical/index.md#3-classical-models"
+    reference: "01-workflow/p06-mean-model-class.md#p6-conditional-mean-model-class"

@@ -1,4 +1,4 @@
-# Glossary: 13. Spectral Analysis
+# Glossary: Representation 2: Frequency domain
 
 terms:
 
@@ -14,7 +14,7 @@ terms:
     historical: |
       - 1805: Gauss develops an early form of the algorithm for asteroid orbit interpolation
       - 1965: Cooley and Tukey publish the modern FFT algorithm, revolutionising spectral analysis
-    reference: "reference/13-spectral-analysis/index.md#13-spectral-analysis"
+    reference: "01-workflow/p05-representation/02-frequency-domain.md#representation-2-frequency-domain"
 
   - term: "Power Spectral Density"
     definition: "PSD describes how the power (variance) of a time series is distributed across different frequencies."
@@ -28,7 +28,7 @@ terms:
     historical: |
       - 1930: Wiener-Khinchin theorem relates the ACF to the PSD
       - 1949: Tukey introduces periodogram smoothing techniques
-    reference: "reference/13-spectral-analysis/index.md#13-spectral-analysis"
+    reference: "01-workflow/p05-representation/02-frequency-domain.md#representation-2-frequency-domain"
 
   - term: "Periodogram"
     definition: "An estimate of the power spectral density obtained by computing the squared magnitude of the Fourier transform."
@@ -38,4 +38,4 @@ terms:
     historical: |
       - 1898: Schuster introduces the periodogram for detecting hidden periodicities
       - Early 20th century: Widely adopted in astronomy for periodic signal detection
-    reference: "reference/13-spectral-analysis/index.md#13-spectral-analysis"
+    reference: "01-workflow/p05-representation/02-frequency-domain.md#representation-2-frequency-domain"

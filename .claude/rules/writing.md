@@ -6,7 +6,7 @@ Single home of the content rules: what a section contains and where a concept li
 
 - A **method** section says what to do and when. It is a leaf node of a flowchart sub-diagram and has an inventory row in `docs/flowcharts/inventory.yml` (`id`, `label`, `phase`, `areas`, `section`).
 - A **theory** section says why something holds. Its page carries `kind: theory` in the front matter and is linked from at least one method section, or from a glossary derivation in the exact `path.md#anchor` form.
-- Every non-index page under `docs/reference/` and `docs/01-workflow/` is a method page or a theory page. On every page there, index pages included, each H2 is a content unit (an inventory or glossary `reference` anchor) or one of the structural headings listed in `DESIGN-SYSTEM.md` (notation rules, "Content units").
+- Every non-index page under `docs/reference/` and `docs/01-workflow/` is a method page or a theory page. On every page there, index pages included, every H2 is an inventory anchor (a leaf's section) or a structural heading (`STRUCTURAL_H2`). Headings H3 and deeper under a leaf's H2 belong to that leaf and need no node of their own. A glossary `reference` anchor is valid as a leaf's own heading, as an H3 or deeper under a leaf's H2, or as any heading, H2 included, on a `kind: theory` page. The structural headings are listed in `DESIGN-SYSTEM.md` (notation rules, "Content units").
 
 ## Single source
 

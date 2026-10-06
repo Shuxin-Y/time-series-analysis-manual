@@ -2,7 +2,4 @@
 
 Least squares, moments, likelihood, GMM, Whittle, Bayesian and empirical-loss estimators.
 
-## Joint density
-
-!!! note "Section pending"
-    Home of the term *Joint density*; its derivation chain is in the glossary drawer. The maximum-likelihood section, home of the MLE chain (MLE, likelihood, joint density, chain rule, prediction-error decomposition, log and the law of large numbers, stationarity and ergodicity), arrives with the P8 sub-diagram as a leaf of its own.
+The maximum-likelihood chain and the home of the term *Joint density* are on [Maximum likelihood](maximum-likelihood.md).
