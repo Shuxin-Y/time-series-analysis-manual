@@ -28,13 +28,10 @@ graph TD
     P9_REGIME -.->|"Yes"| P7
     P9_REGIME -->|"No"| P9_MULTI{"Multivariate flag?"}
     P9_MULTI -->|"Yes"| P7_CORR_TESTS[["Test innovation correlation structure"]]
-    P9_MULTI -->|"No"| P9_BAYESIAN_Q
+    P9_MULTI -->|"No"| P9_RESIDUAL_NONLINEARITY
     P7_CORR_TESTS --> P9_CORR{"Correlation misspecified?"}
     P9_CORR -.->|"Yes"| P7
-    P9_CORR -->|"No"| P9_BAYESIAN_Q{"Bayesian fit (P8 sampling or approximation)?"}
-    P9_BAYESIAN_Q -->|"Yes"| P9_POSTERIOR_PREDICTIVE["Posterior predictive checks<br/>replicated data, Bayesian p-values, LOO-PIT"]
-    P9_BAYESIAN_Q -->|"No"| P9_RESIDUAL_NONLINEARITY
-    P9_POSTERIOR_PREDICTIVE --> P9_RESIDUAL_NONLINEARITY["Remaining nonlinearity<br/>BDS on residuals"]
+    P9_CORR -->|"No"| P9_RESIDUAL_NONLINEARITY["Remaining nonlinearity<br/>BDS on residuals"]
     P9_RESIDUAL_NONLINEARITY --> P9_NONLINEAR{"Nonlinearity left?"}
     P9_NONLINEAR -.->|"Yes"| P6
     P9_NONLINEAR -->|"No"| P9_TO_PART_2
@@ -45,8 +42,8 @@ graph TD
     P9_INTENSITY -.->|"Yes"| P7
     P9_INTENSITY -->|"No"| P9_TO_PART_2(["Continue in part 2"])
     class P9_IN,P9_TO_PART_2 terminator
-    class P9_TYPE,P9_AC,P9_ARCH,P9_DIST,P9_REGIME,P9_MULTI,P9_CORR,P9_BAYESIAN_Q,P9_NONLINEAR,P9_COUNT,P9_INTENSITY decision
-    class P9_POSTERIOR_PREDICTIVE,P9_RESIDUAL_NONLINEARITY process
+    class P9_TYPE,P9_AC,P9_ARCH,P9_DIST,P9_REGIME,P9_MULTI,P9_CORR,P9_NONLINEAR,P9_COUNT,P9_INTENSITY decision
+    class P9_RESIDUAL_NONLINEARITY process
     class P7_MEAN_TESTS,P7_COUNT_TESTS,P7_RESCALING,P6,P7_VAR_TESTS,P7,P7_DIST_TESTS,P7_REGIME_TESTS,P7_CORR_TESTS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -63,7 +60,12 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P9_PART_2_IN(["From part 1"]) --> P9_MODEL_KIND{"Model kind?"}
+    P9_PART_2_IN(["From part 1"]) --> P9_BAYESIAN_Q{"Bayesian fit (P8 sampling or approximation)?"}
+    P9_BAYESIAN_Q -->|"Yes"| P9_POSTERIOR_PREDICTIVE["Posterior predictive checks<br/>replicated data, Bayesian p-values, LOO-PIT"]
+    P9_BAYESIAN_Q -->|"No"| P9_MODEL_KIND
+    P9_POSTERIOR_PREDICTIVE --> P9_PPC_VERDICT{"Replicated data match?"}
+    P9_PPC_VERDICT -->|"Yes"| P9_MODEL_KIND{"Model kind?"}
+    P9_PPC_VERDICT -.->|"No: revise the model or priors"| P6[["P6: Conditional-mean model class"]]
     P9_MODEL_KIND -->|"Volatility"| P9_VOLATILITY_DIAGNOSTICS["Volatility model diagnostics<br/>standardised residuals, sign-bias test, news impact curve"]
     P9_MODEL_KIND -->|"Other"| P9_INFORMATION_CRITERIA
     P9_VOLATILITY_DIAGNOSTICS --> P9_INFORMATION_CRITERIA["Information criteria<br/>AIC, BIC, HQIC, WAIC, LOO"]
@@ -77,8 +79,8 @@ graph TD
     P9_PASS -.->|"Mean misspecified"| P6[["P6: Conditional-mean model class"]]
     P9_PASS -.->|"Innovations misspecified"| P7[["P7: Error-process specification"]]
     class P9_PART_2_IN,P9_OUT terminator
-    class P9_MODEL_KIND,P9_INFERENCE_NEEDED,P9_PASS decision
-    class P9_VOLATILITY_DIAGNOSTICS,P9_INFORMATION_CRITERIA,P9_BOOTSTRAP,P9_FORECAST_COMPARISON,P9_ENCOMPASSING process
+    class P9_BAYESIAN_Q,P9_PPC_VERDICT,P9_MODEL_KIND,P9_INFERENCE_NEEDED,P9_PASS decision
+    class P9_POSTERIOR_PREDICTIVE,P9_VOLATILITY_DIAGNOSTICS,P9_INFORMATION_CRITERIA,P9_BOOTSTRAP,P9_FORECAST_COMPARISON,P9_ENCOMPASSING process
     class P6,P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -95,15 +97,15 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P9`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Posterior predictive checks
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P9_POSTERIOR_PREDICTIVE`). Write this section following the content rules in `.claude/rules/writing.md`.
-
 ## Remaining nonlinearity
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P9_RESIDUAL_NONLINEARITY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Posterior predictive checks
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P9_POSTERIOR_PREDICTIVE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Volatility model diagnostics
 
