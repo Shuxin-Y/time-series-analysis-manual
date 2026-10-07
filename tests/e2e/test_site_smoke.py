@@ -118,7 +118,11 @@ SCALES = """() => [...document.querySelectorAll('.mermaid-container > svg')].map
     const box = svg.parentElement, style = getComputedStyle(box);
     const content = box.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
     const natural = svg.viewBox.baseVal.width, rendered = svg.getBoundingClientRect().width;
-    return {i, fit: content / natural, scale: rendered / natural, wider: rendered > content + 1,
+    const wider = rendered > content + 1;
+    box.scrollLeft = 1;
+    const scrollable = ['auto', 'scroll'].includes(style.overflowX) && box.scrollLeft > 0;
+    box.scrollLeft = 0;
+    return {i, fit: content / natural, scale: rendered / natural, wider, scrollable,
         scrolls: box.scrollWidth > box.clientWidth};
 })"""
 
@@ -143,9 +147,9 @@ def test_every_diagram_renders_readably(page, site_url, path):
     assert [(d["i"], round(d["fit"], 3)) for d in desktop if d["fit"] < MIN_SCALE] == []
     assert [d["i"] for d in desktop if d["scrolls"]] == []
     page.set_viewport_size(PHONE_VIEWPORT)
-    phone = page.evaluate(SCALES)  # the clamp holds the scale; the container, not the page, scrolls
+    phone = page.evaluate(SCALES)  # the clamp holds the scale; the container, not the page, can be scrolled
     assert [(d["i"], round(d["scale"], 3)) for d in phone if d["scale"] < MIN_SCALE] == []
-    assert [d["i"] for d in phone if d["wider"] and not d["scrolls"]] == []
+    assert [d["i"] for d in phone if d["wider"] and not d["scrollable"]] == []
     assert page.evaluate("() => document.documentElement.scrollWidth <= window.innerWidth")
 
 
