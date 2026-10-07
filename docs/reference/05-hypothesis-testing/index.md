@@ -1,6 +1,6 @@
 # 5. Hypothesis Testing
 
-Unit-root, cointegration, causality, break, serial-correlation and normality tests; bootstrap.
+Coefficient and restriction tests: t, F, likelihood ratio, Wald and Lagrange multiplier. Unit-root, break and seasonal tests live in P3, residual tests in P7, causality tests in area 21 and the bootstrap in area 6.
 
 ## Coefficient and restriction tests
 

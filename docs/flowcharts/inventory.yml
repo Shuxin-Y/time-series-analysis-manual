@@ -387,3 +387,5 @@ nodes:
   - {id: B7_CLUSTER_THEN_LOCAL, label: "Cluster series, then fit local models",     phase: B7, areas: [19, 22], section: "reference/19-classification-anomaly/index.md#cluster-series-then-fit-local-models"}
   # ---- foundation section referenced from B1
   - {id: F_MARKOV, label: "Markov chains", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#markov-chains"}
+  # ---- added in review round 1
+  - {id: P8_QUANTILE_REGRESSION, label: "Quantile regression and quantile autoregression", phase: P8, areas: [24, 34], section: "reference/24-robust-nonparametric/index.md#quantile-regression-and-quantile-autoregression"}

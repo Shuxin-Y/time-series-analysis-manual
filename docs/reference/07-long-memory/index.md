@@ -1,6 +1,6 @@
 # 7. Long Memory
 
-ARFIMA, fractional Brownian motion, Hurst exponent, GPH and local Whittle estimation.
+ARFIMA as a mean model and as an error model. Long-memory indicators live in P3, fractional differencing in P4 and local Whittle estimation in area 4.
 
 ## ARFIMA errors
 

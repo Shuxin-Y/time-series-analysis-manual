@@ -1,6 +1,6 @@
 # 27. Regression with Time-Series Data
 
-OLS under temporal dependence, HAC inference, feasible GLS, dynamic regression, distributed lags and spurious regression.
+Regression with ARMA errors, distributed-lag and ADL models, and HAC inference. Feasible GLS lives in area 4 and the spurious-regression check in P3.
 
 ## Regression with ARMA errors
 

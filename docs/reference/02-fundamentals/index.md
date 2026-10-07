@@ -1,6 +1,6 @@
 # 2. Fundamentals
 
-Trend, seasonality, cycles and noise; stationarity and its tests; ACF and PACF.
+The autocovariance function and the ACF as the time-domain object, and lag structure and memory. Trend, seasonality and stationarity tests are procedural and live in P3 and P4.
 
 ## Autocovariance and the ACF as the time-domain object
 

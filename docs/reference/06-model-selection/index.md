@@ -1,6 +1,6 @@
 # 6. Model Selection
 
-Information criteria, time-series cross-validation, residual diagnostics and forecast comparison.
+Information criteria, bootstrap inference, forecast comparison and encompassing tests, and point-forecast metrics. Rolling-origin backtesting lives in P11 and residual diagnostics in P7 and P9.
 
 ## Information criteria
 

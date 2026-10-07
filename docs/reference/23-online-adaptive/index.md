@@ -1,6 +1,6 @@
 # 23. Online Learning and Adaptive Methods
 
-Recursive estimation, forgetting factors, drift detection and streaming methods.
+Drift monitoring and online updating. Sequential change detectors live in area 30.
 
 ## Drift monitoring
 

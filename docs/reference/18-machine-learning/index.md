@@ -1,6 +1,6 @@
 # 18. Machine Learning and Deep Learning
 
-Tree ensembles, Gaussian processes, recurrent and convolutional networks, transformers, state-space sequence models and foundation models.
+Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutional, transformer and state-space sequence networks, neural forecasters, foundation, generative and hybrid models, global models, empirical-loss training, time-aware tuning and interpretability.
 
 ## Tree ensembles on lag features
 

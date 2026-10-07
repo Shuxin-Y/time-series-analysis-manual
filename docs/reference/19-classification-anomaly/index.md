@@ -1,6 +1,6 @@
 # 19. Classification, Clustering and Anomaly Detection
 
-Distance-based and kernel methods, shapelets, symbolic representations, change-point and anomaly algorithms.
+Time-series features and representations, distance measures, shapelets, deep classifiers, clustering and augmentation; anomaly scores and detectors with cost-based thresholds; classification, anomaly and change-point metrics; and cluster-then-local modelling. Change-point algorithms live in area 30.
 
 ## Classification and anomaly metrics
 

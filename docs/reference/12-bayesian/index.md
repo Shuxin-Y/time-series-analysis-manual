@@ -1,6 +1,6 @@
 # 12. Bayesian Time Series
 
-Bayesian VAR, Bayesian ARIMA, posterior predictive inference, model comparison and time-varying parameters.
+Bayesian VAR, time-varying parameter VAR, Bayesian computation and variational inference. BSTS lives in area 11 and Bayesian information criteria in area 6.
 
 ## Bayesian VAR
 

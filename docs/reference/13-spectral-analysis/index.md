@@ -1,6 +1,6 @@
 # 13. Spectral Analysis
 
-Discrete Fourier transform, spectral density estimation, cross-spectra, wavelets and band-pass filters.
+The discrete Fourier transform and periodogram, spectral estimators, leakage, filter design, cross-spectra, time-frequency transforms and mode decompositions, the analytic signal and phase synchronisation, and the signal-extraction steps (noise characterisation, Wiener filtering, wavelet denoising, signal-to-noise evaluation). Machine-vibration analysis lives in area 26.
 
 ## Characterise the noise
 

@@ -1,6 +1,6 @@
 # 3. Classical Models
 
-ARIMA family, exponential smoothing, dynamic regression, classical decomposition and the periodogram.
+AR, MA, ARMA, ARIMA and SARIMA; ARIMAX and SARIMAX; exponential smoothing; transfer-function and intervention models; additive and multiplicative decomposition and the analysis of its components. The periodogram lives in area 13 and the decomposition filters in P4.
 
 ## AR, MA and ARMA
 

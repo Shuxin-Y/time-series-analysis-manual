@@ -1,6 +1,6 @@
 # 29. Seasonality and Calendar
 
-Seasonal unit roots, seasonal adjustment, periodic autoregression, multiple seasonality and calendar effects.
+Periodic autoregression and the revision stability of real-time decompositions. Seasonal unit-root tests live in P3, seasonal adjustment and multiple seasonality in P4, and calendar effects in P0.
 
 ## Periodic autoregression
 

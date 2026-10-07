@@ -1,6 +1,6 @@
 # 10. Volatility
 
-ARCH and GARCH families, stochastic volatility, realised measures, risk measures, copulas and extreme values.
+The GARCH family, stochastic volatility, realised measures, innovation distributions, extreme values, Markov-switching variance, conditional correlation and copulas, and risk measures with their backtests. The volatility tests live in P7.
 
 ## GARCH
 

@@ -1,6 +1,6 @@
 # 9. Multivariate Models
 
-VAR, SVAR, VECM, factor models, regularised VAR, graphical and tensor models.
+VAR, VECM, SVAR, factor models, FAVAR and GVAR, regularised VAR, graphical models, matrix and tensor autoregression, and impulse responses with variance decompositions. SVAR identification schemes live in area 21 and Bayesian VAR in area 12.
 
 ## VAR
 

@@ -305,6 +305,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P8_HANNAN_RISSANEN | Hannan-Rissanen and Burg estimation | | [4] | reference/04-estimation/index.md |
 | P8_FMOLS_DOLS | Cointegrating regression | FMOLS, DOLS | [4, 28] | reference/04-estimation/index.md |
 | P8_ROBUST | Robust estimation | M-estimators, LAD | [24, 4] | reference/24-robust-nonparametric/index.md |
+| P8_QUANTILE_REGRESSION | Quantile regression and quantile autoregression |  | [24, 34] | reference/24-robust-nonparametric/index.md |
 | P8_PREDICTION_ERROR | Prediction-error decomposition | | [4, 11] | reference/04-estimation/index.md |
 | P8_KALMAN | Kalman filter and smoother | | [11] | reference/11-state-space/index.md |
 | P8_MLE | Maximum likelihood, exact and conditional | | [4] | reference/04-estimation/index.md |

@@ -1,6 +1,6 @@
 # 17. Point Processes
 
-Poisson, renewal, Cox and Hawkes processes; marked and neural point processes.
+The B2 branch: Poisson, renewal and Cox processes, Hawkes, marked and neural point processes, survival and hazard models, and intensity misspecification. Durations live in area 14 and degradation models in area 26.
 
 ## Branch sub-diagram
 

@@ -1,6 +1,6 @@
 # 14. Functional and High-Frequency
 
-Functional time series, durations, ultra-high-frequency data and survival models.
+The B4 branch (series as curves, intraday curve alignment, basis smoothing, functional principal components, functional regression) and autoregressive conditional durations. Survival models live in area 17 and realised volatility in area 10.
 
 ## Branch sub-diagram
 

@@ -1,6 +1,6 @@
 # 8. Nonlinear Models
 
-Threshold, smooth-transition, regime-switching, bilinear and nonparametric models; chaos indicators.
+Threshold, smooth-transition, Markov-switching, bilinear and nonparametric additive models. Nonlinearity tests live in P3 and nonlinear-dynamics features in area 19.
 
 ## Threshold models
 

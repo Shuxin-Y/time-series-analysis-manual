@@ -1,6 +1,6 @@
 # 34. Probabilistic Forecasting and Evaluation
 
-Density and quantile forecasts, scoring rules, calibration, multi-step strategies and intermittent demand.
+Intermittent demand, prediction intervals, density and quantile forecasts, multi-step strategies and probabilistic metrics.
 
 ## Intermittent demand
 

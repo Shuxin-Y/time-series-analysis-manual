@@ -1,6 +1,6 @@
 # 22. Forecasting Theory and Practice
 
-Forecast combination, reconciliation, mixed-frequency methods and judgmental forecasting.
+Baselines, the Theta method, point forecasts and horizons, mixed-frequency models and nowcasting, reconciliation, combination, judgmental adjustment, and the global-or-local and hierarchy choices for many series. Probabilistic forecasts live in area 34.
 
 ## Theta method
 

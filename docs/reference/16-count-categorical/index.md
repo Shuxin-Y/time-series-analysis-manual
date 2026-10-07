@@ -1,6 +1,6 @@
 # 16. Count and Categorical
 
-Integer-valued, categorical and compositional time series.
+The B1 branch: count diagnostics, INAR, Poisson and negative-binomial autoregression, GLARMA, Markov chains, autoregressive logit and probit, compositional series, and the choice of count innovations.
 
 ## Branch sub-diagram
 

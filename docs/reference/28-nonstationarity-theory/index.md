@@ -1,6 +1,6 @@
 # 28. Nonstationarity Theory
 
-Unit-root asymptotics, cointegration theory, near-unit roots, fractional cointegration and bubble tests.
+Cointegration inference. Unit-root and explosive-root tests and the cointegration pre-check live in P3, cointegrating regression in area 4 and unit-root asymptotics in Part 0.
 
 ## Cointegration inference
 

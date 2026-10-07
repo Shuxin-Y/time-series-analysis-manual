@@ -1,6 +1,6 @@
 # 33. System Identification and Dynamical Systems
 
-ARX, ARMAX and transfer-function models, subspace methods, Takens embedding, dynamic mode decomposition and sparse identification.
+ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input design, model structure, order selection, frequency response, poles and zeros, and validation; Takens embedding and dynamic mode decomposition. Box-Jenkins transfer-function models live in area 3.
 
 
 ## Subspace identification

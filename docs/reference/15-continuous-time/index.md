@@ -1,6 +1,6 @@
 # 15. Continuous-Time Models
 
-Diffusions, CARMA, Levy processes, jump diffusions and numerical methods for SDEs.
+The B3 branch (Kalman filtering on an irregular grid, the Ornstein-Uhlenbeck process, CARMA, SDE discretisation, likelihood inference for diffusions) and jump diffusion. Brownian motion and Levy processes are a Part 0 foundation.
 
 ## Branch sub-diagram
 

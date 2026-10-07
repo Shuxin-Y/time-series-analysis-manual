@@ -1,6 +1,6 @@
 # 21. Causal Inference
 
-Granger-type causality, structural identification, counterfactual designs and nonlinear causal discovery.
+Granger-type and nonlinear causality, SVAR identification, local projections, counterfactual designs, and the identification, placebo and sensitivity steps of a causal analysis. Impulse responses live in area 9 and cointegration inference in area 28.
 
 ## Granger, Sims and Toda-Yamamoto causality
 

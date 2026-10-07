@@ -1,6 +1,6 @@
 # 30. Structural Change and Time-Varying Parameters
 
-Break tests, time-varying parameter models, forecasting under breaks and statistical process control.
+Time-varying parameter regression, statistical process control, and change-point detection: sequential and Bayesian online detectors, offline segmentation, the number of change points, multivariate change points and the classification of a change. Break tests live in P3 and break handling in P4.
 
 ## Time-varying parameter regression
 

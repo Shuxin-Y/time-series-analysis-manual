@@ -1,6 +1,6 @@
 # 11. State Space
 
-Linear Gaussian state-space models, Kalman filtering and smoothing, nonlinear filters and structural models.
+Structural time-series models, dynamic linear models, BSTS, Kalman filtering and smoothing, nonlinear and particle filters, the state-space form of ARIMA, and latent states with missing observations. Kalman filtering on an irregular grid lives in area 15.
 
 ## Structural time-series models
 

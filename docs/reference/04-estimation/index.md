@@ -1,6 +1,6 @@
 # 4. Estimation
 
-Least squares, moments, likelihood, GMM, Whittle, Bayesian and empirical-loss estimators.
+Least squares and feasible GLS, moment and recursive estimators, cointegrating regression, the prediction-error decomposition, exact and conditional likelihood, quasi-likelihood, EM, GMM and Whittle estimation. Bayesian computation lives in area 12 and empirical-loss estimation in area 18.
 
 The maximum-likelihood chain and the home of the term *Joint density* are on [Maximum likelihood](maximum-likelihood.md).
 

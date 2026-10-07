@@ -1,6 +1,6 @@
 # 32. Panel Time Series
 
-Panel unit roots and cointegration, dynamic panel GMM, heterogeneous panels and cross-sectional dependence.
+The B6 branch: panel unit-root and cointegration tests, fixed and random effects, dynamic panel GMM, heterogeneous panels and cross-sectional dependence.
 
 ## Branch sub-diagram
 

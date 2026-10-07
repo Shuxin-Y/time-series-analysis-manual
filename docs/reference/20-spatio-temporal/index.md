@@ -1,6 +1,6 @@
 # 20. Spatio-Temporal Models
 
-Spatial econometrics with time, geostatistics, graph-based and network time series.
+The B5 branch: spatial autocorrelation, spatial panel VAR and spatial error and lag models, spatio-temporal kriging, graph signal processing, spatio-temporal graph networks, network autoregression and spatio-temporal point processes.
 
 ## Branch sub-diagram
 
