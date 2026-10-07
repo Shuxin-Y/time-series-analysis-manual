@@ -216,3 +216,27 @@ nodes:
   - {id: P9_BOOTSTRAP,                label: "Bootstrap inference",               phase: P9, areas: [5, 25], section: "reference/06-model-selection/index.md#bootstrap-inference"}
   - {id: P9_FORECAST_COMPARISON,      label: "Forecast comparison tests",         phase: P9, areas: [6], section: "reference/06-model-selection/index.md#forecast-comparison-tests"}
   - {id: P9_ENCOMPASSING,             label: "Forecast encompassing",             phase: P9, areas: [6], section: "reference/06-model-selection/index.md#forecast-encompassing"}
+  # ---- P10 inference leaves
+  - {id: P10_COEFFICIENT_TESTS,   label: "Coefficient and restriction tests",             phase: P10, areas: [5], section: "reference/05-hypothesis-testing/index.md#coefficient-and-restriction-tests"}
+  - {id: P10_HAC,                 label: "HAC inference",                                 phase: P10, areas: [27, 5], section: "reference/27-regression-time-series/index.md#hac-inference"}
+  - {id: P10_COINTEGRATION,       label: "Cointegration inference",                       phase: P10, areas: [28, 5], section: "reference/28-nonstationarity-theory/index.md#cointegration-inference"}
+  - {id: P10_GRANGER,             label: "Granger, Sims and Toda-Yamamoto causality",     phase: P10, areas: [21], section: "reference/21-causal-inference/index.md#granger-sims-and-toda-yamamoto-causality"}
+  - {id: P10_NONLINEAR_CAUSALITY, label: "Nonlinear causal discovery",                    phase: P10, areas: [21], section: "reference/21-causal-inference/index.md#nonlinear-causal-discovery"}
+  - {id: P10_SVAR_IDENTIFICATION, label: "SVAR identification",                           phase: P10, areas: [21, 9], section: "reference/21-causal-inference/index.md#svar-identification"}
+  - {id: P10_IRF_FEVD,            label: "Impulse responses and variance decompositions", phase: P10, areas: [9, 21], section: "reference/09-multivariate/index.md#impulse-responses-and-variance-decompositions"}
+  - {id: P10_LOCAL_PROJECTIONS,   label: "Local projections",                             phase: P10, areas: [21], section: "reference/21-causal-inference/index.md#local-projections"}
+  - {id: P10_COUNTERFACTUALS,     label: "Counterfactual designs",                        phase: P10, areas: [21], section: "reference/21-causal-inference/index.md#counterfactual-designs"}
+  - {id: P10_POINT_FORECASTS,     label: "Point forecasts and horizons",                  phase: P10, areas: [22], section: "reference/22-forecasting-practice/index.md#point-forecasts-and-horizons"}
+  - {id: P10_INTERVALS,           label: "Prediction intervals",                          phase: P10, areas: [34, 22], section: "reference/34-probabilistic-forecasting/index.md#prediction-intervals"}
+  - {id: P10_DENSITY_QUANTILE,    label: "Density and quantile forecasts",                phase: P10, areas: [34], section: "reference/34-probabilistic-forecasting/index.md#density-and-quantile-forecasts"}
+  - {id: P10_MULTISTEP,           label: "Multi-step strategies",                         phase: P10, areas: [34, 22], section: "reference/34-probabilistic-forecasting/index.md#multi-step-strategies"}
+  - {id: P10_RECONCILIATION,      label: "Hierarchical and temporal reconciliation",      phase: P10, areas: [22, 34], section: "reference/22-forecasting-practice/index.md#hierarchical-and-temporal-reconciliation"}
+  - {id: P10_COMBINATION,         label: "Forecast combination and model averaging",      phase: P10, areas: [22, 12], section: "reference/22-forecasting-practice/index.md#forecast-combination-and-model-averaging"}
+  - {id: P10_JUDGMENTAL,          label: "Judgmental adjustment",                         phase: P10, areas: [22], section: "reference/22-forecasting-practice/index.md#judgmental-adjustment"}
+  - {id: P10_NOWCASTING,          label: "Nowcasting",                                    phase: P10, areas: [22, 9], section: "reference/22-forecasting-practice/index.md#nowcasting"}
+  - {id: P10_RISK_MEASURES,       label: "Risk measures and their backtests",             phase: P10, areas: [10], section: "reference/10-volatility/index.md#risk-measures-and-their-backtests"}
+  - {id: P10_SCENARIOS,           label: "Scenario simulation and stress testing",        phase: P10, areas: [25, 10], section: "reference/25-simulation/index.md#scenario-simulation-and-stress-testing"}
+  - {id: P10_INTERPRETABILITY,    label: "Interpretability",                              phase: P10, areas: [18], section: "reference/18-machine-learning/index.md#interpretability"}
+  # ---- foundation sections referenced from P10
+  - {id: F_CONDITIONAL_EXPECTATION, label: "Conditional expectation as the optimal forecast", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#conditional-expectation-as-the-optimal-forecast"}
+  - {id: F_PROJECTION,              label: "Projection theorem and best linear prediction",   phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#projection-theorem-and-best-linear-prediction"}

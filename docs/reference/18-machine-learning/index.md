@@ -71,3 +71,8 @@ Tree ensembles, Gaussian processes, recurrent and convolutional networks, transf
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_HYPERPARAMETERS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Interpretability
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_INTERPRETABILITY`). Write this section following the content rules in `.claude/rules/writing.md`.

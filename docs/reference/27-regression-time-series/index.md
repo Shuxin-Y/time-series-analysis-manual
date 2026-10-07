@@ -11,3 +11,8 @@ OLS under temporal dependence, HAC inference, feasible GLS, dynamic regression, 
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_DYNAMIC_REGRESSION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## HAC inference
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_HAC`). Write this section following the content rules in `.claude/rules/writing.md`.

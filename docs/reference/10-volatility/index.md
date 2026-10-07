@@ -76,3 +76,8 @@ ARCH and GARCH families, stochastic volatility, realised measures, risk measures
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P7_COPULA`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Risk measures and their backtests
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_RISK_MEASURES`). Write this section following the content rules in `.claude/rules/writing.md`.

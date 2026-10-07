@@ -88,3 +88,13 @@ Sections below are created from the flowchart inventory and stay marked pending 
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `F_LAG_OPERATOR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Conditional expectation as the optimal forecast
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `F_CONDITIONAL_EXPECTATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Projection theorem and best linear prediction
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `F_PROJECTION`). Write this section following the content rules in `.claude/rules/writing.md`.
