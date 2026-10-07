@@ -28,10 +28,13 @@ graph TD
     P9_REGIME -.->|"Yes"| P7
     P9_REGIME -->|"No"| P9_MULTI{"Multivariate flag?"}
     P9_MULTI -->|"Yes"| P7_CORR_TESTS[["Test innovation correlation structure"]]
-    P9_MULTI -->|"No"| P9_RESIDUAL_NONLINEARITY
+    P9_MULTI -->|"No"| P9_BAYESIAN_Q
     P7_CORR_TESTS --> P9_CORR{"Correlation misspecified?"}
     P9_CORR -.->|"Yes"| P7
-    P9_CORR -->|"No"| P9_RESIDUAL_NONLINEARITY["Remaining nonlinearity<br/>BDS on residuals"]
+    P9_CORR -->|"No"| P9_BAYESIAN_Q{"Bayesian fit (P8 sampling or approximation)?"}
+    P9_BAYESIAN_Q -->|"Yes"| P9_POSTERIOR_PREDICTIVE["Posterior predictive checks<br/>replicated data, Bayesian p-values, LOO-PIT"]
+    P9_BAYESIAN_Q -->|"No"| P9_RESIDUAL_NONLINEARITY
+    P9_POSTERIOR_PREDICTIVE --> P9_RESIDUAL_NONLINEARITY["Remaining nonlinearity<br/>BDS on residuals"]
     P9_RESIDUAL_NONLINEARITY --> P9_NONLINEAR{"Nonlinearity left?"}
     P9_NONLINEAR -.->|"Yes"| P6
     P9_NONLINEAR -->|"No"| P9_TO_PART_2
@@ -42,8 +45,8 @@ graph TD
     P9_INTENSITY -.->|"Yes"| P7
     P9_INTENSITY -->|"No"| P9_TO_PART_2(["Continue in part 2"])
     class P9_IN,P9_TO_PART_2 terminator
-    class P9_TYPE,P9_AC,P9_ARCH,P9_DIST,P9_REGIME,P9_MULTI,P9_CORR,P9_NONLINEAR,P9_COUNT,P9_INTENSITY decision
-    class P9_RESIDUAL_NONLINEARITY process
+    class P9_TYPE,P9_AC,P9_ARCH,P9_DIST,P9_REGIME,P9_MULTI,P9_CORR,P9_BAYESIAN_Q,P9_NONLINEAR,P9_COUNT,P9_INTENSITY decision
+    class P9_POSTERIOR_PREDICTIVE,P9_RESIDUAL_NONLINEARITY process
     class P7_MEAN_TESTS,P7_COUNT_TESTS,P7_RESCALING,P6,P7_VAR_TESTS,P7,P7_DIST_TESTS,P7_REGIME_TESTS,P7_CORR_TESTS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -67,7 +70,7 @@ graph TD
     P9_INFORMATION_CRITERIA --> P9_INFERENCE_NEEDED{"Finite-sample inference?"}
     P9_INFERENCE_NEEDED -->|"Yes"| P9_BOOTSTRAP["Bootstrap inference<br/>block, stationary, sieve"]
     P9_INFERENCE_NEEDED -->|"No"| P9_FORECAST_COMPARISON
-    P9_BOOTSTRAP --> P9_FORECAST_COMPARISON["Forecast comparison tests<br/>Diebold-Mariano, Clark-West, reality check, model confidence set; posterior predictive checks"]
+    P9_BOOTSTRAP --> P9_FORECAST_COMPARISON["Forecast comparison tests<br/>Diebold-Mariano, Clark-West, reality check, model confidence set"]
     P9_FORECAST_COMPARISON --> P9_ENCOMPASSING["Forecast encompassing"]
     P9_ENCOMPASSING --> P9_PASS{"All diagnostics pass?"}
     P9_PASS -->|"Yes"| P9_OUT(["To P10 Inference"])
@@ -92,8 +95,10 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P9`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Posterior predictive checks
 
-
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P9_POSTERIOR_PREDICTIVE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Remaining nonlinearity
 
@@ -104,4 +109,3 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P9_VOLATILITY_DIAGNOSTICS`). Write this section following the content rules in `.claude/rules/writing.md`.
-

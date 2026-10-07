@@ -354,10 +354,11 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
 | P9_RESIDUAL_NONLINEARITY | Remaining nonlinearity | BDS on residuals | [8, 5] | 01-workflow/p09-diagnostics-selection.md |
+| P9_POSTERIOR_PREDICTIVE | Posterior predictive checks | replicated data, Bayesian p-values, LOO-PIT | [12, 5] | 01-workflow/p09-diagnostics-selection.md |
 | P9_VOLATILITY_DIAGNOSTICS | Volatility model diagnostics | standardised residuals, sign-bias test, news impact curve | [10] | 01-workflow/p09-diagnostics-selection.md |
 | P9_INFORMATION_CRITERIA | Information criteria | AIC, BIC, HQIC, WAIC, LOO | [6, 12] | reference/06-model-selection/index.md |
 | P9_BOOTSTRAP | Bootstrap inference | block, stationary, sieve | [5, 25] | reference/06-model-selection/index.md |
-| P9_FORECAST_COMPARISON | Forecast comparison tests | Diebold-Mariano, Clark-West, reality check, model confidence set; posterior predictive checks | [6] | reference/06-model-selection/index.md |
+| P9_FORECAST_COMPARISON | Forecast comparison tests | Diebold-Mariano, Clark-West, reality check, model confidence set | [6] | reference/06-model-selection/index.md |
 | P9_ENCOMPASSING | Forecast encompassing | | [6] | reference/06-model-selection/index.md |
 
 - [ ] **Steps:** replace the note, 10 rows `phase: P9`, scaffold, audit, build. Commit `feat(flowchart): P9 diagnostics and model selection sub-diagram`.

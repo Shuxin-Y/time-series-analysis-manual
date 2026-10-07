@@ -391,3 +391,5 @@ nodes:
   - {id: P8_QUANTILE_REGRESSION, label: "Quantile regression and quantile autoregression", phase: P8, areas: [24, 34], section: "reference/24-robust-nonparametric/index.md#quantile-regression-and-quantile-autoregression"}
   # ---- added in review round 2
   - {id: B3_FBM, label: "Fractional Brownian motion", phase: B3, areas: [15, 7], section: "reference/15-continuous-time/index.md#fractional-brownian-motion"}
+  # ---- added in review round 4
+  - {id: P9_POSTERIOR_PREDICTIVE, label: "Posterior predictive checks", phase: P9, areas: [12, 5], section: "01-workflow/p09-diagnostics-selection.md#posterior-predictive-checks"}
