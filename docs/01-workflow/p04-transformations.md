@@ -24,7 +24,7 @@ graph TD
     P4_SEASON -->|"Multiple seasonality"| P4_MULTIPLE_SEASONALITY["Multiple seasonality<br/>MSTL, TBATS, Fourier terms"]
     P4_SEASON -->|"None"| P4_BREAKS
     P4_SEASONAL_DIFFERENCE & P4_SEASONAL_ADJUSTMENT & P4_MULTIPLE_SEASONALITY --> P4_BREAKS{"Break flag?"}
-    P4_BREAKS -->|"Yes"| P4_BREAK_HANDLING["Handle structural breaks<br/>segmenting, regime dummies, time-varying parameters"]
+    P4_BREAKS -->|"Yes"| P4_BREAK_HANDLING["Handle structural breaks<br/>segmenting, regime dummies, time-varying parameters, forecasting under breaks"]
     P4_BREAKS -->|"No"| P4_DECOMP
     P4_BREAK_HANDLING --> P4_DECOMP{"Decomposition wanted?"}
     P4_DECOMP -->|"Filter-based"| P4_FILTER_DECOMPOSITION["Filter-based decomposition<br/>HP, Baxter-King, Christiano-Fitzgerald, Hamilton"]

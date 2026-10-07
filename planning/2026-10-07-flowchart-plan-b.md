@@ -193,7 +193,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P3_SEASONAL_UNIT_ROOT | Seasonal unit-root tests | HEGY, Canova-Hansen, OCSB | [29, 5] | 01-workflow/p03-exploratory-diagnostics.md |
 | P3_ACF_PACF | Read the ACF and PACF |  | [2] | 01-workflow/p03-exploratory-diagnostics.md |
 | P3_LONG_MEMORY | Long-memory indicators | Hurst exponent, GPH | [7] | 01-workflow/p03-exploratory-diagnostics.md |
-| P3_NONLINEARITY | Nonlinearity tests | BDS, Terasvirta, Tsay, Keenan | [8, 5] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_NONLINEARITY | Nonlinearity tests | BDS, Terasvirta, Tsay, Keenan; chaos indicators (Lyapunov exponents, correlation dimension) | [8, 5] | 01-workflow/p03-exploratory-diagnostics.md |
 | P3_NONPARAMETRIC_TREND | Nonparametric trend tests | Mann-Kendall, Sen slope, prewhitening | [24] | 01-workflow/p03-exploratory-diagnostics.md |
 | P3_CROSS_CORRELATION | Cross-correlation and lead-lag |  | [9] | 01-workflow/p03-exploratory-diagnostics.md |
 | P3_COINTEGRATION_PRECHECK | Cointegration pre-check | spurious-regression warning | [28, 9] | 01-workflow/p03-exploratory-diagnostics.md |
@@ -231,7 +231,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P4_SEASONAL_DIFFERENCE | Seasonal differencing |  | [29] | 01-workflow/p04-transformations.md |
 | P4_SEASONAL_ADJUSTMENT | Seasonal adjustment | classical decomposition, STL, X-13 and SEATS | [29, 3] | 01-workflow/p04-transformations.md |
 | P4_MULTIPLE_SEASONALITY | Multiple seasonality | MSTL, TBATS, Fourier terms | [29] | 01-workflow/p04-transformations.md |
-| P4_BREAK_HANDLING | Handle structural breaks | segmenting, regime dummies, time-varying parameters | [30] | 01-workflow/p04-transformations.md |
+| P4_BREAK_HANDLING | Handle structural breaks | segmenting, regime dummies, time-varying parameters, forecasting under breaks | [30] | 01-workflow/p04-transformations.md |
 | P4_FILTER_DECOMPOSITION | Filter-based decomposition | HP, Baxter-King, Christiano-Fitzgerald, Hamilton | [13, 3] | 01-workflow/p04-transformations.md |
 | P4_MODEL_DECOMPOSITION | Model-based decomposition | Beveridge-Nelson, unobserved components | [11, 3] | 01-workflow/p04-transformations.md |
 | P4_SSA | Singular spectrum analysis |  | [13] | 01-workflow/p04-transformations.md |
@@ -268,7 +268,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P6_NONPARAMETRIC | Nonparametric and additive regression | kernels, local polynomials, GAM | [8, 24] | reference/08-nonlinear/index.md |
 | P6_TVP_REGRESSION | Time-varying parameter regression | | [30, 11] | reference/30-structural-change/index.md |
 | P6_VAR | VAR | | [9] | reference/09-multivariate/index.md |
-| P6_VECM | VECM | | [9, 28] | reference/09-multivariate/index.md |
+| P6_VECM | VECM | fractional cointegration (FCVAR) | [9, 28] | reference/09-multivariate/index.md |
 | P6_SVAR | SVAR | identification schemes in P10 | [9, 21] | reference/09-multivariate/index.md |
 | P6_FACTOR_MODELS | Static and dynamic factor models | | [9] | reference/09-multivariate/index.md |
 | P6_REGULARISED_VAR | Regularised VAR | LASSO, ridge, elastic net | [9] | reference/09-multivariate/index.md |
@@ -277,7 +277,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P6_FAVAR | FAVAR and GVAR |  | [9] | reference/09-multivariate/index.md |
 | P6_MIXED_FREQUENCY | Mixed-frequency models | MIDAS, mixed-frequency VAR | [22, 9] | reference/22-forecasting-practice/index.md |
 | P6_STRUCTURAL_TS | Structural time-series models | local level, local linear trend, seasonal, cycle | [11] | reference/11-state-space/index.md |
-| P6_DLM | Dynamic linear models | | [11, 12] | reference/11-state-space/index.md |
+| P6_DLM | Dynamic linear models | Bayesian ARIMA | [11, 12] | reference/11-state-space/index.md |
 | P6_BSTS | Bayesian structural time series | | [11, 12] | reference/11-state-space/index.md |
 | P6_BVAR | Bayesian VAR | Minnesota and conjugate priors | [12] | reference/12-bayesian/index.md |
 | P6_TVP_VAR | Time-varying parameter VAR | | [12, 30] | reference/12-bayesian/index.md |
@@ -355,7 +355,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 |---|---|---|---|---|
 | P9_RESIDUAL_NONLINEARITY | Remaining nonlinearity | BDS on residuals | [8, 5] | 01-workflow/p09-diagnostics-selection.md |
 | P9_VOLATILITY_DIAGNOSTICS | Volatility model diagnostics | standardised residuals, sign-bias test, news impact curve | [10] | 01-workflow/p09-diagnostics-selection.md |
-| P9_INFORMATION_CRITERIA | Information criteria | AIC, BIC, HQIC, WAIC, LOO | [6, 12] | reference/06-model-selection/index.md |
+| P9_INFORMATION_CRITERIA | Information criteria | AIC, BIC, HQIC, WAIC, LOO; posterior predictive checks | [6, 12] | reference/06-model-selection/index.md |
 | P9_BOOTSTRAP | Bootstrap inference | block, stationary, sieve | [5, 25] | reference/06-model-selection/index.md |
 | P9_FORECAST_COMPARISON | Forecast comparison tests | Diebold-Mariano, Clark-West, reality check, model confidence set | [6] | reference/06-model-selection/index.md |
 | P9_ENCOMPASSING | Forecast encompassing | | [6] | reference/06-model-selection/index.md |
@@ -641,6 +641,7 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 | B3_IRREGULAR_KALMAN | Kalman filtering on an irregular grid | | [11, 15] |
 | B3_OU | Ornstein-Uhlenbeck process and exact discretisation | | [15] |
 | B3_CARMA | CARMA processes | | [15] |
+| B3_FBM | Fractional Brownian motion |  | [15, 7] |
 | B3_SDE | Diffusions and SDE discretisation | Euler-Maruyama, Milstein | [15] |
 | B3_SDE_INFERENCE | Likelihood inference for diffusions | signature methods | [15] |
 
@@ -649,7 +650,7 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 | ID | label | second line | areas |
 |---|---|---|---|
 | B4_CURVES | Series as curves | when functional data analysis applies | [14] |
-| B4_INTRADAY | Intraday seasonality and curve alignment | | [14] |
+| B4_INTRADAY | Intraday seasonality and curve alignment | ultra-high-frequency data | [14] |
 
 **B5 (spatial and network, phase B5):** Flow as drawn (revised in review round 1, see Deviations): `B5` → `B5_SPATIAL_AUTOCORRELATION`; `B5_SPATIAL_AUTOCORRELATION` → `B5_INDEX{"Index?"}`; `B5_INDEX` →|"Regions or panels"| `B5_SPATIAL_PANEL_VAR`; `B5_INDEX` →|"Continuous space"| `B5_KRIGING`; `B5_INDEX` →|"Graph"| `B5_GRAPH_SIGNAL`; `B5_INDEX` →|"Events in space"| `B5_ST_POINT_PROCESS`; `B5_GRAPH_SIGNAL` → `B5_STGNN`; `B5_STGNN` → `B5_NETWORK_AR`; `B5_SPATIAL_PANEL_VAR` & `B5_KRIGING` & `B5_NETWORK_AR` & `B5_ST_POINT_PROCESS` → `P8` (ref).
 

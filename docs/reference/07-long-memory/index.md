@@ -1,6 +1,6 @@
 # 7. Long Memory
 
-ARFIMA as a mean model and as an error model. Long-memory indicators live in P3, fractional differencing in P4 and local Whittle estimation in area 4.
+ARFIMA as a mean model and as an error model. Long-memory indicators (Hurst exponent, GPH) live in P3, fractional differencing in P4, local Whittle estimation in area 4 and fractional Brownian motion in area 15.
 
 
 ## ARFIMA

@@ -1,6 +1,6 @@
 # 23. Online Learning and Adaptive Methods
 
-Drift monitoring and online updating. Sequential change detectors live in area 30.
+Drift monitoring and online updating (recursive least squares, forgetting factors, online Kalman and online gradient methods for streaming data). Sequential change detectors live in area 30.
 
 ## Drift monitoring
 

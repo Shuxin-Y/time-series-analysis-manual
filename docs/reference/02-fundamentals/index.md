@@ -1,6 +1,6 @@
 # 2. Fundamentals
 
-The autocovariance function and the ACF as the time-domain object, and lag structure and memory. Trend, seasonality and stationarity tests are procedural and live in P3 and P4.
+The autocovariance function and the ACF as the time-domain object, and lag structure and memory. Trend, seasonality and cycles are handled in P3 and P4 (cycles by filter-based decomposition), stationarity tests and the ACF and PACF reading in P3, and white noise in Part 0.
 
 ## Autocovariance and the ACF as the time-domain object
 

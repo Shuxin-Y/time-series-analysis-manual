@@ -1,6 +1,6 @@
 # 26. Applied Domains
 
-Epidemic nowcasting, machine-vibration analysis, and degradation processes with remaining useful life.
+Epidemic nowcasting, machine-vibration analysis, and degradation processes with remaining useful life. The domains this area serves are condition monitoring and reliability, biomedical signals, epidemiology, economics and finance, energy, environmental monitoring and IoT; their methods are the leaves named on the purpose and representation pages.
 
 ## Epidemic nowcasting
 

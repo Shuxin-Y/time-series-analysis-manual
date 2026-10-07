@@ -50,7 +50,7 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P6_PART_2_IN(["From part 1: a few related series"]) --> P6_COINTEGRATED{"Cointegrated?"}
-    P6_COINTEGRATED -->|"Yes"| P6_VECM["VECM"]
+    P6_COINTEGRATED -->|"Yes"| P6_VECM["VECM<br/>fractional cointegration (FCVAR)"]
     P6_COINTEGRATED -->|"No"| P6_VAR["VAR"]
     P6_VAR -->|"Structural question"| P6_SVAR["SVAR<br/>identification schemes in P10"]
     P6_VAR -->|"Time-varying"| P6_TVP_VAR["Time-varying parameter VAR"]
@@ -196,7 +196,7 @@ graph TD
     P6_STRUCTURED -->|"Latent components"| P6_LATENT_MODEL{"Latent model?"}
     P6_STRUCTURED -->|"Bayesian priors"| P6_DLM & P6_BSTS
     P6_LATENT_MODEL -->|"Components"| P6_STRUCTURAL_TS["Structural time-series models<br/>local level, local linear trend, seasonal, cycle"]
-    P6_LATENT_MODEL -->|"General linear Gaussian"| P6_DLM["Dynamic linear models"]
+    P6_LATENT_MODEL -->|"General linear Gaussian"| P6_DLM["Dynamic linear models<br/>Bayesian ARIMA"]
     P6_LATENT_MODEL -->|"Bayesian with regressors"| P6_BSTS["Bayesian structural time series"]
     P6_TVP_REGRESSION & P6_STRUCTURAL_TS & P6_DLM & P6_BSTS --> P7[["P7: Error-process specification"]]
     class P6_TVP_REGRESSION,P6_STRUCTURAL_TS,P6_DLM,P6_BSTS escalate
