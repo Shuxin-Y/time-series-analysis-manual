@@ -22,9 +22,9 @@ graph TD
     P8_MOMENTS -->|"Recursive"| P8_DURBIN_LEVINSON["Durbin-Levinson and the innovations algorithm"]
     P8_MOMENTS -->|"Regression on innovations"| P8_HANNAN_RISSANEN["Hannan-Rissanen and Burg estimation"]
     P8_OLS_GLS & P8_YULE_WALKER & P8_DURBIN_LEVINSON & P8_HANNAN_RISSANEN --> P8_LINEAR_TO_PART_4(["Continue in part 4"])
+    class P8_OLS_GLS,P8_YULE_WALKER,P8_DURBIN_LEVINSON,P8_HANNAN_RISSANEN escalate
     class P8_IN,P8_TO_PART_3,P8_TO_PART_2,P8_LINEAR_TO_PART_4 terminator
     class P8_OBSERVABLE,P8_LINEAR,P8_MOMENTS decision
-    class P8_OLS_GLS,P8_YULE_WALKER,P8_DURBIN_LEVINSON,P8_HANNAN_RISSANEN process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -45,9 +45,9 @@ graph TD
     P8_SPECIAL -->|"Outliers"| P8_ROBUST["Robust estimation<br/>M-estimators, LAD"]
     P8_SPECIAL -->|"Conditional quantiles"| P8_QUANTILE_REGRESSION["Quantile regression and quantile autoregression"]
     P8_FMOLS_DOLS & P8_ROBUST & P8_QUANTILE_REGRESSION --> P8_SPECIAL_TO_PART_4(["Continue in part 4"])
+    class P8_FMOLS_DOLS,P8_ROBUST,P8_QUANTILE_REGRESSION escalate
     class P8_PART_2_IN,P8_SPECIAL_TO_PART_4 terminator
     class P8_SPECIAL decision
-    class P8_FMOLS_DOLS,P8_ROBUST,P8_QUANTILE_REGRESSION process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -76,9 +76,9 @@ graph TD
     P8_MLE & P8_QMLE & P8_PARTICLE_FILTERS & P8_EM --> P8_TO_PART_4(["Continue in part 4"])
     F_LLN[["Law of large numbers"]] -.- P8_MLE
     F_CLT[["Central limit theorem"]] -.- P8_QMLE
+    class P8_PREDICTION_ERROR,P8_QMLE,P8_NONLINEAR_FILTERS,P8_EM,P8_KALMAN,P8_MLE,P8_PARTICLE_FILTERS escalate
     class P8_PART_3_IN,P8_TO_PART_4 terminator
     class P8_LIKELIHOOD decision
-    class P8_PREDICTION_ERROR,P8_QMLE,P8_NONLINEAR_FILTERS,P8_EM,P8_KALMAN,P8_MLE,P8_PARTICLE_FILTERS process
     class F_LLN,F_CLT ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -109,9 +109,10 @@ graph TD
     P8_CONVERGENCE --> P8_CONVERGED{"Converged?"}
     P8_CONVERGED -->|"Yes"| P8_OUT(["To P9 Diagnostics"])
     P8_CONVERGED -.->|"No: simplify or re-initialise"| P6[["P6: Conditional-mean model class"]]
+    class P8_GMM,P8_WHITTLE,P8_MCMC,P8_SIMULATION_INFERENCE,P8_EMPIRICAL_LOSS,P8_VARIATIONAL,P8_HYPERPARAMETERS escalate
     class P8_PART_4_IN,P8_OUT terminator
     class P8_ESTIMATED,P8_INTRACTABLE,P8_CONVERGED decision
-    class P8_GMM,P8_WHITTLE,P8_MCMC,P8_SIMULATION_INFERENCE,P8_EMPIRICAL_LOSS,P8_VARIATIONAL,P8_HYPERPARAMETERS,P8_CONVERGENCE process
+    class P8_CONVERGENCE process
     class P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;

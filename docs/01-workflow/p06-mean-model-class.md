@@ -25,9 +25,10 @@ graph TD
     P6_MANY_Q -->|"No"| P6_TO_PART_2(["Continue in part 2"])
     P6_MANY_Q -->|"Yes"| P6_TO_PART_3(["Continue in part 3"])
     P6_GLOBAL_MODELS & P6_MIXED_FREQUENCY --> P7[["P7: Error-process specification"]]
+    class P6_GLOBAL_MODELS,P6_MIXED_FREQUENCY escalate
     class P6_IN,P6_TO_PART_4,P6_TO_PART_2,P6_TO_PART_3 terminator
     class P6_EXOGENOUS,P6_GLOBAL_Q,P6_MIXED_Q,P6_MULTI_Q,P6_MANY_Q decision
-    class P6_EXOG_FLAG,P6_MULTI_FLAG,P6_GLOBAL_MODELS,P6_MIXED_FREQUENCY process
+    class P6_EXOG_FLAG,P6_MULTI_FLAG process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -51,9 +52,9 @@ graph TD
     P6_VAR -->|"Time-varying"| P6_TVP_VAR["Time-varying parameter VAR"]
     P6_VAR -->|"Reduced form"| P7
     P6_VECM & P6_SVAR & P6_TVP_VAR --> P7[["P7: Error-process specification"]]
+    class P6_VECM,P6_VAR,P6_SVAR,P6_TVP_VAR escalate
     class P6_PART_2_IN terminator
     class P6_COINTEGRATED decision
-    class P6_VECM,P6_VAR,P6_SVAR,P6_TVP_VAR process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -79,9 +80,9 @@ graph TD
     P6_FACTOR_MODELS -->|"Factors in a VAR"| P6_FAVAR["FAVAR and GVAR"]
     P6_FACTOR_MODELS -->|"Factors alone"| P7
     P6_FAVAR & P6_REGULARISED_VAR & P6_BVAR & P6_GRAPHICAL_MODELS & P6_TENSOR_AR --> P7[["P7: Error-process specification"]]
+    class P6_FACTOR_MODELS,P6_REGULARISED_VAR,P6_BVAR,P6_GRAPHICAL_MODELS,P6_TENSOR_AR,P6_FAVAR escalate
     class P6_PART_3_IN terminator
     class P6_DIMENSION decision
-    class P6_FACTOR_MODELS,P6_REGULARISED_VAR,P6_BVAR,P6_GRAPHICAL_MODELS,P6_TENSOR_AR,P6_FAVAR process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -117,9 +118,9 @@ graph TD
     P6_ARFIMA & P6_ARIMA_SARIMA & P6_ETS --> P7
     P6_THETA & P6_PERIODIC_AR & P6_INTERMITTENT --> P7[["P7: Error-process specification"]]
     F_LAG_OPERATOR[["Lag operator, difference equations and characteristic roots"]] -.- P6_AR_MA_ARMA
+    class P6_ARFIMA,P6_AR_MA_ARMA,P6_PERIODIC_AR,P6_INTERMITTENT,P6_ETS,P6_THETA,P6_ARIMA_SARIMA escalate
     class P6_PART_4_IN,P6_TO_PART_6,P6_TO_PART_7,P6_TO_PART_8,P6_TO_PART_9,P6_TO_PART_5 terminator
     class P6_DEPENDENCE,P6_LINEAR,P6_LINEAR_FAMILY,P6_SMOOTHING decision
-    class P6_ARFIMA,P6_AR_MA_ARMA,P6_PERIODIC_AR,P6_INTERMITTENT,P6_ETS,P6_THETA,P6_ARIMA_SARIMA process
     class P7,F_LAG_OPERATOR ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -141,9 +142,9 @@ graph TD
     P6_EXOG_FORM -->|"Distributed lags"| P6_DYNAMIC_REGRESSION["Distributed-lag and ADL models"]
     P6_EXOG_FORM -->|"Transfer function or intervention"| P6_TRANSFER_FUNCTION["Transfer-function and intervention models"]
     P6_ARIMAX & P6_DYNAMIC_REGRESSION & P6_TRANSFER_FUNCTION --> P7[["P7: Error-process specification"]]
+    class P6_ARIMAX,P6_DYNAMIC_REGRESSION,P6_TRANSFER_FUNCTION escalate
     class P6_PART_5_IN terminator
     class P6_EXOG_FORM decision
-    class P6_ARIMAX,P6_DYNAMIC_REGRESSION,P6_TRANSFER_FUNCTION process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -167,9 +168,9 @@ graph TD
     P6_NONLINEAR_FAMILY -->|"Bilinear"| P6_BILINEAR["Bilinear models"]
     P6_NONLINEAR_FAMILY -->|"Unknown form"| P6_NONPARAMETRIC["Nonparametric and additive regression<br/>kernels, local polynomials, GAM"]
     P6_THRESHOLD & P6_SMOOTH_TRANSITION & P6_MARKOV_SWITCHING & P6_BILINEAR & P6_NONPARAMETRIC --> P7[["P7: Error-process specification"]]
+    class P6_THRESHOLD,P6_SMOOTH_TRANSITION,P6_MARKOV_SWITCHING,P6_BILINEAR,P6_NONPARAMETRIC escalate
     class P6_PART_6_IN terminator
     class P6_NONLINEAR_FAMILY decision
-    class P6_THRESHOLD,P6_SMOOTH_TRANSITION,P6_MARKOV_SWITCHING,P6_BILINEAR,P6_NONPARAMETRIC process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -194,9 +195,9 @@ graph TD
     P6_LATENT_MODEL -->|"General linear Gaussian"| P6_DLM["Dynamic linear models"]
     P6_LATENT_MODEL -->|"Bayesian with regressors"| P6_BSTS["Bayesian structural time series"]
     P6_TVP_REGRESSION & P6_STRUCTURAL_TS & P6_DLM & P6_BSTS --> P7[["P7: Error-process specification"]]
+    class P6_TVP_REGRESSION,P6_STRUCTURAL_TS,P6_DLM,P6_BSTS escalate
     class P6_PART_7_IN terminator
     class P6_STRUCTURED,P6_LATENT_MODEL decision
-    class P6_TVP_REGRESSION,P6_STRUCTURAL_TS,P6_DLM,P6_BSTS process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -219,9 +220,9 @@ graph TD
     P6_IO_STRUCTURE -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER["Hammerstein-Wiener models"]
     P6_IO_STRUCTURE -->|"Sparse nonlinear"| P6_SINDY["Sparse identification of nonlinear dynamics"]
     P6_ARX_ARMAX & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER & P6_SINDY --> P7[["P7: Error-process specification"]]
+    class P6_ARX_ARMAX,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P6_SINDY escalate
     class P6_PART_8_IN terminator
     class P6_IO_STRUCTURE decision
-    class P6_ARX_ARMAX,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P6_SINDY process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -250,9 +251,9 @@ graph TD
     P6_ML_PRETRAINED -->|"Generative"| P6_GENERATIVE["Generative models for time series<br/>diffusion models"]
     P6_TREE_ENSEMBLES & P6_GAUSSIAN_PROCESS & P6_RESERVOIR --> P7
     P6_FOUNDATION_MODELS & P6_GENERATIVE & P6_HYBRID --> P7[["P7: Error-process specification"]]
+    class P6_HYBRID,P6_TREE_ENSEMBLES,P6_GAUSSIAN_PROCESS,P6_RESERVOIR,P6_FOUNDATION_MODELS,P6_GENERATIVE escalate
     class P6_PART_9_IN,P6_TO_PART_10 terminator
     class P6_ML_FAMILY,P6_ML_CLASSICAL,P6_ML_PRETRAINED decision
-    class P6_HYBRID,P6_TREE_ENSEMBLES,P6_GAUSSIAN_PROCESS,P6_RESERVOIR,P6_FOUNDATION_MODELS,P6_GENERATIVE process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -276,9 +277,9 @@ graph TD
     P6_ML_NEURAL -->|"State-space sequence"| P6_SSM_SEQUENCE["State-space sequence models<br/>S4, S5, Mamba"]
     P6_ML_NEURAL -->|"MLP forecasters"| P6_NEURAL_FORECASTERS["Neural forecasters<br/>N-BEATS, N-HiTS, TiDE"]
     P6_RNN & P6_TCN & P6_TRANSFORMERS & P6_SSM_SEQUENCE & P6_NEURAL_FORECASTERS --> P7[["P7: Error-process specification"]]
+    class P6_RNN,P6_TCN,P6_TRANSFORMERS,P6_SSM_SEQUENCE,P6_NEURAL_FORECASTERS escalate
     class P6_PART_10_IN terminator
     class P6_ML_NEURAL decision
-    class P6_RNN,P6_TCN,P6_TRANSFORMERS,P6_SSM_SEQUENCE,P6_NEURAL_FORECASTERS process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
