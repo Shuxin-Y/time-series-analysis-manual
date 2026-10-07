@@ -13,12 +13,17 @@ graph TD
     P4_VARIANCE -->|"Transform variance"| P4_LOG_BOXCOX["Variance-stabilising transforms<br/>log, Box-Cox"]
     P4_VARIANCE -->|"None"| P4_TREND
     P4_LOG_BOXCOX --> P4_TREND{"Trend flag?"}
-    P4_TREND -->|"Deterministic trend"| P4_DETREND["Detrending by regression on time"]
-    P4_TREND -->|"Difference"| P4_DIFFERENCE["Regular differencing"]
-    P4_TREND -->|"Long memory"| P4_FRACTIONAL_DIFFERENCE["Fractional differencing"]
+    P4_TREND -->|"Cointegrated flag: keep levels"| P4_SEASON
+    P4_TREND -->|"Difference flag"| P4_DIFFERENCE["Regular differencing"]
+    P4_TREND -->|"Long-memory flag only"| P4_FRACTIONAL_DIFFERENCE["Fractional differencing"]
+    P4_TREND -->|"Deterministic trend flag"| P4_DETREND["Detrending by regression on time"]
     P4_TREND -->|"None"| P4_SEASON
     P4_DIFFERENCE --> P4_OVERDIFFERENCING["Check for over-differencing"]
-    P4_DETREND & P4_OVERDIFFERENCING & P4_FRACTIONAL_DIFFERENCE --> P4_SEASON{"Seasonal flag?"}
+    P4_OVERDIFFERENCING --> P4_DIFF_VERDICT{"After differencing?"}
+    P4_DIFF_VERDICT -->|"Short memory"| P4_SEASON
+    P4_DIFF_VERDICT -->|"Still hyperbolic: fractional, d between 1 and 1.5"| P4_FRACTIONAL_DIFFERENCE
+    P4_DIFF_VERDICT -.->|"Over-differenced: undo"| P4_TREND
+    P4_DETREND & P4_FRACTIONAL_DIFFERENCE --> P4_SEASON{"Seasonal flag?"}
     P4_SEASON -->|"Seasonal difference"| P4_SEASONAL_DIFFERENCE["Seasonal differencing"]
     P4_SEASON -->|"Seasonal adjustment"| P4_SEASONAL_ADJUSTMENT["Seasonal adjustment<br/>classical decomposition, STL, X-13 and SEATS"]
     P4_SEASON -->|"Multiple seasonality"| P4_MULTIPLE_SEASONALITY["Multiple seasonality<br/>MSTL, TBATS, Fourier terms"]
@@ -36,8 +41,8 @@ graph TD
     P4_STATIONARY -->|"Yes"| P4_OUT(["To P5 Representation"])
     P4_STATIONARY -.->|"No"| P3[["P3: Exploratory diagnostics"]]
     class P4_IN,P4_OUT terminator
-    class P4_VARIANCE,P4_TREND,P4_SEASON,P4_BREAKS,P4_DECOMP,P4_STATIONARY decision
-    class P4_LOG_BOXCOX,P4_DETREND,P4_DIFFERENCE,P4_FRACTIONAL_DIFFERENCE,P4_OVERDIFFERENCING,P4_SEASONAL_DIFFERENCE,P4_SEASONAL_ADJUSTMENT,P4_MULTIPLE_SEASONALITY,P4_BREAK_HANDLING,P4_FILTER_DECOMPOSITION,P4_MODEL_DECOMPOSITION,P4_SSA,P4_RETEST process
+    class P4_VARIANCE,P4_TREND,P4_DIFF_VERDICT,P4_SEASON,P4_BREAKS,P4_DECOMP,P4_STATIONARY decision
+    class P4_LOG_BOXCOX,P4_DIFFERENCE,P4_FRACTIONAL_DIFFERENCE,P4_DETREND,P4_OVERDIFFERENCING,P4_SEASONAL_DIFFERENCE,P4_SEASONAL_ADJUSTMENT,P4_MULTIPLE_SEASONALITY,P4_BREAK_HANDLING,P4_FILTER_DECOMPOSITION,P4_MODEL_DECOMPOSITION,P4_SSA,P4_RETEST process
     class P3 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;

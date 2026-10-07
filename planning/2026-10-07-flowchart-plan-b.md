@@ -757,7 +757,7 @@ The diagrams on the pages are authoritative; the flow paragraphs above were rege
   - global and cluster then local: B7 → P6 entry;
   - hierarchy: B7 → P10 reconciliation;
   - multi-step horizon: purpose 1 → P10 multi-step diamond;
-  - cointegrated: purpose 2 → purpose 2 model diamond.
+  - cointegrated: purpose 2 → P4 trend diamond (keep levels, no differencing; round 3) and the purpose 2 model diamond.
 - **Leaves.** Added `B3_FBM` (fractional Brownian motion, areas 15 and 7) under a B3 process-type diamond. Relabelled: `B7_GLOBAL_VS_LOCAL` "Pooling strategies for many series", `P10_SCENARIOS` "Stress testing and scenario design", `P7_ARFIMA_ERRORS` "Regression with ARFIMA errors". `B2_SURVIVAL` carries areas 17 and 26. Re-scaffolded sections were moved to their flow positions.
 - **Scope topics** dropped from landing lines in round 1 are leaves, second lines or named pointers again.
 - **Rendering gate** covers every page with Mermaid source at 1280 px and 390 px; below 1280 px the SVG keeps 0.45 of its natural width and the container scrolls.
