@@ -40,8 +40,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Filters and Kalman smoothing.
+[Evaluate the signal-to-noise ratio](../../reference/13-spectral-analysis/index.md#evaluate-the-signal-to-noise-ratio).
 
 ## P11 metrics for this purpose
 
-Signal-to-noise ratio, spectral comparison, phase distortion.
+[Evaluate the signal-to-noise ratio](../../reference/13-spectral-analysis/index.md#evaluate-the-signal-to-noise-ratio).

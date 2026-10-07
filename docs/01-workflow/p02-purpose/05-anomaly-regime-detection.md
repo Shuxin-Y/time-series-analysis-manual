@@ -41,8 +41,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Thresholds and regime probabilities.
+[Set thresholds by the cost of errors](../../reference/19-classification-anomaly/index.md#set-thresholds-by-the-cost-of-errors).
 
 ## P11 metrics for this purpose
 
-Event-level precision and recall, NAB score.
+[Classification and anomaly metrics](../../reference/19-classification-anomaly/index.md#classification-and-anomaly-metrics), [Drift monitoring](../../reference/23-online-adaptive/index.md#drift-monitoring).

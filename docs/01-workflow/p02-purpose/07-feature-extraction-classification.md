@@ -68,8 +68,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Feature importance, prototypes.
+[Interpretability](../../reference/18-machine-learning/index.md#interpretability).
 
 ## P11 metrics for this purpose
 
-Downstream cross-validation, F1, silhouette.
+[Classification and anomaly metrics](../../reference/19-classification-anomaly/index.md#classification-and-anomaly-metrics).

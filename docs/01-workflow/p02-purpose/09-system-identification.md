@@ -35,8 +35,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Transfer function, poles and zeros, stability.
+[Estimate the frequency response](../../reference/33-system-identification/index.md#estimate-the-frequency-response), [Poles, zeros and stability](../../reference/33-system-identification/index.md#poles-zeros-and-stability).
 
 ## P11 metrics for this purpose
 
-Prediction error, cross-validated fit.
+[Validate on held-out input-output data](../../reference/33-system-identification/index.md#validate-on-held-out-input-output-data).

@@ -52,8 +52,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Identification, impulse responses and variance decompositions, local projections, counterfactuals, placebo tests.
+[Counterfactual designs](../../reference/21-causal-inference/index.md#counterfactual-designs), [Cointegration inference](../../reference/28-nonstationarity-theory/index.md#cointegration-inference), [Granger, Sims and Toda-Yamamoto causality](../../reference/21-causal-inference/index.md#granger-sims-and-toda-yamamoto-causality), [Nonlinear causal discovery](../../reference/21-causal-inference/index.md#nonlinear-causal-discovery), [SVAR identification](../../reference/21-causal-inference/index.md#svar-identification), [Impulse responses and variance decompositions](../../reference/09-multivariate/index.md#impulse-responses-and-variance-decompositions), [Local projections](../../reference/21-causal-inference/index.md#local-projections), [Coefficient and restriction tests](../../reference/05-hypothesis-testing/index.md#coefficient-and-restriction-tests), [HAC inference](../../reference/27-regression-time-series/index.md#hac-inference).
 
 ## P11 metrics for this purpose
 
-Robustness across specifications, pre-trend checks.
+[Sensitivity analysis across specifications](../../reference/21-causal-inference/index.md#sensitivity-analysis-across-specifications).

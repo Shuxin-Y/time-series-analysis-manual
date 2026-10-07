@@ -36,8 +36,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Peak significance, coherence, phase.
+[Peak significance](../../reference/13-spectral-analysis/index.md#peak-significance).
 
 ## P11 metrics for this purpose
 
-Fisher's g test, confidence bands.
+[Peak significance](../../reference/13-spectral-analysis/index.md#peak-significance).

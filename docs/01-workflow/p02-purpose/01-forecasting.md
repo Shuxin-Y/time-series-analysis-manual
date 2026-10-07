@@ -55,8 +55,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Point and interval forecasts, multi-step strategies, combination, reconciliation.
+[Point forecasts and horizons](../../reference/22-forecasting-practice/index.md#point-forecasts-and-horizons), [Prediction intervals](../../reference/34-probabilistic-forecasting/index.md#prediction-intervals), [Multi-step strategies](../../reference/34-probabilistic-forecasting/index.md#multi-step-strategies), [Hierarchical and temporal reconciliation](../../reference/22-forecasting-practice/index.md#hierarchical-and-temporal-reconciliation), [Forecast combination and model averaging](../../reference/22-forecasting-practice/index.md#forecast-combination-and-model-averaging).
 
 ## P11 metrics for this purpose
 
-Rolling-origin cross-validation, RMSE / MAE / MASE, interval coverage, CRPS.
+[Rolling-origin backtesting](../p11-validation-deployment.md#rolling-origin-backtesting), [Point-forecast metrics](../../reference/06-model-selection/index.md#point-forecast-metrics), [Probabilistic metrics](../../reference/34-probabilistic-forecasting/index.md#probabilistic-metrics).

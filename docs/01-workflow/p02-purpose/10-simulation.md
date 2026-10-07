@@ -34,8 +34,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Path simulation, stress testing, synthetic data.
+[Scenario simulation and stress testing](../../reference/25-simulation/index.md#scenario-simulation-and-stress-testing), [Risk measures and their backtests](../../reference/10-volatility/index.md#risk-measures-and-their-backtests).
 
 ## P11 metrics for this purpose
 
-Distribution matching, bootstrap coverage.
+[Check distribution and dependence matching](../../reference/25-simulation/index.md#check-distribution-and-dependence-matching).

@@ -38,8 +38,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Component interpretation.
+[Analyse and interpret the components](../../reference/03-classical/index.md#analyse-and-interpret-the-components).
 
 ## P11 metrics for this purpose
 
-Residual white-noise check, revision stability.
+[Test residual autocorrelation](../p07-error-process.md#test-residual-autocorrelation).

@@ -38,8 +38,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-Change locations with confidence intervals.
+[Classify the change](../../reference/30-structural-change/index.md#classify-the-change).
 
 ## P11 metrics for this purpose
 
-Detection delay, false-alarm rate.
+[Change-point metrics](../../reference/19-classification-anomaly/index.md#change-point-metrics).
