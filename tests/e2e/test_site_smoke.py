@@ -96,13 +96,13 @@ def test_leaf_click_lands_on_its_section(page, site_url):
 
 
 def _diagram_pages() -> list[str]:
-    """Site paths of every page with an audited Mermaid diagram, from the audit's own collection."""
+    """Site paths of every page with Mermaid source, the audit-exempt showcase and Part 0 gateway included."""
     import audit_flowcharts as audit
     from mkdocs.config import load_config
 
     config = load_config(config_file=str(REPO / "mkdocs.yml"))
     site = audit.Site(config, Path(config["docs_dir"]))
-    files = sorted({audit.split_section(d.where)[0] for d in audit.collect_diagrams(site)})
+    files = [f for f in site.pages_under("") if site.page(f) and site.page(f).mermaid_sources]
     index = "index.md"  # served at its directory (use_directory_urls, as in site-urls.js)
     return [f.removesuffix(index) if f.endswith(index) else f.removesuffix(".md") + "/" for f in files]
 
