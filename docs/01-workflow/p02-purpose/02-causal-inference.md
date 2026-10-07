@@ -8,14 +8,15 @@
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P2_CA_IN(["Causal question"]) --> P2_CA_DESIGN{"Experimental data?"}
-    P2_CA_DESIGN -->|"Randomised or natural experiment"| P2_CA_IDENTIFICATION["Identification strategy and exogeneity"]
-    P2_CA_DESIGN -->|"Observational"| P2_CA_IDENTIFICATION
+    P2_CA_DESIGN -->|"Randomised or natural experiment"| P10_COUNTERFACTUALS[["Counterfactual designs"]]
+    P2_CA_DESIGN -->|"Observational"| P2_CA_IDENTIFICATION["Identification strategy and exogeneity"]
     P2_CA_IDENTIFICATION --> P2_CA_SYSTEM{"Several series?"}
-    P2_CA_SYSTEM -->|"Yes"| P6_VAR[["VAR"]]
-    P2_CA_SYSTEM -->|"Yes, cointegrated"| P6_VECM[["VECM"]]
-    P2_CA_SYSTEM -->|"One series or an experiment"| P10_COUNTERFACTUALS[["Counterfactual designs"]]
-    P6_VAR & P6_VECM --> P10_COINTEGRATION[["Cointegration inference"]]
-    P10_COINTEGRATION --> P10_GRANGER[["Granger, Sims and Toda-Yamamoto causality"]]
+    P2_CA_SYSTEM -->|"Yes"| P10_COINTEGRATION[["Cointegration inference"]]
+    P2_CA_SYSTEM -->|"No"| P10_COUNTERFACTUALS
+    P10_COINTEGRATION --> P2_CA_COINT{"Cointegrated?"}
+    P2_CA_COINT -->|"Yes"| P6_VECM[["VECM"]]
+    P2_CA_COINT -->|"No"| P6_VAR[["VAR"]]
+    P6_VECM & P6_VAR --> P10_GRANGER[["Granger, Sims and Toda-Yamamoto causality"]]
     P10_GRANGER --> P10_NONLINEAR_CAUSALITY[["Nonlinear causal discovery"]]
     P10_NONLINEAR_CAUSALITY --> P10_SVAR_IDENTIFICATION[["SVAR identification"]]
     P10_SVAR_IDENTIFICATION --> P10_IRF_FEVD[["Impulse responses and variance decompositions"]]
@@ -28,9 +29,9 @@ graph TD
     P2_CA_VERDICT -->|"Yes"| P2_CA_OUT(["Report a causal effect"])
     P2_CA_VERDICT -->|"No"| P2_CA_ASSOC(["Report an association only"])
     class P2_CA_IN,P2_CA_OUT,P2_CA_ASSOC terminator
-    class P2_CA_DESIGN,P2_CA_SYSTEM,P2_CA_VERDICT decision
+    class P2_CA_DESIGN,P2_CA_SYSTEM,P2_CA_COINT,P2_CA_VERDICT decision
     class P2_CA_IDENTIFICATION,P2_CA_PLACEBO,P2_CA_SENSITIVITY process
-    class P6_VAR,P6_VECM,P10_COUNTERFACTUALS,P10_COINTEGRATION,P10_GRANGER,P10_NONLINEAR_CAUSALITY,P10_SVAR_IDENTIFICATION,P10_IRF_FEVD,P10_LOCAL_PROJECTIONS,P10_COEFFICIENT_TESTS,P10_HAC ref
+    class P10_COUNTERFACTUALS,P10_COINTEGRATION,P6_VECM,P6_VAR,P10_GRANGER,P10_NONLINEAR_CAUSALITY,P10_SVAR_IDENTIFICATION,P10_IRF_FEVD,P10_LOCAL_PROJECTIONS,P10_COEFFICIENT_TESTS,P10_HAC ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
