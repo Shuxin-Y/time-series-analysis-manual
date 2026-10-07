@@ -36,11 +36,3 @@ graph TD
 | Representation | Choose when | Key leaves |
 |---|---|---|
 | Pending | Pending | Pending |
-
-**Topics carried over from the previous outline**
-
-- Fourier theory
-- Power spectral density
-- Periodicity detection
-- Spectral analysis
-- Filtering techniques

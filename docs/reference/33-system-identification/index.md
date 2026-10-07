@@ -51,3 +51,13 @@ ARX, ARMAX and transfer-function models, subspace methods, Takens embedding, dyn
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_SI_VALIDATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Takens embedding and phase-space reconstruction
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_SS_TAKENS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Dynamic mode decomposition and Koopman operators
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_SS_DMD`). Write this section following the content rules in `.claude/rules/writing.md`.

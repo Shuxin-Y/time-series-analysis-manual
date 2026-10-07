@@ -6,3 +6,8 @@ Finance, macroeconomics, condition monitoring and reliability, environmental tre
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_FC_EPIDEMIC`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Machine-vibration analysis
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_FD_ENVELOPE`). Write this section following the content rules in `.claude/rules/writing.md`.

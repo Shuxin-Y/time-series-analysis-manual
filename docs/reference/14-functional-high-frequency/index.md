@@ -24,3 +24,18 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B4`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Basis representation and smoothing of curves
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_FN_BASIS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Functional principal components
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_FN_FPCA`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Functional regression and functional autoregression
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_FN_REGRESSION`). Write this section following the content rules in `.claude/rules/writing.md`.

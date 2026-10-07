@@ -309,3 +309,46 @@ nodes:
   - {id: P2_SM_SYNTHETIC,          label: "Synthetic data generation",                  phase: P2, areas: [25, 18], section: "reference/25-simulation/index.md#synthetic-data-generation"}
   - {id: P2_SM_STRESS,             label: "Stress scenarios and shock design",          phase: P2, areas: [25, 10], section: "reference/25-simulation/index.md#stress-scenarios-and-shock-design"}
   - {id: P2_SM_DISTRIBUTION_MATCH, label: "Check distribution and dependence matching", phase: P2, areas: [25], section: "reference/25-simulation/index.md#check-distribution-and-dependence-matching"}
+  # ---- P2 purpose leaves: SE (sections in reference chapters)
+  - {id: P2_SE_NOISE_TYPE,        label: "Characterise the noise",                              phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#characterise-the-noise"}
+  - {id: P2_SE_FILTER_DESIGN,     label: "Choose the filter",                                   phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#choose-the-filter"}
+  - {id: P2_SE_WIENER,            label: "Wiener filtering",                                    phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#wiener-filtering"}
+  - {id: P2_SE_WAVELET_DENOISING, label: "Wavelet denoising",                                   phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#wavelet-denoising"}
+  - {id: P2_SE_SNR,               label: "Evaluate signal-to-noise ratio and phase distortion", phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#evaluate-signal-to-noise-ratio-and-phase-distortion"}
+  # ---- P2 purpose leaves: SP (sections in reference chapters)
+  - {id: P2_SP_SPECTRAL_SHAPE,      label: "Interpret the spectral shape",                  phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#interpret-the-spectral-shape"}
+  - {id: P2_SP_PEAK_SIGNIFICANCE,   label: "Peak significance",                             phase: P2, areas: [13, 5], section: "reference/13-spectral-analysis/index.md#peak-significance"}
+  - {id: P2_SP_HARMONIC_REGRESSION, label: "Harmonic regression from detected frequencies", phase: P2, areas: [13, 3], section: "reference/13-spectral-analysis/index.md#harmonic-regression-from-detected-frequencies"}
+  - {id: P2_SP_CROSS_SPECTRUM,      label: "Cross-spectrum, coherence and phase",           phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#cross-spectrum-coherence-and-phase"}
+  - {id: P2_SP_FREQ_GRANGER,        label: "Frequency-domain Granger causality",            phase: P2, areas: [13, 21], section: "reference/13-spectral-analysis/index.md#frequency-domain-granger-causality"}
+  # ---- P5 representation leaves: TD (sections in reference chapters)
+  - {id: P5_TD_AUTOCOVARIANCE, label: "Autocovariance and the ACF as the time-domain object", phase: P5, areas: [2], section: "reference/02-fundamentals/index.md#autocovariance-and-the-acf-as-the-time-domain-object"}
+  - {id: P5_TD_LAG_STRUCTURE,  label: "Lag structure and memory",                             phase: P5, areas: [2, 3], section: "reference/02-fundamentals/index.md#lag-structure-and-memory"}
+  # ---- P5 representation leaves: FD (sections in reference chapters)
+  - {id: P5_FD_DFT,          label: "Discrete Fourier transform and the periodogram", phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#discrete-fourier-transform-and-the-periodogram"}
+  - {id: P5_FD_SMOOTHED,     label: "Smoothed spectral estimates",                    phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#smoothed-spectral-estimates"}
+  - {id: P5_FD_MULTITAPER,   label: "Multitaper spectral estimation",                 phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#multitaper-spectral-estimation"}
+  - {id: P5_FD_PARAMETRIC,   label: "Parametric spectra",                             phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#parametric-spectra"}
+  - {id: P5_FD_LOMB_SCARGLE, label: "Lomb-Scargle periodogram",                       phase: P5, areas: [13, 15], section: "reference/13-spectral-analysis/index.md#lomb-scargle-periodogram"}
+  - {id: P5_FD_LEAKAGE,      label: "Leakage, tapering and the Nyquist frequency",    phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#leakage-tapering-and-the-nyquist-frequency"}
+  - {id: P5_FD_FILTERS,      label: "FIR and IIR filter design",                      phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#fir-and-iir-filter-design"}
+  - {id: P5_FD_ENVELOPE,     label: "Machine-vibration analysis",                     phase: P5, areas: [26, 13], section: "reference/26-applied-domains/index.md#machine-vibration-analysis"}
+  # ---- P5 representation leaves: TF (sections in reference chapters)
+  - {id: P5_TF_STFT,             label: "Short-time Fourier transform and the spectrogram",             phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#short-time-fourier-transform-and-the-spectrogram"}
+  - {id: P5_TF_CWT,              label: "Continuous wavelet transform and the scalogram",               phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#continuous-wavelet-transform-and-the-scalogram"}
+  - {id: P5_TF_DWT,              label: "Discrete and maximal-overlap wavelet transforms",              phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#discrete-and-maximal-overlap-wavelet-transforms"}
+  - {id: P5_TF_SYNCHROSQUEEZING, label: "Reassignment and synchrosqueezing",                            phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#reassignment-and-synchrosqueezing"}
+  - {id: P5_TF_EMD,              label: "Empirical mode decomposition and the Hilbert-Huang transform", phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#empirical-mode-decomposition-and-the-hilbert-huang-transform"}
+  - {id: P5_TF_VMD,              label: "Variational mode decomposition",                               phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#variational-mode-decomposition"}
+  # ---- P5 representation leaves: SS (sections in reference chapters)
+  - {id: P5_SS_FORM,   label: "State-space form and the ARIMA rewriting",                   phase: P5, areas: [11], section: "reference/11-state-space/index.md#state-space-form-and-the-arima-rewriting"}
+  - {id: P5_SS_LATENT, label: "Latent states, irregular sampling and missing observations", phase: P5, areas: [11], section: "reference/11-state-space/index.md#latent-states-irregular-sampling-and-missing-observations"}
+  - {id: P5_SS_TAKENS, label: "Takens embedding and phase-space reconstruction",            phase: P5, areas: [33, 8], section: "reference/33-system-identification/index.md#takens-embedding-and-phase-space-reconstruction"}
+  - {id: P5_SS_DMD,    label: "Dynamic mode decomposition and Koopman operators",           phase: P5, areas: [33], section: "reference/33-system-identification/index.md#dynamic-mode-decomposition-and-koopman-operators"}
+  # ---- P5 representation leaves: FN (sections in reference chapters)
+  - {id: P5_FN_BASIS,      label: "Basis representation and smoothing of curves",        phase: P5, areas: [14], section: "reference/14-functional-high-frequency/index.md#basis-representation-and-smoothing-of-curves"}
+  - {id: P5_FN_FPCA,       label: "Functional principal components",                     phase: P5, areas: [14], section: "reference/14-functional-high-frequency/index.md#functional-principal-components"}
+  - {id: P5_FN_REGRESSION, label: "Functional regression and functional autoregression", phase: P5, areas: [14], section: "reference/14-functional-high-frequency/index.md#functional-regression-and-functional-autoregression"}
+  # ---- P5 representation leaves: HP (sections in reference chapters)
+  - {id: P5_HP_ANALYTIC_SIGNAL, label: "Analytic signal and instantaneous frequency",       phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#analytic-signal-and-instantaneous-frequency"}
+  - {id: P5_HP_PHASE_SYNC,      label: "Phase synchronisation and the phase-locking value", phase: P5, areas: [13, 33], section: "reference/13-spectral-analysis/index.md#phase-synchronisation-and-the-phase-locking-value"}

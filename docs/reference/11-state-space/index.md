@@ -31,3 +31,13 @@ Linear Gaussian state-space models, Kalman filtering and smoothing, nonlinear fi
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_PARTICLE_FILTERS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## State-space form and the ARIMA rewriting
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_SS_FORM`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Latent states, irregular sampling and missing observations
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_SS_LATENT`). Write this section following the content rules in `.claude/rules/writing.md`.
