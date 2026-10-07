@@ -14,14 +14,15 @@ graph TD
     P2_SI_STRUCTURE_Q -->|"State space"| P6_SUBSPACE[["Subspace identification"]]
     P2_SI_STRUCTURE_Q -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER[["Hammerstein-Wiener models"]]
     P6_ARX_ARMAX & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER --> P2_SI_ORDER_SELECTION["Order selection<br/>Hankel singular values"]
-    P2_SI_ORDER_SELECTION --> P2_SI_TRANSFER_FUNCTION["Estimate the frequency response<br/>empirical transfer-function estimate"]
+    P2_SI_ORDER_SELECTION --> P8[["P8: Estimation"]]
+    P8 --> P2_SI_TRANSFER_FUNCTION["Estimate the frequency response<br/>empirical transfer-function estimate"]
     P2_SI_TRANSFER_FUNCTION --> P2_SI_STABILITY["Poles, zeros and stability"]
     P2_SI_STABILITY --> P2_SI_VALIDATION["Validate on held-out input-output data"]
-    P2_SI_VALIDATION --> P2_SI_OUT(["Identified system"])
-    class P2_SI_IN,P2_SI_OUT terminator
+    P2_SI_VALIDATION --> P11[["P11: Validation and deployment"]]
+    class P2_SI_IN terminator
     class P2_SI_STRUCTURE_Q decision
     class P2_SI_EXPERIMENT_DESIGN,P2_SI_MODEL_STRUCTURE,P2_SI_ORDER_SELECTION,P2_SI_TRANSFER_FUNCTION,P2_SI_STABILITY,P2_SI_VALIDATION process
-    class P6_ARX_ARMAX,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER ref
+    class P6_ARX_ARMAX,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P8,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

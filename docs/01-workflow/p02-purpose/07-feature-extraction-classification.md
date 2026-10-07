@@ -49,12 +49,13 @@ graph TD
     P2_FE_SHAPELETS --> P2_FE_DEEP_CLASSIFIERS["Deep classifiers<br/>InceptionTime"]
     P2_FE_DEEP_CLASSIFIERS & P2_FE_CLUSTERING & P6_TREE_ENSEMBLES --> P2_FE_AUGMENTATION["Data augmentation<br/>slicing, warping, synthetic oversampling"]
     P2_FE_AUGMENTATION --> P8_HYPERPARAMETERS[["Time-aware hyperparameter tuning"]]
-    P8_HYPERPARAMETERS --> P11_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
-    P11_CLASSIFICATION_METRICS --> P2_FE_OUT(["Labels or groups assigned"])
-    class P2_FE_FROM_PART_1,P2_FE_OUT terminator
+    P8_HYPERPARAMETERS --> P10_INTERPRETABILITY[["Interpretability"]]
+    P10_INTERPRETABILITY --> P11_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
+    P11_CLASSIFICATION_METRICS --> P11[["P11: Validation and deployment"]]
+    class P2_FE_FROM_PART_1 terminator
     class P2_FE_REPRESENTATION,P2_FE_LEARNER decision
     class P2_FE_SYMBOLIC,P2_FE_REPRESENTATION_LEARNING,P2_FE_TDA,P2_FE_DISTANCES,P2_FE_CLUSTERING,P2_FE_SHAPELETS,P2_FE_DEEP_CLASSIFIERS,P2_FE_AUGMENTATION process
-    class P6_TREE_ENSEMBLES,P8_HYPERPARAMETERS,P11_CLASSIFICATION_METRICS ref
+    class P6_TREE_ENSEMBLES,P8_HYPERPARAMETERS,P10_INTERPRETABILITY,P11_CLASSIFICATION_METRICS,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
