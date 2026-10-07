@@ -8,7 +8,7 @@ Given the residuals of the P6 mean model, decide the innovation process: remaini
 
 The order of the questions is itself a derivation chain: each step's test assumes the previous step's structure has been removed. ARCH-LM assumes no serial correlation; distribution tests run on standardised residuals and assume the variance model is fixed; correlation tests run on each series' standardised residuals.
 
-**Part 1: innovation type, mean and variance.**
+**Part 1: innovation type and mean dependence.**
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
@@ -19,36 +19,22 @@ graph TD
     P7_TYPE -->|"Event times"| P7_RESCALING["Time-rescaling check of event-time residuals"]
     P7_COUNT_TESTS --> P7_INGARCH["INGARCH and negative-binomial innovations"]
     P7_RESCALING --> P7_INTENSITY["Intensity misspecification"]
-    P7_INGARCH & P7_INTENSITY --> P7_TO_PART_2
+    P7_INGARCH & P7_INTENSITY --> P7_COUNTS_TO_PART_3(["Continue in part 3"])
     P7_MEAN_TESTS --> P7_MEAN_DEP{"Mean dependence?"}
-    P7_MEAN_DEP -->|"None"| P7_VAR_TESTS
+    P7_MEAN_DEP -->|"None"| P7_TO_PART_2
     P7_MEAN_DEP -->|"Short memory"| P7_ARMA_ERRORS["Regression with ARMA errors"]
     P7_MEAN_DEP -->|"Slow decay"| P7_ARFIMA_ERRORS["ARFIMA errors"]
     P7_MEAN_DEP -.->|"Already ARMA: raise the order"| P6[["P6: Conditional-mean model class"]]
-    P7_ARMA_ERRORS & P7_ARFIMA_ERRORS --> P7_VAR_TESTS["Test conditional heteroskedasticity<br/>ARCH-LM, McLeod-Li"]
-    P7_VAR_TESTS --> P7_VAR_DEP{"Variance dependence?"}
-    P7_VAR_DEP -->|"None"| P7_TO_PART_2
-    P7_VAR_DEP -->|"Present"| P7_VAR_TYPE{"Variance process?"}
-    P7_VAR_TYPE -->|"Symmetric"| P7_GARCH["GARCH"]
-    P7_VAR_TYPE -->|"Asymmetric"| P7_ASYM_GARCH["Asymmetric GARCH: EGARCH, GJR, TGARCH"]
-    P7_VAR_TYPE -->|"Long memory"| P7_FIGARCH["FIGARCH"]
-    P7_VAR_TYPE -->|"Persistence near one"| P7_IGARCH["IGARCH"]
-    P7_VAR_TYPE -->|"Risk premium"| P7_GARCH_M["GARCH-in-mean"]
-    P7_VAR_TYPE -->|"Latent variance"| P7_SV["Stochastic volatility"]
-    P7_VAR_TYPE -->|"Realised measures"| P7_REALIZED["Realised measures: HAR-RV and Realized GARCH"]
-    P7_GARCH & P7_ASYM_GARCH & P7_FIGARCH & P7_IGARCH --> P7_TO_PART_2
-    P7_GARCH_M & P7_SV & P7_REALIZED --> P7_TO_PART_2(["Continue in part 2"])
+    P7_ARMA_ERRORS & P7_ARFIMA_ERRORS --> P7_TO_PART_2(["Continue in part 2"])
     F_WHITE_NOISE[["White noise, martingale difference, independence"]] -.- P7_MEAN_DEP
     F_WOLD[["Wold decomposition"]] -.- P7_ARMA_ERRORS
     F_LONG_MEMORY[["Long memory and hyperbolic decay"]] -.- P7_ARFIMA_ERRORS
-    F_GARCH_STATIONARITY[["Stationarity conditions of GARCH"]] -.- P7_GARCH
-    F_LATENT_FILTERING[["Latent processes and filtering"]] -.- P7_SV
     F_TIME_RESCALING[["Time-rescaling theorem"]] -.- P7_RESCALING
-    class P7_IN,P7_TO_PART_2 terminator
-    class P7_TYPE,P7_MEAN_DEP,P7_VAR_DEP,P7_VAR_TYPE decision
-    class P7_MEAN_TESTS,P7_VAR_TESTS,P7_COUNT_TESTS,P7_RESCALING process
-    class P7_ARMA_ERRORS,P7_ARFIMA_ERRORS,P7_GARCH,P7_ASYM_GARCH,P7_FIGARCH,P7_IGARCH,P7_GARCH_M,P7_SV,P7_REALIZED,P7_INGARCH,P7_INTENSITY escalate
-    class P6,F_WHITE_NOISE,F_WOLD,F_LONG_MEMORY,F_GARCH_STATIONARITY,F_LATENT_FILTERING,F_TIME_RESCALING ref
+    class P7_IN,P7_TO_PART_2,P7_COUNTS_TO_PART_3 terminator
+    class P7_TYPE,P7_MEAN_DEP decision
+    class P7_MEAN_TESTS,P7_COUNT_TESTS,P7_RESCALING process
+    class P7_ARMA_ERRORS,P7_ARFIMA_ERRORS,P7_INGARCH,P7_INTENSITY escalate
+    class P6,F_WHITE_NOISE,F_WOLD,F_LONG_MEMORY,F_TIME_RESCALING ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -59,13 +45,49 @@ graph TD
     classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
 ```
 
-**Part 2: distribution, regimes, correlation and assembly.**
+**Part 2: conditional variance.**
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P7_FROM_PART_1(["From part 1"]) -->|"Continuous"| P7_DIST_TESTS["Test the distribution of standardised innovations<br/>Jarque-Bera, QQ, Hill, BNS"]
-    P7_FROM_PART_1 -->|"Counts or event times"| P7_OUT
+    P7_FROM_PART_1(["From part 1"]) --> P7_VAR_TESTS["Test conditional heteroskedasticity<br/>ARCH-LM, McLeod-Li"]
+    P7_VAR_TESTS --> P7_VAR_DEP{"Variance dependence?"}
+    P7_VAR_DEP -->|"None"| P7_TO_PART_3
+    P7_VAR_DEP -->|"Present"| P7_VAR_TYPE{"Variance process?"}
+    P7_VAR_TYPE -->|"GARCH family"| P7_GARCH_TYPE{"GARCH variant?"}
+    P7_VAR_TYPE -->|"Latent variance"| P7_SV["Stochastic volatility"]
+    P7_VAR_TYPE -->|"Realised measures"| P7_REALIZED["Realised measures: HAR-RV and Realized GARCH"]
+    P7_GARCH_TYPE -->|"Symmetric"| P7_GARCH["GARCH"]
+    P7_GARCH_TYPE -->|"Asymmetric"| P7_ASYM_GARCH["Asymmetric GARCH: EGARCH, GJR, TGARCH"]
+    P7_GARCH_TYPE -->|"Long memory"| P7_FIGARCH["FIGARCH"]
+    P7_GARCH_TYPE -->|"Persistence near one"| P7_IGARCH["IGARCH"]
+    P7_GARCH_TYPE -->|"Risk premium"| P7_GARCH_M["GARCH-in-mean"]
+    P7_GARCH & P7_ASYM_GARCH & P7_FIGARCH & P7_IGARCH & P7_GARCH_M --> P7_TO_PART_3
+    P7_SV & P7_REALIZED --> P7_TO_PART_3(["Continue in part 3"])
+    F_GARCH_STATIONARITY[["Stationarity conditions of GARCH"]] -.- P7_GARCH
+    F_LATENT_FILTERING[["Latent processes and filtering"]] -.- P7_SV
+    class P7_FROM_PART_1,P7_TO_PART_3 terminator
+    class P7_VAR_DEP,P7_VAR_TYPE,P7_GARCH_TYPE decision
+    class P7_VAR_TESTS process
+    class P7_GARCH,P7_ASYM_GARCH,P7_FIGARCH,P7_IGARCH,P7_GARCH_M,P7_SV,P7_REALIZED escalate
+    class F_GARCH_STATIONARITY,F_LATENT_FILTERING ref
+    classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
+    classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
+    classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
+    classDef data fill:#FFF4E0,stroke:#C9A55E,color:#1A1A1A;
+    classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+    classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
+    classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+    classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
+```
+
+**Part 3: distribution, regimes, correlation and assembly.**
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}}}%%
+graph TD
+    P7_FROM_PART_2(["From parts 1 and 2"]) -->|"Continuous"| P7_DIST_TESTS["Test the distribution of standardised innovations<br/>Jarque-Bera, QQ, Hill, BNS"]
+    P7_FROM_PART_2 -->|"Counts or event times"| P7_OUT
     P7_DIST_TESTS --> P7_DIST{"Distribution?"}
     P7_DIST -->|"Gaussian"| P7_GAUSSIAN["Gaussian innovations"]
     P7_DIST -->|"Heavy tails"| P7_HEAVY_TAILS["Heavy-tailed innovations: Student-t, GED, QMLE"]
@@ -88,7 +110,7 @@ graph TD
     F_LEVY[["Brownian motion, Poisson jumps, Levy processes"]] -.- P7_JUMPS
     F_HMM[["Hidden Markov chains"]] -.- P7_MS_GARCH
     F_SKLAR[["Sklar's theorem"]] -.- P7_COPULA
-    class P7_FROM_PART_1 terminator
+    class P7_FROM_PART_2 terminator
     class P7_DIST,P7_REGIME,P7_MULTI,P7_CORR decision
     class P7_DIST_TESTS,P7_REGIME_TESTS,P7_CORR_TESTS,P7_OUT process
     class P7_GAUSSIAN good
