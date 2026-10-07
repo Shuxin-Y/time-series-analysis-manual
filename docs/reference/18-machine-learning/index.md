@@ -61,3 +61,13 @@ Tree ensembles, Gaussian processes, recurrent and convolutional networks, transf
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_GLOBAL_MODELS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Empirical-loss minimisation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_EMPIRICAL_LOSS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Time-aware hyperparameter tuning
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_HYPERPARAMETERS`). Write this section following the content rules in `.claude/rules/writing.md`.

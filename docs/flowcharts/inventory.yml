@@ -180,3 +180,28 @@ nodes:
   - {id: P6_GLOBAL_MODELS,      label: "Global models across many series",               phase: P6, areas: [18, 22], section: "reference/18-machine-learning/index.md#global-models-across-many-series"}
   # ---- foundation section referenced from P6
   - {id: F_LAG_OPERATOR, label: "Lag operator, difference equations and characteristic roots", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#lag-operator-difference-equations-and-characteristic-roots"}
+  # ---- P8 estimator leaves
+  - {id: P8_OLS_GLS,              label: "OLS, GLS and feasible GLS",                             phase: P8, areas: [4, 27], section: "reference/04-estimation/index.md#ols-gls-and-feasible-gls"}
+  - {id: P8_YULE_WALKER,          label: "Yule-Walker and the method of moments",                 phase: P8, areas: [4], section: "reference/04-estimation/index.md#yule-walker-and-the-method-of-moments"}
+  - {id: P8_DURBIN_LEVINSON,      label: "Durbin-Levinson and the innovations algorithm",         phase: P8, areas: [4], section: "reference/04-estimation/index.md#durbin-levinson-and-the-innovations-algorithm"}
+  - {id: P8_HANNAN_RISSANEN,      label: "Hannan-Rissanen and Burg estimation",                   phase: P8, areas: [4], section: "reference/04-estimation/index.md#hannan-rissanen-and-burg-estimation"}
+  - {id: P8_FMOLS_DOLS,           label: "Cointegrating regression",                              phase: P8, areas: [4, 28], section: "reference/04-estimation/index.md#cointegrating-regression"}
+  - {id: P8_ROBUST,               label: "Robust estimation",                                     phase: P8, areas: [24, 4], section: "reference/24-robust-nonparametric/index.md#robust-estimation"}
+  - {id: P8_PREDICTION_ERROR,     label: "Prediction-error decomposition",                        phase: P8, areas: [4, 11], section: "reference/04-estimation/index.md#prediction-error-decomposition"}
+  - {id: P8_KALMAN,               label: "Kalman filter and smoother",                            phase: P8, areas: [11], section: "reference/11-state-space/index.md#kalman-filter-and-smoother"}
+  - {id: P8_MLE,                  label: "Maximum likelihood, exact and conditional",             phase: P8, areas: [4], section: "reference/04-estimation/index.md#maximum-likelihood-exact-and-conditional"}
+  - {id: P8_QMLE,                 label: "Quasi-maximum likelihood and sandwich standard errors", phase: P8, areas: [4], section: "reference/04-estimation/index.md#quasi-maximum-likelihood-and-sandwich-standard-errors"}
+  - {id: P8_NONLINEAR_FILTERS,    label: "Extended and unscented Kalman filters",                 phase: P8, areas: [11], section: "reference/11-state-space/index.md#extended-and-unscented-kalman-filters"}
+  - {id: P8_PARTICLE_FILTERS,     label: "Particle filters",                                      phase: P8, areas: [11], section: "reference/11-state-space/index.md#particle-filters"}
+  - {id: P8_EM,                   label: "EM for state-space models",                             phase: P8, areas: [4, 11], section: "reference/04-estimation/index.md#em-for-state-space-models"}
+  - {id: P8_GMM,                  label: "Generalised method of moments",                         phase: P8, areas: [4], section: "reference/04-estimation/index.md#generalised-method-of-moments"}
+  - {id: P8_WHITTLE,              label: "Whittle and local Whittle estimation",                  phase: P8, areas: [4, 7], section: "reference/04-estimation/index.md#whittle-and-local-whittle-estimation"}
+  - {id: P8_MCMC,                 label: "Bayesian computation",                                  phase: P8, areas: [12], section: "reference/12-bayesian/index.md#bayesian-computation"}
+  - {id: P8_VARIATIONAL,          label: "Variational inference",                                 phase: P8, areas: [12], section: "reference/12-bayesian/index.md#variational-inference"}
+  - {id: P8_SIMULATION_INFERENCE, label: "Simulation-based inference",                            phase: P8, areas: [25, 4], section: "reference/25-simulation/index.md#simulation-based-inference"}
+  - {id: P8_EMPIRICAL_LOSS,       label: "Empirical-loss minimisation",                           phase: P8, areas: [18, 4], section: "reference/18-machine-learning/index.md#empirical-loss-minimisation"}
+  - {id: P8_HYPERPARAMETERS,      label: "Time-aware hyperparameter tuning",                      phase: P8, areas: [18, 6], section: "reference/18-machine-learning/index.md#time-aware-hyperparameter-tuning"}
+  - {id: P8_CONVERGENCE,          label: "Convergence and numerical checks",                      phase: P8, areas: [4], section: "01-workflow/p08-estimation.md#convergence-and-numerical-checks"}
+  # ---- foundation sections referenced from P8
+  - {id: F_LLN, label: "Law of large numbers",   phase: F, areas: [1], section: "00-foundations/asymptotics.md#law-of-large-numbers"}
+  - {id: F_CLT, label: "Central limit theorem",  phase: F, areas: [1], section: "00-foundations/asymptotics.md#central-limit-theorem"}

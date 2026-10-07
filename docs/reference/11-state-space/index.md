@@ -16,3 +16,18 @@ Linear Gaussian state-space models, Kalman filtering and smoothing, nonlinear fi
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_BSTS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Kalman filter and smoother
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_KALMAN`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Extended and unscented Kalman filters
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_NONLINEAR_FILTERS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Particle filters
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_PARTICLE_FILTERS`). Write this section following the content rules in `.claude/rules/writing.md`.

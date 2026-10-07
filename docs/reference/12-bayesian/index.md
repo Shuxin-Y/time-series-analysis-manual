@@ -11,3 +11,13 @@ Bayesian VAR, Bayesian ARIMA, posterior predictive inference, model comparison a
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_TVP_VAR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Bayesian computation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_MCMC`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Variational inference
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_VARIATIONAL`). Write this section following the content rules in `.claude/rules/writing.md`.
