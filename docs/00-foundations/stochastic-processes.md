@@ -83,3 +83,8 @@ Sections below are created from the flowchart inventory and stay marked pending 
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `F_UNIT_ROOT_ASYMPTOTICS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Lag operator, difference equations and characteristic roots
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `F_LAG_OPERATOR`). Write this section following the content rules in `.claude/rules/writing.md`.

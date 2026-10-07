@@ -6,3 +6,8 @@ ARFIMA, fractional Brownian motion, Hurst exponent, GPH and local Whittle estima
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P7_ARFIMA_ERRORS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## ARFIMA
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_ARFIMA`). Write this section following the content rules in `.claude/rules/writing.md`.
