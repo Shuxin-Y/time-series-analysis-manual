@@ -95,13 +95,43 @@ def test_leaf_click_lands_on_its_section(page, site_url):
     assert page.url.endswith("reference/10-volatility/#garch")
 
 
-def test_two_line_labels_fit_their_boxes(page, site_url):
-    page.goto(site_url + P7_PAGE)
-    svg_node(page, "P7_MEAN_TESTS")
-    overflowing = page.evaluate("""() => [...document.querySelectorAll('.mermaid-container g.node foreignObject')]
-        .filter(fo => fo.firstElementChild.getBoundingClientRect().height > fo.getBoundingClientRect().height + 1)
-        .map(fo => fo.closest('g.node').id)""")
-    assert overflowing == []
+def _diagram_pages() -> list[str]:
+    """Site paths of every page with an audited Mermaid diagram, from the audit's own collection."""
+    import audit_flowcharts as audit
+    from mkdocs.config import load_config
+
+    config = load_config(config_file=str(REPO / "mkdocs.yml"))
+    site = audit.Site(config, Path(config["docs_dir"]))
+    files = sorted({audit.split_section(d.where)[0] for d in audit.collect_diagrams(site)})
+    return [re.sub(r"(^|/)index\.md$", r"\1", f).removesuffix(".md") + ("" if f.endswith("index.md") else "/") for f in files]
+
+
+# Width rule (DESIGN-SYSTEM.md, "Width"): rendered width over SVG width, measured at this viewport.
+GATE_VIEWPORT = {"width": 1280, "height": 900}
+MIN_SCALE = 0.45
+# mermaid-init.js replaces each div.mermaid with a .mermaid-container, or fills it with this <pre> on a parse error.
+RENDER_ERROR_PREFIX = "Error rendering diagram"
+
+
+@pytest.mark.parametrize("path", _diagram_pages())
+def test_every_diagram_renders_readably(page, site_url, path):
+    errors_before = len(page.console_errors)
+    page.set_viewport_size(GATE_VIEWPORT)
+    page.goto(site_url + path)
+    page.wait_for_function("() => [...document.querySelectorAll('div.mermaid')].every(d => d.querySelector('pre'))",
+                           timeout=30000)
+    report = page.evaluate("""prefix => ({
+        errors: [...document.querySelectorAll('div.mermaid pre')].map(p => p.textContent).filter(t => t.startsWith(prefix)),
+        overflowing: [...document.querySelectorAll('.mermaid-container g.node foreignObject')]
+            .filter(fo => fo.firstElementChild.getBoundingClientRect().height > fo.getBoundingClientRect().height + 1)
+            .map(fo => fo.closest('g.node').id),
+        narrow: [...document.querySelectorAll('.mermaid-container > svg')]
+            .map((svg, i) => [i, svg.getBoundingClientRect().width / svg.viewBox.baseVal.width]),
+    })""", RENDER_ERROR_PREFIX)
+    assert report["errors"] == []
+    assert page.console_errors[errors_before:] == []
+    assert report["overflowing"] == []
+    assert [(i, round(s, 3)) for i, s in report["narrow"] if s < MIN_SCALE] == []
 
 
 def test_glossary_chip_opens_the_upstream_term(page, site_url):
