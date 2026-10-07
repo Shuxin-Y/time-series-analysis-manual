@@ -49,7 +49,7 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P6_PART_2_IN(["From part 1: a few related series"]) --> P6_COINTEGRATED{"Cointegrated?"}
+    P6_PART_2_IN(["From part 1: a few related series"]) --> P6_COINTEGRATED{"Cointegrated flag?"}
     P6_COINTEGRATED -->|"Yes"| P6_VECM["VECM<br/>fractional cointegration (FCVAR)"]
     P6_COINTEGRATED -->|"No"| P6_VAR["VAR"]
     P6_VAR -->|"Structural question"| P6_SVAR["SVAR<br/>identification schemes in P10"]

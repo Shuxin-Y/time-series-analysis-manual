@@ -15,10 +15,10 @@ graph TD
     P3 --> P2_CA_MULTI{"Multivariate flag?"}
     P2_CA_MULTI -->|"Yes"| P3_COINTEGRATION_PRECHECK[["Cointegration pre-check"]]
     P2_CA_MULTI -->|"No"| P4
-    P3_COINTEGRATION_PRECHECK --> P2_CA_COINT{"Cointegrated?"}
-    P2_CA_COINT -->|"Yes"| P2_CA_COINT_FLAG["Set flag: cointegrated"]
-    P2_CA_COINT -->|"No"| P4
-    P2_CA_COINT_FLAG --> P4[["P4: Transformations"]]
+    P3_COINTEGRATION_PRECHECK --> P3_COINT_VERDICT[["Cointegrated?"]]
+    P3_COINT_VERDICT -->|"Yes"| P3_COINT_FLAG[["Set flag: cointegrated"]]
+    P3_COINT_VERDICT -->|"No"| P4
+    P3_COINT_FLAG --> P4[["P4: Transformations"]]
     P4 --> P6[["P6: Conditional-mean model class"]]
     P6 --> P2_CA_MODEL{"Model?"}
     P2_CA_MODEL -->|"Cointegrated flag"| P6_VECM[["VECM"]]
@@ -30,9 +30,9 @@ graph TD
     P8 --> P9[["P9: Diagnostics and model selection"]]
     P9 --> P2_CA_TO_PART_2(["Continue in part 2"])
     class P2_CA_IN,P2_CA_TO_PART_2 terminator
-    class P2_CA_DESIGN,P2_CA_MULTI,P2_CA_COINT,P2_CA_MODEL decision
-    class P2_CA_COINT_FLAG,P2_CA_IDENTIFICATION process
-    class P3,P3_COINTEGRATION_PRECHECK,P4,P6,P6_VECM,P6_VAR,P6_TRANSFER_FUNCTION,P7,P8,P9 ref
+    class P2_CA_DESIGN,P2_CA_MULTI,P2_CA_MODEL decision
+    class P2_CA_IDENTIFICATION process
+    class P3,P3_COINTEGRATION_PRECHECK,P3_COINT_VERDICT,P3_COINT_FLAG,P4,P6,P6_VECM,P6_VAR,P6_TRANSFER_FUNCTION,P7,P8,P9 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
