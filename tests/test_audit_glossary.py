@@ -479,3 +479,15 @@ def test_stray_links_are_quoted_as_written_with_their_math(tmp_path):
     '''})
     assert [f.message for f in findings if f.where == "stochastic-processes.yml:Independence"] == [
         "historical link '[cost $x$ here](reference/04-estimation/index.md)' is not a [text](path/file.md#anchor) link the drawer renders"]
+
+
+def test_unopened_stray_is_quoted_from_the_end_of_the_previous_link(tmp_path):
+    findings = glossary_findings(tmp_path, {"stochastic-processes.yml": '''
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+            historical: "[a](reference/04-estimation/index.md#joint-density) then ](bad)"
+    '''})
+    assert [f.message for f in findings if f.where == "stochastic-processes.yml:Independence"] == [
+        "historical link ' then ](bad)' is not a [text](path/file.md#anchor) link the drawer renders"]

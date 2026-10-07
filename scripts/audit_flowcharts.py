@@ -588,10 +588,12 @@ GLOSSARY_TEXT_FIELDS = ("mathematical", "derivation", "historical")
 AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 
 
-def _raw_link(source: str, masked: str, m: re.Match) -> str:
-    """The whole link around a stray `](`, quoted from `source` as written: from its matching `[` (or the line start)
-    to its `)` (or the line end). Brackets are matched on `masked`, which has the same length with math blanked."""
-    depth, start = 0, 0
+def _raw_link(source: str, masked: str, m: re.Match, covered: list[tuple[int, int]]) -> str:
+    """The whole link around a stray `](`, quoted from `source` as written: from its matching `[` to its `)` (or the
+    line end). Without a matching `[`, the quote starts where the last rendered link before it ends (or at the line
+    start). Brackets are matched on `masked`, which has the same length with math blanked."""
+    depth = 0
+    start = max((e for _, e in covered if e <= m.start()), default=0)
     for i in range(m.start(), -1, -1):
         depth += {"]": 1, "[": -1}.get(masked[i], 0)
         if depth == 0:
@@ -615,7 +617,7 @@ def glossary_links(text: str) -> tuple[list[str], list[str]]:
         for m in GLOSSARY_LINK_RE.finditer(line):
             covered.append((m.start(), m.end()))
             targets.append(m.group(2))
-        stray.extend(_raw_link(source, line, m) for m in LINK_OPENING_RE.finditer(line)
+        stray.extend(_raw_link(source, line, m, covered) for m in LINK_OPENING_RE.finditer(line)
                      if not any(s <= m.start() < e for s, e in covered))
     return targets, stray
 
