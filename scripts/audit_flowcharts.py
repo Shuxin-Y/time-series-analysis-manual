@@ -582,12 +582,15 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
 # SECTION_PATH target. Any other `](` in glossary text is an error, so the drawer renders exactly the audited links.
 GLOSSARY_LINK_RE = re.compile(r"\[([^\]]+)\]\((" + SECTION_PATH + r")\)")
 LINK_OPENING_RE = re.compile(r"\]\(([^)]*)\)?")
+# glossary.js MATH_SPAN_RE (pinned by a test): the drawer applies no Markdown inside math, so neither does the scan.
+MATH_SPAN_RE = re.compile(r"(\$\$[\s\S]+?\$\$|\$[^$\n]+\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\])")
 GLOSSARY_TEXT_FIELDS = ("mathematical", "derivation", "historical")
 AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 
 
 def glossary_links(text: str) -> tuple[list[str], list[str]]:
-    """(targets of the links the drawer renders, raw targets of every other `](` in the text)."""
+    """(targets of the links the drawer renders, raw targets of every other `](` in the text), math spans masked."""
+    text = MATH_SPAN_RE.sub(" ", text.replace("\0", ""))
     covered: list[tuple[int, int]] = []
     targets: list[str] = []
     for m in GLOSSARY_LINK_RE.finditer(text):

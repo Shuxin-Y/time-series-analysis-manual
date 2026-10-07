@@ -429,3 +429,21 @@ def test_links_the_drawer_would_not_render_are_findings(tmp_path):
     '''})
     messages = [f.message for f in findings if f.where == "stochastic-processes.yml:Independence"]
     assert messages == ["historical link 'reference/04-estimation/index.md#joint-density' is not a [text](path/file.md#anchor) link the drawer renders"] * 2
+
+
+def test_math_spans_are_not_scanned_for_links(tmp_path):
+    findings = glossary_findings(tmp_path, {"stochastic-processes.yml": r"""
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+            historical: '$E[y_t](1+\theta)$ and \(f[x](y)\)'
+    """})
+    assert [f for f in findings if f.where == "stochastic-processes.yml:Independence"] == []
+
+
+def test_drawer_math_pattern_is_the_audit_math_pattern():
+    import re as _re
+
+    js = (sitekit.REPO / "docs" / "javascripts" / "glossary.js").read_text(encoding="utf-8")
+    assert _re.search(r"const MATH_SPAN_RE = /(.*)/;", js).group(1) == audit.MATH_SPAN_RE.pattern
