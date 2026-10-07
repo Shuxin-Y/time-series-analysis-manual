@@ -40,4 +40,13 @@ graph TD
 
 | Purpose | Emphasised phases | Key leaves |
 |---|---|---|
-| Pending | Pending | Pending |
+| [1. Forecasting](01-forecasting.md) | P6, P9, P10, P11 | Choose the forecast horizon and origin; Naive and seasonal-naive baselines; Epidemic nowcasting |
+| [2. Causal and structural inference](02-causal-inference.md) | P6, P10 | Identification strategy and exogeneity; Placebo and falsification tests; Sensitivity analysis across specifications |
+| [3. Signal extraction and denoising](03-signal-extraction.md) | P0, P5, P8 | Characterise the noise; Choose the filter; Wavelet denoising |
+| [4. Change-point detection](04-change-point-detection.md) | P3, P4, P6, P7, P11 | Sequential detection; Bayesian online change-point detection; Offline segmentation |
+| [5. Anomaly and regime detection](05-anomaly-regime-detection.md) | P8, P11 | Point, contextual or collective anomaly; Matrix profile and discord discovery; Set thresholds by the cost of errors |
+| [6. Decomposition](06-decomposition.md) | P4, P9 | Detect the period; Additive or multiplicative decomposition; Revision stability of real-time decompositions |
+| [7. Feature extraction, classification and clustering](07-feature-extraction-classification.md) | P6, P8, P11 | Time-domain features; Shapelets and ROCKET; Clustering |
+| [8. Spectral analysis](08-spectral-analysis.md) | P5 | Interpret the spectral shape; Peak significance; Cross-spectrum, coherence and phase |
+| [9. System identification](09-system-identification.md) | P6 | Input design and persistent excitation; Order selection; Poles, zeros and stability |
+| [10. Simulation and scenario generation](10-simulation.md) | P10 | Monte Carlo simulation from a fitted model; Bootstrap path simulation; Stress scenarios and shock design |
