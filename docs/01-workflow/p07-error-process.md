@@ -86,8 +86,9 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P7_FROM_PART_2(["From parts 1 and 2"]) -->|"Continuous"| P7_DIST_TESTS["Test the distribution of standardised innovations<br/>Jarque-Bera, QQ, Hill, BNS"]
-    P7_FROM_PART_2 -->|"Counts or event times"| P7_OUT
+    P7_PART_3_IN(["From parts 1 and 2"]) --> P7_TYPE_3{"Innovation type?"}
+    P7_TYPE_3 -->|"Continuous"| P7_DIST_TESTS["Test the distribution of standardised innovations<br/>Jarque-Bera, QQ, Hill, BNS"]
+    P7_TYPE_3 -->|"Counts or event times"| P7_OUT
     P7_DIST_TESTS --> P7_DIST{"Distribution?"}
     P7_DIST -->|"Gaussian"| P7_GAUSSIAN["Gaussian innovations"]
     P7_DIST -->|"Heavy tails"| P7_HEAVY_TAILS["Heavy-tailed innovations: Student-t, GED, QMLE"]
@@ -110,12 +111,13 @@ graph TD
     F_LEVY[["Brownian motion, Poisson jumps, Levy processes"]] -.- P7_JUMPS
     F_HMM[["Hidden Markov chains"]] -.- P7_MS_GARCH
     F_SKLAR[["Sklar's theorem"]] -.- P7_COPULA
-    class P7_FROM_PART_2 terminator
+    class P7_PART_3_IN terminator
     class P7_DIST,P7_REGIME,P7_MULTI,P7_CORR decision
     class P7_DIST_TESTS,P7_REGIME_TESTS,P7_CORR_TESTS,P7_OUT process
     class P7_GAUSSIAN good
     class P7_HEAVY_TAILS,P7_SKEWED,P7_EVT,P7_JUMPS,P7_MS_GARCH,P7_CCC,P7_DCC,P7_COPULA escalate
     class P8,F_LEVY,F_HMM,F_SKLAR ref
+    class P7_TYPE_3 decision
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

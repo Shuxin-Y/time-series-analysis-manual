@@ -75,8 +75,9 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P8_FROM_PART_2(["From parts 1 and 2"]) -->|"Intractable likelihood"| P8_INTRACTABLE{"Approach?"}
-    P8_FROM_PART_2 -->|"Estimated"| P8_CONVERGENCE
+    P8_FROM_PART_2(["From parts 1 and 2"]) --> P8_ESTIMATED{"Estimated already?"}
+    P8_ESTIMATED -->|"No: likelihood intractable"| P8_INTRACTABLE{"Approach?"}
+    P8_ESTIMATED -->|"Yes"| P8_CONVERGENCE
     P8_INTRACTABLE -->|"Moment conditions"| P8_GMM["Generalised method of moments"]
     P8_INTRACTABLE -->|"Frequency domain"| P8_WHITTLE["Whittle and local Whittle estimation"]
     P8_INTRACTABLE -->|"Priors"| P8_MCMC["Bayesian computation<br/>MCMC, Gibbs, Metropolis-Hastings"]
@@ -93,6 +94,7 @@ graph TD
     class P8_GMM,P8_WHITTLE,P8_MCMC,P8_VARIATIONAL,P8_SIMULATION_INFERENCE,P8_EMPIRICAL_LOSS,P8_HYPERPARAMETERS escalate
     class P8_CONVERGENCE process
     class P6 ref
+    class P8_ESTIMATED decision
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

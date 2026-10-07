@@ -186,15 +186,16 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P6_PART_7_IN(["From part 4"]) -->|"Time-varying coefficients"| P6_TVP_REGRESSION["Time-varying parameter regression"]
-    P6_PART_7_IN -->|"Latent components"| P6_LATENT_MODEL{"Latent model?"}
-    P6_PART_7_IN -->|"Bayesian priors"| P6_DLM & P6_BSTS
+    P6_PART_7_IN(["From part 4"]) --> P6_STRUCTURED{"Structure?"}
+    P6_STRUCTURED -->|"Time-varying coefficients"| P6_TVP_REGRESSION["Time-varying parameter regression"]
+    P6_STRUCTURED -->|"Latent components"| P6_LATENT_MODEL{"Latent model?"}
+    P6_STRUCTURED -->|"Bayesian priors"| P6_DLM & P6_BSTS
     P6_LATENT_MODEL -->|"Components"| P6_STRUCTURAL_TS["Structural time-series models<br/>local level, local linear trend, seasonal, cycle"]
     P6_LATENT_MODEL -->|"General linear Gaussian"| P6_DLM["Dynamic linear models"]
     P6_LATENT_MODEL -->|"Bayesian with regressors"| P6_BSTS["Bayesian structural time series"]
     P6_TVP_REGRESSION & P6_STRUCTURAL_TS & P6_DLM & P6_BSTS --> P7[["P7: Error-process specification"]]
     class P6_PART_7_IN terminator
-    class P6_LATENT_MODEL decision
+    class P6_STRUCTURED,P6_LATENT_MODEL decision
     class P6_TVP_REGRESSION,P6_STRUCTURAL_TS,P6_DLM,P6_BSTS process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

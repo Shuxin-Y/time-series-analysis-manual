@@ -36,8 +36,9 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P2_FE_FROM_PART_1(["From part 1"]) -->|"Representations"| P2_FE_REPRESENTATION{"Representation?"}
-    P2_FE_FROM_PART_1 -->|"Hand-crafted features"| P2_FE_LEARNER
+    P2_FE_FROM_PART_1(["From part 1"]) --> P2_FE_FEATURE_Q_2{"Feature family?"}
+    P2_FE_FEATURE_Q_2 -->|"Representations"| P2_FE_REPRESENTATION{"Representation?"}
+    P2_FE_FEATURE_Q_2 -->|"Hand-crafted features"| P2_FE_LEARNER
     P2_FE_REPRESENTATION -->|"Symbolic"| P2_FE_SYMBOLIC["Symbolic representations<br/>SAX, SFA"]
     P2_FE_REPRESENTATION -->|"Learned"| P2_FE_REPRESENTATION_LEARNING["Self-supervised representation learning"]
     P2_FE_REPRESENTATION -->|"Topological"| P2_FE_TDA["Topological data analysis"]
@@ -53,7 +54,7 @@ graph TD
     P10_INTERPRETABILITY --> P11_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
     P11_CLASSIFICATION_METRICS --> P11[["P11: Validation and deployment"]]
     class P2_FE_FROM_PART_1 terminator
-    class P2_FE_REPRESENTATION,P2_FE_LEARNER decision
+    class P2_FE_FEATURE_Q_2,P2_FE_REPRESENTATION,P2_FE_LEARNER decision
     class P2_FE_SYMBOLIC,P2_FE_REPRESENTATION_LEARNING,P2_FE_TDA,P2_FE_DISTANCES,P2_FE_CLUSTERING,P2_FE_SHAPELETS,P2_FE_DEEP_CLASSIFIERS,P2_FE_AUGMENTATION process
     class P6_TREE_ENSEMBLES,P8_HYPERPARAMETERS,P10_INTERPRETABILITY,P11_CLASSIFICATION_METRICS,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

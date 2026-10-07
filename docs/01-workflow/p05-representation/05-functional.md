@@ -16,9 +16,9 @@ graph TD
     P5_FN_DENSE -->|"No"| P5[["P5: Representation selection"]]
     P5_FN_BASIS --> P5_FN_FPCA["Functional principal components"]
     P5_FN_FPCA --> P5_FN_REGRESSION["Functional regression and functional autoregression"]
-    P5_FN_REGRESSION --> B4[["B4 Functional"]]
+    B4[["B4 Functional"]] -.- P5_FN_BASIS
     P5_FN_REGRESSION --> P6_GAUSSIAN_PROCESS[["Gaussian-process regression"]]
-    B4 & P6_GAUSSIAN_PROCESS --> P6[["P6: Conditional-mean model class"]]
+    P6_GAUSSIAN_PROCESS --> P6[["P6: Conditional-mean model class"]]
     class P5_FN_IN terminator
     class P5_FN_CURVES,P5_FN_SHAPE,P5_FN_DENSE decision
     class P5_FN_BASIS,P5_FN_FPCA,P5_FN_REGRESSION process
