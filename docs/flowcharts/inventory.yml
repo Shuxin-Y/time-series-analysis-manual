@@ -81,3 +81,17 @@ nodes:
   - {id: F_HMM,                label: "Hidden Markov chains",                            phase: F, areas: [1, 8],  section: "00-foundations/stochastic-processes.md#hidden-markov-chains"}
   - {id: F_SKLAR,              label: "Sklar's theorem",                                 phase: F, areas: [1, 10], section: "00-foundations/stochastic-processes.md#sklars-theorem"}
   - {id: F_TIME_RESCALING,     label: "Time-rescaling theorem",                          phase: F, areas: [1, 17], section: "00-foundations/stochastic-processes.md#time-rescaling-theorem"}
+  # ---- P0 procedural leaves (live in the phase page)
+  - {id: P0_INSPECT_SAMPLING,   label: "Inspect sampling rate and resolution",     phase: P0, areas: [31], section: "01-workflow/p00-data.md#inspect-sampling-rate-and-resolution"}
+  - {id: P0_ALIGN_TIMESTAMPS,   label: "Align timestamps",                         phase: P0, areas: [31], section: "01-workflow/p00-data.md#align-timestamps"}
+  - {id: P0_DEDUPLICATE,        label: "Remove duplicate and out-of-order stamps", phase: P0, areas: [31], section: "01-workflow/p00-data.md#remove-duplicate-and-out-of-order-stamps"}
+  - {id: P0_RESAMPLE,           label: "Resample and anti-alias",                  phase: P0, areas: [31, 13], section: "01-workflow/p00-data.md#resample-and-anti-alias"}
+  - {id: P0_MISSING_IMPUTE,     label: "Impute missing values",                    phase: P0, areas: [31, 11], section: "01-workflow/p00-data.md#impute-missing-values"}
+  - {id: P0_MISSING_SEGMENT,    label: "Segment around long gaps",                 phase: P0, areas: [31], section: "01-workflow/p00-data.md#segment-around-long-gaps"}
+  - {id: P0_OUTLIER_TAXONOMY,   label: "Classify outliers",                        phase: P0, areas: [31, 24], section: "01-workflow/p00-data.md#classify-outliers"}
+  - {id: P0_ROBUST_FILTER,      label: "Robust filtering",                         phase: P0, areas: [24, 31], section: "01-workflow/p00-data.md#robust-filtering"}
+  - {id: P0_UNITS_METADATA,     label: "Check units and metadata",                 phase: P0, areas: [31], section: "01-workflow/p00-data.md#check-units-and-metadata"}
+  - {id: P0_CUMULATIVE_TO_FLOW, label: "Convert cumulative series to flows",       phase: P0, areas: [31], section: "01-workflow/p00-data.md#convert-cumulative-series-to-flows"}
+  - {id: P0_CALENDAR_EFFECTS,   label: "Mark calendar effects",                    phase: P0, areas: [29, 31], section: "01-workflow/p00-data.md#mark-calendar-effects"}
+  - {id: P0_DISAGGREGATION,     label: "Temporal disaggregation and benchmarking", phase: P0, areas: [31], section: "01-workflow/p00-data.md#temporal-disaggregation-and-benchmarking"}
+  - {id: P0_VINTAGES,           label: "Track revisions and real-time vintages",   phase: P0, areas: [31], section: "01-workflow/p00-data.md#track-revisions-and-real-time-vintages"}
