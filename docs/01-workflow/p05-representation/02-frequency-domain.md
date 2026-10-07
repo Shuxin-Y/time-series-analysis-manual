@@ -19,7 +19,7 @@ graph TD
     P5_FD_MULTITAPER --> P5_FD_PARAMETRIC["Parametric spectra<br/>AR and ARMA spectral estimates"]
     P5_FD_PARAMETRIC --> P5_FD_LOMB_SCARGLE["Lomb-Scargle periodogram<br/>irregular sampling"]
     P5_FD_LOMB_SCARGLE --> P5_FD_LEAKAGE["Leakage, tapering and the Nyquist frequency"]
-    P5_FD_LEAKAGE --> P5_FD_FILTERS["FIR and IIR filter design<br/>phase distortion, zero-phase filtering"]
+    P5_FD_LEAKAGE --> P5_FD_FILTERS["FIR and IIR filter design<br/>low-pass, high-pass, band-pass, notch; FIR and IIR; zero-phase"]
     P5_FD_FILTERS --> P5_FD_ENVELOPE["Machine-vibration analysis<br/>envelope analysis, cepstrum, order tracking, spectral kurtosis"]
     P5_FD_ENVELOPE --> P2_SP_SPECTRAL_SHAPE[["Interpret the spectral shape"]]
     P5_FD_ENVELOPE --> P2_SP_HARMONIC_REGRESSION[["Harmonic regression from detected frequencies"]]

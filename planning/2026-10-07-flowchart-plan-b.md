@@ -165,23 +165,23 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P3_PLOT | Plot the series and its ACF | | [2] | 01-workflow/p03-exploratory-diagnostics.md |
-| P3_DISTRIBUTION | Test the distribution | Shapiro-Wilk, Jarque-Bera, skewness, tail index | [5, 2] | same |
-| P3_VARIANCE_STABILITY | Check variance stability | rolling variance, ARCH-LM on levels | [10, 5] | same |
-| P3_TREND_TYPE | Trend-stationary or difference-stationary | | [28, 2] | same |
-| P3_UNIT_ROOT | Unit-root tests | ADF, KPSS, PP, DF-GLS | [5, 28] | same |
-| P3_UNIT_ROOT_BREAKS | Unit-root tests with breaks | Zivot-Andrews | [5, 30] | same |
-| P3_VARIANCE_RATIO | Variance-ratio test | Lo-MacKinlay | [5, 28] | same |
-| P3_EXPLOSIVE | Explosive-root and bubble tests | PSY, GSADF | [28] | same |
-| P3_STRUCTURAL_BREAKS | Structural-break tests | Chow, CUSUM, Bai-Perron | [30, 5] | same |
-| P3_SEASONALITY | Detect seasonality | seasonal subseries, periodogram peaks | [29, 2] | same |
-| P3_SEASONAL_UNIT_ROOT | Seasonal unit-root tests | HEGY, Canova-Hansen, OCSB | [29, 5] | same |
-| P3_ACF_PACF | Read the ACF and PACF | | [2] | same |
-| P3_LONG_MEMORY | Long-memory indicators | Hurst exponent, GPH | [7] | same |
-| P3_NONLINEARITY | Nonlinearity tests | BDS, Terasvirta, Tsay, Keenan | [8, 5] | same |
-| P3_NONPARAMETRIC_TREND | Nonparametric trend tests | Mann-Kendall, Sen slope, prewhitening | [24] | same |
-| P3_CROSS_CORRELATION | Cross-correlation and lead-lag | | [9] | same |
-| P3_COINTEGRATION_PRECHECK | Cointegration pre-check | spurious-regression warning | [28, 9] | same |
+| P3_PLOT | Plot the series |  | [2] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_DISTRIBUTION | Test the distribution | Shapiro-Wilk, Jarque-Bera, skewness, tail index | [5, 2] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_VARIANCE_STABILITY | Check variance stability | rolling variance, ARCH-LM on levels | [10, 5] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_TREND_TYPE | Trend-stationary or difference-stationary |  | [28, 2] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_UNIT_ROOT | Unit-root tests | ADF, KPSS, PP, DF-GLS | [5, 28] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_UNIT_ROOT_BREAKS | Unit-root tests with breaks | Zivot-Andrews | [5, 30] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_VARIANCE_RATIO | Variance-ratio test | Lo-MacKinlay | [5, 28] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_EXPLOSIVE | Explosive-root and bubble tests | PSY, GSADF | [28] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_STRUCTURAL_BREAKS | Structural-break tests | Chow, CUSUM, Bai-Perron | [30, 5] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_SEASONALITY | Detect seasonality | seasonal subseries, periodogram peaks | [29, 2] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_SEASONAL_UNIT_ROOT | Seasonal unit-root tests | HEGY, Canova-Hansen, OCSB | [29, 5] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_ACF_PACF | Read the ACF and PACF |  | [2] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_LONG_MEMORY | Long-memory indicators | Hurst exponent, GPH | [7] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_NONLINEARITY | Nonlinearity tests | BDS, Terasvirta, Tsay, Keenan | [8, 5] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_NONPARAMETRIC_TREND | Nonparametric trend tests | Mann-Kendall, Sen slope, prewhitening | [24] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_CROSS_CORRELATION | Cross-correlation and lead-lag |  | [9] | 01-workflow/p03-exploratory-diagnostics.md |
+| P3_COINTEGRATION_PRECHECK | Cointegration pre-check | spurious-regression warning | [28, 9] | 01-workflow/p03-exploratory-diagnostics.md |
 
 **Foundation rows (phase F).**
 
@@ -209,18 +209,18 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
 | P4_LOG_BOXCOX | Variance-stabilising transforms | log, Box-Cox | [2] | 01-workflow/p04-transformations.md |
-| P4_DIFFERENCE | Regular differencing | | [2] | same |
-| P4_OVERDIFFERENCING | Check for over-differencing | | [2] | same |
-| P4_FRACTIONAL_DIFFERENCE | Fractional differencing | | [7] | same |
-| P4_DETREND | Detrending by regression on time | | [2, 28] | same |
-| P4_SEASONAL_DIFFERENCE | Seasonal differencing | | [29] | same |
-| P4_SEASONAL_ADJUSTMENT | Seasonal adjustment | classical decomposition, STL, X-13 and SEATS | [29, 3] | same |
-| P4_MULTIPLE_SEASONALITY | Multiple seasonality | MSTL, TBATS, Fourier terms | [29] | same |
-| P4_BREAK_HANDLING | Handle structural breaks | segmenting, regime dummies, time-varying parameters | [30] | same |
-| P4_FILTER_DECOMPOSITION | Filter-based decomposition | HP, Baxter-King, Christiano-Fitzgerald, Hamilton | [13, 3] | same |
-| P4_MODEL_DECOMPOSITION | Model-based decomposition | Beveridge-Nelson, unobserved components | [11, 3] | same |
-| P4_SSA | Singular spectrum analysis | | [13] | same |
-| P4_RETEST | Retest stationarity after transforming | | [5] | same |
+| P4_DIFFERENCE | Regular differencing |  | [2] | 01-workflow/p04-transformations.md |
+| P4_OVERDIFFERENCING | Check for over-differencing |  | [2] | 01-workflow/p04-transformations.md |
+| P4_FRACTIONAL_DIFFERENCE | Fractional differencing |  | [7] | 01-workflow/p04-transformations.md |
+| P4_DETREND | Detrending by regression on time |  | [2, 28] | 01-workflow/p04-transformations.md |
+| P4_SEASONAL_DIFFERENCE | Seasonal differencing |  | [29] | 01-workflow/p04-transformations.md |
+| P4_SEASONAL_ADJUSTMENT | Seasonal adjustment | classical decomposition, STL, X-13 and SEATS | [29, 3] | 01-workflow/p04-transformations.md |
+| P4_MULTIPLE_SEASONALITY | Multiple seasonality | MSTL, TBATS, Fourier terms | [29] | 01-workflow/p04-transformations.md |
+| P4_BREAK_HANDLING | Handle structural breaks | segmenting, regime dummies, time-varying parameters | [30] | 01-workflow/p04-transformations.md |
+| P4_FILTER_DECOMPOSITION | Filter-based decomposition | HP, Baxter-King, Christiano-Fitzgerald, Hamilton | [13, 3] | 01-workflow/p04-transformations.md |
+| P4_MODEL_DECOMPOSITION | Model-based decomposition | Beveridge-Nelson, unobserved components | [11, 3] | 01-workflow/p04-transformations.md |
+| P4_SSA | Singular spectrum analysis |  | [13] | 01-workflow/p04-transformations.md |
+| P4_RETEST | Retest stationarity after transforming |  | [5] | 01-workflow/p04-transformations.md |
 
 - [ ] **Steps:** as Task 2 (replace the note, 13 rows with `phase: P4`, scaffold, audit, build). Commit `feat(flowchart): P4 transformations sub-diagram`.
 
@@ -238,7 +238,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 |---|---|---|---|---|
 | P6_AR_MA_ARMA | AR, MA and ARMA | | [3] | reference/03-classical/index.md |
 | P6_ARIMA_SARIMA | ARIMA and SARIMA | | [3] | reference/03-classical/index.md |
-| P6_ARIMAX | ARIMAX and SARIMAX | regression with ARMA errors | [3, 27] | reference/03-classical/index.md |
+| P6_ARIMAX | ARIMAX and SARIMAX |  | [3, 27] | reference/03-classical/index.md |
 | P6_ETS | Exponential smoothing and ETS | | [3] | reference/03-classical/index.md |
 | P6_THETA | Theta method | | [22, 3] | reference/22-forecasting-practice/index.md |
 | P6_DYNAMIC_REGRESSION | Distributed-lag and ADL models | | [27, 3] | reference/27-regression-time-series/index.md |
@@ -254,7 +254,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P6_TVP_REGRESSION | Time-varying parameter regression | | [30, 11] | reference/30-structural-change/index.md |
 | P6_VAR | VAR | | [9] | reference/09-multivariate/index.md |
 | P6_VECM | VECM | | [9, 28] | reference/09-multivariate/index.md |
-| P6_SVAR | SVAR | | [9, 21] | reference/09-multivariate/index.md |
+| P6_SVAR | SVAR | identification schemes in P10 | [9, 21] | reference/09-multivariate/index.md |
 | P6_FACTOR_MODELS | Static and dynamic factor models | | [9] | reference/09-multivariate/index.md |
 | P6_REGULARISED_VAR | Regularised VAR | LASSO, ridge, elastic net | [9] | reference/09-multivariate/index.md |
 | P6_GRAPHICAL_MODELS | Graphical models and sparse precision matrices | | [9] | reference/09-multivariate/index.md |
@@ -266,7 +266,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P6_BSTS | Bayesian structural time series | | [11, 12] | reference/11-state-space/index.md |
 | P6_BVAR | Bayesian VAR | Minnesota and conjugate priors | [12] | reference/12-bayesian/index.md |
 | P6_TVP_VAR | Time-varying parameter VAR | | [12, 30] | reference/12-bayesian/index.md |
-| P6_ARX_ARMAX | ARX, ARMAX and Box-Jenkins input-output models | | [33] | reference/33-system-identification/index.md |
+| P6_ARX_ARMAX | ARX and ARMAX input-output models |  | [33] | reference/33-system-identification/index.md |
 | P6_SUBSPACE | Subspace identification | N4SID | [33] | reference/33-system-identification/index.md |
 | P6_HAMMERSTEIN_WIENER | Hammerstein-Wiener models | | [33] | reference/33-system-identification/index.md |
 | P6_SINDY | Sparse identification of nonlinear dynamics | | [33] | reference/33-system-identification/index.md |
@@ -337,12 +337,8 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P9_RESIDUAL_AUTOCORRELATION | Residual autocorrelation tests | Ljung-Box, Breusch-Godfrey, Durbin-Watson | [5, 6] | 01-workflow/p09-diagnostics-selection.md |
-| P9_RESIDUAL_ARCH | Residual heteroskedasticity tests | ARCH-LM, McLeod-Li | [5, 10] | same |
-| P9_RESIDUAL_NORMALITY | Residual normality tests | Jarque-Bera | [5] | same |
-| P9_RESIDUAL_NONLINEARITY | Remaining nonlinearity | BDS on residuals | [8, 5] | same |
-| P9_VOLATILITY_DIAGNOSTICS | Volatility model diagnostics | standardised residuals, sign-bias test, news impact curve | [10] | same |
-| P9_COUNT_DIAGNOSTICS | Count model diagnostics | overdispersion, zero inflation | [16] | same |
+| P9_RESIDUAL_NONLINEARITY | Remaining nonlinearity | BDS on residuals | [8, 5] | 01-workflow/p09-diagnostics-selection.md |
+| P9_VOLATILITY_DIAGNOSTICS | Volatility model diagnostics | standardised residuals, sign-bias test, news impact curve | [10] | 01-workflow/p09-diagnostics-selection.md |
 | P9_INFORMATION_CRITERIA | Information criteria | AIC, BIC, HQIC, WAIC, LOO | [6, 12] | reference/06-model-selection/index.md |
 | P9_BOOTSTRAP | Bootstrap inference | block, stationary, sieve | [5, 25] | reference/06-model-selection/index.md |
 | P9_FORECAST_COMPARISON | Forecast comparison tests | Diebold-Mariano, Clark-West, reality check, model confidence set | [6] | reference/06-model-selection/index.md |
@@ -378,7 +374,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P10_RECONCILIATION | Hierarchical and temporal reconciliation | bottom-up, top-down, MinT | [22, 34] | reference/22-forecasting-practice/index.md |
 | P10_COMBINATION | Forecast combination and model averaging | | [22, 12] | reference/22-forecasting-practice/index.md |
 | P10_JUDGMENTAL | Judgmental adjustment | | [22] | reference/22-forecasting-practice/index.md |
-| P10_NOWCASTING | Nowcasting | MIDAS, bridge equations, factor models | [22, 9] | reference/22-forecasting-practice/index.md |
+| P10_NOWCASTING | Nowcasting | bridge equations, factor models | [22, 9] | reference/22-forecasting-practice/index.md |
 | P10_RISK_MEASURES | Risk measures and their backtests | VaR, expected shortfall, Kupiec, Christoffersen | [10] | reference/10-volatility/index.md |
 | P10_SCENARIOS | Scenario simulation and stress testing | | [25, 10] | reference/25-simulation/index.md |
 | P10_INTERPRETABILITY | Interpretability | SHAP, attention | [18] | reference/18-machine-learning/index.md |
@@ -399,15 +395,14 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P11_ROLLING_ORIGIN | Rolling-origin cross-validation | | [6] | 01-workflow/p11-validation-deployment.md |
-| P11_BACKTESTING | Backtesting without look-ahead | backtest overfitting, look-ahead bias | [6, 22] | same |
+| P11_ROLLING_ORIGIN | Rolling-origin backtesting | look-ahead bias, backtest overfitting | [6] | 01-workflow/p11-validation-deployment.md |
 | P11_POINT_METRICS | Point-forecast metrics | RMSE, MAE, MAPE, MASE | [6] | reference/06-model-selection/index.md |
 | P11_PROBABILISTIC_METRICS | Probabilistic metrics | coverage, CRPS, pinball loss, log score, PIT | [34] | reference/34-probabilistic-forecasting/index.md |
 | P11_CLASSIFICATION_METRICS | Classification and anomaly metrics | F1, event-level precision and recall, NAB score | [19] | reference/19-classification-anomaly/index.md |
 | P11_CHANGE_POINT_METRICS | Change-point metrics | detection delay, false-alarm rate | [19, 30] | reference/19-classification-anomaly/index.md |
-| P11_DOCUMENTATION | Document the model specification | | [6] | same as the phase page |
-| P11_DRIFT_MONITORING | Drift monitoring | KL divergence, spectral shift, BOCPD, ADWIN, Page-Hinkley, DDM | [23, 30] | reference/23-online-adaptive/index.md |
-| P11_SPC | Statistical process control | Shewhart, EWMA, CUSUM charts | [30, 23] | reference/30-structural-change/index.md |
+| P11_DOCUMENTATION | Document the model specification |  | [6] | 01-workflow/p11-validation-deployment.md |
+| P11_DRIFT_MONITORING | Drift monitoring | KL divergence, spectral shift, ADWIN, DDM | [23, 30] | reference/23-online-adaptive/index.md |
+| P11_SPC | Statistical process control | Shewhart and EWMA charts | [30, 23] | reference/30-structural-change/index.md |
 | P11_ONLINE_UPDATING | Online updating | recursive least squares, forgetting factors, online Kalman, online gradient | [23] | reference/23-online-adaptive/index.md |
 | P11_RETRAINING | Retraining policy | | [23] | 01-workflow/p11-validation-deployment.md |
 
@@ -425,7 +420,6 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P2_FC_HORIZON | Choose the forecast horizon and origin | | [22] | reference/22-forecasting-practice/index.md |
 | P2_FC_BASELINES | Naive and seasonal-naive baselines | | [22] | reference/22-forecasting-practice/index.md |
 | P2_FC_EPIDEMIC | Epidemic nowcasting | reproduction-number estimation, SIR fitting | [26, 22] | reference/26-applied-domains/index.md |
 
@@ -443,11 +437,10 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P2_SE_NOISE_TYPE | Characterise the noise | white, coloured, impulsive, non-stationary | [13] | reference/13-spectral-analysis/index.md |
-| P2_SE_FILTER_DESIGN | Choose the filter | low-pass, high-pass, band-pass, notch | [13] | reference/13-spectral-analysis/index.md |
+| P2_SE_NOISE_TYPE | Characterise the noise | white, coloured, impulsive, non-stationary, 1/f | [13] | reference/13-spectral-analysis/index.md |
 | P2_SE_WIENER | Wiener filtering | | [13] | reference/13-spectral-analysis/index.md |
 | P2_SE_WAVELET_DENOISING | Wavelet denoising | | [13] | reference/13-spectral-analysis/index.md |
-| P2_SE_SNR | Evaluate signal-to-noise ratio and phase distortion | | [13] | reference/13-spectral-analysis/index.md |
+| P2_SE_SNR | Evaluate the signal-to-noise ratio |  | [13] | reference/13-spectral-analysis/index.md |
 
 **10.4 Change-point detection (`04-change-point-detection.md`, code CP).** `P2_CP_MODE{"Online or offline?"}` →|"Online"| `P2_CP_CUSUM` → `P2_CP_BOCPD`; →|"Offline"| `P2_CP_PELT` → `P2_CP_PENALTY`; →|"Multivariate"| `P2_CP_MULTIVARIATE`. All → `P2_CP_TYPE` → `P2_CP_KIND{"Change kind?"}` →|"Mean"| `P4_BREAK_HANDLING` ref; →|"Variance"| `P7_MS_GARCH` ref; →|"Regime"| `P6_MARKOV_SWITCHING` ref. Then `P11_CHANGE_POINT_METRICS` ref → `P2_CP_OUT`. Also ref `P3_STRUCTURAL_BREAKS` at the start.
 
@@ -464,20 +457,17 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P2_AN_TYPE | Point, contextual or collective anomaly | | [19] | reference/19-classification-anomaly/index.md |
 | P2_AN_STATISTICAL | Statistical outlier scores | modified z-score, robust statistics | [19, 24] | reference/19-classification-anomaly/index.md |
 | P2_AN_RESIDUAL | Residual-based detection from a fitted model | | [19] | reference/19-classification-anomaly/index.md |
 | P2_AN_MATRIX_PROFILE | Matrix profile and discord discovery | | [19] | reference/19-classification-anomaly/index.md |
 | P2_AN_ISOLATION_FOREST | Isolation forests for time series | | [19] | reference/19-classification-anomaly/index.md |
 | P2_AN_AUTOENCODER | Autoencoders and variational autoencoders | | [19, 18] | reference/19-classification-anomaly/index.md |
 | P2_AN_THRESHOLD | Set thresholds by the cost of errors | | [19] | reference/19-classification-anomaly/index.md |
-| P2_AN_REGIME | Regime detection with hidden Markov models | | [19, 8] | reference/19-classification-anomaly/index.md |
 
 **10.6 Decomposition (`06-decomposition.md`, code DC).** `P2_DC_SEASONAL{"Seasonal?"}` →|"Yes"| `P2_DC_PERIOD` → `P2_DC_ADDITIVE_MULTIPLICATIVE` → `P2_DC_METHOD{"Method?"}` →|"STL or X-13"| `P4_SEASONAL_ADJUSTMENT`; →|"Several periods"| `P4_MULTIPLE_SEASONALITY`; →|"Model-based"| `P4_MODEL_DECOMPOSITION`; →|"Nonparametric"| `P4_SSA`; `P2_DC_SEASONAL` →|"No"| `P4_FILTER_DECOMPOSITION`. All → `P2_DC_COMPONENT_ANALYSIS` → `P9_RESIDUAL_AUTOCORRELATION` ref → `P2_DC_RESIDUAL{"Residual white?"}` →|"No"| `-.->` `P2_DC_METHOD`; →|"Yes"| `P2_DC_REVISION` → `P2_DC_OUT`.
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P2_DC_PERIOD | Detect the period | known period, periodogram | [29, 13] | reference/29-seasonality-calendar/index.md |
 | P2_DC_ADDITIVE_MULTIPLICATIVE | Additive or multiplicative decomposition | | [3] | reference/03-classical/index.md |
 | P2_DC_COMPONENT_ANALYSIS | Analyse and interpret the components | | [3] | reference/03-classical/index.md |
 | P2_DC_REVISION | Revision stability of real-time decompositions | | [29] | reference/29-seasonality-calendar/index.md |
@@ -486,7 +476,6 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| P2_FE_TASK | Classification, clustering or regression task | | [19] | reference/19-classification-anomaly/index.md |
 | P2_FE_TIME_FEATURES | Time-domain features | moments, autocorrelation, rolling statistics | [19] | reference/19-classification-anomaly/index.md |
 | P2_FE_FREQ_FEATURES | Frequency-domain features | band power, spectral entropy, spectral centroid | [19, 13] | reference/19-classification-anomaly/index.md |
 | P2_FE_TF_FEATURES | Time-frequency features | STFT and wavelet coefficients | [19, 13] | reference/19-classification-anomaly/index.md |
@@ -516,9 +505,9 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
 | P2_SI_EXPERIMENT_DESIGN | Input design and persistent excitation | | [33] | reference/33-system-identification/index.md |
-| P2_SI_MODEL_STRUCTURE | Choose the model structure | ARX, ARMAX, Box-Jenkins, state space | [33] | reference/33-system-identification/index.md |
+| P2_SI_MODEL_STRUCTURE | Choose the model structure | polynomial ARX and ARMAX, state space, block-oriented | [33] | reference/33-system-identification/index.md |
 | P2_SI_ORDER_SELECTION | Order selection | Hankel singular values | [33] | reference/33-system-identification/index.md |
-| P2_SI_TRANSFER_FUNCTION | Estimate the transfer function and frequency response | | [33] | reference/33-system-identification/index.md |
+| P2_SI_TRANSFER_FUNCTION | Estimate the frequency response | empirical transfer-function estimate | [33] | reference/33-system-identification/index.md |
 | P2_SI_STABILITY | Poles, zeros and stability | | [33] | reference/33-system-identification/index.md |
 | P2_SI_VALIDATION | Validate on held-out input-output data | | [33] | reference/33-system-identification/index.md |
 
@@ -527,9 +516,8 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
 | P2_SM_MONTE_CARLO | Monte Carlo simulation from a fitted model | | [25] | reference/25-simulation/index.md |
-| P2_SM_BOOTSTRAP_PATHS | Bootstrap path simulation | block, stationary, sieve | [25] | reference/25-simulation/index.md |
-| P2_SM_SYNTHETIC | Synthetic data generation | TimeGAN, diffusion models | [25, 18] | reference/25-simulation/index.md |
-| P2_SM_STRESS | Stress scenarios and shock design | | [25, 10] | reference/25-simulation/index.md |
+| P2_SM_BOOTSTRAP_PATHS | Simulating paths by resampling |  | [25] | reference/25-simulation/index.md |
+| P2_SM_SYNTHETIC | Synthetic data generation | TimeGAN | [25, 18] | reference/25-simulation/index.md |
 | P2_SM_DISTRIBUTION_MATCH | Check distribution and dependence matching | | [25] | reference/25-simulation/index.md |
 
 - [ ] **Steps:** one commit per purpose page is fine, or one for all ten: replace each pending note with its diagram, add the rows (`phase: P2`), scaffold, audit, build after each page. Commit `feat(flowchart): ten purpose sub-charts`.
@@ -557,7 +545,7 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 | P5_FD_PARAMETRIC | Parametric spectra | AR and ARMA spectral estimates | [13] | reference/13-spectral-analysis/index.md |
 | P5_FD_LOMB_SCARGLE | Lomb-Scargle periodogram | irregular sampling | [13, 15] | reference/13-spectral-analysis/index.md |
 | P5_FD_LEAKAGE | Leakage, tapering and the Nyquist frequency | | [13] | reference/13-spectral-analysis/index.md |
-| P5_FD_FILTERS | FIR and IIR filter design | phase distortion, zero-phase filtering | [13] | reference/13-spectral-analysis/index.md |
+| P5_FD_FILTERS | FIR and IIR filter design | low-pass, high-pass, band-pass, notch; FIR and IIR; zero-phase | [13] | reference/13-spectral-analysis/index.md |
 | P5_FD_ENVELOPE | Machine-vibration analysis | envelope analysis, cepstrum, order tracking, spectral kurtosis | [26, 13] | reference/26-applied-domains/index.md |
 
 **11.3 Time-frequency (TF).** Decisions: "Frequency content changes over time?", "Transients or bursts?", "Need both localisations?". Leaves then refs `P2_FE_TF_FEATURES`, `P2_SE_WAVELET_DENOISING`.
@@ -576,7 +564,7 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
 | P5_SS_FORM | State-space form and the ARIMA rewriting | | [11] | reference/11-state-space/index.md |
-| P5_SS_LATENT | Latent states, irregular sampling and missing observations | | [11] | reference/11-state-space/index.md |
+| P5_SS_LATENT | Latent states and missing observations |  | [11] | reference/11-state-space/index.md |
 | P5_SS_TAKENS | Takens embedding and phase-space reconstruction | | [33, 8] | reference/33-system-identification/index.md |
 | P5_SS_DMD | Dynamic mode decomposition and Koopman operators | | [33] | reference/33-system-identification/index.md |
 
@@ -607,10 +595,9 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 
 | ID | label | second line | areas |
 |---|---|---|---|
-| B1_COUNT_EDA | Count-data diagnostics | dispersion, zeros | [16] |
+| B1_COUNT_EDA | Count-data diagnostics | zero counts, autocorrelation of counts | [16] |
 | B1_INAR | INAR models | | [16] |
-| B1_POISSON_AR | Poisson autoregression and INGARCH | | [16] |
-| B1_NEGATIVE_BINOMIAL | Negative-binomial autoregression | | [16] |
+| B1_POISSON_AR | Poisson and negative-binomial autoregression | INGARCH | [16] |
 | B1_GLARMA | GLARMA and dynamic generalised linear models | | [16] |
 | B1_MARKOV_CHAIN | Markov chains for categorical series | | [16] |
 | B1_AR_LOGIT | Autoregressive logit, probit and multinomial series | | [16] |
@@ -623,11 +610,11 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
 | B2_EVENT_EDA | Event-time diagnostics | intensity, inter-event distributions | [17] | reference/17-point-processes/index.md |
-| B2_POISSON | Poisson and renewal processes | | [17] | same |
-| B2_COX | Cox processes | | [17] | same |
-| B2_HAWKES | Hawkes self-exciting processes | | [17] | same |
-| B2_MARKED | Marked and multivariate point processes | | [17] | same |
-| B2_NEURAL_PP | Neural point processes | | [17, 18] | same |
+| B2_POISSON | Poisson and renewal processes |  | [17] | reference/17-point-processes/index.md |
+| B2_COX | Cox processes |  | [17] | reference/17-point-processes/index.md |
+| B2_HAWKES | Hawkes self-exciting processes |  | [17] | reference/17-point-processes/index.md |
+| B2_MARKED | Marked and multivariate point processes |  | [17] | reference/17-point-processes/index.md |
+| B2_NEURAL_PP | Neural point processes |  | [17, 18] | reference/17-point-processes/index.md |
 | B2_ACD | Autoregressive conditional duration | | [14] | reference/14-functional-high-frequency/index.md |
 | B2_SURVIVAL | Survival and hazard models | Cox proportional hazards | [14, 26] | reference/14-functional-high-frequency/index.md |
 | B2_DEGRADATION | Degradation processes and remaining useful life | Wiener and gamma processes | [26, 15] | reference/26-applied-domains/index.md |
@@ -636,12 +623,10 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 
 | ID | label | second line | areas |
 |---|---|---|---|
-| B3_CHOICE | Resample, model the irregular grid, or move to continuous time | | [15] |
 | B3_IRREGULAR_KALMAN | Kalman filtering on an irregular grid | | [11, 15] |
 | B3_OU | Ornstein-Uhlenbeck process and exact discretisation | | [15] |
 | B3_CARMA | CARMA processes | | [15] |
 | B3_SDE | Diffusions and SDE discretisation | Euler-Maruyama, Milstein | [15] |
-| B3_JUMP_LEVY | Jump-diffusion and Levy-driven models | | [15] |
 | B3_SDE_INFERENCE | Likelihood inference for diffusions | signature methods | [15] |
 
 **B4 (functional, phase B4):** `B4` → `B4_CURVES` → `B4_INTRADAY` → `P5_FN_BASIS[["Basis representation and smoothing of curves"]]` → `P5` ref.

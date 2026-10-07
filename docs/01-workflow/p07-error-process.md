@@ -17,7 +17,7 @@ graph TD
     P7_TYPE -->|"Continuous"| P7_MEAN_TESTS["Test residual autocorrelation<br/>Ljung-Box, Breusch-Godfrey, ACF"]
     P7_TYPE -->|"Counts"| P7_COUNT_TESTS["Test overdispersion of count innovations"]
     P7_TYPE -->|"Event times"| P7_RESCALING["Time-rescaling check of event-time residuals"]
-    P7_COUNT_TESTS --> P7_INGARCH["INGARCH and negative-binomial innovations"]
+    P7_COUNT_TESTS --> P7_INGARCH["Count innovations: Poisson or negative binomial"]
     P7_RESCALING --> P7_INTENSITY["Intensity misspecification"]
     P7_INGARCH & P7_INTENSITY --> P7_COUNTS_TO_PART_3(["Continue in part 3"])
     P7_MEAN_TESTS --> P7_MEAN_DEP{"Mean dependence?"}

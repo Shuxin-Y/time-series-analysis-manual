@@ -23,15 +23,17 @@ graph TD
     P10_RECONCILIATION --> P10_COMBINATION["Forecast combination and model averaging"]
     P10_COMBINATION --> P10_JUDGMENTAL["Judgmental adjustment"]
     P10_JUDGMENTAL --> P10_MIXED{"Mixed-frequency flag?"}
-    P10_MIXED -->|"Yes"| P10_NOWCASTING["Nowcasting<br/>MIDAS, bridge equations, factor models"]
+    P10_MIXED -->|"Yes"| P10_NOWCASTING["Nowcasting<br/>bridge equations, factor models"]
     P10_MIXED -->|"No"| P11
     F_CONDITIONAL_EXPECTATION[["Conditional expectation as the optimal forecast"]] -.- P10_POINT_FORECASTS
     F_PROJECTION[["Projection theorem and best linear prediction"]] -.- P10_INTERVALS
     P10_NOWCASTING --> P11[["P11: Validation and deployment"]]
+    P6_MIXED_FREQUENCY[["Mixed-frequency models"]] -.- P10_NOWCASTING
     class P10_IN,P10_TO_PART_2 terminator
     class P10_PURPOSE,P10_HIERARCHY,P10_MIXED decision
     class P10_POINT_FORECASTS,P10_INTERVALS,P10_DENSITY_QUANTILE,P10_MULTISTEP,P10_RECONCILIATION,P10_COMBINATION,P10_JUDGMENTAL,P10_NOWCASTING process
     class P11,F_CONDITIONAL_EXPECTATION,F_PROJECTION ref
+    class P6_MIXED_FREQUENCY ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

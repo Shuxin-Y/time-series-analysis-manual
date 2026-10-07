@@ -12,10 +12,6 @@ Distance-based and kernel methods, shapelets, symbolic representations, change-p
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11_CHANGE_POINT_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Point, contextual or collective anomaly
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_AN_TYPE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Statistical outlier scores
 
@@ -47,15 +43,7 @@ Distance-based and kernel methods, shapelets, symbolic representations, change-p
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_AN_THRESHOLD`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Regime detection with hidden Markov models
 
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_AN_REGIME`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Classification, clustering or regression task
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_FE_TASK`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Time-domain features
 

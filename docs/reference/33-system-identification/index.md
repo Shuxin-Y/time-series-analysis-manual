@@ -2,10 +2,6 @@
 
 ARX, ARMAX and transfer-function models, subspace methods, Takens embedding, dynamic mode decomposition and sparse identification.
 
-## ARX, ARMAX and Box-Jenkins input-output models
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P6_ARX_ARMAX`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Subspace identification
 
@@ -37,10 +33,6 @@ ARX, ARMAX and transfer-function models, subspace methods, Takens embedding, dyn
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_SI_ORDER_SELECTION`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Estimate the transfer function and frequency response
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SI_TRANSFER_FUNCTION`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Poles, zeros and stability
 
@@ -61,3 +53,13 @@ ARX, ARMAX and transfer-function models, subspace methods, Takens embedding, dyn
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P5_SS_DMD`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## ARX and ARMAX input-output models
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_ARX_ARMAX`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Estimate the frequency response
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_TRANSFER_FUNCTION`). Write this section following the content rules in `.claude/rules/writing.md`.

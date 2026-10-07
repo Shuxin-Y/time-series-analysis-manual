@@ -14,7 +14,7 @@ graph TD
     P5_SS_IRREGULAR -->|"No"| P5_SS_ONLINE{"Online updating needed?"}
     P5_SS_ONLINE -->|"Yes"| P5_SS_FORM
     P5_SS_ONLINE -->|"No"| P5[["P5: Representation selection"]]
-    P5_SS_FORM --> P5_SS_LATENT["Latent states, irregular sampling and missing observations"]
+    P5_SS_FORM --> P5_SS_LATENT["Latent states and missing observations"]
     P5_SS_LATENT --> P5_SS_TAKENS["Takens embedding and phase-space reconstruction"]
     P5_SS_TAKENS --> P5_SS_DMD["Dynamic mode decomposition and Koopman operators"]
     P5_SS_DMD --> P6_STRUCTURAL_TS[["Structural time-series models"]]

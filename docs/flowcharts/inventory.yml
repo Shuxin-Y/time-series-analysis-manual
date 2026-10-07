@@ -69,7 +69,7 @@ nodes:
   - {id: P7_CCC,           label: "Constant conditional correlation",                   phase: P7, areas: [10, 9],  section: "reference/10-volatility/index.md#constant-conditional-correlation"}
   - {id: P7_DCC,           label: "Dynamic conditional correlation and BEKK",           phase: P7, areas: [10, 9],  section: "reference/10-volatility/index.md#dynamic-conditional-correlation-and-bekk"}
   - {id: P7_COPULA,        label: "Copula dependence",                                  phase: P7, areas: [10],     section: "reference/10-volatility/index.md#copula-dependence"}
-  - {id: P7_INGARCH,       label: "INGARCH and negative-binomial innovations",          phase: P7, areas: [16],     section: "reference/16-count-categorical/index.md#ingarch-and-negative-binomial-innovations"}
+  - {id: P7_INGARCH,       label: "Count innovations: Poisson or negative binomial",    phase: P7, areas: [16],     section: "reference/16-count-categorical/index.md#count-innovations-poisson-or-negative-binomial"}
   - {id: P7_INTENSITY,     label: "Intensity misspecification",                         phase: P7, areas: [17],     section: "reference/17-point-processes/index.md#intensity-misspecification"}
   # ---- foundation sections referenced from P7 (phase F: no diagram definition)
   - {id: F_WHITE_NOISE,        label: "White noise, martingale difference, independence", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"}
@@ -96,7 +96,7 @@ nodes:
   - {id: P0_DISAGGREGATION,     label: "Temporal disaggregation and benchmarking", phase: P0, areas: [31], section: "01-workflow/p00-data.md#temporal-disaggregation-and-benchmarking"}
   - {id: P0_VINTAGES,           label: "Track revisions and real-time vintages",   phase: P0, areas: [31], section: "01-workflow/p00-data.md#track-revisions-and-real-time-vintages"}
   # ---- P3 procedural leaves (live in the phase page)
-  - {id: P3_PLOT,                   label: "Plot the series and its ACF",               phase: P3, areas: [2], section: "01-workflow/p03-exploratory-diagnostics.md#plot-the-series-and-its-acf"}
+  - {id: P3_PLOT, label: "Plot the series", phase: P3, areas: [2], section: "01-workflow/p03-exploratory-diagnostics.md#plot-the-series"}
   - {id: P3_DISTRIBUTION,           label: "Test the distribution",                     phase: P3, areas: [5, 2], section: "01-workflow/p03-exploratory-diagnostics.md#test-the-distribution"}
   - {id: P3_VARIANCE_STABILITY,     label: "Check variance stability",                  phase: P3, areas: [10, 5], section: "01-workflow/p03-exploratory-diagnostics.md#check-variance-stability"}
   - {id: P3_TREND_TYPE,             label: "Trend-stationary or difference-stationary", phase: P3, areas: [28, 2], section: "01-workflow/p03-exploratory-diagnostics.md#trend-stationary-or-difference-stationary"}
@@ -162,7 +162,7 @@ nodes:
   - {id: P6_BSTS,               label: "Bayesian structural time series",                phase: P6, areas: [11, 12], section: "reference/11-state-space/index.md#bayesian-structural-time-series"}
   - {id: P6_BVAR,               label: "Bayesian VAR",                                   phase: P6, areas: [12], section: "reference/12-bayesian/index.md#bayesian-var"}
   - {id: P6_TVP_VAR,            label: "Time-varying parameter VAR",                     phase: P6, areas: [12, 30], section: "reference/12-bayesian/index.md#time-varying-parameter-var"}
-  - {id: P6_ARX_ARMAX,          label: "ARX, ARMAX and Box-Jenkins input-output models", phase: P6, areas: [33], section: "reference/33-system-identification/index.md#arx-armax-and-box-jenkins-input-output-models"}
+  - {id: P6_ARX_ARMAX, label: "ARX and ARMAX input-output models", phase: P6, areas: [33], section: "reference/33-system-identification/index.md#arx-and-armax-input-output-models"}
   - {id: P6_SUBSPACE,           label: "Subspace identification",                        phase: P6, areas: [33], section: "reference/33-system-identification/index.md#subspace-identification"}
   - {id: P6_HAMMERSTEIN_WIENER, label: "Hammerstein-Wiener models",                      phase: P6, areas: [33], section: "reference/33-system-identification/index.md#hammerstein-wiener-models"}
   - {id: P6_SINDY,              label: "Sparse identification of nonlinear dynamics",    phase: P6, areas: [33], section: "reference/33-system-identification/index.md#sparse-identification-of-nonlinear-dynamics"}
@@ -206,12 +206,8 @@ nodes:
   - {id: F_LLN, label: "Law of large numbers",   phase: F, areas: [1], section: "00-foundations/asymptotics.md#law-of-large-numbers"}
   - {id: F_CLT, label: "Central limit theorem",  phase: F, areas: [1], section: "00-foundations/asymptotics.md#central-limit-theorem"}
   # ---- P9 diagnostic and selection leaves
-  - {id: P9_RESIDUAL_AUTOCORRELATION, label: "Residual autocorrelation tests",    phase: P9, areas: [5, 6], section: "01-workflow/p09-diagnostics-selection.md#residual-autocorrelation-tests"}
-  - {id: P9_RESIDUAL_ARCH,            label: "Residual heteroskedasticity tests", phase: P9, areas: [5, 10], section: "01-workflow/p09-diagnostics-selection.md#residual-heteroskedasticity-tests"}
-  - {id: P9_RESIDUAL_NORMALITY,       label: "Residual normality tests",          phase: P9, areas: [5], section: "01-workflow/p09-diagnostics-selection.md#residual-normality-tests"}
   - {id: P9_RESIDUAL_NONLINEARITY,    label: "Remaining nonlinearity",            phase: P9, areas: [8, 5], section: "01-workflow/p09-diagnostics-selection.md#remaining-nonlinearity"}
   - {id: P9_VOLATILITY_DIAGNOSTICS,   label: "Volatility model diagnostics",      phase: P9, areas: [10], section: "01-workflow/p09-diagnostics-selection.md#volatility-model-diagnostics"}
-  - {id: P9_COUNT_DIAGNOSTICS,        label: "Count model diagnostics",           phase: P9, areas: [16], section: "01-workflow/p09-diagnostics-selection.md#count-model-diagnostics"}
   - {id: P9_INFORMATION_CRITERIA,     label: "Information criteria",              phase: P9, areas: [6, 12], section: "reference/06-model-selection/index.md#information-criteria"}
   - {id: P9_BOOTSTRAP,                label: "Bootstrap inference",               phase: P9, areas: [5, 25], section: "reference/06-model-selection/index.md#bootstrap-inference"}
   - {id: P9_FORECAST_COMPARISON,      label: "Forecast comparison tests",         phase: P9, areas: [6], section: "reference/06-model-selection/index.md#forecast-comparison-tests"}
@@ -241,8 +237,7 @@ nodes:
   - {id: F_CONDITIONAL_EXPECTATION, label: "Conditional expectation as the optimal forecast", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#conditional-expectation-as-the-optimal-forecast"}
   - {id: F_PROJECTION,              label: "Projection theorem and best linear prediction",   phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#projection-theorem-and-best-linear-prediction"}
   # ---- P11 validation and deployment leaves
-  - {id: P11_ROLLING_ORIGIN,         label: "Rolling-origin cross-validation",    phase: P11, areas: [6], section: "01-workflow/p11-validation-deployment.md#rolling-origin-cross-validation"}
-  - {id: P11_BACKTESTING,            label: "Backtesting without look-ahead",     phase: P11, areas: [6, 22], section: "01-workflow/p11-validation-deployment.md#backtesting-without-look-ahead"}
+  - {id: P11_ROLLING_ORIGIN, label: "Rolling-origin backtesting", phase: P11, areas: [6], section: "01-workflow/p11-validation-deployment.md#rolling-origin-backtesting"}
   - {id: P11_POINT_METRICS,          label: "Point-forecast metrics",             phase: P11, areas: [6], section: "reference/06-model-selection/index.md#point-forecast-metrics"}
   - {id: P11_PROBABILISTIC_METRICS,  label: "Probabilistic metrics",              phase: P11, areas: [34], section: "reference/34-probabilistic-forecasting/index.md#probabilistic-metrics"}
   - {id: P11_CLASSIFICATION_METRICS, label: "Classification and anomaly metrics", phase: P11, areas: [19], section: "reference/19-classification-anomaly/index.md#classification-and-anomaly-metrics"}
@@ -253,7 +248,6 @@ nodes:
   - {id: P11_ONLINE_UPDATING,        label: "Online updating",                    phase: P11, areas: [23], section: "reference/23-online-adaptive/index.md#online-updating"}
   - {id: P11_RETRAINING,             label: "Retraining policy",                  phase: P11, areas: [23], section: "01-workflow/p11-validation-deployment.md#retraining-policy"}
   # ---- P2 purpose leaves: FC (sections in reference chapters)
-  - {id: P2_FC_HORIZON,   label: "Choose the forecast horizon and origin", phase: P2, areas: [22], section: "reference/22-forecasting-practice/index.md#choose-the-forecast-horizon-and-origin"}
   - {id: P2_FC_BASELINES, label: "Naive and seasonal-naive baselines",     phase: P2, areas: [22], section: "reference/22-forecasting-practice/index.md#naive-and-seasonal-naive-baselines"}
   - {id: P2_FC_EPIDEMIC,  label: "Epidemic nowcasting",                    phase: P2, areas: [26, 22], section: "reference/26-applied-domains/index.md#epidemic-nowcasting"}
   # ---- P2 purpose leaves: CA (sections in reference chapters)
@@ -268,21 +262,17 @@ nodes:
   - {id: P2_CP_MULTIVARIATE, label: "Multivariate change points",             phase: P2, areas: [30], section: "reference/30-structural-change/index.md#multivariate-change-points"}
   - {id: P2_CP_TYPE,         label: "Classify the change",                    phase: P2, areas: [30], section: "reference/30-structural-change/index.md#classify-the-change"}
   # ---- P2 purpose leaves: AN (sections in reference chapters)
-  - {id: P2_AN_TYPE,             label: "Point, contextual or collective anomaly",      phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#point-contextual-or-collective-anomaly"}
   - {id: P2_AN_STATISTICAL,      label: "Statistical outlier scores",                   phase: P2, areas: [19, 24], section: "reference/19-classification-anomaly/index.md#statistical-outlier-scores"}
   - {id: P2_AN_RESIDUAL,         label: "Residual-based detection from a fitted model", phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#residual-based-detection-from-a-fitted-model"}
   - {id: P2_AN_MATRIX_PROFILE,   label: "Matrix profile and discord discovery",         phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#matrix-profile-and-discord-discovery"}
   - {id: P2_AN_ISOLATION_FOREST, label: "Isolation forests for time series",            phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#isolation-forests-for-time-series"}
   - {id: P2_AN_AUTOENCODER,      label: "Autoencoders and variational autoencoders",    phase: P2, areas: [19, 18], section: "reference/19-classification-anomaly/index.md#autoencoders-and-variational-autoencoders"}
   - {id: P2_AN_THRESHOLD,        label: "Set thresholds by the cost of errors",         phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#set-thresholds-by-the-cost-of-errors"}
-  - {id: P2_AN_REGIME,           label: "Regime detection with hidden Markov models",   phase: P2, areas: [19, 8], section: "reference/19-classification-anomaly/index.md#regime-detection-with-hidden-markov-models"}
   # ---- P2 purpose leaves: DC (sections in reference chapters)
-  - {id: P2_DC_PERIOD,                  label: "Detect the period",                              phase: P2, areas: [29, 13], section: "reference/29-seasonality-calendar/index.md#detect-the-period"}
   - {id: P2_DC_ADDITIVE_MULTIPLICATIVE, label: "Additive or multiplicative decomposition",       phase: P2, areas: [3], section: "reference/03-classical/index.md#additive-or-multiplicative-decomposition"}
   - {id: P2_DC_COMPONENT_ANALYSIS,      label: "Analyse and interpret the components",           phase: P2, areas: [3], section: "reference/03-classical/index.md#analyse-and-interpret-the-components"}
   - {id: P2_DC_REVISION,                label: "Revision stability of real-time decompositions", phase: P2, areas: [29], section: "reference/29-seasonality-calendar/index.md#revision-stability-of-real-time-decompositions"}
   # ---- P2 purpose leaves: FE (sections in reference chapters)
-  - {id: P2_FE_TASK,                    label: "Classification, clustering or regression task", phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#classification-clustering-or-regression-task"}
   - {id: P2_FE_TIME_FEATURES,           label: "Time-domain features",                          phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#time-domain-features"}
   - {id: P2_FE_FREQ_FEATURES,           label: "Frequency-domain features",                     phase: P2, areas: [19, 13], section: "reference/19-classification-anomaly/index.md#frequency-domain-features"}
   - {id: P2_FE_TF_FEATURES,             label: "Time-frequency features",                       phase: P2, areas: [19, 13], section: "reference/19-classification-anomaly/index.md#time-frequency-features"}
@@ -300,21 +290,19 @@ nodes:
   - {id: P2_SI_EXPERIMENT_DESIGN, label: "Input design and persistent excitation",                phase: P2, areas: [33], section: "reference/33-system-identification/index.md#input-design-and-persistent-excitation"}
   - {id: P2_SI_MODEL_STRUCTURE,   label: "Choose the model structure",                            phase: P2, areas: [33], section: "reference/33-system-identification/index.md#choose-the-model-structure"}
   - {id: P2_SI_ORDER_SELECTION,   label: "Order selection",                                       phase: P2, areas: [33], section: "reference/33-system-identification/index.md#order-selection"}
-  - {id: P2_SI_TRANSFER_FUNCTION, label: "Estimate the transfer function and frequency response", phase: P2, areas: [33], section: "reference/33-system-identification/index.md#estimate-the-transfer-function-and-frequency-response"}
+  - {id: P2_SI_TRANSFER_FUNCTION, label: "Estimate the frequency response", phase: P2, areas: [33], section: "reference/33-system-identification/index.md#estimate-the-frequency-response"}
   - {id: P2_SI_STABILITY,         label: "Poles, zeros and stability",                            phase: P2, areas: [33], section: "reference/33-system-identification/index.md#poles-zeros-and-stability"}
   - {id: P2_SI_VALIDATION,        label: "Validate on held-out input-output data",                phase: P2, areas: [33], section: "reference/33-system-identification/index.md#validate-on-held-out-input-output-data"}
   # ---- P2 purpose leaves: SM (sections in reference chapters)
   - {id: P2_SM_MONTE_CARLO,        label: "Monte Carlo simulation from a fitted model", phase: P2, areas: [25], section: "reference/25-simulation/index.md#monte-carlo-simulation-from-a-fitted-model"}
-  - {id: P2_SM_BOOTSTRAP_PATHS,    label: "Bootstrap path simulation",                  phase: P2, areas: [25], section: "reference/25-simulation/index.md#bootstrap-path-simulation"}
+  - {id: P2_SM_BOOTSTRAP_PATHS, label: "Simulating paths by resampling", phase: P2, areas: [25], section: "reference/25-simulation/index.md#simulating-paths-by-resampling"}
   - {id: P2_SM_SYNTHETIC,          label: "Synthetic data generation",                  phase: P2, areas: [25, 18], section: "reference/25-simulation/index.md#synthetic-data-generation"}
-  - {id: P2_SM_STRESS,             label: "Stress scenarios and shock design",          phase: P2, areas: [25, 10], section: "reference/25-simulation/index.md#stress-scenarios-and-shock-design"}
   - {id: P2_SM_DISTRIBUTION_MATCH, label: "Check distribution and dependence matching", phase: P2, areas: [25], section: "reference/25-simulation/index.md#check-distribution-and-dependence-matching"}
   # ---- P2 purpose leaves: SE (sections in reference chapters)
   - {id: P2_SE_NOISE_TYPE,        label: "Characterise the noise",                              phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#characterise-the-noise"}
-  - {id: P2_SE_FILTER_DESIGN,     label: "Choose the filter",                                   phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#choose-the-filter"}
   - {id: P2_SE_WIENER,            label: "Wiener filtering",                                    phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#wiener-filtering"}
   - {id: P2_SE_WAVELET_DENOISING, label: "Wavelet denoising",                                   phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#wavelet-denoising"}
-  - {id: P2_SE_SNR,               label: "Evaluate signal-to-noise ratio and phase distortion", phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#evaluate-signal-to-noise-ratio-and-phase-distortion"}
+  - {id: P2_SE_SNR, label: "Evaluate the signal-to-noise ratio", phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#evaluate-the-signal-to-noise-ratio"}
   # ---- P2 purpose leaves: SP (sections in reference chapters)
   - {id: P2_SP_SPECTRAL_SHAPE,      label: "Interpret the spectral shape",                  phase: P2, areas: [13], section: "reference/13-spectral-analysis/index.md#interpret-the-spectral-shape"}
   - {id: P2_SP_PEAK_SIGNIFICANCE,   label: "Peak significance",                             phase: P2, areas: [13, 5], section: "reference/13-spectral-analysis/index.md#peak-significance"}
@@ -342,7 +330,7 @@ nodes:
   - {id: P5_TF_VMD,              label: "Variational mode decomposition",                               phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#variational-mode-decomposition"}
   # ---- P5 representation leaves: SS (sections in reference chapters)
   - {id: P5_SS_FORM,   label: "State-space form and the ARIMA rewriting",                   phase: P5, areas: [11], section: "reference/11-state-space/index.md#state-space-form-and-the-arima-rewriting"}
-  - {id: P5_SS_LATENT, label: "Latent states, irregular sampling and missing observations", phase: P5, areas: [11], section: "reference/11-state-space/index.md#latent-states-irregular-sampling-and-missing-observations"}
+  - {id: P5_SS_LATENT, label: "Latent states and missing observations", phase: P5, areas: [11], section: "reference/11-state-space/index.md#latent-states-and-missing-observations"}
   - {id: P5_SS_TAKENS, label: "Takens embedding and phase-space reconstruction",            phase: P5, areas: [33, 8], section: "reference/33-system-identification/index.md#takens-embedding-and-phase-space-reconstruction"}
   - {id: P5_SS_DMD,    label: "Dynamic mode decomposition and Koopman operators",           phase: P5, areas: [33], section: "reference/33-system-identification/index.md#dynamic-mode-decomposition-and-koopman-operators"}
   # ---- P5 representation leaves: FN (sections in reference chapters)
@@ -355,8 +343,7 @@ nodes:
   # ---- B1 branch leaves
   - {id: B1_COUNT_EDA,         label: "Count-data diagnostics",                              phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#count-data-diagnostics"}
   - {id: B1_INAR,              label: "INAR models",                                         phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#inar-models"}
-  - {id: B1_POISSON_AR,        label: "Poisson autoregression and INGARCH",                  phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#poisson-autoregression-and-ingarch"}
-  - {id: B1_NEGATIVE_BINOMIAL, label: "Negative-binomial autoregression",                    phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#negative-binomial-autoregression"}
+  - {id: B1_POISSON_AR, label: "Poisson and negative-binomial autoregression", phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#poisson-and-negative-binomial-autoregression"}
   - {id: B1_GLARMA,            label: "GLARMA and dynamic generalised linear models",        phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#glarma-and-dynamic-generalised-linear-models"}
   - {id: B1_MARKOV_CHAIN,      label: "Markov chains for categorical series",                phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#markov-chains-for-categorical-series"}
   - {id: B1_AR_LOGIT,          label: "Autoregressive logit, probit and multinomial series", phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#autoregressive-logit-probit-and-multinomial-series"}
@@ -372,12 +359,10 @@ nodes:
   - {id: B2_SURVIVAL,    label: "Survival and hazard models",                      phase: B2, areas: [14, 26], section: "reference/14-functional-high-frequency/index.md#survival-and-hazard-models"}
   - {id: B2_DEGRADATION, label: "Degradation processes and remaining useful life", phase: B2, areas: [26, 15], section: "reference/26-applied-domains/index.md#degradation-processes-and-remaining-useful-life"}
   # ---- B3 branch leaves
-  - {id: B3_CHOICE,           label: "Resample, model the irregular grid, or move to continuous time", phase: B3, areas: [15], section: "reference/15-continuous-time/index.md#resample-model-the-irregular-grid-or-move-to-continuous-time"}
   - {id: B3_IRREGULAR_KALMAN, label: "Kalman filtering on an irregular grid",                          phase: B3, areas: [11, 15], section: "reference/15-continuous-time/index.md#kalman-filtering-on-an-irregular-grid"}
   - {id: B3_OU,               label: "Ornstein-Uhlenbeck process and exact discretisation",            phase: B3, areas: [15], section: "reference/15-continuous-time/index.md#ornstein-uhlenbeck-process-and-exact-discretisation"}
   - {id: B3_CARMA,            label: "CARMA processes",                                                phase: B3, areas: [15], section: "reference/15-continuous-time/index.md#carma-processes"}
   - {id: B3_SDE,              label: "Diffusions and SDE discretisation",                              phase: B3, areas: [15], section: "reference/15-continuous-time/index.md#diffusions-and-sde-discretisation"}
-  - {id: B3_JUMP_LEVY,        label: "Jump-diffusion and Levy-driven models",                          phase: B3, areas: [15], section: "reference/15-continuous-time/index.md#jump-diffusion-and-levy-driven-models"}
   - {id: B3_SDE_INFERENCE,    label: "Likelihood inference for diffusions",                            phase: B3, areas: [15], section: "reference/15-continuous-time/index.md#likelihood-inference-for-diffusions"}
   # ---- B4 branch leaves
   - {id: B4_CURVES,   label: "Series as curves",                         phase: B4, areas: [14], section: "reference/14-functional-high-frequency/index.md#series-as-curves"}

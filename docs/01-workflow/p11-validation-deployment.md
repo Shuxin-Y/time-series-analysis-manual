@@ -9,9 +9,8 @@ Rolling-origin validation and backtesting, purpose-specific metrics, documentati
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P11_IN(["Model and forecasts from P10"]) --> P11_ROLLING_ORIGIN["Rolling-origin cross-validation"]
-    P11_ROLLING_ORIGIN --> P11_BACKTESTING["Backtesting without look-ahead<br/>backtest overfitting, look-ahead bias"]
-    P11_BACKTESTING --> P11_METRIC_KIND{"Output type?"}
+    P11_IN(["Model and forecasts from P10"]) --> P11_ROLLING_ORIGIN["Rolling-origin backtesting<br/>look-ahead bias, backtest overfitting"]
+    P11_ROLLING_ORIGIN --> P11_METRIC_KIND{"Output type?"}
     P11_METRIC_KIND -->|"Point"| P11_POINT_METRICS["Point-forecast metrics<br/>RMSE, MAE, MAPE, MASE"]
     P11_METRIC_KIND -->|"Probabilistic"| P11_PROBABILISTIC_METRICS["Probabilistic metrics<br/>coverage, CRPS, pinball loss, log score, PIT"]
     P11_METRIC_KIND -->|"Labels or anomalies"| P11_CLASSIFICATION_METRICS["Classification and anomaly metrics<br/>F1, event-level precision and recall, NAB score"]
@@ -19,17 +18,21 @@ graph TD
     P11_POINT_METRICS & P11_PROBABILISTIC_METRICS & P11_CLASSIFICATION_METRICS & P11_CHANGE_POINT_METRICS --> P11_ACCEPTABLE{"Performance acceptable?"}
     P11_ACCEPTABLE -.->|"No"| P6[["P6: Conditional-mean model class"]]
     P11_ACCEPTABLE -->|"Yes"| P11_DOCUMENTATION["Document the model specification"]
-    P11_DOCUMENTATION --> P11_DRIFT_MONITORING["Drift monitoring<br/>KL divergence, spectral shift, BOCPD, ADWIN, Page-Hinkley, DDM"]
-    P11_DRIFT_MONITORING --> P11_SPC["Statistical process control<br/>Shewhart, EWMA, CUSUM charts"]
+    P11_DOCUMENTATION --> P11_DRIFT_MONITORING["Drift monitoring<br/>KL divergence, spectral shift, ADWIN, DDM"]
+    P11_DRIFT_MONITORING --> P11_SPC["Statistical process control<br/>Shewhart and EWMA charts"]
     P11_SPC --> P11_DRIFT{"Drift detected?"}
     P11_DRIFT -->|"Yes"| P11_ONLINE_UPDATING["Online updating<br/>recursive least squares, forgetting factors, online Kalman, online gradient"]
     P11_DRIFT -->|"No"| P11_RETRAINING["Retraining policy"]
     P11_ONLINE_UPDATING -.-> P8[["P8: Estimation"]]
     P11_RETRAINING --> P11_OUT(["Validated model deployed"])
+    P2_CP_CUSUM[["Sequential detection"]] -.- P11_SPC
+    P2_CP_CUSUM -.- P11_DRIFT_MONITORING
+    P2_CP_BOCPD[["Bayesian online change-point detection"]] -.- P11_DRIFT_MONITORING
     class P11_IN,P11_OUT terminator
     class P11_METRIC_KIND,P11_ACCEPTABLE,P11_DRIFT decision
-    class P11_ROLLING_ORIGIN,P11_BACKTESTING,P11_POINT_METRICS,P11_PROBABILISTIC_METRICS,P11_CLASSIFICATION_METRICS,P11_CHANGE_POINT_METRICS,P11_DOCUMENTATION,P11_DRIFT_MONITORING,P11_SPC,P11_ONLINE_UPDATING,P11_RETRAINING process
+    class P11_ROLLING_ORIGIN,P11_POINT_METRICS,P11_PROBABILISTIC_METRICS,P11_CLASSIFICATION_METRICS,P11_CHANGE_POINT_METRICS,P11_DOCUMENTATION,P11_DRIFT_MONITORING,P11_SPC,P11_ONLINE_UPDATING,P11_RETRAINING process
     class P6,P8 ref
+    class P2_CP_CUSUM,P2_CP_BOCPD ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -45,15 +48,7 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Rolling-origin cross-validation
 
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P11_ROLLING_ORIGIN`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Backtesting without look-ahead
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P11_BACKTESTING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Document the model specification
 
@@ -64,3 +59,8 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11_RETRAINING`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Rolling-origin backtesting
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_ROLLING_ORIGIN`). Write this section following the content rules in `.claude/rules/writing.md`.

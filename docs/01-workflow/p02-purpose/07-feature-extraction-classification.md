@@ -4,13 +4,12 @@
 
 ## Sub-chart
 
-**Part 1: task and hand-crafted features.**
+**Part 1: hand-crafted features.**
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P2_FE_IN(["Labelling or grouping question"]) --> P2_FE_TASK["Classification, clustering or regression task"]
-    P2_FE_TASK --> P2_FE_FEATURE_Q{"Feature family?"}
+    P2_FE_IN(["Labelling or grouping question"]) --> P2_FE_FEATURE_Q{"Feature family?"}
     P2_FE_FEATURE_Q -->|"Hand-crafted features"| P2_FE_HANDCRAFTED{"Domain?"}
     P2_FE_FEATURE_Q -->|"Representations"| P2_FE_TO_PART_2
     P2_FE_HANDCRAFTED -->|"Time"| P2_FE_TIME_FEATURES["Time-domain features<br/>moments, autocorrelation, rolling statistics"]
@@ -21,7 +20,7 @@ graph TD
     P2_FE_TIME_FEATURES & P2_FE_FREQ_FEATURES & P2_FE_TF_FEATURES & P2_FE_NONLINEAR_FEATURES & P2_FE_AUTOMATED --> P2_FE_TO_PART_2(["Continue in part 2"])
     class P2_FE_IN,P2_FE_TO_PART_2 terminator
     class P2_FE_FEATURE_Q,P2_FE_HANDCRAFTED decision
-    class P2_FE_TASK,P2_FE_TIME_FEATURES,P2_FE_FREQ_FEATURES,P2_FE_TF_FEATURES,P2_FE_NONLINEAR_FEATURES,P2_FE_AUTOMATED process
+    class P2_FE_TIME_FEATURES,P2_FE_FREQ_FEATURES,P2_FE_TF_FEATURES,P2_FE_NONLINEAR_FEATURES,P2_FE_AUTOMATED process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

@@ -8,13 +8,13 @@
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P2_SI_IN(["Input-output data"]) --> P2_SI_EXPERIMENT_DESIGN["Input design and persistent excitation"]
-    P2_SI_EXPERIMENT_DESIGN --> P2_SI_MODEL_STRUCTURE["Choose the model structure<br/>ARX, ARMAX, Box-Jenkins, state space"]
+    P2_SI_EXPERIMENT_DESIGN --> P2_SI_MODEL_STRUCTURE["Choose the model structure<br/>polynomial ARX and ARMAX, state space, block-oriented"]
     P2_SI_MODEL_STRUCTURE --> P2_SI_STRUCTURE_Q{"Structure?"}
-    P2_SI_STRUCTURE_Q -->|"Polynomial"| P6_ARX_ARMAX[["ARX, ARMAX and Box-Jenkins input-output models"]]
+    P2_SI_STRUCTURE_Q -->|"Polynomial"| P6_ARX_ARMAX[["ARX and ARMAX input-output models"]]
     P2_SI_STRUCTURE_Q -->|"State space"| P6_SUBSPACE[["Subspace identification"]]
     P2_SI_STRUCTURE_Q -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER[["Hammerstein-Wiener models"]]
     P6_ARX_ARMAX & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER --> P2_SI_ORDER_SELECTION["Order selection<br/>Hankel singular values"]
-    P2_SI_ORDER_SELECTION --> P2_SI_TRANSFER_FUNCTION["Estimate the transfer function and frequency response"]
+    P2_SI_ORDER_SELECTION --> P2_SI_TRANSFER_FUNCTION["Estimate the frequency response<br/>empirical transfer-function estimate"]
     P2_SI_TRANSFER_FUNCTION --> P2_SI_STABILITY["Poles, zeros and stability"]
     P2_SI_STABILITY --> P2_SI_VALIDATION["Validate on held-out input-output data"]
     P2_SI_VALIDATION --> P2_SI_OUT(["Identified system"])

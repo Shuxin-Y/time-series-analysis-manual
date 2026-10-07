@@ -9,7 +9,7 @@ Distribution, variance stability, trend-stationary versus difference-stationary 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P3_IN(["Series and flags from P2"]) --> P3_PLOT["Plot the series and its ACF"]
+    P3_IN(["Series and flags from P2"]) --> P3_PLOT["Plot the series"]
     P3_PLOT --> P3_DISTRIBUTION["Test the distribution<br/>Shapiro-Wilk, Jarque-Bera, skewness, tail index"]
     P3_DISTRIBUTION --> P3_VARIANCE_STABILITY["Check variance stability<br/>rolling variance, ARCH-LM on levels"]
     P3_VARIANCE_STABILITY --> P3_HETERO{"Variance stable?"}
@@ -71,10 +71,6 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Plot the series and its ACF
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P3_PLOT`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Test the distribution
 
@@ -155,3 +151,8 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3_COINTEGRATION_PRECHECK`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Plot the series
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P3_PLOT`). Write this section following the content rules in `.claude/rules/writing.md`.

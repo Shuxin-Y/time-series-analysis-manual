@@ -23,7 +23,7 @@ graph TD
     P6_SCALE -->|"Univariate"| P6_TO_PART_2(["Continue in part 2"])
     P6_COINTEGRATED -->|"Yes"| P6_VECM["VECM"]
     P6_COINTEGRATED -->|"No"| P6_VAR["VAR"]
-    P6_VAR -->|"Structural question"| P6_SVAR["SVAR"]
+    P6_VAR -->|"Structural question"| P6_SVAR["SVAR<br/>identification schemes in P10"]
     P6_DIMENSION -->|"Factors"| P6_FACTOR_MODELS["Static and dynamic factor models"]
     P6_DIMENSION -->|"Shrinkage"| P6_REGULARISED_VAR["Regularised VAR<br/>LASSO, ridge, elastic net"]
     P6_DIMENSION -->|"Graph"| P6_GRAPHICAL_MODELS["Graphical models and sparse precision matrices"]
@@ -61,7 +61,7 @@ graph TD
     P6_LINEAR -->|"Yes"| P6_ARFIMA["ARFIMA"]
     P6_LINEAR -->|"No"| P6_LINEAR_FAMILY{"Family?"}
     P6_LINEAR_FAMILY -->|"Autoregressive"| P6_AR_MA_ARMA["AR, MA and ARMA"]
-    P6_LINEAR_FAMILY -->|"Exogenous flag"| P6_ARIMAX["ARIMAX and SARIMAX<br/>regression with ARMA errors"]
+    P6_LINEAR_FAMILY -->|"Exogenous flag"| P6_ARIMAX["ARIMAX and SARIMAX"]
     P6_LINEAR_FAMILY -->|"Smoothing"| P6_ETS["Exponential smoothing and ETS"]
     P6_LINEAR_FAMILY -->|"Periodic"| P6_PERIODIC_AR["Periodic autoregression"]
     P6_LINEAR_FAMILY -->|"Intermittent"| P6_INTERMITTENT["Intermittent demand<br/>Croston, TSB"]
@@ -120,7 +120,7 @@ graph TD
     P6_PART_4_IN(["From part 2"]) -->|"Time-varying coefficients"| P6_TVP_REGRESSION["Time-varying parameter regression"]
     P6_PART_4_IN -->|"Latent components"| P6_STRUCTURAL_TS["Structural time-series models<br/>local level, local linear trend, seasonal, cycle"]
     P6_PART_4_IN -->|"Bayesian priors"| P6_BVAR["Bayesian VAR<br/>Minnesota and conjugate priors"]
-    P6_PART_4_IN -->|"Input-output system"| P6_ARX_ARMAX["ARX, ARMAX and Box-Jenkins input-output models"]
+    P6_PART_4_IN -->|"Input-output system"| P6_ARX_ARMAX["ARX and ARMAX input-output models"]
     P6_STRUCTURAL_TS --> P6_DLM["Dynamic linear models"]
     P6_DLM --> P6_BSTS["Bayesian structural time series"]
     P6_BVAR --> P6_TVP_VAR["Time-varying parameter VAR"]
