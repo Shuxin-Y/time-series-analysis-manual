@@ -16,8 +16,9 @@ graph TD
     B1_COUNT_FAMILY -->|"Conditional intensity"| B1_POISSON_AR["Poisson and negative-binomial autoregression<br/>INGARCH"]
     B1_COUNT_FAMILY -->|"GLM with ARMA terms"| B1_GLARMA["GLARMA and dynamic generalised linear models"]
     B1_MARKOV_CHAIN --> B1_AR_LOGIT["Autoregressive logit, probit and multinomial series"]
-    B1_INAR & B1_POISSON_AR & B1_GLARMA & B1_AR_LOGIT & B1_COMPOSITIONAL --> P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
+    B1_INAR & B1_POISSON_AR & B1_GLARMA --> P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
     P7_COUNT_TESTS --> P8[["P8: Estimation"]]
+    B1_AR_LOGIT & B1_COMPOSITIONAL --> P8
     F_MARKOV[["Markov chains"]] -.- B1_MARKOV_CHAIN
     class B1_VALUE,B1_COUNT_FAMILY decision
     class B1,B1_COUNT_EDA,B1_MARKOV_CHAIN,B1_COMPOSITIONAL,B1_INAR,B1_POISSON_AR,B1_GLARMA,B1_AR_LOGIT process
