@@ -103,7 +103,8 @@ def _diagram_pages() -> list[str]:
     config = load_config(config_file=str(REPO / "mkdocs.yml"))
     site = audit.Site(config, Path(config["docs_dir"]))
     files = sorted({audit.split_section(d.where)[0] for d in audit.collect_diagrams(site)})
-    return [re.sub(r"(^|/)index\.md$", r"\1", f).removesuffix(".md") + ("" if f.endswith("index.md") else "/") for f in files]
+    index = "index.md"  # served at its directory (use_directory_urls, as in site-urls.js)
+    return [f.removesuffix(index) if f.endswith(index) else f.removesuffix(".md") + "/" for f in files]
 
 
 # Width rule (DESIGN-SYSTEM.md, "Width"): rendered width over SVG width, measured at this viewport.

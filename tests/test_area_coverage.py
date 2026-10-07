@@ -18,6 +18,6 @@ def test_every_area_has_a_leaf():
     assert not findings
     foundation = {a for r in rows if r.phase == audit.FOUNDATION_PHASE for a in r.areas}
     leaves = {a for r in rows if r.phase not in (audit.FOUNDATION_PHASE, audit.MASTER_PHASE) for a in r.areas}
-    assert FOUNDATION_AREA in foundation, "area 1 has no foundation section"
+    assert FOUNDATION_AREA in foundation, f"area {FOUNDATION_AREA} has no foundation section"
     missing = sorted(set(audit.AREAS) - {FOUNDATION_AREA} - leaves)
     assert not missing, f"areas without a leaf: {missing}"
