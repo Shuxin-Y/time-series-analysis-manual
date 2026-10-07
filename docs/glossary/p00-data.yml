@@ -15,7 +15,7 @@ terms:
       - 1976: Rubin introduces the MAR framework
       - 1987: Little and Rubin publish comprehensive treatment
       - 2000s: Multiple imputation methods become standard
-    reference: "01-workflow/p00-data.md#p0-data-acquisition-and-cleaning"
+    reference: "01-workflow/p00-data.md#impute-missing-values"
 
   - term: "Sampling Rate"
     definition: "The frequency at which observations are recorded, measured as the number of samples per unit time."
