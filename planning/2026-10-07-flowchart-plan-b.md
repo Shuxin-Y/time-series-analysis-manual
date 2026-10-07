@@ -4,7 +4,7 @@
 
 **Goal:** Draw every sub-diagram the skeleton left pending (P0, P3, P4, P6, P8, P9, P10, P11; the ten purpose sub-charts; the six representation sub-charts; branches B1 to B7), register every leaf in the inventory, scaffold its pending section, and make the audit prove that all 34 areas have at least one leaf (spec acceptance criterion 3).
 
-**Architecture:** Each diagram follows the P1 and P7 exemplars already in the repo: a decision chart in the design-system notation, leaves as rectangles with owner-prefixed IDs, `ref` boxes for nodes owned elsewhere, flags as `*_FLAG` process nodes, and no URLs. Leaf labels are short (the inventory label equals the first label line); method lists go on a second `<br/>` line. Procedural leaves live in the phase page; model, transform and estimator leaves live in the reference landing pages, where the scaffold appends pending sections.
+**Architecture:** Each diagram follows the P1 and P7 exemplars already in the repo: a decision chart in the design-system notation, leaves as rectangles with owner-prefixed IDs, `ref` boxes for nodes owned elsewhere, flags as `*_FLAG` process nodes, and no URLs. Leaf labels are short (the inventory label equals the first label line); method lists go on a second `<br/>` line. P0, P3, P4, P9 and P11 leaves (procedures, tests and the P4 transforms, which spec §10.2 lists as procedural) live in the phase page; model and estimator leaves (P5, P6, P7, P8 and the branches) live in the reference landing pages, where the scaffold appends pending sections.
 
 **Tech Stack:** Mermaid 10 (as pinned), the existing `scripts/audit_flowcharts.py`, `scripts/scaffold_stubs.py`, pytest, MkDocs strict build. No new tooling beyond one coverage test and one audit helper.
 
@@ -616,7 +616,7 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 | B2_MARKED | Marked and multivariate point processes |  | [17] | reference/17-point-processes/index.md |
 | B2_NEURAL_PP | Neural point processes |  | [17, 18] | reference/17-point-processes/index.md |
 | B2_ACD | Autoregressive conditional duration | | [14] | reference/14-functional-high-frequency/index.md |
-| B2_SURVIVAL | Survival and hazard models | Cox proportional hazards | [14, 26] | reference/14-functional-high-frequency/index.md |
+| B2_SURVIVAL | Survival and hazard models | Cox proportional hazards | [14, 26] | reference/17-point-processes/index.md |
 | B2_DEGRADATION | Degradation processes and remaining useful life | Wiener and gamma processes | [26, 15] | reference/26-applied-domains/index.md |
 
 **B3 (irregular sampling and continuous time, phase B3):** `B3` → `B3_CHOICE` → `B3_ROUTE{"Route?"}` →|"Resample"| `-.->` `P0_RESAMPLE[["Resample and anti-alias"]]`; →|"Keep the grid"| `B3_IRREGULAR_KALMAN` → `P5_FD_LOMB_SCARGLE[["Lomb-Scargle periodogram"]]` → `P5[["P5: Representation selection"]]`; →|"Continuous time"| `B3_OU` → `B3_CARMA` → `B3_SDE` → `B3_JUMPS{"Jumps?"}` →|"Yes"| `B3_JUMP_LEVY`; →|"No"| `B3_SDE_INFERENCE`; `B3_JUMP_LEVY` → `B3_SDE_INFERENCE` → `P8`.

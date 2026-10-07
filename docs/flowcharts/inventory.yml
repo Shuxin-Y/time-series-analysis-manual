@@ -356,7 +356,7 @@ nodes:
   - {id: B2_MARKED,      label: "Marked and multivariate point processes",         phase: B2, areas: [17], section: "reference/17-point-processes/index.md#marked-and-multivariate-point-processes"}
   - {id: B2_NEURAL_PP,   label: "Neural point processes",                          phase: B2, areas: [17, 18], section: "reference/17-point-processes/index.md#neural-point-processes"}
   - {id: B2_ACD,         label: "Autoregressive conditional duration",             phase: B2, areas: [14], section: "reference/14-functional-high-frequency/index.md#autoregressive-conditional-duration"}
-  - {id: B2_SURVIVAL,    label: "Survival and hazard models",                      phase: B2, areas: [14, 26], section: "reference/14-functional-high-frequency/index.md#survival-and-hazard-models"}
+  - {id: B2_SURVIVAL, label: "Survival and hazard models", phase: B2, areas: [14, 26], section: "reference/17-point-processes/index.md#survival-and-hazard-models"}
   - {id: B2_DEGRADATION, label: "Degradation processes and remaining useful life", phase: B2, areas: [26, 15], section: "reference/26-applied-domains/index.md#degradation-processes-and-remaining-useful-life"}
   # ---- B3 branch leaves
   - {id: B3_IRREGULAR_KALMAN, label: "Kalman filtering on an irregular grid",                          phase: B3, areas: [11, 15], section: "reference/15-continuous-time/index.md#kalman-filtering-on-an-irregular-grid"}

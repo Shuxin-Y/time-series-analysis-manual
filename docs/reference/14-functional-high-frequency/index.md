@@ -48,10 +48,6 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B2_ACD`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Survival and hazard models
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B2_SURVIVAL`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Series as curves
 
