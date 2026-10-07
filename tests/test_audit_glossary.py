@@ -111,7 +111,7 @@ def test_check_sections_unlinked_theory_is_an_error(tmp_path):
     (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\n## Joint density\n", encoding="utf-8")
     rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
     findings = audit.check_sections(sitekit.site(tmp_path), rows, [])
-    assert any(f.where == "reference/04-estimation/theory.md" and "not linked" in f.message for f in findings)
+    assert any(f.where == "reference/04-estimation/theory.md" and "not reachable" in f.message for f in findings)
 
 
 def test_nav_pages_flattens_the_loaded_config(tmp_path):
@@ -138,11 +138,12 @@ def test_theory_page_cleared_only_by_an_exact_glossary_derivation_link(tmp_path)
     docs = make_docs(tmp_path)
     (docs / "reference" / "04-estimation" / "index.md").write_text("# Estimation\n\n## Joint density\n", encoding="utf-8")
     rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
-    linked = [{"term": "x", "derivation": "1. because [why](reference/04-estimation/theory.md#why-mle)"}]
-    loose = [{"term": "x", "derivation": "1. because [why](theory.md) and reference/04-estimation/theory.md"}]
+    home = "reference/04-estimation/index.md#joint-density"  # a method page, so the term's home is reachable
+    linked = [{"term": "x", "reference": home, "derivation": "1. because [why](reference/04-estimation/theory.md#why-mle)"}]
+    loose = [{"term": "x", "reference": home, "derivation": "1. because [why](theory.md) and reference/04-estimation/theory.md"}]
     site = sitekit.site(tmp_path)
     assert not any(f.where == "reference/04-estimation/theory.md" for f in audit.check_sections(site, rows, linked))
-    assert any(f.where == "reference/04-estimation/theory.md" and "not linked" in f.message
+    assert any(f.where == "reference/04-estimation/theory.md" and "not reachable" in f.message
                for f in audit.check_sections(site, rows, loose))
 
 
@@ -152,7 +153,7 @@ def test_theory_page_is_not_cleared_by_a_link_to_another_page_with_the_same_name
     (docs / "reference" / "10-volatility" / "theory.md").write_text("---\nkind: theory\n---\n# Why GARCH\n", encoding="utf-8")
     rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
     findings = audit.check_sections(sitekit.site(tmp_path), rows, [])
-    wheres = {f.where for f in findings if "not linked" in f.message}
+    wheres = {f.where for f in findings if "not reachable" in f.message}
     assert wheres == {"reference/10-volatility/theory.md"}
 
 
@@ -363,3 +364,21 @@ def test_every_link_in_glossary_text_must_be_a_resolving_section(tmp_path):
         "mathematical link '../reference/04-estimation/index.md#joint-density' must look like path/file.md#anchor",
         "mathematical link 'reference/04-estimation/index.md' must look like path/file.md#anchor",
     ]
+
+
+def test_two_theory_pages_that_only_link_each_other_are_unreachable(tmp_path):
+    docs = make_docs(tmp_path)
+    area = docs / "reference" / "12-x"
+    area.mkdir()
+    (area / "index.md").write_text("# X\n", encoding="utf-8")
+    (area / "x-theory.md").write_text("---\nkind: theory\n---\n# X theory\n\n## Alpha\n", encoding="utf-8")
+    (area / "y-theory.md").write_text("---\nkind: theory\n---\n# Y theory\n\n## Beta\n", encoding="utf-8")
+    terms = [{"term": "Alpha", "reference": "reference/12-x/x-theory.md#alpha",
+              "derivation": "1. [b](reference/12-x/y-theory.md#beta)"},
+             {"term": "Beta", "reference": "reference/12-x/y-theory.md#beta",
+              "derivation": "1. [a](reference/12-x/x-theory.md#alpha)"}]
+    island = {f.where for f in audit.check_sections(sitekit.site(tmp_path), [], terms) if "not reachable" in f.message}
+    assert {"reference/12-x/x-theory.md", "reference/12-x/y-theory.md"} <= island
+    (area / "index.md").write_text("# X\n\nSee [X theory](x-theory.md).\n", encoding="utf-8")
+    reached = {f.where for f in audit.check_sections(sitekit.site(tmp_path), [], terms) if "not reachable" in f.message}
+    assert not reached & {"reference/12-x/x-theory.md", "reference/12-x/y-theory.md"}

@@ -585,22 +585,28 @@ AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
     """Every non-index page under SECTION_DIRS is a method page (in the inventory) or a linked theory page.
 
-    A theory page is linked when a link on a method page or on an area landing page (`reference/NN-*/index.md`)
-    resolves to it, or when a glossary derivation links to one of its anchors in the exact docs-relative
-    `path.md#anchor` form. A derivation link to the term's own reference page does not count: it is a self-link.
+    A theory page must be reachable: the reachable set starts with every method page and every area landing page
+    (`reference/NN-*/index.md`) and grows to a fixed point by adding every page a reachable page links to, and every
+    page linked from the derivation of a term whose home page is reachable. A derivation link to the term's own
+    home page does not count, so two theory pages whose terms only link each other stay unreachable.
     """
     method_files = {r.file for r in rows}
-    sources = sorted(method_files | {rel for rel in site.pages_under("reference") if AREA_LANDING_RE.match(rel)})
-    linked: set[str] = set()
-    for f in sources:
-        page = site.page(f)
-        if page is not None:
-            linked.update(split_section(target)[0] for href in page.links if (target := resolve_link(href, f)))
+    derivation_links: dict[str, set[str]] = {}  # term home page -> pages its terms' derivations link
     for t in terms:
         home = split_section(str(t.get("reference") or ""))[0]
         for target in GLOSSARY_LINK_RE.findall(str(t.get("derivation") or "")):
             if resolve_section(target, site) is None and split_section(target)[0] != home:
-                linked.add(split_section(target)[0])
+                derivation_links.setdefault(home, set()).add(split_section(target)[0])
+    linked = method_files | {rel for rel in site.pages_under("reference") if AREA_LANDING_RE.match(rel)}
+    frontier = sorted(linked)
+    while frontier:
+        page_rel = frontier.pop()
+        page = site.page(page_rel)
+        targets = {split_section(target)[0] for href in (page.links if page else ()) if (target := resolve_link(href, page_rel))}
+        targets |= derivation_links.get(page_rel, set())
+        new = targets - linked
+        linked |= new
+        frontier.extend(sorted(new))
     findings: list[Finding] = []
     for sub in SECTION_DIRS:
         for rel in site.pages_under(sub):
@@ -611,7 +617,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
                 continue
             if page.meta.get("kind") == "theory":
                 if rel not in linked:
-                    findings.append(Finding(ERROR, rel, "theory page is not linked from a method section, an area landing page or another term's derivation"))
+                    findings.append(Finding(ERROR, rel, "theory page is not reachable from a method page or an area landing page through links or the derivations of terms homed on reachable pages"))
             else:
                 findings.append(Finding(ERROR, rel, "page is neither in the inventory (method) nor marked kind: theory"))
     return findings
