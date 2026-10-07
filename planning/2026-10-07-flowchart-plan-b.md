@@ -631,7 +631,7 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 | B2_MARKED | Marked and multivariate point processes |  | [17] | reference/17-point-processes/index.md |
 | B2_NEURAL_PP | Neural point processes |  | [17, 18] | reference/17-point-processes/index.md |
 | B2_ACD | Autoregressive conditional duration | | [14] | reference/14-functional-high-frequency/index.md |
-| B2_SURVIVAL | Survival and hazard models | Cox proportional hazards | [14, 26] | reference/17-point-processes/index.md |
+| B2_SURVIVAL | Survival and hazard models | Cox proportional hazards | [17, 26] | reference/17-point-processes/index.md |
 | B2_DEGRADATION | Degradation processes and remaining useful life | Wiener and gamma processes | [26, 15] | reference/26-applied-domains/index.md |
 
 **B3 (irregular sampling and continuous time, phase B3):** Flow as drawn (revised in review round 1, see Deviations): `B3` → `B3_ROUTE{"Route?"}`; `B3_ROUTE` -.->|"Resample"| `P0_RESAMPLE` (ref); `B3_ROUTE` →|"Keep the grid"| `B3_IRREGULAR_KALMAN`; `B3_ROUTE` →|"Continuous time"| `B3_OU`; `B3_IRREGULAR_KALMAN` → `P5_FD_LOMB_SCARGLE` (ref); `P5_FD_LOMB_SCARGLE` → `P5` (ref); `B3_OU` → `B3_CARMA`; `B3_CARMA` → `B3_SDE`; `B3_SDE` → `B3_JUMPS{"Jumps?"}`; `B3_JUMPS` →|"Yes"| `P7_JUMPS` (ref); `B3_JUMPS` →|"No"| `B3_SDE_INFERENCE`; `P7_JUMPS` → `B3_SDE_INFERENCE`; `B3_SDE_INFERENCE` → `P8` (ref).
