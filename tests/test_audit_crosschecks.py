@@ -40,6 +40,8 @@ def test_a_ref_repeats_the_first_line_of_its_definition_label():
     leaf_ref = diagram('graph TD\n    P7_GARCH[["Symmetric GARCH"]]\n', "p09.md#mermaid-1")
     rows = [audit.Row("P7_GARCH", "GARCH", "P7", (10,), "reference/10-volatility/index.md#garch")]
     assert audit.check_refs([leaf_def, leaf_ref], rows) == []  # a leaf ref is checked against the inventory only
+    labels = [f.message for f in audit.check_nodes_vs_inventory([leaf_def, leaf_ref], rows) if "label" in f.message]
+    assert labels == ["node P7_GARCH label 'Symmetric GARCH' differs from its inventory label 'GARCH'"]  # reported once
 
 
 def test_check_nodes_vs_inventory_both_directions():
