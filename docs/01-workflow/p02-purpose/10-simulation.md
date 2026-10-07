@@ -8,20 +8,23 @@
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P2_SM_IN(["Simulation question"]) --> P2_SM_SOURCE{"Generator?"}
-    P2_SM_SOURCE -->|"Fitted model"| P9[["P9: Diagnostics and model selection"]]
-    P2_SM_SOURCE -->|"Resampling"| P2_SM_BOOTSTRAP_PATHS["Simulating paths by resampling"]
-    P2_SM_SOURCE -->|"Learned"| P2_SM_SYNTHETIC["Synthetic data generation<br/>TimeGAN"]
-    P9 --> P2_SM_MONTE_CARLO["Monte Carlo simulation from a fitted model"]
+    P2_SM_SOURCE -->|"Learned"| P6[["P6: Conditional-mean model class"]]
+    P2_SM_SOURCE -->|"Fitted model or resampling"| P9[["P9: Diagnostics and model selection"]]
+    P6 --> P6_GENERATIVE[["Generative models for time series"]]
+    P6_GENERATIVE --> P2_SM_SYNTHETIC["Synthetic data generation<br/>TimeGAN"]
+    P9 --> P2_SM_RESAMPLE{"Resample?"}
+    P2_SM_RESAMPLE -->|"No: simulate the fitted model"| P2_SM_MONTE_CARLO["Monte Carlo simulation from a fitted model"]
+    P2_SM_RESAMPLE -->|"Yes"| P9_BOOTSTRAP[["Bootstrap inference"]]
+    P9_BOOTSTRAP --> P2_SM_BOOTSTRAP_PATHS["Simulating paths by resampling"]
     P2_SM_MONTE_CARLO & P2_SM_BOOTSTRAP_PATHS & P2_SM_SYNTHETIC --> P2_SM_DISTRIBUTION_MATCH["Check distribution and dependence matching"]
-    P9_BOOTSTRAP[["Bootstrap inference"]] -.- P2_SM_BOOTSTRAP_PATHS
-    P6_GENERATIVE[["Generative models for time series"]] -.- P2_SM_SYNTHETIC
-    P2_SM_DISTRIBUTION_MATCH --> P10_SCENARIOS[["Scenario simulation and stress testing"]]
+    P2_SM_DISTRIBUTION_MATCH --> P10[["P10: Inference and interpretation"]]
+    P10 --> P10_SCENARIOS[["Scenario simulation and stress testing"]]
     P10_SCENARIOS --> P10_RISK_MEASURES[["Risk measures and their backtests"]]
     P10_RISK_MEASURES --> P11[["P11: Validation and deployment"]]
     class P2_SM_IN terminator
-    class P2_SM_SOURCE decision
-    class P2_SM_BOOTSTRAP_PATHS,P2_SM_SYNTHETIC,P2_SM_MONTE_CARLO,P2_SM_DISTRIBUTION_MATCH process
-    class P9,P9_BOOTSTRAP,P6_GENERATIVE,P10_SCENARIOS,P10_RISK_MEASURES,P11 ref
+    class P2_SM_SOURCE,P2_SM_RESAMPLE decision
+    class P2_SM_SYNTHETIC,P2_SM_MONTE_CARLO,P2_SM_BOOTSTRAP_PATHS,P2_SM_DISTRIBUTION_MATCH process
+    class P6,P9,P6_GENERATIVE,P9_BOOTSTRAP,P10,P10_SCENARIOS,P10_RISK_MEASURES,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

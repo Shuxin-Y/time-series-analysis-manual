@@ -153,7 +153,7 @@ Ten purpose sub-charts. Purposes 9 and 10 are new: 9 is split from the former "s
 | 9 | System identification | Transfer function, poles and zeros, stability | Prediction error, cross-validated fit |
 | 10 | Simulation and scenario generation | Path simulation, stress testing, synthetic data | Distribution matching, bootstrap coverage |
 
-Fixed structure of every purpose sub-chart: purpose-specific preliminary questions → spine phases in order, with this purpose's emphasis marked → purpose-specific leaves, if any → this purpose's P10 inference → this purpose's P11 metrics.
+Fixed structure of every purpose sub-chart: purpose-specific preliminary questions → spine phases in order, with this purpose's emphasis marked → purpose-specific leaves, if any → this purpose's P10 inference → this purpose's P11 metrics. The reader's route is the spine; a chart indexes it and may omit phases but never reorders them. The spine's purpose-flag diamonds (P6 entry, P10, P11) make every purpose's route total. A chart that refs a phase's leaves also draws that phase's box.
 
 ### 7.2 Representations (P5 chapter)
 
