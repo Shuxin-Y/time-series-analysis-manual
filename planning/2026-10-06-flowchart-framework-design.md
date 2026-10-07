@@ -37,7 +37,7 @@ Out of scope: writing the content itself; the per-section depth cap (open, see s
 
 ### 3.3 Node = content unit
 
-Every leaf node links to one section. The three charts together are the table of contents in graph form. Every method section is a leaf's section; its subsections (H3 and deeper) belong to that leaf and need no node of their own. Concept homes for glossary terms sit in a leaf's section (its heading or a subsection) or on a `kind: theory` page, which is linked from a method section or a glossary derivation. A node without content is a to-do item, visible in the audit.
+Every leaf node links to one section. The three charts together are the table of contents in graph form. Every method section is a leaf's section; its subsections (H3 and deeper) belong to that leaf and need no node of their own. Concept homes for glossary terms sit in a leaf's section (its heading or a subsection) or on a reachable `kind: theory` page (reachability: `.claude/rules/writing.md`, "Section kinds"). A node without content is a to-do item, visible in the audit.
 
 ## 4. The general flowchart: phases P0–P11
 

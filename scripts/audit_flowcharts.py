@@ -601,7 +601,8 @@ def glossary_links(text: str) -> tuple[list[str], list[str]]:
 
 
 def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
-    """Every non-index page under SECTION_DIRS is a method page (in the inventory) or a linked theory page.
+    """Every non-index page under SECTION_DIRS is a method page (in the inventory) or a reachable theory page
+    (rule: .claude/rules/writing.md, "Section kinds").
 
     A theory page must be reachable: the reachable set starts with every method page and every area landing page
     (`reference/NN-*/index.md`) and grows to a fixed point by adding every page a reachable page links to, and every
