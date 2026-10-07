@@ -12,10 +12,10 @@ graph TD
     P3_IN(["Series and flags from P2"]) --> P3_PLOT["Plot the series"]
     P3_PLOT --> P3_DISTRIBUTION["Test the distribution<br/>Shapiro-Wilk, Jarque-Bera, skewness, tail index"]
     P3_DISTRIBUTION --> P3_VARIANCE_STABILITY["Check variance stability<br/>rolling variance, ARCH-LM on levels"]
-    P3_VARIANCE_STABILITY --> P3_HETERO{"Variance stable?"}
-    P3_HETERO -->|"Level-dependent variance"| P3_VARIANCE_FLAG["Set flag: transform variance"]
+    P3_VARIANCE_STABILITY --> P3_HETERO{"Variance behaviour?"}
+    P3_HETERO -->|"Grows with level"| P3_VARIANCE_FLAG["Set flag: transform variance"]
     P3_HETERO -->|"Conditional heteroskedasticity: tested in P7"| P3_TREND_TYPE
-    P3_HETERO -->|"Yes"| P3_TREND_TYPE
+    P3_HETERO -->|"Stable"| P3_TREND_TYPE
     P3_VARIANCE_FLAG --> P3_TREND_TYPE["Trend-stationary or difference-stationary"]
     P3_TREND_TYPE --> P3_UNIT_ROOT["Unit-root tests<br/>ADF, KPSS, PP, DF-GLS"]
     P3_UNIT_ROOT --> P3_BREAK_SUSPECTED
@@ -43,7 +43,7 @@ graph TD
     P3_SUR_VERDICT -->|"No"| P3_SADJ_FLAG["Set flag: seasonal adjustment"]
     P3_SDIFF_FLAG & P3_SADJ_FLAG & P3_MULTI_SEASON_FLAG --> P3_ACF_PACF["Read the ACF and PACF"]
     P3_ACF_PACF --> P3_DECAY{"ACF decay?"}
-    P3_DECAY -->|"Hyperbolic"| P3_LONG_MEMORY["Long-memory indicators<br/>Hurst exponent, GPH"]
+    P3_DECAY -->|"Hyperbolic (on the differenced series if the difference flag is set)"| P3_LONG_MEMORY["Long-memory indicators<br/>Hurst exponent, GPH"]
     P3_DECAY -->|"Geometric or cut-off"| P3_NONLINEARITY
     P3_LONG_MEMORY --> P3_LM_VERDICT{"Long memory?"}
     P3_LM_VERDICT -->|"Yes"| P3_LONG_MEMORY_FLAG["Set flag: long memory"]

@@ -17,9 +17,11 @@ graph TD
     P6_EXOGENOUS -->|"Future known"| P6_EXOG_FLAG["Set flag: exogenous regressors"]
     P6_EXOGENOUS -->|"Co-forecast"| P6_MULTI_FLAG["Set flag: multivariate"]
     P6_EXOGENOUS -->|"None"| P6_GLOBAL_Q
-    P6_EXOG_FLAG & P6_MULTI_FLAG --> P6_GLOBAL_Q{"Global flag?"}
-    P6_GLOBAL_Q -->|"Yes"| P6_GLOBAL_MODELS["Global models across many series"]
-    P6_GLOBAL_Q -->|"No"| P6_MIXED_Q{"Mixed-frequency flag?"}
+    P6_EXOG_FLAG & P6_MULTI_FLAG --> P6_GLOBAL_Q{"Global or cluster flag?"}
+    P6_GLOBAL_Q -->|"Global"| P6_GLOBAL_MODELS["Global models across many series"]
+    P6_GLOBAL_Q -->|"Cluster then local"| B7_CLUSTER_THEN_LOCAL[["Cluster series, then fit local models"]]
+    P6_GLOBAL_Q -->|"Neither"| P6_MIXED_Q{"Mixed-frequency flag?"}
+    B7_CLUSTER_THEN_LOCAL --> P6_TO_PART_4
     P6_MIXED_Q -->|"Yes"| P6_MIXED_FREQUENCY["Mixed-frequency models<br/>MIDAS, mixed-frequency VAR"]
     P6_MIXED_Q -->|"No"| P6_MULTI_Q{"Multivariate flag?"}
     P6_MULTI_Q -->|"Yes"| P6_MANY_Q{"Many variables?"}
@@ -31,7 +33,7 @@ graph TD
     class P6_IN,P6_TO_PART_4,P6_TO_PART_2,P6_TO_PART_3 terminator
     class P6_MODEL_NEEDED,P6_EXOGENOUS,P6_GLOBAL_Q,P6_MIXED_Q,P6_MULTI_Q,P6_MANY_Q decision
     class P6_EXOG_FLAG,P6_MULTI_FLAG process
-    class P7 ref
+    class B7_CLUSTER_THEN_LOCAL,P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

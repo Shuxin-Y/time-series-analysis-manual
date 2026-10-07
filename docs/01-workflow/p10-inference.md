@@ -20,8 +20,10 @@ graph TD
     P10_INTERVALS --> P10_DENSITY_QUANTILE["Density and quantile forecasts"]
     P10_DENSITY_QUANTILE --> P10_RISK{"Risk measures needed?"}
     P10_RISK -->|"Yes"| P10_RISK_MEASURES[["Risk measures and their backtests"]]
-    P10_RISK -->|"No"| P10_MULTISTEP
-    P10_RISK_MEASURES --> P10_MULTISTEP["Multi-step strategies<br/>recursive, direct, MIMO"]
+    P10_RISK -->|"No"| P10_MULTISTEP_Q
+    P10_RISK_MEASURES --> P10_MULTISTEP_Q{"Multi-step flag?"}
+    P10_MULTISTEP_Q -->|"Yes"| P10_MULTISTEP["Multi-step strategies<br/>recursive, direct, MIMO"]
+    P10_MULTISTEP_Q -->|"No"| P10_HIERARCHY
     P10_MULTISTEP --> P10_HIERARCHY{"Hierarchy flag?"}
     P10_HIERARCHY -->|"Yes"| P10_RECONCILIATION["Hierarchical and temporal reconciliation<br/>bottom-up, top-down, MinT"]
     P10_HIERARCHY -->|"No"| P10_COMBINATION
@@ -38,7 +40,7 @@ graph TD
     F_PROJECTION[["Projection theorem and best linear prediction"]] -.- P10_INTERVALS
     P6_MIXED_FREQUENCY[["Mixed-frequency models"]] -.- P10_NOWCASTING
     class P10_IN,P10_TO_PART_2,P10_TO_PART_4,P10_TO_PART_5 terminator
-    class P10_PURPOSE,P10_RISK,P10_HIERARCHY,P10_BLACK_BOX,P10_MIXED decision
+    class P10_PURPOSE,P10_RISK,P10_MULTISTEP_Q,P10_HIERARCHY,P10_BLACK_BOX,P10_MIXED decision
     class P10_POINT_FORECASTS,P10_INTERVALS,P10_DENSITY_QUANTILE,P10_MULTISTEP,P10_RECONCILIATION,P10_COMBINATION,P10_JUDGMENTAL,P10_NOWCASTING process
     class P10_RISK_MEASURES,P10_INTERPRETABILITY,P11,F_CONDITIONAL_EXPECTATION,F_PROJECTION,P6_MIXED_FREQUENCY ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
