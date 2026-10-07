@@ -28,6 +28,16 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B4`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Series as curves
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B4_CURVES`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Intraday seasonality and curve alignment
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B4_INTRADAY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Basis representation and smoothing of curves
 
 !!! note "Section pending"
@@ -47,14 +57,3 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B2_ACD`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-
-## Series as curves
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B4_CURVES`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Intraday seasonality and curve alignment
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B4_INTRADAY`). Write this section following the content rules in `.claude/rules/writing.md`.

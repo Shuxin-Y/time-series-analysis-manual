@@ -42,11 +42,6 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B3`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Jump diffusion
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P7_JUMPS`). Write this section following the content rules in `.claude/rules/writing.md`.
-
 ## Kalman filtering on an irregular grid
 
 !!! note "Section pending"
@@ -71,6 +66,11 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B3_SDE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Jump diffusion
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P7_JUMPS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Likelihood inference for diffusions
 

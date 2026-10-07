@@ -105,25 +105,25 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3_UNIT_ROOT`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Unit-root tests with breaks
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P3_UNIT_ROOT_BREAKS`). Write this section following the content rules in `.claude/rules/writing.md`.
-
 ## Variance-ratio test
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3_VARIANCE_RATIO`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Explosive-root and bubble tests
+## Unit-root tests with breaks
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P3_EXPLOSIVE`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P3_UNIT_ROOT_BREAKS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Structural-break tests
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3_STRUCTURAL_BREAKS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Explosive-root and bubble tests
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P3_EXPLOSIVE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Detect seasonality
 
