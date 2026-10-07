@@ -50,8 +50,8 @@ graph TD
 graph TD
     P2_CA_PART_2_IN(["From part 1"]) --> P10[["P10: Inference and interpretation"]]
     P10 --> P2_CA_ANALYSIS{"Analysis?"}
-    P2_CA_ANALYSIS -->|"Experiment or one series"| P10_COUNTERFACTUALS[["Counterfactual designs"]]
-    P2_CA_ANALYSIS -->|"Several series"| P2_CA_QUESTION{"Causal question?"}
+    P2_CA_ANALYSIS -->|"Experiment, or no multivariate flag"| P10_COUNTERFACTUALS[["Counterfactual designs"]]
+    P2_CA_ANALYSIS -->|"Multivariate flag"| P2_CA_QUESTION{"Causal question?"}
     P2_CA_QUESTION -->|"Long-run relations"| P10_COINTEGRATION[["Cointegration inference"]]
     P2_CA_QUESTION -->|"Predictive causality"| P10_GRANGER[["Granger, Sims and Toda-Yamamoto causality"]]
     P2_CA_QUESTION -->|"Nonlinear dependence"| P10_NONLINEAR_CAUSALITY[["Nonlinear causal discovery"]]
@@ -65,11 +65,12 @@ graph TD
     P2_CA_PLACEBO --> P2_CA_SENSITIVITY["Sensitivity analysis across specifications"]
     P2_CA_SENSITIVITY --> P2_CA_VERDICT{"Identification holds?"}
     P2_CA_VERDICT -->|"Robust"| P11[["P11: Validation and deployment"]]
-    P2_CA_VERDICT -.->|"Fragile: revisit identification"| P2_CA_IDENTIFICATION[["Identification strategy and exogeneity"]]
+    P2_CA_VERDICT -.->|"Fragile, experiment: revisit the design"| P2_CA_DESIGN[["Experimental data?"]]
+    P2_CA_VERDICT -.->|"Fragile, observational: revisit identification"| P2_CA_IDENTIFICATION[["Identification strategy and exogeneity"]]
     class P2_CA_PART_2_IN terminator
     class P2_CA_ANALYSIS,P2_CA_QUESTION,P2_CA_VERDICT decision
     class P2_CA_PLACEBO,P2_CA_SENSITIVITY process
-    class P10,P10_COUNTERFACTUALS,P10_COINTEGRATION,P10_GRANGER,P10_NONLINEAR_CAUSALITY,P10_SVAR_IDENTIFICATION,P10_LOCAL_PROJECTIONS,P10_IRF_FEVD,P10_COEFFICIENT_TESTS,P10_HAC,P11,P2_CA_IDENTIFICATION ref
+    class P10,P10_COUNTERFACTUALS,P10_COINTEGRATION,P10_GRANGER,P10_NONLINEAR_CAUSALITY,P10_SVAR_IDENTIFICATION,P10_LOCAL_PROJECTIONS,P10_IRF_FEVD,P10_COEFFICIENT_TESTS,P10_HAC,P11,P2_CA_DESIGN,P2_CA_IDENTIFICATION ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
