@@ -39,7 +39,7 @@ graph TD
 
 ## P10 inference for this purpose
 
-[Evaluate the signal-to-noise ratio](../../reference/13-spectral-analysis/index.md#evaluate-the-signal-to-noise-ratio). The same leaf serves as inference and metric.
+[Evaluate the signal-to-noise ratio](../../reference/13-spectral-analysis/index.md#evaluate-the-signal-to-noise-ratio).
 
 ## P11 metrics for this purpose
 
