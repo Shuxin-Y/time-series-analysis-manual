@@ -61,21 +61,24 @@ graph TD
     P6_LINEAR -->|"Yes"| P6_ARFIMA["ARFIMA"]
     P6_LINEAR -->|"No"| P6_LINEAR_FAMILY{"Family?"}
     P6_LINEAR_FAMILY -->|"Autoregressive"| P6_AR_MA_ARMA["AR, MA and ARMA"]
-    P6_LINEAR_FAMILY -->|"Exogenous flag"| P6_ARIMAX["ARIMAX and SARIMAX"]
-    P6_LINEAR_FAMILY -->|"Smoothing"| P6_ETS["Exponential smoothing and ETS"]
+    P6_LINEAR_FAMILY -->|"Exogenous flag"| P6_EXOG_FORM{"Exogenous form?"}
+    P6_LINEAR_FAMILY -->|"Smoothing"| P6_SMOOTHING{"Smoothing method?"}
+    P6_EXOG_FORM -->|"Inputs in the ARMA recursion"| P6_ARIMAX["ARIMAX and SARIMAX"]
+    P6_EXOG_FORM -->|"Distributed lags"| P6_DYNAMIC_REGRESSION["Distributed-lag and ADL models"]
+    P6_EXOG_FORM -->|"Transfer function or intervention"| P6_TRANSFER_FUNCTION["Transfer-function and intervention models"]
+    P6_SMOOTHING -->|"State-space ETS"| P6_ETS["Exponential smoothing and ETS"]
+    P6_SMOOTHING -->|"Theta decomposition"| P6_THETA["Theta method"]
     P6_LINEAR_FAMILY -->|"Periodic"| P6_PERIODIC_AR["Periodic autoregression"]
     P6_LINEAR_FAMILY -->|"Intermittent"| P6_INTERMITTENT["Intermittent demand<br/>Croston, TSB"]
     P6_AR_MA_ARMA --> P6_ARIMA_SARIMA["ARIMA and SARIMA"]
-    P6_ARIMAX --> P6_DYNAMIC_REGRESSION["Distributed-lag and ADL models"]
-    P6_DYNAMIC_REGRESSION --> P6_TRANSFER_FUNCTION["Transfer-function and intervention models"]
-    P6_ETS --> P6_THETA["Theta method"]
-    P6_ARFIMA & P6_ARIMA_SARIMA & P6_TRANSFER_FUNCTION --> P7
-    P6_THETA & P6_PERIODIC_AR & P6_INTERMITTENT --> P7[["P7: Error-process specification"]]
+    P6_ARFIMA & P6_ARIMA_SARIMA & P6_ARIMAX & P6_DYNAMIC_REGRESSION & P6_TRANSFER_FUNCTION --> P7
+    P6_ETS & P6_THETA & P6_PERIODIC_AR & P6_INTERMITTENT --> P7[["P7: Error-process specification"]]
     F_LAG_OPERATOR[["Lag operator, difference equations and characteristic roots"]] -.- P6_AR_MA_ARMA
     class P6_PART_2_IN,P6_TO_PART_3,P6_TO_PART_4,P6_TO_PART_5 terminator
     class P6_DEPENDENCE,P6_LINEAR,P6_LINEAR_FAMILY decision
     class P6_ARFIMA,P6_AR_MA_ARMA,P6_ARIMAX,P6_ETS,P6_PERIODIC_AR,P6_INTERMITTENT,P6_ARIMA_SARIMA,P6_DYNAMIC_REGRESSION,P6_TRANSFER_FUNCTION,P6_THETA escalate
     class B1,P7,F_LAG_OPERATOR ref
+    class P6_EXOG_FORM,P6_SMOOTHING decision
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -118,19 +121,23 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P6_PART_4_IN(["From part 2"]) -->|"Time-varying coefficients"| P6_TVP_REGRESSION["Time-varying parameter regression"]
-    P6_PART_4_IN -->|"Latent components"| P6_STRUCTURAL_TS["Structural time-series models<br/>local level, local linear trend, seasonal, cycle"]
+    P6_PART_4_IN -->|"Latent components"| P6_LATENT_MODEL{"Latent model?"}
+    P6_LATENT_MODEL -->|"Components"| P6_STRUCTURAL_TS["Structural time-series models<br/>local level, local linear trend, seasonal, cycle"]
+    P6_LATENT_MODEL -->|"General linear Gaussian"| P6_DLM["Dynamic linear models"]
+    P6_LATENT_MODEL -->|"Bayesian with regressors"| P6_BSTS["Bayesian structural time series"]
     P6_PART_4_IN -->|"Bayesian priors"| P6_BVAR["Bayesian VAR<br/>Minnesota and conjugate priors"]
-    P6_PART_4_IN -->|"Input-output system"| P6_ARX_ARMAX["ARX and ARMAX input-output models"]
-    P6_STRUCTURAL_TS --> P6_DLM["Dynamic linear models"]
-    P6_DLM --> P6_BSTS["Bayesian structural time series"]
+    P6_PART_4_IN -->|"Input-output system"| P6_IO_STRUCTURE{"Structure?"}
+    P6_IO_STRUCTURE -->|"Polynomial"| P6_ARX_ARMAX["ARX and ARMAX input-output models"]
+    P6_IO_STRUCTURE -->|"State space"| P6_SUBSPACE["Subspace identification<br/>N4SID"]
+    P6_IO_STRUCTURE -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER["Hammerstein-Wiener models"]
+    P6_IO_STRUCTURE -->|"Sparse nonlinear"| P6_SINDY["Sparse identification of nonlinear dynamics"]
     P6_BVAR --> P6_TVP_VAR["Time-varying parameter VAR"]
-    P6_ARX_ARMAX --> P6_SUBSPACE["Subspace identification<br/>N4SID"]
-    P6_SUBSPACE --> P6_HAMMERSTEIN_WIENER["Hammerstein-Wiener models"]
-    P6_HAMMERSTEIN_WIENER --> P6_SINDY["Sparse identification of nonlinear dynamics"]
-    P6_TVP_REGRESSION & P6_BSTS & P6_TVP_VAR & P6_SINDY --> P7[["P7: Error-process specification"]]
+    P6_TVP_REGRESSION & P6_STRUCTURAL_TS & P6_DLM & P6_BSTS & P6_TVP_VAR --> P7
+    P6_ARX_ARMAX & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER & P6_SINDY --> P7[["P7: Error-process specification"]]
     class P6_PART_4_IN terminator
     class P6_TVP_REGRESSION,P6_STRUCTURAL_TS,P6_BVAR,P6_ARX_ARMAX,P6_DLM,P6_BSTS,P6_TVP_VAR,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P6_SINDY escalate
     class P7 ref
+    class P6_LATENT_MODEL,P6_IO_STRUCTURE decision
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -150,12 +157,12 @@ graph TD
     P6_ML_FAMILY -->|"Classical ML"| P6_ML_CLASSICAL{"Learner?"}
     P6_ML_FAMILY -->|"Neural sequence models"| P6_TO_PART_6(["Continue in part 6"])
     P6_ML_FAMILY -->|"Pretrained or generative"| P6_ML_PRETRAINED{"Approach?"}
+    P6_ML_FAMILY -->|"Hybrid"| P6_HYBRID["Hybrid models<br/>ARIMA with neural residuals"]
     P6_ML_CLASSICAL -->|"Trees"| P6_TREE_ENSEMBLES["Tree ensembles on lag features<br/>random forests, XGBoost, LightGBM"]
     P6_ML_CLASSICAL -->|"Kernel"| P6_GAUSSIAN_PROCESS["Gaussian-process regression"]
     P6_ML_CLASSICAL -->|"Reservoir"| P6_RESERVOIR["Reservoir computing<br/>echo state networks"]
     P6_ML_PRETRAINED -->|"Pretrained"| P6_FOUNDATION_MODELS["Foundation models<br/>Chronos, Lag-Llama, Moirai, TimesFM, MOMENT"]
     P6_ML_PRETRAINED -->|"Generative"| P6_GENERATIVE["Generative models for time series<br/>diffusion models"]
-    P6_ML_PRETRAINED -->|"Hybrid"| P6_HYBRID["Hybrid models<br/>ARIMA with neural residuals"]
     P6_TREE_ENSEMBLES & P6_GAUSSIAN_PROCESS & P6_RESERVOIR --> P7
     P6_FOUNDATION_MODELS & P6_GENERATIVE & P6_HYBRID --> P7[["P7: Error-process specification"]]
     class P6_PART_5_IN,P6_TO_PART_6 terminator

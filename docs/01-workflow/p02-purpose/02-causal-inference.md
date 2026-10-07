@@ -22,14 +22,16 @@ graph TD
     P7 --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: Diagnostics and model selection"]]
     P9 --> P2_CA_MULTI{"Multivariate flag?"}
-    P2_CA_MULTI -->|"Yes"| P10_COINTEGRATION[["Cointegration inference"]]
+    P2_CA_MULTI -->|"Yes"| P2_CA_QUESTION{"Causal question?"}
     P2_CA_MULTI -->|"No"| P10_COUNTERFACTUALS
-    P10_COINTEGRATION --> P10_GRANGER[["Granger, Sims and Toda-Yamamoto causality"]]
-    P10_GRANGER --> P10_NONLINEAR_CAUSALITY[["Nonlinear causal discovery"]]
-    P10_NONLINEAR_CAUSALITY --> P10_SVAR_IDENTIFICATION[["SVAR identification"]]
+    P2_CA_QUESTION -->|"Long-run relations"| P10_COINTEGRATION[["Cointegration inference"]]
+    P2_CA_QUESTION -->|"Predictive causality"| P10_GRANGER[["Granger, Sims and Toda-Yamamoto causality"]]
+    P2_CA_QUESTION -->|"Nonlinear dependence"| P10_NONLINEAR_CAUSALITY[["Nonlinear causal discovery"]]
+    P2_CA_QUESTION -->|"Structural shocks"| P10_SVAR_IDENTIFICATION[["SVAR identification"]]
+    P2_CA_QUESTION -->|"Dynamic effects"| P10_LOCAL_PROJECTIONS[["Local projections"]]
     P10_SVAR_IDENTIFICATION --> P10_IRF_FEVD[["Impulse responses and variance decompositions"]]
-    P10_IRF_FEVD --> P10_LOCAL_PROJECTIONS[["Local projections"]]
-    P10_LOCAL_PROJECTIONS & P10_COUNTERFACTUALS --> P10_COEFFICIENT_TESTS[["Coefficient and restriction tests"]]
+    P10_COINTEGRATION & P10_GRANGER & P10_NONLINEAR_CAUSALITY & P10_IRF_FEVD --> P10_COEFFICIENT_TESTS[["Coefficient and restriction tests"]]
+    P10_LOCAL_PROJECTIONS & P10_COUNTERFACTUALS --> P10_COEFFICIENT_TESTS
     P10_COEFFICIENT_TESTS --> P10_HAC[["HAC inference"]]
     P10_HAC --> P2_CA_PLACEBO["Placebo and falsification tests"]
     P2_CA_PLACEBO --> P2_CA_SENSITIVITY["Sensitivity analysis across specifications"]
@@ -37,9 +39,9 @@ graph TD
     P2_CA_VERDICT -->|"Yes: report a causal effect"| P11[["P11: Validation and deployment"]]
     P2_CA_VERDICT -->|"No: report an association only"| P11
     class P2_CA_IN terminator
-    class P2_CA_DESIGN,P2_CA_SYSTEM,P2_CA_COINT,P2_CA_MULTI,P2_CA_VERDICT decision
+    class P2_CA_DESIGN,P2_CA_SYSTEM,P2_CA_COINT,P2_CA_MULTI,P2_CA_QUESTION,P2_CA_VERDICT decision
     class P2_CA_IDENTIFICATION,P2_CA_PLACEBO,P2_CA_SENSITIVITY process
-    class P10_COUNTERFACTUALS,P3,P4,P3_COINTEGRATION_PRECHECK,P6_TRANSFER_FUNCTION,P6_VECM,P6_VAR,P7,P8,P9,P10_COINTEGRATION,P10_GRANGER,P10_NONLINEAR_CAUSALITY,P10_SVAR_IDENTIFICATION,P10_IRF_FEVD,P10_LOCAL_PROJECTIONS,P10_COEFFICIENT_TESTS,P10_HAC,P11 ref
+    class P10_COUNTERFACTUALS,P3,P4,P3_COINTEGRATION_PRECHECK,P6_TRANSFER_FUNCTION,P6_VECM,P6_VAR,P7,P8,P9,P10_COINTEGRATION,P10_GRANGER,P10_NONLINEAR_CAUSALITY,P10_SVAR_IDENTIFICATION,P10_LOCAL_PROJECTIONS,P10_IRF_FEVD,P10_COEFFICIENT_TESTS,P10_HAC,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

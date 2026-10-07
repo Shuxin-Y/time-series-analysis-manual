@@ -9,19 +9,18 @@ Integer-valued, categorical and compositional time series.
 graph TD
     B1["B1 Counts and categorical"] --> B1_COUNT_EDA["Count-data diagnostics<br/>zero counts, autocorrelation of counts"]
     B1_COUNT_EDA --> B1_VALUE{"Value type?"}
-    B1_VALUE -->|"Counts"| B1_DISPERSION{"Overdispersed?"}
+    B1_VALUE -->|"Counts"| B1_COUNT_FAMILY{"Count model family?"}
     B1_VALUE -->|"Categorical"| B1_MARKOV_CHAIN["Markov chains for categorical series"]
     B1_VALUE -->|"Compositional"| B1_COMPOSITIONAL["Compositional series<br/>log-ratio transforms, Dirichlet regression"]
-    B1_DISPERSION -->|"No"| B1_INAR["INAR models"]
-    B1_DISPERSION -->|"Yes"| B1_GLARMA["GLARMA and dynamic generalised linear models"]
-    B1_DISPERSION -->|"Yes"| B1_POISSON_AR
-    B1_INAR --> B1_POISSON_AR["Poisson and negative-binomial autoregression<br/>INGARCH"]
+    B1_COUNT_FAMILY -->|"Thinning"| B1_INAR["INAR models"]
+    B1_COUNT_FAMILY -->|"Conditional intensity"| B1_POISSON_AR["Poisson and negative-binomial autoregression<br/>INGARCH"]
+    B1_COUNT_FAMILY -->|"GLM with ARMA terms"| B1_GLARMA["GLARMA and dynamic generalised linear models"]
     B1_MARKOV_CHAIN --> B1_AR_LOGIT["Autoregressive logit, probit and multinomial series"]
-    B1_POISSON_AR & B1_GLARMA & B1_AR_LOGIT & B1_COMPOSITIONAL --> P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
+    B1_INAR & B1_POISSON_AR & B1_GLARMA & B1_AR_LOGIT & B1_COMPOSITIONAL --> P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
     P7_COUNT_TESTS --> P8[["P8: Estimation"]]
     F_MARKOV[["Markov chains"]] -.- B1_MARKOV_CHAIN
-    class B1_VALUE,B1_DISPERSION decision
-    class B1,B1_COUNT_EDA,B1_MARKOV_CHAIN,B1_COMPOSITIONAL,B1_INAR,B1_GLARMA,B1_POISSON_AR,B1_AR_LOGIT process
+    class B1_VALUE,B1_COUNT_FAMILY decision
+    class B1,B1_COUNT_EDA,B1_MARKOV_CHAIN,B1_COMPOSITIONAL,B1_INAR,B1_POISSON_AR,B1_GLARMA,B1_AR_LOGIT process
     class P7_COUNT_TESTS,P8,F_MARKOV ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
