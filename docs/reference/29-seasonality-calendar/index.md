@@ -6,3 +6,13 @@ Seasonal unit roots, seasonal adjustment, periodic autoregression, multiple seas
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_PERIODIC_AR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Detect the period
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_DC_PERIOD`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Revision stability of real-time decompositions
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_DC_REVISION`). Write this section following the content rules in `.claude/rules/writing.md`.

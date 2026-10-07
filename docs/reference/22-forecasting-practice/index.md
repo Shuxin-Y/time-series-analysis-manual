@@ -36,3 +36,13 @@ Forecast combination, reconciliation, mixed-frequency methods and judgmental for
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P10_NOWCASTING`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Choose the forecast horizon and origin
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_FC_HORIZON`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Naive and seasonal-naive baselines
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_FC_BASELINES`). Write this section following the content rules in `.claude/rules/writing.md`.

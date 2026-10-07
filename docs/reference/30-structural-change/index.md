@@ -11,3 +11,33 @@ Break tests, time-varying parameter models, forecasting under breaks and statist
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11_SPC`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Sequential detection
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CP_CUSUM`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Bayesian online change-point detection
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CP_BOCPD`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Offline segmentation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CP_PELT`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Choose the number of change points
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CP_PENALTY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Multivariate change points
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CP_MULTIVARIATE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Classify the change
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CP_TYPE`). Write this section following the content rules in `.claude/rules/writing.md`.

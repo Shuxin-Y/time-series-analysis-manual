@@ -21,3 +21,33 @@ ARX, ARMAX and transfer-function models, subspace methods, Takens embedding, dyn
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_SINDY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Input design and persistent excitation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_EXPERIMENT_DESIGN`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Choose the model structure
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_MODEL_STRUCTURE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Order selection
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_ORDER_SELECTION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Estimate the transfer function and frequency response
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_TRANSFER_FUNCTION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Poles, zeros and stability
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_STABILITY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Validate on held-out input-output data
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_VALIDATION`). Write this section following the content rules in `.claude/rules/writing.md`.

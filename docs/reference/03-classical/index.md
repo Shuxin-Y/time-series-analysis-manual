@@ -26,3 +26,13 @@ ARIMA family, exponential smoothing, dynamic regression, classical decomposition
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_TRANSFER_FUNCTION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Additive or multiplicative decomposition
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_DC_ADDITIVE_MULTIPLICATIVE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Analyse and interpret the components
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_DC_COMPONENT_ANALYSIS`). Write this section following the content rules in `.claude/rules/writing.md`.

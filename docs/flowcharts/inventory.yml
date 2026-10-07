@@ -252,3 +252,60 @@ nodes:
   - {id: P11_SPC,                    label: "Statistical process control",        phase: P11, areas: [30, 23], section: "reference/30-structural-change/index.md#statistical-process-control"}
   - {id: P11_ONLINE_UPDATING,        label: "Online updating",                    phase: P11, areas: [23], section: "reference/23-online-adaptive/index.md#online-updating"}
   - {id: P11_RETRAINING,             label: "Retraining policy",                  phase: P11, areas: [23], section: "01-workflow/p11-validation-deployment.md#retraining-policy"}
+  # ---- P2 purpose leaves: FC (sections in reference chapters)
+  - {id: P2_FC_HORIZON,   label: "Choose the forecast horizon and origin", phase: P2, areas: [22], section: "reference/22-forecasting-practice/index.md#choose-the-forecast-horizon-and-origin"}
+  - {id: P2_FC_BASELINES, label: "Naive and seasonal-naive baselines",     phase: P2, areas: [22], section: "reference/22-forecasting-practice/index.md#naive-and-seasonal-naive-baselines"}
+  - {id: P2_FC_EPIDEMIC,  label: "Epidemic nowcasting",                    phase: P2, areas: [26, 22], section: "reference/26-applied-domains/index.md#epidemic-nowcasting"}
+  # ---- P2 purpose leaves: CA (sections in reference chapters)
+  - {id: P2_CA_IDENTIFICATION, label: "Identification strategy and exogeneity",     phase: P2, areas: [21], section: "reference/21-causal-inference/index.md#identification-strategy-and-exogeneity"}
+  - {id: P2_CA_PLACEBO,        label: "Placebo and falsification tests",            phase: P2, areas: [21], section: "reference/21-causal-inference/index.md#placebo-and-falsification-tests"}
+  - {id: P2_CA_SENSITIVITY,    label: "Sensitivity analysis across specifications", phase: P2, areas: [21], section: "reference/21-causal-inference/index.md#sensitivity-analysis-across-specifications"}
+  # ---- P2 purpose leaves: CP (sections in reference chapters)
+  - {id: P2_CP_CUSUM,        label: "Sequential detection",                   phase: P2, areas: [30, 23], section: "reference/30-structural-change/index.md#sequential-detection"}
+  - {id: P2_CP_BOCPD,        label: "Bayesian online change-point detection", phase: P2, areas: [30, 12], section: "reference/30-structural-change/index.md#bayesian-online-change-point-detection"}
+  - {id: P2_CP_PELT,         label: "Offline segmentation",                   phase: P2, areas: [30, 19], section: "reference/30-structural-change/index.md#offline-segmentation"}
+  - {id: P2_CP_PENALTY,      label: "Choose the number of change points",     phase: P2, areas: [30, 6], section: "reference/30-structural-change/index.md#choose-the-number-of-change-points"}
+  - {id: P2_CP_MULTIVARIATE, label: "Multivariate change points",             phase: P2, areas: [30], section: "reference/30-structural-change/index.md#multivariate-change-points"}
+  - {id: P2_CP_TYPE,         label: "Classify the change",                    phase: P2, areas: [30], section: "reference/30-structural-change/index.md#classify-the-change"}
+  # ---- P2 purpose leaves: AN (sections in reference chapters)
+  - {id: P2_AN_TYPE,             label: "Point, contextual or collective anomaly",      phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#point-contextual-or-collective-anomaly"}
+  - {id: P2_AN_STATISTICAL,      label: "Statistical outlier scores",                   phase: P2, areas: [19, 24], section: "reference/19-classification-anomaly/index.md#statistical-outlier-scores"}
+  - {id: P2_AN_RESIDUAL,         label: "Residual-based detection from a fitted model", phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#residual-based-detection-from-a-fitted-model"}
+  - {id: P2_AN_MATRIX_PROFILE,   label: "Matrix profile and discord discovery",         phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#matrix-profile-and-discord-discovery"}
+  - {id: P2_AN_ISOLATION_FOREST, label: "Isolation forests for time series",            phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#isolation-forests-for-time-series"}
+  - {id: P2_AN_AUTOENCODER,      label: "Autoencoders and variational autoencoders",    phase: P2, areas: [19, 18], section: "reference/19-classification-anomaly/index.md#autoencoders-and-variational-autoencoders"}
+  - {id: P2_AN_THRESHOLD,        label: "Set thresholds by the cost of errors",         phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#set-thresholds-by-the-cost-of-errors"}
+  - {id: P2_AN_REGIME,           label: "Regime detection with hidden Markov models",   phase: P2, areas: [19, 8], section: "reference/19-classification-anomaly/index.md#regime-detection-with-hidden-markov-models"}
+  # ---- P2 purpose leaves: DC (sections in reference chapters)
+  - {id: P2_DC_PERIOD,                  label: "Detect the period",                              phase: P2, areas: [29, 13], section: "reference/29-seasonality-calendar/index.md#detect-the-period"}
+  - {id: P2_DC_ADDITIVE_MULTIPLICATIVE, label: "Additive or multiplicative decomposition",       phase: P2, areas: [3], section: "reference/03-classical/index.md#additive-or-multiplicative-decomposition"}
+  - {id: P2_DC_COMPONENT_ANALYSIS,      label: "Analyse and interpret the components",           phase: P2, areas: [3], section: "reference/03-classical/index.md#analyse-and-interpret-the-components"}
+  - {id: P2_DC_REVISION,                label: "Revision stability of real-time decompositions", phase: P2, areas: [29], section: "reference/29-seasonality-calendar/index.md#revision-stability-of-real-time-decompositions"}
+  # ---- P2 purpose leaves: FE (sections in reference chapters)
+  - {id: P2_FE_TASK,                    label: "Classification, clustering or regression task", phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#classification-clustering-or-regression-task"}
+  - {id: P2_FE_TIME_FEATURES,           label: "Time-domain features",                          phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#time-domain-features"}
+  - {id: P2_FE_FREQ_FEATURES,           label: "Frequency-domain features",                     phase: P2, areas: [19, 13], section: "reference/19-classification-anomaly/index.md#frequency-domain-features"}
+  - {id: P2_FE_TF_FEATURES,             label: "Time-frequency features",                       phase: P2, areas: [19, 13], section: "reference/19-classification-anomaly/index.md#time-frequency-features"}
+  - {id: P2_FE_NONLINEAR_FEATURES,      label: "Nonlinear dynamics features",                   phase: P2, areas: [19, 8], section: "reference/19-classification-anomaly/index.md#nonlinear-dynamics-features"}
+  - {id: P2_FE_AUTOMATED,               label: "Automated feature extraction",                  phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#automated-feature-extraction"}
+  - {id: P2_FE_SYMBOLIC,                label: "Symbolic representations",                      phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#symbolic-representations"}
+  - {id: P2_FE_REPRESENTATION_LEARNING, label: "Self-supervised representation learning",       phase: P2, areas: [19, 18], section: "reference/19-classification-anomaly/index.md#self-supervised-representation-learning"}
+  - {id: P2_FE_TDA,                     label: "Topological data analysis",                     phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#topological-data-analysis"}
+  - {id: P2_FE_DISTANCES,               label: "Distance measures",                             phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#distance-measures"}
+  - {id: P2_FE_SHAPELETS,               label: "Shapelets and ROCKET",                          phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#shapelets-and-rocket"}
+  - {id: P2_FE_DEEP_CLASSIFIERS,        label: "Deep classifiers",                              phase: P2, areas: [19, 18], section: "reference/19-classification-anomaly/index.md#deep-classifiers"}
+  - {id: P2_FE_CLUSTERING,              label: "Clustering",                                    phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#clustering"}
+  - {id: P2_FE_AUGMENTATION,            label: "Data augmentation",                             phase: P2, areas: [19], section: "reference/19-classification-anomaly/index.md#data-augmentation"}
+  # ---- P2 purpose leaves: SI (sections in reference chapters)
+  - {id: P2_SI_EXPERIMENT_DESIGN, label: "Input design and persistent excitation",                phase: P2, areas: [33], section: "reference/33-system-identification/index.md#input-design-and-persistent-excitation"}
+  - {id: P2_SI_MODEL_STRUCTURE,   label: "Choose the model structure",                            phase: P2, areas: [33], section: "reference/33-system-identification/index.md#choose-the-model-structure"}
+  - {id: P2_SI_ORDER_SELECTION,   label: "Order selection",                                       phase: P2, areas: [33], section: "reference/33-system-identification/index.md#order-selection"}
+  - {id: P2_SI_TRANSFER_FUNCTION, label: "Estimate the transfer function and frequency response", phase: P2, areas: [33], section: "reference/33-system-identification/index.md#estimate-the-transfer-function-and-frequency-response"}
+  - {id: P2_SI_STABILITY,         label: "Poles, zeros and stability",                            phase: P2, areas: [33], section: "reference/33-system-identification/index.md#poles-zeros-and-stability"}
+  - {id: P2_SI_VALIDATION,        label: "Validate on held-out input-output data",                phase: P2, areas: [33], section: "reference/33-system-identification/index.md#validate-on-held-out-input-output-data"}
+  # ---- P2 purpose leaves: SM (sections in reference chapters)
+  - {id: P2_SM_MONTE_CARLO,        label: "Monte Carlo simulation from a fitted model", phase: P2, areas: [25], section: "reference/25-simulation/index.md#monte-carlo-simulation-from-a-fitted-model"}
+  - {id: P2_SM_BOOTSTRAP_PATHS,    label: "Bootstrap path simulation",                  phase: P2, areas: [25], section: "reference/25-simulation/index.md#bootstrap-path-simulation"}
+  - {id: P2_SM_SYNTHETIC,          label: "Synthetic data generation",                  phase: P2, areas: [25, 18], section: "reference/25-simulation/index.md#synthetic-data-generation"}
+  - {id: P2_SM_STRESS,             label: "Stress scenarios and shock design",          phase: P2, areas: [25, 10], section: "reference/25-simulation/index.md#stress-scenarios-and-shock-design"}
+  - {id: P2_SM_DISTRIBUTION_MATCH, label: "Check distribution and dependence matching", phase: P2, areas: [25], section: "reference/25-simulation/index.md#check-distribution-and-dependence-matching"}

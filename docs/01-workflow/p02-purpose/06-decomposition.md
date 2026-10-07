@@ -4,8 +4,37 @@
 
 ## Sub-chart
 
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_DECOMPOSITION`). Write this section following the content rules in `.claude/rules/writing.md`.
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}}}%%
+graph TD
+    P2_DC_IN(["Decomposition question"]) --> P2_DC_SEASONAL{"Seasonal?"}
+    P2_DC_SEASONAL -->|"Yes"| P2_DC_PERIOD["Detect the period<br/>known period, periodogram"]
+    P2_DC_SEASONAL -->|"No"| P4_FILTER_DECOMPOSITION[["Filter-based decomposition"]]
+    P2_DC_PERIOD --> P2_DC_ADDITIVE_MULTIPLICATIVE["Additive or multiplicative decomposition"]
+    P2_DC_ADDITIVE_MULTIPLICATIVE --> P2_DC_METHOD{"Method?"}
+    P2_DC_METHOD -->|"STL or X-13"| P4_SEASONAL_ADJUSTMENT[["Seasonal adjustment"]]
+    P2_DC_METHOD -->|"Several periods"| P4_MULTIPLE_SEASONALITY[["Multiple seasonality"]]
+    P2_DC_METHOD -->|"Model-based"| P4_MODEL_DECOMPOSITION[["Model-based decomposition"]]
+    P2_DC_METHOD -->|"Nonparametric"| P4_SSA[["Singular spectrum analysis"]]
+    P4_SEASONAL_ADJUSTMENT & P4_MULTIPLE_SEASONALITY & P4_MODEL_DECOMPOSITION & P4_SSA & P4_FILTER_DECOMPOSITION --> P2_DC_COMPONENT_ANALYSIS["Analyse and interpret the components"]
+    P2_DC_COMPONENT_ANALYSIS --> P9_RESIDUAL_AUTOCORRELATION[["Residual autocorrelation tests"]]
+    P9_RESIDUAL_AUTOCORRELATION --> P2_DC_RESIDUAL{"Residual white?"}
+    P2_DC_RESIDUAL -.->|"No"| P2_DC_METHOD
+    P2_DC_RESIDUAL -->|"Yes"| P2_DC_REVISION["Revision stability of real-time decompositions"]
+    P2_DC_REVISION --> P2_DC_OUT(["Components extracted"])
+    class P2_DC_IN,P2_DC_OUT terminator
+    class P2_DC_SEASONAL,P2_DC_METHOD,P2_DC_RESIDUAL decision
+    class P2_DC_PERIOD,P2_DC_ADDITIVE_MULTIPLICATIVE,P2_DC_COMPONENT_ANALYSIS,P2_DC_REVISION process
+    class P4_FILTER_DECOMPOSITION,P4_SEASONAL_ADJUSTMENT,P4_MULTIPLE_SEASONALITY,P4_MODEL_DECOMPOSITION,P4_SSA,P9_RESIDUAL_AUTOCORRELATION ref
+    classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
+    classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
+    classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
+    classDef data fill:#FFF4E0,stroke:#C9A55E,color:#1A1A1A;
+    classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+    classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
+    classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+    classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
+```
 
 ## P10 inference for this purpose
 

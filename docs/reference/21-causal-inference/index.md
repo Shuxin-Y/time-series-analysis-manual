@@ -26,3 +26,18 @@ Granger-type causality, structural identification, counterfactual designs and no
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P10_COUNTERFACTUALS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Identification strategy and exogeneity
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CA_IDENTIFICATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Placebo and falsification tests
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CA_PLACEBO`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Sensitivity analysis across specifications
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_CA_SENSITIVITY`). Write this section following the content rules in `.claude/rules/writing.md`.
