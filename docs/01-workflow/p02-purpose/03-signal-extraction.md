@@ -8,10 +8,11 @@
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P2_SE_IN(["Noisy signal"]) --> P2_SE_NOISE_TYPE["Characterise the noise<br/>white, coloured, impulsive, non-stationary, 1/f"]
-    P2_SE_NOISE_TYPE -->|"White or 1/f"| P5
-    P2_SE_NOISE_TYPE -->|"Coloured"| P2_SE_WIENER["Wiener filtering"]
-    P2_SE_NOISE_TYPE -->|"Impulsive"| P0[["P0: Data acquisition and cleaning"]]
-    P2_SE_NOISE_TYPE -->|"Non-stationary: state-space model"| P8[["P8: Estimation"]]
+    P2_SE_NOISE_TYPE --> P2_SE_NOISE_Q{"Noise character?"}
+    P2_SE_NOISE_Q -->|"White or 1/f"| P5
+    P2_SE_NOISE_Q -->|"Coloured"| P2_SE_WIENER["Wiener filtering"]
+    P2_SE_NOISE_Q -->|"Impulsive"| P0[["P0: Data acquisition and cleaning"]]
+    P2_SE_NOISE_Q -->|"Non-stationary: state-space model"| P8[["P8: Estimation"]]
     P0 --> P0_ROBUST_FILTER[["Robust filtering"]]
     P0_ROBUST_FILTER --> P5[["P5: Representation selection"]]
     P5 --> P2_SE_TRANSFORM{"Noise colour?"}
@@ -24,7 +25,7 @@ graph TD
     P2_SE_OK -.->|"No"| P2_SE_NOISE_TYPE
     P2_SE_OK -->|"Yes"| P11[["P11: Validation and deployment"]]
     class P2_SE_IN terminator
-    class P2_SE_TRANSFORM,P2_SE_OK decision
+    class P2_SE_NOISE_Q,P2_SE_TRANSFORM,P2_SE_OK decision
     class P2_SE_NOISE_TYPE,P2_SE_WIENER,P2_SE_WAVELET_DENOISING,P2_SE_SNR process
     class P0,P8,P0_ROBUST_FILTER,P5,P5_FD_FILTERS,P5_TF_DWT,P8_KALMAN,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
