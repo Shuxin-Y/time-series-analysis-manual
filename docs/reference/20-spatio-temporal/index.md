@@ -1,15 +1,26 @@
 # 20. Spatio-Temporal Models
 
-Spatial econometrics with time, geostatistics, graph-based and network time series.
+The B5 branch: spatial autocorrelation, spatial panel VAR and spatial error and lag models, spatio-temporal kriging, graph signal processing, spatio-temporal graph networks, network autoregression and spatio-temporal point processes.
 
 ## Branch sub-diagram
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B5["B5 Spatial and network"] --> B5_PENDING(["Sub-diagram pending"])
-    class B5 process
-    class B5_PENDING terminator
+    B5["B5 Spatial and network"] --> B5_SPATIAL_AUTOCORRELATION["Spatial autocorrelation<br/>Moran's I"]
+    B5_SPATIAL_AUTOCORRELATION --> B5_INDEX{"Index?"}
+    B5_INDEX -->|"Regions or panels"| B5_SPATIAL_PANEL_VAR["Spatial panel VAR and spatial error and lag models"]
+    B5_INDEX -->|"Continuous space"| B5_KRIGING["Spatio-temporal kriging and Gaussian processes"]
+    B5_INDEX -->|"Graph"| B5_GRAPH_MODEL{"Graph-indexed model?"}
+    B5_GRAPH_MODEL -->|"Spectral filtering"| B5_GRAPH_SIGNAL["Graph signal processing"]
+    B5_GRAPH_MODEL -->|"Neural"| B5_STGNN["Spatio-temporal graph neural networks"]
+    B5_GRAPH_MODEL -->|"Autoregression"| B5_NETWORK_AR["Network autoregression"]
+    B5_INDEX -->|"Events in space"| B5_ST_POINT_PROCESS["Spatio-temporal point processes"]
+    B5_SPATIAL_PANEL_VAR & B5_KRIGING & B5_GRAPH_SIGNAL & B5_STGNN --> P8
+    B5_NETWORK_AR & B5_ST_POINT_PROCESS --> P8[["P8: Estimation"]]
+    class B5_INDEX,B5_GRAPH_MODEL decision
+    class B5,B5_SPATIAL_AUTOCORRELATION,B5_SPATIAL_PANEL_VAR,B5_KRIGING,B5_GRAPH_SIGNAL,B5_STGNN,B5_NETWORK_AR,B5_ST_POINT_PROCESS process
+    class P8 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -24,3 +35,38 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B5`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Spatial autocorrelation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B5_SPATIAL_AUTOCORRELATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Spatial panel VAR and spatial error and lag models
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B5_SPATIAL_PANEL_VAR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Spatio-temporal kriging and Gaussian processes
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B5_KRIGING`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Graph signal processing
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B5_GRAPH_SIGNAL`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Spatio-temporal graph neural networks
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B5_STGNN`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Network autoregression
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B5_NETWORK_AR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Spatio-temporal point processes
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B5_ST_POINT_PROCESS`). Write this section following the content rules in `.claude/rules/writing.md`.

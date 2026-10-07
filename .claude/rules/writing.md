@@ -12,8 +12,10 @@ Single home of the content rules: what a section contains and where a concept li
 
 - Every concept has one home: the section where it is first developed in `nav:` order. The glossary `reference` points there, and the drawer shows it as "First developed in".
 - The first occurrence develops the concept in full; later occurrences write only the term, which the glossary highlights. Do not re-explain.
+- Sections on a page appear in the order the page's diagram reaches them; sibling alternatives of one fan-out have no order among themselves. A re-scaffolded section is moved to that position.
 - Part 0 takes only concepts needed before any method can be stated, and concepts shared across several phases with no natural home.
 - Appendix pages are link indexes and contain no explanations.
+- A reference landing description names the sections its page hosts and, in one sentence, where the rest of the area lives. A topic in an area's scope is a leaf, a second line of a leaf, or a named pointer on the area's landing page; nothing in scope is left unmentioned.
 
 ## Why-chains live in the glossary drawer
 
@@ -34,6 +36,9 @@ Single home of the content rules: what a section contains and where a concept li
 - No multi-step derivation in the body; it goes in the term's `derivation`.
 - Follow the canonical chapter template and the equation → `(Read: …)` pairing from the design system.
 - Outcome terminals in diagrams name **model → estimator → inference**, in that order.
+- Purpose sub-charts index the spine (spec §7.1). The reader's route is the spine; a chart indexes it and may omit phases but never reorders them. The spine's purpose-flag diamonds (P6 entry, P10, P11) make every purpose's route total. Every flag the spine reads is set on the spine; a purpose chart may ref a spine flag or verdict but never defines one of its own. A chart that refs a phase's leaves also draws that phase's box, before those leaves.
+- On a path where no conditional-mean model is fitted, a purpose chart draws no P6 to P9 box or routed leaf; a dotted pointer to one is allowed. A dotted side ref (`-.-`) is a pointer, not a route, and is exempt from the order rule.
+- A purpose chart ends at the P11 box or at a P11 leaf.
 
 ## After writing
 

@@ -1,15 +1,32 @@
 # 15. Continuous-Time Models
 
-Diffusions, CARMA, Levy processes, jump diffusions and numerical methods for SDEs.
+The B3 branch (Kalman filtering on an irregular grid, the Ornstein-Uhlenbeck process, CARMA, fractional Brownian motion, SDE discretisation, likelihood inference for diffusions) and jump diffusion. Brownian motion and Levy processes are a Part 0 foundation.
 
 ## Branch sub-diagram
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B3["B3 Irregular sampling and continuous time"] --> B3_PENDING(["Sub-diagram pending"])
-    class B3 process
-    class B3_PENDING terminator
+    B3["B3 Irregular sampling and continuous time"] --> B3_ROUTE{"Route?"}
+    B3_ROUTE -.->|"Resample"| P0_RESAMPLE[["Resample and anti-alias"]]
+    B3_ROUTE -->|"Keep the grid"| B3_IRREGULAR_KALMAN["Kalman filtering on an irregular grid"]
+    B3_ROUTE -->|"Continuous time"| B3_PROCESS{"Process type?"}
+    B3_PROCESS -->|"Mean-reverting Gaussian"| B3_OU["Ornstein-Uhlenbeck process and exact discretisation"]
+    B3_PROCESS -->|"Higher-order linear"| B3_CARMA["CARMA processes"]
+    B3_PROCESS -->|"Long memory"| B3_FBM["Fractional Brownian motion"]
+    B3_PROCESS -->|"Nonlinear diffusion"| B3_SDE["Diffusions and SDE discretisation<br/>Euler-Maruyama, Milstein"]
+    B3_IRREGULAR_KALMAN --> P5_FD_LOMB_SCARGLE[["Lomb-Scargle periodogram"]]
+    P5_FD_LOMB_SCARGLE --> P5[["P5: Representation selection"]]
+    B3_OU & B3_CARMA --> B3_SDE_INFERENCE
+    B3_FBM -->|"Whittle or local Whittle, frequency domain"| P8
+    B3_SDE --> B3_JUMPS{"Jumps?"}
+    B3_JUMPS -->|"Yes"| P7_JUMPS[["Jump diffusion"]]
+    B3_JUMPS -->|"No"| B3_SDE_INFERENCE
+    P7_JUMPS --> B3_SDE_INFERENCE["Likelihood inference for diffusions<br/>signature methods"]
+    B3_SDE_INFERENCE --> P8[["P8: Estimation"]]
+    class B3_ROUTE,B3_PROCESS,B3_JUMPS decision
+    class B3,B3_IRREGULAR_KALMAN,B3_OU,B3_CARMA,B3_FBM,B3_SDE,B3_SDE_INFERENCE process
+    class P0_RESAMPLE,P5_FD_LOMB_SCARGLE,P5,P7_JUMPS,P8 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -25,7 +42,37 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B3`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Kalman filtering on an irregular grid
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B3_IRREGULAR_KALMAN`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Ornstein-Uhlenbeck process and exact discretisation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B3_OU`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## CARMA processes
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B3_CARMA`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Fractional Brownian motion
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B3_FBM`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Diffusions and SDE discretisation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B3_SDE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Jump diffusion
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P7_JUMPS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Likelihood inference for diffusions
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B3_SDE_INFERENCE`). Write this section following the content rules in `.claude/rules/writing.md`.
