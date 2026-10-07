@@ -420,6 +420,12 @@ code {
   border: 1px solid var(--md-default-fg-color--lightest);
 }
 
+/* Mermaid sizes each label box while the diagram is attached to <body> (line-height: normal); inside the content
+   the label would inherit .md-typeset's 1.6 and overflow its box, clipping the second line of two-line labels. */
+.mermaid-container foreignObject {
+  line-height: normal;
+}
+
 /* Flowchart nodes that resolve to a section via docs/flowcharts/inventory.yml */
 .mermaid-container .flowchart-link {
   cursor: pointer;

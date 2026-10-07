@@ -94,6 +94,15 @@ def test_leaf_click_lands_on_its_section(page, site_url):
     assert page.url.endswith("reference/10-volatility/#garch")
 
 
+def test_two_line_labels_fit_their_boxes(page, site_url):
+    page.goto(site_url + "01-workflow/p07-error-process/")
+    svg_node(page, "P7_MEAN_TESTS")
+    overflowing = page.evaluate("""() => [...document.querySelectorAll('.mermaid-container g.node foreignObject')]
+        .filter(fo => fo.firstElementChild.getBoundingClientRect().height > fo.getBoundingClientRect().height + 1)
+        .map(fo => fo.closest('g.node').id)""")
+    assert overflowing == []
+
+
 def test_glossary_chip_opens_the_upstream_term(page, site_url):
     page.goto(site_url + "reference/04-estimation/")
     page.locator('.glossary-term[data-term="Joint density"]').first.click()
