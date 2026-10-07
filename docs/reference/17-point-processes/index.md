@@ -82,6 +82,10 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B2_POISSON`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Doubly stochastic (Cox) processes
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B2_COX`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Hawkes self-exciting processes
 
@@ -102,8 +106,3 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B2_SURVIVAL`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Doubly stochastic (Cox) processes
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B2_COX`). Write this section following the content rules in `.claude/rules/writing.md`.

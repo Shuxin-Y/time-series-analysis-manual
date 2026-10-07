@@ -12,6 +12,7 @@ Single home of the content rules: what a section contains and where a concept li
 
 - Every concept has one home: the section where it is first developed in `nav:` order. The glossary `reference` points there, and the drawer shows it as "First developed in".
 - The first occurrence develops the concept in full; later occurrences write only the term, which the glossary highlights. Do not re-explain.
+- Sections on a page appear in the order the page's diagram reaches them; a re-scaffolded section is moved to that position.
 - Part 0 takes only concepts needed before any method can be stated, and concepts shared across several phases with no natural home.
 - Appendix pages are link indexes and contain no explanations.
 

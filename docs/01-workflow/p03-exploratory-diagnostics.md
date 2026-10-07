@@ -80,6 +80,10 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Plot the series
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P3_PLOT`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Test the distribution
 
@@ -160,8 +164,3 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P3_COINTEGRATION_PRECHECK`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Plot the series
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P3_PLOT`). Write this section following the content rules in `.claude/rules/writing.md`.

@@ -2,6 +2,10 @@
 
 ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input design, model structure, order selection, frequency response, poles and zeros, and validation; Takens embedding and dynamic mode decomposition. Box-Jenkins transfer-function models live in area 3.
 
+## ARX and ARMAX input-output models
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_ARX_ARMAX`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Subspace identification
 
@@ -33,6 +37,10 @@ ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input des
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_SI_ORDER_SELECTION`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Estimate the frequency response
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SI_TRANSFER_FUNCTION`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Poles, zeros and stability
 
@@ -53,13 +61,3 @@ ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input des
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P5_SS_DMD`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## ARX and ARMAX input-output models
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P6_ARX_ARMAX`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Estimate the frequency response
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SI_TRANSFER_FUNCTION`). Write this section following the content rules in `.claude/rules/writing.md`.

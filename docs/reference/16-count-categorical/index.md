@@ -39,7 +39,6 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B1`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-
 ## Count-data diagnostics
 
 !!! note "Section pending"
@@ -50,7 +49,10 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B1_INAR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Poisson and negative-binomial autoregression
 
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B1_POISSON_AR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## GLARMA and dynamic generalised linear models
 
@@ -76,8 +78,3 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P7_INGARCH`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Poisson and negative-binomial autoregression
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B1_POISSON_AR`). Write this section following the content rules in `.claude/rules/writing.md`.

@@ -7,7 +7,6 @@ The discrete Fourier transform and periodogram, spectral estimators, leakage, fi
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_SE_NOISE_TYPE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-
 ## Wiener filtering
 
 !!! note "Section pending"
@@ -18,6 +17,10 @@ The discrete Fourier transform and periodogram, spectral estimators, leakage, fi
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_SE_WAVELET_DENOISING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Evaluate the signal-to-noise ratio
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P2_SE_SNR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Interpret the spectral shape
 
@@ -118,8 +121,3 @@ The discrete Fourier transform and periodogram, spectral estimators, leakage, fi
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P5_HP_PHASE_SYNC`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Evaluate the signal-to-noise ratio
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SE_SNR`). Write this section following the content rules in `.claude/rules/writing.md`.

@@ -37,13 +37,12 @@ VAR, VECM, SVAR, factor models, FAVAR and GVAR, regularised VAR, graphical model
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_TENSOR_AR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## FAVAR and GVAR
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_FAVAR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Impulse responses and variance decompositions
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P10_IRF_FEVD`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## FAVAR and GVAR
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P6_FAVAR`). Write this section following the content rules in `.claude/rules/writing.md`.

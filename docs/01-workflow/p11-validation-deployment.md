@@ -101,7 +101,10 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Rolling-origin backtesting
 
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_ROLLING_ORIGIN`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Document the model specification
 
@@ -112,8 +115,3 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11_RETRAINING`). Write this section following the content rules in `.claude/rules/writing.md`.
-
-## Rolling-origin backtesting
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P11_ROLLING_ORIGIN`). Write this section following the content rules in `.claude/rules/writing.md`.
