@@ -68,3 +68,18 @@ Sections below are created from the flowchart inventory and stay marked pending 
 
 !!! note "Section pending"
     To-do item created from the glossary (term `KL divergence`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Strict and weak stationarity
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `F_STATIONARITY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Ergodicity and mixing
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `F_ERGODICITY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Random walks and unit-root asymptotics
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `F_UNIT_ROOT_ASYMPTOTICS`). Write this section following the content rules in `.claude/rules/writing.md`.
