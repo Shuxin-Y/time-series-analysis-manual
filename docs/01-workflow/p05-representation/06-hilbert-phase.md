@@ -8,18 +8,19 @@
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P5_HP_IN(["Transformed series from P4"]) --> P5_HP_INSTANTANEOUS{"Instantaneous frequency?"}
-    P5_HP_INSTANTANEOUS -->|"Yes"| P5_HP_ANALYTIC_SIGNAL["Analytic signal and instantaneous frequency"]
+    P5_HP_INSTANTANEOUS -->|"Yes"| P5_HP_SIGNALS{"One signal or two?"}
     P5_HP_INSTANTANEOUS -->|"No"| P5_HP_AMPLITUDE{"Amplitude envelope?"}
-    P5_HP_AMPLITUDE -->|"Yes"| P5_HP_ANALYTIC_SIGNAL
+    P5_HP_AMPLITUDE -->|"Yes"| P5_HP_SIGNALS
     P5_HP_AMPLITUDE -->|"No"| P5_HP_PHASE_RELATIONS{"Phase relations between signals?"}
-    P5_HP_PHASE_RELATIONS -->|"Yes"| P5_HP_ANALYTIC_SIGNAL
+    P5_HP_PHASE_RELATIONS -->|"Yes"| P5_HP_SIGNALS
     P5_HP_PHASE_RELATIONS -->|"No"| P5[["P5: Representation selection"]]
-    P5_HP_ANALYTIC_SIGNAL --> P5_HP_PHASE_SYNC["Phase synchronisation and the phase-locking value"]
-    P5_HP_PHASE_SYNC --> P5_TF_EMD[["Empirical mode decomposition and the Hilbert-Huang transform"]]
+    P5_HP_SIGNALS -->|"One"| P5_HP_ANALYTIC_SIGNAL["Analytic signal and instantaneous frequency"]
+    P5_HP_SIGNALS -->|"Two"| P5_HP_PHASE_SYNC["Phase synchronisation and the phase-locking value"]
+    P5_HP_ANALYTIC_SIGNAL --> P5_TF_EMD[["Empirical mode decomposition and the Hilbert-Huang transform"]]
     P5_HP_PHASE_SYNC --> P2_FE_NONLINEAR_FEATURES[["Nonlinear dynamics features"]]
     P5_TF_EMD & P2_FE_NONLINEAR_FEATURES --> P6[["P6: Conditional-mean model class"]]
     class P5_HP_IN terminator
-    class P5_HP_INSTANTANEOUS,P5_HP_AMPLITUDE,P5_HP_PHASE_RELATIONS decision
+    class P5_HP_INSTANTANEOUS,P5_HP_SIGNALS,P5_HP_AMPLITUDE,P5_HP_PHASE_RELATIONS decision
     class P5_HP_ANALYTIC_SIGNAL,P5_HP_PHASE_SYNC process
     class P5,P5_TF_EMD,P2_FE_NONLINEAR_FEATURES,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

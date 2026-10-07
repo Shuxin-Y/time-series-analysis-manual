@@ -10,18 +10,19 @@ graph TD
     B1["B1 Counts and categorical"] --> B1_COUNT_EDA["Count-data diagnostics<br/>zero counts, autocorrelation of counts"]
     B1_COUNT_EDA --> B1_VALUE{"Value type?"}
     B1_VALUE -->|"Counts"| B1_COUNT_FAMILY{"Count model family?"}
-    B1_VALUE -->|"Categorical"| B1_MARKOV_CHAIN["Markov chains for categorical series"]
+    B1_VALUE -->|"Categorical"| B1_CATEGORICAL_Q{"State count and covariates?"}
+    B1_CATEGORICAL_Q -->|"Few states, no covariates"| B1_MARKOV_CHAIN["Markov chains for categorical series"]
+    B1_CATEGORICAL_Q -->|"Covariates or ordered states"| B1_AR_LOGIT["Autoregressive logit, probit and multinomial series"]
     B1_VALUE -->|"Compositional"| B1_COMPOSITIONAL["Compositional series<br/>log-ratio transforms, Dirichlet regression"]
     B1_COUNT_FAMILY -->|"Thinning"| B1_INAR["INAR models"]
     B1_COUNT_FAMILY -->|"Conditional intensity"| B1_POISSON_AR["Poisson and negative-binomial autoregression<br/>INGARCH"]
     B1_COUNT_FAMILY -->|"GLM with ARMA terms"| B1_GLARMA["GLARMA and dynamic generalised linear models"]
-    B1_MARKOV_CHAIN --> B1_AR_LOGIT["Autoregressive logit, probit and multinomial series"]
     B1_INAR & B1_POISSON_AR & B1_GLARMA --> P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
     P7_COUNT_TESTS --> P8[["P8: Estimation"]]
-    B1_AR_LOGIT & B1_COMPOSITIONAL --> P8
+    B1_MARKOV_CHAIN & B1_AR_LOGIT & B1_COMPOSITIONAL --> P8
     F_MARKOV[["Markov chains"]] -.- B1_MARKOV_CHAIN
-    class B1_VALUE,B1_COUNT_FAMILY decision
-    class B1,B1_COUNT_EDA,B1_MARKOV_CHAIN,B1_COMPOSITIONAL,B1_INAR,B1_POISSON_AR,B1_GLARMA,B1_AR_LOGIT process
+    class B1_VALUE,B1_COUNT_FAMILY,B1_CATEGORICAL_Q decision
+    class B1,B1_COUNT_EDA,B1_MARKOV_CHAIN,B1_AR_LOGIT,B1_COMPOSITIONAL,B1_INAR,B1_POISSON_AR,B1_GLARMA process
     class P7_COUNT_TESTS,P8,F_MARKOV ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;

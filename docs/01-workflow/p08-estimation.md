@@ -100,12 +100,12 @@ graph TD
     P8_ESTIMATED -->|"Yes"| P8_CONVERGENCE
     P8_INTRACTABLE -->|"Moment conditions"| P8_GMM["Generalised method of moments"]
     P8_INTRACTABLE -->|"Frequency domain"| P8_WHITTLE["Whittle and local Whittle estimation"]
-    P8_INTRACTABLE -->|"Priors"| P8_MCMC["Bayesian computation<br/>MCMC, Gibbs, Metropolis-Hastings"]
+    P8_INTRACTABLE -->|"Priors: sampling"| P8_MCMC["Bayesian computation<br/>MCMC, Gibbs, Metropolis-Hastings"]
+    P8_INTRACTABLE -->|"Priors: approximation"| P8_VARIATIONAL["Variational inference"]
     P8_INTRACTABLE -->|"Simulate"| P8_SIMULATION_INFERENCE["Simulation-based inference<br/>ABC, indirect inference"]
     P8_INTRACTABLE -->|"Loss minimisation"| P8_EMPIRICAL_LOSS["Empirical-loss minimisation<br/>gradient descent, boosting"]
-    P8_MCMC --> P8_VARIATIONAL["Variational inference"]
     P8_EMPIRICAL_LOSS --> P8_HYPERPARAMETERS["Time-aware hyperparameter tuning<br/>leakage-safe splits"]
-    P8_GMM & P8_WHITTLE & P8_VARIATIONAL & P8_SIMULATION_INFERENCE & P8_HYPERPARAMETERS --> P8_CONVERGENCE["Convergence and numerical checks"]
+    P8_GMM & P8_WHITTLE & P8_MCMC & P8_VARIATIONAL & P8_SIMULATION_INFERENCE & P8_HYPERPARAMETERS --> P8_CONVERGENCE["Convergence and numerical checks"]
     P8_CONVERGENCE --> P8_CONVERGED{"Converged?"}
     P8_CONVERGED -->|"Yes"| P8_OUT(["To P9 Diagnostics"])
     P8_CONVERGED -.->|"No: simplify or re-initialise"| P6[["P6: Conditional-mean model class"]]
