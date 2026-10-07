@@ -757,7 +757,6 @@ The diagrams on the pages are authoritative; the flow paragraphs above were rege
   - exogenous regressors: P6 → P6 linear family;
   - global and cluster then local: B7 → P6 entry;
   - hierarchy: B7 → P10 reconciliation;
-  - multi-step horizon: purpose 1 → P10 multi-step diamond;
   - cointegrated: P3 (verdict after the cointegration pre-check; round 4) → P4 trend diamond (keep levels) and P6 part 2 (VECM); the purpose 2 chart reads it as refs to the P3 verdict and flag.
 - **Leaves.** Added `B3_FBM` (fractional Brownian motion, areas 15 and 7) under a B3 process-type diamond. Relabelled: `B7_GLOBAL_VS_LOCAL` "Pooling strategies for many series", `P10_SCENARIOS` "Stress testing and scenario design", `P7_ARFIMA_ERRORS` "Regression with ARFIMA errors". `B2_SURVIVAL` carries areas 17 and 26. Re-scaffolded sections were moved to their flow positions.
 - **Scope topics** dropped from landing lines in round 1 are leaves, second lines or named pointers again.

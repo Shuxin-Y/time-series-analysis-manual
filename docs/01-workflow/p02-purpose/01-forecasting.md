@@ -7,10 +7,7 @@
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P2_FC_IN(["Forecasting question"]) --> P2_FC_HORIZON_Q{"Horizon?"}
-    P2_FC_HORIZON_Q -->|"Short or medium"| P2_FC_MANY
-    P2_FC_HORIZON_Q -->|"Long"| P2_FC_LONG_FLAG["Set flag: multi-step horizon"]
-    P2_FC_LONG_FLAG --> P2_FC_MANY{"Many similar series (P1)?"}
+    P2_FC_IN(["Forecasting question"]) --> P2_FC_MANY{"Many similar series (P1)?"}
     P2_FC_MANY -->|"Yes: see B7"| B7[["B7 Many similar series"]]
     P2_FC_MANY -->|"No"| P3
     B7 --> P3[["P3: Exploratory diagnostics"]]
@@ -33,9 +30,9 @@ graph TD
     P2_FC_EPIDEMIC --> P10[["P10: Inference and interpretation"]]
     P10 --> P10_POINT_FORECASTS[["Point forecasts and horizons"]]
     P10_POINT_FORECASTS --> P10_INTERVALS[["Prediction intervals"]]
-    P10_INTERVALS --> P2_FC_STEPS{"Multi-step flag?"}
-    P2_FC_STEPS -->|"Yes"| P10_MULTISTEP[["Multi-step strategies"]]
-    P2_FC_STEPS -->|"No"| P10_RECONCILIATION
+    P10_INTERVALS --> P10_MULTISTEP_Q[["Horizon beyond one step?"]]
+    P10_MULTISTEP_Q -->|"Yes"| P10_MULTISTEP[["Multi-step strategies"]]
+    P10_MULTISTEP_Q -->|"No"| P10_RECONCILIATION
     P10_MULTISTEP --> P10_RECONCILIATION[["Hierarchical and temporal reconciliation"]]
     P10_RECONCILIATION --> P10_COMBINATION[["Forecast combination and model averaging"]]
     P10_COMBINATION --> P11[["P11: Validation and deployment"]]
@@ -43,9 +40,9 @@ graph TD
     P11_ROLLING_ORIGIN --> P11_POINT_METRICS[["Point-forecast metrics"]]
     P11_POINT_METRICS --> P11_PROBABILISTIC_METRICS[["Probabilistic metrics"]]
     class P2_FC_IN terminator
-    class P2_FC_HORIZON_Q,P2_FC_MANY,P2_FC_EXOG,P2_FC_FAMILY,P2_FC_DOMAIN,P2_FC_STEPS decision
-    class P2_FC_LONG_FLAG,P2_FC_BASELINES,P2_FC_EPIDEMIC process
-    class B7,P3,P4,P6,P6_ARIMAX,P6_ARIMA_SARIMA,P6_ETS,P6_GLOBAL_MODELS,P7,P8,P9,P9_FORECAST_COMPARISON,P10,P10_POINT_FORECASTS,P10_INTERVALS,P10_MULTISTEP,P10_RECONCILIATION,P10_COMBINATION,P11,P11_ROLLING_ORIGIN,P11_POINT_METRICS,P11_PROBABILISTIC_METRICS ref
+    class P2_FC_MANY,P2_FC_EXOG,P2_FC_FAMILY,P2_FC_DOMAIN decision
+    class P2_FC_BASELINES,P2_FC_EPIDEMIC process
+    class B7,P3,P4,P6,P6_ARIMAX,P6_ARIMA_SARIMA,P6_ETS,P6_GLOBAL_MODELS,P7,P8,P9,P9_FORECAST_COMPARISON,P10,P10_POINT_FORECASTS,P10_INTERVALS,P10_MULTISTEP_Q,P10_MULTISTEP,P10_RECONCILIATION,P10_COMBINATION,P11,P11_ROLLING_ORIGIN,P11_POINT_METRICS,P11_PROBABILISTIC_METRICS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

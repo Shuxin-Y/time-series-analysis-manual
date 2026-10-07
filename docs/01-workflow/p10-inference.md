@@ -21,7 +21,7 @@ graph TD
     P10_DENSITY_QUANTILE --> P10_RISK{"Risk measures needed?"}
     P10_RISK -->|"Yes"| P10_RISK_MEASURES[["Risk measures and their backtests"]]
     P10_RISK -->|"No"| P10_MULTISTEP_Q
-    P10_RISK_MEASURES --> P10_MULTISTEP_Q{"Multi-step flag?"}
+    P10_RISK_MEASURES --> P10_MULTISTEP_Q{"Horizon beyond one step?"}
     P10_MULTISTEP_Q -->|"Yes"| P10_MULTISTEP["Multi-step strategies<br/>recursive, direct, MIMO"]
     P10_MULTISTEP_Q -->|"No"| P10_HIERARCHY
     P10_MULTISTEP --> P10_HIERARCHY{"Hierarchy flag?"}
