@@ -121,3 +121,8 @@ Distance-based and kernel methods, shapelets, symbolic representations, change-p
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_FE_AUGMENTATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Cluster series, then fit local models
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B7_CLUSTER_THEN_LOCAL`). Write this section following the content rules in `.claude/rules/writing.md`.

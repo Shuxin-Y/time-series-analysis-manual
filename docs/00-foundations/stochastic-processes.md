@@ -98,3 +98,8 @@ Sections below are created from the flowchart inventory and stay marked pending 
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `F_PROJECTION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Markov chains
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `F_MARKOV`). Write this section following the content rules in `.claude/rules/writing.md`.
