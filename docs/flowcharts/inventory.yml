@@ -117,3 +117,17 @@ nodes:
   - {id: F_STATIONARITY,          label: "Strict and weak stationarity",            phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#strict-and-weak-stationarity"}
   - {id: F_ERGODICITY,            label: "Ergodicity and mixing",                   phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#ergodicity-and-mixing"}
   - {id: F_UNIT_ROOT_ASYMPTOTICS, label: "Random walks and unit-root asymptotics",  phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#random-walks-and-unit-root-asymptotics"}
+  # ---- P4 procedural leaves (live in the phase page)
+  - {id: P4_LOG_BOXCOX,            label: "Variance-stabilising transforms",        phase: P4, areas: [2], section: "01-workflow/p04-transformations.md#variance-stabilising-transforms"}
+  - {id: P4_DIFFERENCE,            label: "Regular differencing",                   phase: P4, areas: [2], section: "01-workflow/p04-transformations.md#regular-differencing"}
+  - {id: P4_OVERDIFFERENCING,      label: "Check for over-differencing",            phase: P4, areas: [2], section: "01-workflow/p04-transformations.md#check-for-over-differencing"}
+  - {id: P4_FRACTIONAL_DIFFERENCE, label: "Fractional differencing",                phase: P4, areas: [7], section: "01-workflow/p04-transformations.md#fractional-differencing"}
+  - {id: P4_DETREND,               label: "Detrending by regression on time",       phase: P4, areas: [2, 28], section: "01-workflow/p04-transformations.md#detrending-by-regression-on-time"}
+  - {id: P4_SEASONAL_DIFFERENCE,   label: "Seasonal differencing",                  phase: P4, areas: [29], section: "01-workflow/p04-transformations.md#seasonal-differencing"}
+  - {id: P4_SEASONAL_ADJUSTMENT,   label: "Seasonal adjustment",                    phase: P4, areas: [29, 3], section: "01-workflow/p04-transformations.md#seasonal-adjustment"}
+  - {id: P4_MULTIPLE_SEASONALITY,  label: "Multiple seasonality",                   phase: P4, areas: [29], section: "01-workflow/p04-transformations.md#multiple-seasonality"}
+  - {id: P4_BREAK_HANDLING,        label: "Handle structural breaks",               phase: P4, areas: [30], section: "01-workflow/p04-transformations.md#handle-structural-breaks"}
+  - {id: P4_FILTER_DECOMPOSITION,  label: "Filter-based decomposition",             phase: P4, areas: [13, 3], section: "01-workflow/p04-transformations.md#filter-based-decomposition"}
+  - {id: P4_MODEL_DECOMPOSITION,   label: "Model-based decomposition",              phase: P4, areas: [11, 3], section: "01-workflow/p04-transformations.md#model-based-decomposition"}
+  - {id: P4_SSA,                   label: "Singular spectrum analysis",             phase: P4, areas: [13], section: "01-workflow/p04-transformations.md#singular-spectrum-analysis"}
+  - {id: P4_RETEST,                label: "Retest stationarity after transforming", phase: P4, areas: [5], section: "01-workflow/p04-transformations.md#retest-stationarity-after-transforming"}
