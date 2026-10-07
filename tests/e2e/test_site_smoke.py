@@ -108,7 +108,7 @@ def test_glossary_chip_opens_the_upstream_term(page, site_url):
     assert "<strong>Reject $H_0$</strong>" in rendered and "$s&lt;t$" in rendered
     assert 'href="' + site_url + 'reference/04-estimation/maximum-likelihood/#joint-density"' in rendered
     unanchored = page.evaluate("t => window.tsamGlossary.renderMarkdown(t)",
-                               "[a](reference/04-estimation/index.md) and [b](../x.md#y)")
+                               '[a](reference/04-estimation/index.md) and [b](../x.md#y) and [c](x.md#y "t") and [d](ü/x.md#y)')
     assert "<a " not in unanchored  # the drawer renders only the audit's SECTION_RE link form
     nul = page.evaluate("t => window.tsamGlossary.renderMarkdown(t)", "text \u00000\u0000 here $m$")
     assert nul == '<p class="arithmatex">text 0 here $m$</p>'

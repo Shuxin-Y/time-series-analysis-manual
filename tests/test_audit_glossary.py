@@ -382,3 +382,26 @@ def test_two_theory_pages_that_only_link_each_other_are_unreachable(tmp_path):
     (area / "index.md").write_text("# X\n\nSee [X theory](x-theory.md).\n", encoding="utf-8")
     reached = {f.where for f in audit.check_sections(sitekit.site(tmp_path), [], terms) if "not reachable" in f.message}
     assert not reached & {"reference/12-x/x-theory.md", "reference/12-x/y-theory.md"}
+
+
+def test_titled_and_non_ascii_links_are_findings(tmp_path):
+    findings = glossary_findings(tmp_path, {"stochastic-processes.yml": '''
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+            historical: 'See [t](reference/04-estimation/index.md#joint-density "title") and [u](reference/04-estimation/übersicht.md#a).'
+    '''})
+    messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
+    assert messages == [
+        "historical link 'reference/04-estimation/index.md#joint-density \"title\"' must look like path/file.md#anchor",
+        "historical link 'reference/04-estimation/übersicht.md#a' must look like path/file.md#anchor",
+    ]
+
+
+def test_drawer_link_pattern_is_the_audit_section_pattern():
+    import re as _re
+
+    js = (sitekit.REPO / "docs" / "javascripts" / "glossary.js").read_text(encoding="utf-8")
+    target = _re.search(r"const DOC_LINK_RE = /\\\[\(\[\^\\\]\]\+\)\\\]\\\(\((.*)\)\\\)/g;", js).group(1)
+    assert "^" + target.replace("\\/", "/") + "$" == audit.SECTION_RE.pattern

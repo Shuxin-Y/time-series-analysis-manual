@@ -349,8 +349,9 @@ def collect_diagrams(site: Site) -> list[Diagram]:
 
 # Inventory sections and glossary references are `path.md#anchor`, and the anchor must be the id of a rendered
 # heading: `<a id>`, attr-list ids on paragraphs and footnote ids are not targets (a node is a section).
-# Path segments may not start with "." (no `..` and no hidden files); glossary.js DOC_LINK_RE mirrors this form.
-SECTION_RE = re.compile(r"^(?:[\w-][\w.-]*/)*[\w-][\w.-]*\.md#[\w-]+$")
+# ASCII-only classes (Python's \w is Unicode, JavaScript's is ASCII); path segments may not start with "." (no `..`,
+# no hidden files). glossary.js DOC_LINK_RE uses this same pattern for its link target.
+SECTION_RE = re.compile(r"^(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.md#[A-Za-z0-9_-]+$")
 SECTION_FORMAT = "path/file.md#anchor"
 
 
@@ -576,8 +577,9 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
 
 # ---------------------------------------------------------------- sections
 
-# Any Markdown link in glossary text; its target must be a SECTION_RE `path.md#anchor` that resolves.
-GLOSSARY_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)\s]+)\)")
+# Any Markdown link target in glossary text, up to the closing parenthesis (titles and spaces included); it must be
+# exactly a SECTION_RE `path.md#anchor` that resolves, which is the only form the drawer renders as a link.
+GLOSSARY_LINK_RE = re.compile(r"\]\(([^)]*)\)")
 GLOSSARY_TEXT_FIELDS = ("mathematical", "derivation", "historical")
 AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 

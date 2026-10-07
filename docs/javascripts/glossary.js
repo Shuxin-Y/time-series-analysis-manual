@@ -128,9 +128,10 @@
   // Math spans ($$...$$, $...$, \(...\), \[...\]) pass through to MathJax untouched by the transforms below.
   const MATH_SPAN_RE = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\])/;
 
-  // Docs-relative links in glossary text: exactly SECTION_RE in scripts/audit_flowcharts.py (anchor required,
-  // no segment starting with "."), which the audit also resolves for every link in these fields.
-  const DOC_LINK_RE = /\[([^\]]+)\]\(((?:[\w-][\w.-]*\/)*[\w-][\w.-]*\.md#[\w-]+)\)/g;
+  // The link target group is SECTION_RE in scripts/audit_flowcharts.py, character for character, with the same
+  // ASCII classes (anchor required, no segment starting with "."). The audit reports every other `](...)` target in
+  // glossary text, so the drawer renders as a link exactly the links the audit has resolved.
+  const DOC_LINK_RE = /\[([^\]]+)\]\(((?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.md#[A-Za-z0-9_-]+)\)/g;
 
   // Inline markdown on escaped text: **bold**, *italic*, [text](path.md#anchor). Math spans are masked with
   // placeholders while the transforms run, so emphasis may enclose math, then restored escaped and untouched.
