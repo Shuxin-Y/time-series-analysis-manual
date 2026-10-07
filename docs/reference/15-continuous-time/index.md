@@ -17,7 +17,8 @@ graph TD
     B3_PROCESS -->|"Nonlinear diffusion"| B3_SDE["Diffusions and SDE discretisation<br/>Euler-Maruyama, Milstein"]
     B3_IRREGULAR_KALMAN --> P5_FD_LOMB_SCARGLE[["Lomb-Scargle periodogram"]]
     P5_FD_LOMB_SCARGLE --> P5[["P5: Representation selection"]]
-    B3_OU & B3_CARMA & B3_FBM --> B3_SDE_INFERENCE
+    B3_OU & B3_CARMA --> B3_SDE_INFERENCE
+    B3_FBM -->|"Whittle or local Whittle, frequency domain"| P8
     B3_SDE --> B3_JUMPS{"Jumps?"}
     B3_JUMPS -->|"Yes"| P7_JUMPS[["Jump diffusion"]]
     B3_JUMPS -->|"No"| B3_SDE_INFERENCE
