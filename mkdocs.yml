@@ -258,3 +258,8 @@ nav:
 
 # Copyright
 copyright: Copyright &copy; 2024 Time Series Analysis Manual
+
+# --strict turns these warnings into failures: a relabelled leaf must not leave a stale link anchor behind.
+validation:
+  links:
+    anchors: warn
