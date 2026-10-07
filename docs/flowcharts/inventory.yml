@@ -240,3 +240,15 @@ nodes:
   # ---- foundation sections referenced from P10
   - {id: F_CONDITIONAL_EXPECTATION, label: "Conditional expectation as the optimal forecast", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#conditional-expectation-as-the-optimal-forecast"}
   - {id: F_PROJECTION,              label: "Projection theorem and best linear prediction",   phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#projection-theorem-and-best-linear-prediction"}
+  # ---- P11 validation and deployment leaves
+  - {id: P11_ROLLING_ORIGIN,         label: "Rolling-origin cross-validation",    phase: P11, areas: [6], section: "01-workflow/p11-validation-deployment.md#rolling-origin-cross-validation"}
+  - {id: P11_BACKTESTING,            label: "Backtesting without look-ahead",     phase: P11, areas: [6, 22], section: "01-workflow/p11-validation-deployment.md#backtesting-without-look-ahead"}
+  - {id: P11_POINT_METRICS,          label: "Point-forecast metrics",             phase: P11, areas: [6], section: "reference/06-model-selection/index.md#point-forecast-metrics"}
+  - {id: P11_PROBABILISTIC_METRICS,  label: "Probabilistic metrics",              phase: P11, areas: [34], section: "reference/34-probabilistic-forecasting/index.md#probabilistic-metrics"}
+  - {id: P11_CLASSIFICATION_METRICS, label: "Classification and anomaly metrics", phase: P11, areas: [19], section: "reference/19-classification-anomaly/index.md#classification-and-anomaly-metrics"}
+  - {id: P11_CHANGE_POINT_METRICS,   label: "Change-point metrics",               phase: P11, areas: [19, 30], section: "reference/19-classification-anomaly/index.md#change-point-metrics"}
+  - {id: P11_DOCUMENTATION,          label: "Document the model specification",   phase: P11, areas: [6], section: "01-workflow/p11-validation-deployment.md#document-the-model-specification"}
+  - {id: P11_DRIFT_MONITORING,       label: "Drift monitoring",                   phase: P11, areas: [23, 30], section: "reference/23-online-adaptive/index.md#drift-monitoring"}
+  - {id: P11_SPC,                    label: "Statistical process control",        phase: P11, areas: [30, 23], section: "reference/30-structural-change/index.md#statistical-process-control"}
+  - {id: P11_ONLINE_UPDATING,        label: "Online updating",                    phase: P11, areas: [23], section: "reference/23-online-adaptive/index.md#online-updating"}
+  - {id: P11_RETRAINING,             label: "Retraining policy",                  phase: P11, areas: [23], section: "01-workflow/p11-validation-deployment.md#retraining-policy"}

@@ -21,3 +21,8 @@ Information criteria, time-series cross-validation, residual diagnostics and for
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P9_ENCOMPASSING`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Point-forecast metrics
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_POINT_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.

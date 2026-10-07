@@ -21,3 +21,8 @@ Density and quantile forecasts, scoring rules, calibration, multi-step strategie
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P10_MULTISTEP`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Probabilistic metrics
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_PROBABILISTIC_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.
