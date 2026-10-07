@@ -589,14 +589,20 @@ AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 
 
 def glossary_links(text: str) -> tuple[list[str], list[str]]:
-    """(targets of the links the drawer renders, raw targets of every other `](` in the text), math spans masked."""
-    text = MATH_SPAN_RE.sub(" ", text.replace("\0", ""))
-    covered: list[tuple[int, int]] = []
+    """(targets of the links the drawer renders, raw targets of every other `](` in the text).
+
+    The scan unit is the drawer's: each line separately (renderMarkdown splits on newlines), with NUL stripped
+    and math spans masked per line, so a link or a math span never spans lines here either.
+    """
     targets: list[str] = []
-    for m in GLOSSARY_LINK_RE.finditer(text):
-        covered.append((m.start(), m.end()))
-        targets.append(m.group(2))
-    stray = [m.group(1) for m in LINK_OPENING_RE.finditer(text) if not any(s <= m.start() < e for s, e in covered)]
+    stray: list[str] = []
+    for raw_line in text.split("\n"):
+        line = MATH_SPAN_RE.sub(" ", raw_line.replace("\0", ""))
+        covered: list[tuple[int, int]] = []
+        for m in GLOSSARY_LINK_RE.finditer(line):
+            covered.append((m.start(), m.end()))
+            targets.append(m.group(2))
+        stray.extend(m.group(1) for m in LINK_OPENING_RE.finditer(line) if not any(s <= m.start() < e for s, e in covered))
     return targets, stray
 
 

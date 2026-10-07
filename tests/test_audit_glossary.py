@@ -447,3 +447,22 @@ def test_drawer_math_pattern_is_the_audit_math_pattern():
 
     js = (sitekit.REPO / "docs" / "javascripts" / "glossary.js").read_text(encoding="utf-8")
     assert _re.search(r"const MATH_SPAN_RE = /(.*)/;", js).group(1) == audit.MATH_SPAN_RE.pattern
+
+
+def test_the_scan_unit_is_one_line_as_in_the_drawer(tmp_path):
+    findings = glossary_findings(tmp_path, {"stochastic-processes.yml": """
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+            historical: |
+              [joint
+              density](reference/04-estimation/index.md#joint-density)
+            mathematical: |
+              $$
+              [a](reference/no/such.md#x)
+              $$
+    """})
+    messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
+    assert any(m.startswith("historical link ") and "is not a [text](path/file.md#anchor)" in m for m in messages)
+    assert "mathematical link file reference/no/such.md does not exist" in messages
