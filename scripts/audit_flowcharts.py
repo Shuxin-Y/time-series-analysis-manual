@@ -599,6 +599,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
         for target in GLOSSARY_LINK_RE.findall(str(t.get("derivation") or "")):
             if resolve_section(target, site) is None and split_section(target)[0] != home:
                 derivation_links.setdefault(home, set()).add(split_section(target)[0])
+    site_pages = set(site.pages_under(""))  # only docs Markdown pages are walked: no images, PDFs or paths outside docs/
     linked = method_files | {rel for rel in site.pages_under("reference") if AREA_LANDING_RE.match(rel)}
     frontier = sorted(linked)
     while frontier:
@@ -606,7 +607,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
         page = site.page(page_rel)
         targets = {split_section(target)[0] for href in (page.links if page else ()) if (target := resolve_link(href, page_rel))}
         targets |= derivation_links.get(page_rel, set())
-        new = targets - linked
+        new = (targets & site_pages) - linked
         linked |= new
         frontier.extend(sorted(new))
     findings: list[Finding] = []

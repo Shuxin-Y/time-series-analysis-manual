@@ -405,3 +405,15 @@ def test_drawer_link_pattern_is_the_audit_section_pattern():
     js = (sitekit.REPO / "docs" / "javascripts" / "glossary.js").read_text(encoding="utf-8")
     target = _re.search(r"const DOC_LINK_RE = /\\\[\(\[\^\\\]\]\+\)\\\]\\\(\((.*)\)\\\)/g;", js).group(1)
     assert "^" + target.replace("\\/", "/") + "$" == audit.SECTION_RE.pattern
+
+
+def test_reachability_walk_never_reads_non_page_link_targets(tmp_path):
+    docs = make_docs(tmp_path)
+    (docs / "assets" / "figures").mkdir(parents=True)
+    (docs / "assets" / "figures" / "showcase_lines_cb.png").write_bytes(b"\x89PNG\r\n\x1a\n\x00binary")
+    (docs / "reference" / "04-estimation" / "index.md").write_text(
+        "# Estimation\n\n## Joint density\n\n[![x](../../assets/figures/showcase_lines_cb.png)](../../assets/figures/showcase_lines_cb.png)\n"
+        "[up](../../../outside.md)\n", encoding="utf-8")
+    rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
+    findings = audit.check_sections(sitekit.site(tmp_path), rows, [])
+    assert any(f.where == "reference/04-estimation/theory.md" for f in findings)
