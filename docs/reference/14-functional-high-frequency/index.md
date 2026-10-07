@@ -1,6 +1,6 @@
 # 14. Functional and High-Frequency
 
-The B4 branch (series as curves, intraday curve alignment and ultra-high-frequency data, basis smoothing, functional principal components, functional regression) and autoregressive conditional durations. Survival models live in area 17 and realised volatility in area 10.
+The B4 branch (series as curves, intraday curve alignment, basis smoothing, functional principal components, functional regression) and autoregressive conditional durations. Ultra-high-frequency (tick) data is irregularly sampled (B3, area 15) and summarised by realised measures (area 10); survival models live in area 17.
 
 ## Branch sub-diagram
 
@@ -8,7 +8,7 @@ The B4 branch (series as curves, intraday curve alignment and ultra-high-frequen
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     B4["B4 Functional"] --> B4_CURVES["Series as curves<br/>when functional data analysis applies"]
-    B4_CURVES --> B4_INTRADAY["Intraday seasonality and curve alignment<br/>ultra-high-frequency data"]
+    B4_CURVES --> B4_INTRADAY["Intraday seasonality and curve alignment"]
     B4_INTRADAY --> P5_FN_BASIS[["Basis representation and smoothing of curves"]]
     P5_FN_BASIS --> P5[["P5: Representation selection"]]
     class B4,B4_CURVES,B4_INTRADAY process

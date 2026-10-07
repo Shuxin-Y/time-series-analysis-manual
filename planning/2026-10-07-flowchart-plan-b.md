@@ -355,9 +355,9 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 |---|---|---|---|---|
 | P9_RESIDUAL_NONLINEARITY | Remaining nonlinearity | BDS on residuals | [8, 5] | 01-workflow/p09-diagnostics-selection.md |
 | P9_VOLATILITY_DIAGNOSTICS | Volatility model diagnostics | standardised residuals, sign-bias test, news impact curve | [10] | 01-workflow/p09-diagnostics-selection.md |
-| P9_INFORMATION_CRITERIA | Information criteria | AIC, BIC, HQIC, WAIC, LOO; posterior predictive checks | [6, 12] | reference/06-model-selection/index.md |
+| P9_INFORMATION_CRITERIA | Information criteria | AIC, BIC, HQIC, WAIC, LOO | [6, 12] | reference/06-model-selection/index.md |
 | P9_BOOTSTRAP | Bootstrap inference | block, stationary, sieve | [5, 25] | reference/06-model-selection/index.md |
-| P9_FORECAST_COMPARISON | Forecast comparison tests | Diebold-Mariano, Clark-West, reality check, model confidence set | [6] | reference/06-model-selection/index.md |
+| P9_FORECAST_COMPARISON | Forecast comparison tests | Diebold-Mariano, Clark-West, reality check, model confidence set; posterior predictive checks | [6] | reference/06-model-selection/index.md |
 | P9_ENCOMPASSING | Forecast encompassing | | [6] | reference/06-model-selection/index.md |
 
 - [ ] **Steps:** replace the note, 10 rows `phase: P9`, scaffold, audit, build. Commit `feat(flowchart): P9 diagnostics and model selection sub-diagram`.
@@ -494,7 +494,7 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 | P2_FE_TIME_FEATURES | Time-domain features | moments, autocorrelation, rolling statistics | [19] | reference/19-classification-anomaly/index.md |
 | P2_FE_FREQ_FEATURES | Frequency-domain features | band power, spectral entropy, spectral centroid | [19, 13] | reference/19-classification-anomaly/index.md |
 | P2_FE_TF_FEATURES | Time-frequency features | STFT and wavelet coefficients | [19, 13] | reference/19-classification-anomaly/index.md |
-| P2_FE_NONLINEAR_FEATURES | Nonlinear dynamics features | entropy, Lyapunov exponents, recurrence quantification | [19, 8] | reference/19-classification-anomaly/index.md |
+| P2_FE_NONLINEAR_FEATURES | Nonlinear dynamics features | entropy, recurrence quantification; chaos indicators from P3 | [19, 8] | reference/19-classification-anomaly/index.md |
 | P2_FE_AUTOMATED | Automated feature extraction | tsfresh, catch22 | [19] | reference/19-classification-anomaly/index.md |
 | P2_FE_SYMBOLIC | Symbolic representations | SAX, SFA | [19] | reference/19-classification-anomaly/index.md |
 | P2_FE_REPRESENTATION_LEARNING | Self-supervised representation learning | | [19, 18] | reference/19-classification-anomaly/index.md |
@@ -650,7 +650,7 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 | ID | label | second line | areas |
 |---|---|---|---|
 | B4_CURVES | Series as curves | when functional data analysis applies | [14] |
-| B4_INTRADAY | Intraday seasonality and curve alignment | ultra-high-frequency data | [14] |
+| B4_INTRADAY | Intraday seasonality and curve alignment |  | [14] |
 
 **B5 (spatial and network, phase B5):** Flow as drawn (revised in review rounds 1 and 2, see Deviations): `B5` → `B5_SPATIAL_AUTOCORRELATION`; `B5_SPATIAL_AUTOCORRELATION` → `B5_INDEX{"Index?"}`; `B5_INDEX` →|"Regions or panels"| `B5_SPATIAL_PANEL_VAR`; `B5_INDEX` →|"Continuous space"| `B5_KRIGING`; `B5_INDEX` →|"Graph"| `B5_GRAPH_MODEL{"Graph-indexed model?"}`; `B5_GRAPH_MODEL` →|"Spectral filtering"| `B5_GRAPH_SIGNAL`; `B5_GRAPH_MODEL` →|"Neural"| `B5_STGNN`; `B5_GRAPH_MODEL` →|"Autoregression"| `B5_NETWORK_AR`; `B5_INDEX` →|"Events in space"| `B5_ST_POINT_PROCESS`; `B5_SPATIAL_PANEL_VAR` & `B5_KRIGING` & `B5_GRAPH_SIGNAL` & `B5_STGNN` → `P8`; `B5_NETWORK_AR` & `B5_ST_POINT_PROCESS` → `P8` (ref).
 

@@ -15,7 +15,7 @@ graph TD
     P2_FE_HANDCRAFTED -->|"Time"| P2_FE_TIME_FEATURES["Time-domain features<br/>moments, autocorrelation, rolling statistics"]
     P2_FE_HANDCRAFTED -->|"Frequency"| P2_FE_FREQ_FEATURES["Frequency-domain features<br/>band power, spectral entropy, spectral centroid"]
     P2_FE_HANDCRAFTED -->|"Time-frequency"| P2_FE_TF_FEATURES["Time-frequency features<br/>STFT and wavelet coefficients"]
-    P2_FE_HANDCRAFTED -->|"Nonlinear dynamics"| P2_FE_NONLINEAR_FEATURES["Nonlinear dynamics features<br/>entropy, Lyapunov exponents, recurrence quantification"]
+    P2_FE_HANDCRAFTED -->|"Nonlinear dynamics"| P2_FE_NONLINEAR_FEATURES["Nonlinear dynamics features<br/>entropy, recurrence quantification; chaos indicators from P3"]
     P2_FE_HANDCRAFTED -->|"Automated"| P2_FE_AUTOMATED["Automated feature extraction<br/>tsfresh, catch22"]
     P2_FE_TIME_FEATURES & P2_FE_FREQ_FEATURES & P2_FE_TF_FEATURES & P2_FE_NONLINEAR_FEATURES & P2_FE_AUTOMATED --> P2_FE_TO_PART_2(["Continue in part 2"])
     class P2_FE_IN,P2_FE_TO_PART_2 terminator

@@ -63,11 +63,11 @@ graph TD
     P9_PART_2_IN(["From part 1"]) --> P9_MODEL_KIND{"Model kind?"}
     P9_MODEL_KIND -->|"Volatility"| P9_VOLATILITY_DIAGNOSTICS["Volatility model diagnostics<br/>standardised residuals, sign-bias test, news impact curve"]
     P9_MODEL_KIND -->|"Other"| P9_INFORMATION_CRITERIA
-    P9_VOLATILITY_DIAGNOSTICS --> P9_INFORMATION_CRITERIA["Information criteria<br/>AIC, BIC, HQIC, WAIC, LOO; posterior predictive checks"]
+    P9_VOLATILITY_DIAGNOSTICS --> P9_INFORMATION_CRITERIA["Information criteria<br/>AIC, BIC, HQIC, WAIC, LOO"]
     P9_INFORMATION_CRITERIA --> P9_INFERENCE_NEEDED{"Finite-sample inference?"}
     P9_INFERENCE_NEEDED -->|"Yes"| P9_BOOTSTRAP["Bootstrap inference<br/>block, stationary, sieve"]
     P9_INFERENCE_NEEDED -->|"No"| P9_FORECAST_COMPARISON
-    P9_BOOTSTRAP --> P9_FORECAST_COMPARISON["Forecast comparison tests<br/>Diebold-Mariano, Clark-West, reality check, model confidence set"]
+    P9_BOOTSTRAP --> P9_FORECAST_COMPARISON["Forecast comparison tests<br/>Diebold-Mariano, Clark-West, reality check, model confidence set; posterior predictive checks"]
     P9_FORECAST_COMPARISON --> P9_ENCOMPASSING["Forecast encompassing"]
     P9_ENCOMPASSING --> P9_PASS{"All diagnostics pass?"}
     P9_PASS -->|"Yes"| P9_OUT(["To P10 Inference"])
