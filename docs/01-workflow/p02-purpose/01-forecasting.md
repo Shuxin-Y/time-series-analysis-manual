@@ -10,7 +10,7 @@ graph TD
     P2_FC_IN(["Forecasting question"]) --> P2_FC_HORIZON_Q{"Horizon?"}
     P2_FC_HORIZON_Q -->|"Short or medium"| P2_FC_MANY
     P2_FC_HORIZON_Q -->|"Long"| P2_FC_LONG_FLAG["Set flag: multi-step horizon"]
-    P2_FC_LONG_FLAG --> P2_FC_MANY{"Many similar series?"}
+    P2_FC_LONG_FLAG --> P2_FC_MANY{"Global or hierarchy flag?"}
     P2_FC_MANY -->|"Yes"| B7[["B7 Many similar series"]]
     P2_FC_MANY -->|"No"| P2_FC_EXOG
     B7 --> P2_FC_EXOG{"Future covariates known?"}

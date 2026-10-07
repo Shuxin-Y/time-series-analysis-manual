@@ -14,7 +14,9 @@ graph TD
     P0_REGULAR -->|"No"| P0_ALIGN_TIMESTAMPS["Align timestamps<br/>time zones, daylight-saving transitions"]
     P0_REGULAR -->|"Yes"| P0_DEDUPLICATE
     P0_ALIGN_TIMESTAMPS --> P0_DEDUPLICATE["Remove duplicate and out-of-order stamps"]
-    P0_DEDUPLICATE --> P0_RESAMPLE["Resample and anti-alias"]
+    P0_DEDUPLICATE --> P0_RESAMPLE_NOW{"Resample now?"}
+    P0_RESAMPLE_NOW -->|"Yes: downsample or regrid"| P0_RESAMPLE["Resample and anti-alias"]
+    P0_RESAMPLE_NOW -->|"No: keep the sampling"| P0_HAS_MISSING
     P0_RESAMPLE --> P0_HAS_MISSING{"Missing values?"}
     P0_HAS_MISSING -->|"Short gaps"| P0_MISSING_IMPUTE["Impute missing values<br/>interpolation, Kalman smoother, multiple imputation"]
     P0_HAS_MISSING -->|"Long gaps"| P0_MISSING_SEGMENT["Segment around long gaps"]
@@ -37,6 +39,7 @@ graph TD
     class P0_REGULAR,P0_HAS_MISSING,P0_HAS_OUTLIERS,P0_CUMULATIVE,P0_FREQUENCY decision
     class P0_INSPECT_SAMPLING,P0_ALIGN_TIMESTAMPS,P0_DEDUPLICATE,P0_RESAMPLE,P0_MISSING_IMPUTE,P0_MISSING_SEGMENT,P0_OUTLIER_TAXONOMY,P0_ROBUST_FILTER,P0_UNITS_METADATA,P0_CUMULATIVE_TO_FLOW,P0_CALENDAR_EFFECTS,P0_DISAGGREGATION,P0_VINTAGES process
     class P1 ref
+    class P0_RESAMPLE_NOW decision
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

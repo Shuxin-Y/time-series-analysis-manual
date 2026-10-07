@@ -13,9 +13,10 @@ graph TD
     P3_PLOT --> P3_DISTRIBUTION["Test the distribution<br/>Shapiro-Wilk, Jarque-Bera, skewness, tail index"]
     P3_DISTRIBUTION --> P3_VARIANCE_STABILITY["Check variance stability<br/>rolling variance, ARCH-LM on levels"]
     P3_VARIANCE_STABILITY --> P3_HETERO{"Variance stable?"}
-    P3_HETERO -->|"No"| P3_GARCH_FLAG["Set flag: GARCH effects"]
+    P3_HETERO -->|"Level-dependent variance"| P3_VARIANCE_FLAG["Set flag: transform variance"]
+    P3_HETERO -->|"Conditional heteroskedasticity: tested in P7"| P3_TREND_TYPE
     P3_HETERO -->|"Yes"| P3_TREND_TYPE
-    P3_GARCH_FLAG --> P3_TREND_TYPE["Trend-stationary or difference-stationary"]
+    P3_VARIANCE_FLAG --> P3_TREND_TYPE["Trend-stationary or difference-stationary"]
     P3_TREND_TYPE --> P3_UNIT_ROOT["Unit-root tests<br/>ADF, KPSS, PP, DF-GLS"]
     P3_UNIT_ROOT --> P3_BREAK_SUSPECTED
     P3_UNIT_ROOT --> P3_VARIANCE_RATIO["Variance-ratio test<br/>Lo-MacKinlay"]
@@ -23,21 +24,30 @@ graph TD
     P3_BREAK_SUSPECTED -->|"Yes"| P3_UNIT_ROOT_BREAKS["Unit-root tests with breaks<br/>Zivot-Andrews"]
     P3_BREAK_SUSPECTED -->|"No"| P3_UR_VERDICT
     P3_UNIT_ROOT_BREAKS --> P3_STRUCTURAL_BREAKS["Structural-break tests<br/>Chow, CUSUM, Bai-Perron"]
-    P3_STRUCTURAL_BREAKS --> P3_BREAK_FLAG["Set flag: break handling"]
+    P3_STRUCTURAL_BREAKS --> P3_BREAK_VERDICT{"Breaks found?"}
+    P3_BREAK_VERDICT -->|"Yes"| P3_BREAK_FLAG["Set flag: break handling"]
+    P3_BREAK_VERDICT -->|"No"| P3_UR_VERDICT
     P3_BREAK_FLAG --> P3_UR_VERDICT{"Unit root?"}
     P3_UR_VERDICT -->|"Yes"| P3_DIFF_FLAG["Set flag: difference"]
-    P3_UR_VERDICT -->|"No"| P3_SEASONALITY
+    P3_UR_VERDICT -->|"No"| P3_TREND_TS{"Deterministic trend?"}
     P3_UR_VERDICT -->|"Explosive"| P3_EXPLOSIVE["Explosive-root and bubble tests<br/>PSY, GSADF"]
-    P3_DIFF_FLAG & P3_EXPLOSIVE --> P3_SEASONALITY["Detect seasonality<br/>seasonal subseries, periodogram peaks"]
+    P3_TREND_TS -->|"Yes: trend-stationary"| P3_TREND_FLAG["Set flag: deterministic trend"]
+    P3_TREND_TS -->|"No"| P3_SEASONALITY
+    P3_DIFF_FLAG & P3_EXPLOSIVE & P3_TREND_FLAG --> P3_SEASONALITY["Detect seasonality<br/>seasonal subseries, periodogram peaks"]
     P3_SEASONALITY --> P3_SEASONAL{"Seasonal?"}
-    P3_SEASONAL -->|"Yes"| P3_SEASONAL_UNIT_ROOT["Seasonal unit-root tests<br/>HEGY, Canova-Hansen, OCSB"]
+    P3_SEASONAL -->|"Single period"| P3_SEASONAL_UNIT_ROOT["Seasonal unit-root tests<br/>HEGY, Canova-Hansen, OCSB"]
+    P3_SEASONAL -->|"Multiple periods"| P3_MULTI_SEASON_FLAG["Set flag: multiple seasonality"]
     P3_SEASONAL -->|"No"| P3_ACF_PACF
-    P3_SEASONAL_UNIT_ROOT --> P3_SDIFF_FLAG["Set flag: seasonal difference"]
-    P3_SDIFF_FLAG --> P3_ACF_PACF["Read the ACF and PACF"]
+    P3_SEASONAL_UNIT_ROOT --> P3_SUR_VERDICT{"Seasonal unit root?"}
+    P3_SUR_VERDICT -->|"Yes"| P3_SDIFF_FLAG["Set flag: seasonal difference"]
+    P3_SUR_VERDICT -->|"No"| P3_SADJ_FLAG["Set flag: seasonal adjustment"]
+    P3_SDIFF_FLAG & P3_SADJ_FLAG & P3_MULTI_SEASON_FLAG --> P3_ACF_PACF["Read the ACF and PACF"]
     P3_ACF_PACF --> P3_DECAY{"ACF decay?"}
     P3_DECAY -->|"Hyperbolic"| P3_LONG_MEMORY["Long-memory indicators<br/>Hurst exponent, GPH"]
     P3_DECAY -->|"Geometric or cut-off"| P3_NONLINEARITY
-    P3_LONG_MEMORY --> P3_LONG_MEMORY_FLAG["Set flag: long memory"]
+    P3_LONG_MEMORY --> P3_LM_VERDICT{"Long memory?"}
+    P3_LM_VERDICT -->|"Yes"| P3_LONG_MEMORY_FLAG["Set flag: long memory"]
+    P3_LM_VERDICT -->|"No"| P3_NONLINEARITY
     P3_LONG_MEMORY_FLAG --> P3_NONLINEARITY["Nonlinearity tests<br/>BDS, Terasvirta, Tsay, Keenan"]
     P3_NONLINEARITY --> P3_NONLINEAR{"Nonlinear?"}
     P3_NONLINEAR -->|"Yes"| P3_NONLINEAR_FLAG["Set flag: nonlinear"]
@@ -52,9 +62,8 @@ graph TD
     F_STATIONARITY[["Strict and weak stationarity"]] -.- P3_TREND_TYPE
     F_UNIT_ROOT_ASYMPTOTICS[["Random walks and unit-root asymptotics"]] -.- P3_UNIT_ROOT
     class P3_IN,P3_OUT terminator
-    class P3_HETERO,P3_BREAK_SUSPECTED,P3_UR_VERDICT,P3_SEASONAL,P3_DECAY,P3_NONLINEAR,P3_MULTI decision
-    class P3_PLOT,P3_DISTRIBUTION,P3_VARIANCE_STABILITY,P3_TREND_TYPE,P3_UNIT_ROOT,P3_UNIT_ROOT_BREAKS,P3_VARIANCE_RATIO,P3_EXPLOSIVE,P3_STRUCTURAL_BREAKS,P3_SEASONALITY,P3_SEASONAL_UNIT_ROOT,P3_ACF_PACF,P3_LONG_MEMORY,P3_NONLINEARITY,P3_NONPARAMETRIC_TREND,P3_CROSS_CORRELATION,P3_COINTEGRATION_PRECHECK process
-    class P3_GARCH_FLAG,P3_BREAK_FLAG,P3_DIFF_FLAG,P3_SDIFF_FLAG,P3_LONG_MEMORY_FLAG,P3_NONLINEAR_FLAG process
+    class P3_HETERO,P3_BREAK_SUSPECTED,P3_BREAK_VERDICT,P3_UR_VERDICT,P3_TREND_TS,P3_SEASONAL,P3_SUR_VERDICT,P3_DECAY,P3_LM_VERDICT,P3_NONLINEAR,P3_MULTI decision
+    class P3_PLOT,P3_DISTRIBUTION,P3_VARIANCE_STABILITY,P3_VARIANCE_FLAG,P3_TREND_TYPE,P3_UNIT_ROOT,P3_VARIANCE_RATIO,P3_UNIT_ROOT_BREAKS,P3_STRUCTURAL_BREAKS,P3_BREAK_FLAG,P3_DIFF_FLAG,P3_EXPLOSIVE,P3_TREND_FLAG,P3_SEASONALITY,P3_SEASONAL_UNIT_ROOT,P3_MULTI_SEASON_FLAG,P3_SDIFF_FLAG,P3_SADJ_FLAG,P3_ACF_PACF,P3_LONG_MEMORY,P3_LONG_MEMORY_FLAG,P3_NONLINEARITY,P3_NONLINEAR_FLAG,P3_NONPARAMETRIC_TREND,P3_CROSS_CORRELATION,P3_COINTEGRATION_PRECHECK process
     class F_ERGODICITY,F_STATIONARITY,F_UNIT_ROOT_ASYMPTOTICS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;

@@ -18,6 +18,7 @@ graph TD
     P8_LINEAR -->|"Moments only"| P8_YULE_WALKER["Yule-Walker and the method of moments"]
     P8_LINEAR -->|"Cointegrating regression"| P8_FMOLS_DOLS["Cointegrating regression<br/>FMOLS, DOLS"]
     P8_LINEAR -->|"Outlier-prone"| P8_ROBUST["Robust estimation<br/>M-estimators, LAD"]
+    P8_LINEAR -->|"No"| P8_TO_PART_2
     P8_YULE_WALKER --> P8_DURBIN_LEVINSON["Durbin-Levinson and the innovations algorithm"]
     P8_DURBIN_LEVINSON --> P8_HANNAN_RISSANEN["Hannan-Rissanen and Burg estimation"]
     P8_OLS_GLS & P8_HANNAN_RISSANEN & P8_FMOLS_DOLS & P8_ROBUST --> P8_LINEAR_TO_PART_3(["Continue in part 3"])
