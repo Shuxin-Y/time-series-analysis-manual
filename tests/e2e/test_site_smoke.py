@@ -107,17 +107,23 @@ def _diagram_pages() -> list[str]:
     return [f.removesuffix(index) if f.endswith(index) else f.removesuffix(".md") + "/" for f in files]
 
 
-# Width rule (DESIGN-SYSTEM.md, "Width"): rendered width over SVG width, measured at this viewport.
-GATE_VIEWPORT = {"width": 1280, "height": 900}
+# Width rule (DESIGN-SYSTEM.md, "Width"; MIN_SCALE in docs/javascripts/mermaid-init.js): rendered width over SVG
+# width, at the desktop viewport where splitting meets it and at a phone viewport where the container scrolls.
+DESKTOP_VIEWPORT = {"width": 1280, "height": 900}
+PHONE_VIEWPORT = {"width": 390, "height": 844}
 MIN_SCALE = 0.45
 # mermaid-init.js replaces each div.mermaid with a .mermaid-container, or fills it with this <pre> on a parse error.
 RENDER_ERROR_PREFIX = "Error rendering diagram"
+SCALES = """() => [...document.querySelectorAll('.mermaid-container > svg')].map((svg, i) => ({
+    i, scale: svg.getBoundingClientRect().width / svg.viewBox.baseVal.width,
+    clipped: svg.getBoundingClientRect().width > svg.parentElement.clientWidth + 1,
+    scrolls: svg.parentElement.scrollWidth > svg.parentElement.clientWidth}))"""
 
 
 @pytest.mark.parametrize("path", _diagram_pages())
 def test_every_diagram_renders_readably(page, site_url, path):
     errors_before = len(page.console_errors)
-    page.set_viewport_size(GATE_VIEWPORT)
+    page.set_viewport_size(DESKTOP_VIEWPORT)
     page.goto(site_url + path)
     page.wait_for_function("() => [...document.querySelectorAll('div.mermaid')].every(d => d.querySelector('pre'))",
                            timeout=30000)
@@ -126,13 +132,17 @@ def test_every_diagram_renders_readably(page, site_url, path):
         overflowing: [...document.querySelectorAll('.mermaid-container g.node foreignObject')]
             .filter(fo => fo.firstElementChild.getBoundingClientRect().height > fo.getBoundingClientRect().height + 1)
             .map(fo => fo.closest('g.node').id),
-        narrow: [...document.querySelectorAll('.mermaid-container > svg')]
-            .map((svg, i) => [i, svg.getBoundingClientRect().width / svg.viewBox.baseVal.width]),
     })""", RENDER_ERROR_PREFIX)
     assert report["errors"] == []
     assert page.console_errors[errors_before:] == []
     assert report["overflowing"] == []
-    assert [(i, round(s, 3)) for i, s in report["narrow"] if s < MIN_SCALE] == []
+    desktop = page.evaluate(SCALES)
+    assert [(d["i"], round(d["scale"], 3)) for d in desktop if d["scale"] < MIN_SCALE] == []
+    page.set_viewport_size(PHONE_VIEWPORT)
+    phone = page.evaluate(SCALES)
+    assert [(d["i"], round(d["scale"], 3)) for d in phone if d["scale"] < MIN_SCALE] == []
+    assert [d["i"] for d in phone if d["clipped"] and not d["scrolls"]] == []
+    assert page.evaluate("() => document.documentElement.scrollWidth <= window.innerWidth")
 
 
 def test_glossary_chip_opens_the_upstream_term(page, site_url):

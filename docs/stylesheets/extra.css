@@ -420,6 +420,12 @@ code {
   border: 1px solid var(--md-default-fg-color--lightest);
 }
 
+/* mermaid-init.js gives each SVG a minimum width (the width rule); the container scrolls rather than the page. */
+.mermaid-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Mermaid sizes each label box while the diagram is attached to <body> (line-height: normal); inside the content
    the label would inherit .md-typeset's 1.6 and overflow its box, clipping the second line of two-line labels. */
 .mermaid-container foreignObject {
