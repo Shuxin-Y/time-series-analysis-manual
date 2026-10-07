@@ -514,13 +514,25 @@ def check_diagrams(diagrams: list[Diagram]) -> list[Finding]:
 
 
 def check_refs(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
+    """Every ref resolves to a definition or a foundation row, and repeats the first line of the definition's label.
+
+    The label rule covers refs to diamonds and flag nodes too, which have no inventory row to compare against.
+    """
     defined = _defined_ids(diagrams)
+    by_where = {d.where: d for d in diagrams}
     foundation = {r.id for r in rows if r.phase == FOUNDATION_PHASE}
     findings: list[Finding] = []
     for d in diagrams:
-        for nid in d.nodes:
-            if d.is_ref(nid) and nid not in defined and nid not in foundation:
-                findings.append(Finding(ERROR, d.where, f"ref {nid} has no definition in any diagram and is not a foundation inventory row"))
+        for nid, node in d.nodes.items():
+            if not d.is_ref(nid):
+                continue
+            if nid not in defined:
+                if nid not in foundation:
+                    findings.append(Finding(ERROR, d.where, f"ref {nid} has no definition in any diagram and is not a foundation inventory row"))
+                continue
+            label, target = label_first_line(node.label), label_first_line(by_where[defined[nid]].nodes[nid].label)
+            if label != target:
+                findings.append(Finding(ERROR, d.where, f"ref {nid} label {label!r} differs from its definition's label {target!r} in {defined[nid]}"))
     return findings
 
 

@@ -31,6 +31,13 @@ def test_check_refs_resolve_to_definitions_or_foundation_rows():
     assert any("P8" in f.message for f in audit.check_refs([A], rows))     # P8 undefined without B
 
 
+def test_a_ref_repeats_the_first_line_of_its_definition_label():
+    spine = diagram('graph TD\n    P3_IN(["in"]) --> P3_COINT_VERDICT{"Cointegrated?"}\n    P3_COINT_VERDICT -->|"Yes"| P3_COINT_FLAG["Set flag: cointegrated"]\n', "p03.md#mermaid-1")
+    chart = diagram('graph TD\n    P2_CA_IN(["in"]) --> P3_COINT_VERDICT[["Cointegrated now?"]]\n    P3_COINT_VERDICT --> P3_COINT_FLAG[["Set flag: cointegrated<br/>for P4"]]\n', "02-causal.md#mermaid-1")
+    messages = [f.message for f in audit.check_refs([spine, chart], [])]
+    assert messages == ["ref P3_COINT_VERDICT label 'Cointegrated now?' differs from its definition's label 'Cointegrated?' in p03.md#mermaid-1"]
+
+
 def test_check_nodes_vs_inventory_both_directions():
     rows = [
         audit.Row("P7_GARCH", "GARCH", "P7", (10,), "reference/10-volatility/index.md#garch"),
