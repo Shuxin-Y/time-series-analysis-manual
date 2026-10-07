@@ -12,7 +12,7 @@ Routing on the multivariate, global and exogenous-variable flags, then the model
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P6_IN(["Transformed series, representation, flags"]) --> P6_MODEL_NEEDED{"Is a conditional-mean model the deliverable?"}
-    P6_MODEL_NEEDED -->|"No: component, filtered signal, spectrum, classifier, detector, segmentation or resampled path (state-space smoothing and regime switching fit a model: answer Yes)"| P10[["P10: Inference and interpretation"]]
+    P6_MODEL_NEEDED -->|"No: component, filtered signal, spectrum, classifier, detector, segmentation or resampled path (state-space smoothing, regime switching and residual-based detection fit a model: answer Yes)"| P10[["P10: Inference and interpretation"]]
     P6_MODEL_NEEDED -->|"Yes"| P6_EXOGENOUS{"Exogenous variables?"}
     P6_EXOGENOUS -->|"Future known"| P6_EXOG_FLAG["Set flag: exogenous regressors"]
     P6_EXOGENOUS -->|"Co-forecast"| P6_MULTI_FLAG["Set flag: multivariate"]

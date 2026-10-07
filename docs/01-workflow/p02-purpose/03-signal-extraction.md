@@ -12,7 +12,8 @@ graph TD
     P2_SE_NOISE_Q -->|"White or 1/f"| P5
     P2_SE_NOISE_Q -->|"Coloured"| P2_SE_WIENER["Wiener filtering"]
     P2_SE_NOISE_Q -->|"Impulsive"| P0[["P0: Data acquisition and cleaning"]]
-    P2_SE_NOISE_Q -->|"Non-stationary: state-space model"| P8[["P8: Estimation"]]
+    P2_SE_NOISE_Q -->|"Non-stationary: state-space model"| P6[["P6: Conditional-mean model class"]]
+    P6 --> P8[["P8: Estimation"]]
     P0 --> P0_ROBUST_FILTER[["Robust filtering"]]
     P0_ROBUST_FILTER --> P5[["P5: Representation selection"]]
     P5 --> P2_SE_TRANSFORM{"Noise colour?"}
@@ -27,7 +28,7 @@ graph TD
     class P2_SE_IN terminator
     class P2_SE_NOISE_Q,P2_SE_TRANSFORM,P2_SE_OK decision
     class P2_SE_NOISE_TYPE,P2_SE_WIENER,P2_SE_WAVELET_DENOISING,P2_SE_SNR process
-    class P0,P8,P0_ROBUST_FILTER,P5,P5_FD_FILTERS,P5_TF_DWT,P8_KALMAN,P11 ref
+    class P0,P6,P8,P0_ROBUST_FILTER,P5,P5_FD_FILTERS,P5_TF_DWT,P8_KALMAN,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
