@@ -467,3 +467,15 @@ def test_the_scan_unit_is_one_line_as_in_the_drawer(tmp_path):
     messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
     assert any(m.startswith("historical link ") and "is not a [text](path/file.md#anchor)" in m for m in messages)
     assert "mathematical link file reference/no/such.md does not exist" in messages
+
+
+def test_stray_links_are_quoted_as_written_with_their_math(tmp_path):
+    findings = glossary_findings(tmp_path, {"stochastic-processes.yml": '''
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+            historical: "[cost $x$ here](reference/04-estimation/index.md)"
+    '''})
+    assert [f.message for f in findings if f.where == "stochastic-processes.yml:Independence"] == [
+        "historical link '[cost $x$ here](reference/04-estimation/index.md)' is not a [text](path/file.md#anchor) link the drawer renders"]
