@@ -9,17 +9,13 @@
 graph TD
     P2_SE_IN(["Noisy signal"]) --> P2_SE_NOISE_TYPE["Characterise the noise<br/>white, coloured, impulsive, non-stationary, 1/f"]
     P2_SE_NOISE_TYPE --> P2_SE_NOISE_Q{"Noise character?"}
-    P2_SE_NOISE_Q -->|"White"| P2_SE_FILTER_Q
+    P2_SE_NOISE_Q -->|"White"| P5
     P2_SE_NOISE_Q -->|"Coloured"| P2_SE_WIENER["Wiener filtering"]
     P2_SE_NOISE_Q -->|"Impulsive"| P0[["P0: Data acquisition and cleaning"]]
     P2_SE_NOISE_Q -->|"Non-stationary"| P8[["P8: Estimation"]]
     P2_SE_NOISE_Q -->|"1/f"| P5
     P0 --> P0_ROBUST_FILTER[["Robust filtering"]]
-    P0_ROBUST_FILTER --> P2_SE_FILTER_Q{"Filter type?"}
-    P2_SE_FILTER_Q -->|"Low-pass"| P5[["P5: Representation selection"]]
-    P2_SE_FILTER_Q -->|"High-pass"| P5
-    P2_SE_FILTER_Q -->|"Band-pass"| P5
-    P2_SE_FILTER_Q -->|"Notch"| P5
+    P0_ROBUST_FILTER --> P5[["P5: Representation selection"]]
     P5 --> P2_SE_TRANSFORM{"Filter or wavelet?"}
     P2_SE_TRANSFORM -->|"Filter"| P5_FD_FILTERS[["FIR and IIR filter design"]]
     P2_SE_TRANSFORM -->|"Wavelet"| P5_TF_DWT[["Discrete and maximal-overlap wavelet transforms"]]
@@ -30,7 +26,7 @@ graph TD
     P2_SE_OK -.->|"No"| P2_SE_NOISE_Q
     P2_SE_OK -->|"Yes"| P11[["P11: Validation and deployment"]]
     class P2_SE_IN terminator
-    class P2_SE_NOISE_Q,P2_SE_FILTER_Q,P2_SE_TRANSFORM,P2_SE_OK decision
+    class P2_SE_NOISE_Q,P2_SE_TRANSFORM,P2_SE_OK decision
     class P2_SE_NOISE_TYPE,P2_SE_WIENER,P2_SE_WAVELET_DENOISING,P2_SE_SNR process
     class P0,P8,P0_ROBUST_FILTER,P5,P5_FD_FILTERS,P5_TF_DWT,P8_KALMAN,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

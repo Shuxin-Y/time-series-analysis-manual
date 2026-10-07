@@ -43,12 +43,13 @@ Baselines, the Theta method, point forecasts and horizons, mixed-frequency model
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_FC_BASELINES`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Global or local models
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B7_GLOBAL_VS_LOCAL`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Detect hierarchical and grouped structure
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B7_HIERARCHY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Pooling strategies for many series
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B7_GLOBAL_VS_LOCAL`). Write this section following the content rules in `.claude/rules/writing.md`.

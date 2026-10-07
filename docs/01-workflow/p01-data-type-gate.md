@@ -75,7 +75,7 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B7[["B7 Many similar series"]] --> B7_GLOBAL_VS_LOCAL["Global or local models"]
+    B7[["B7 Many similar series"]] --> B7_GLOBAL_VS_LOCAL["Pooling strategies for many series<br/>global, cluster then local, hierarchical"]
     B7_GLOBAL_VS_LOCAL --> B7_STRATEGY{"Strategy?"}
     B7_STRATEGY -->|"Global"| P1_GLOBAL_FLAG["Set flag: global model"]
     B7_STRATEGY -->|"Cluster first"| B7_CLUSTER_FLAG["Set flag: cluster then local"]

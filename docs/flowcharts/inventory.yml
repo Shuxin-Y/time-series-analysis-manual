@@ -382,7 +382,7 @@ nodes:
   - {id: B6_HETEROGENEOUS,            label: "Heterogeneous panels",                    phase: B6, areas: [32], section: "reference/32-panel-time-series/index.md#heterogeneous-panels"}
   - {id: B6_CROSS_SECTION_DEPENDENCE, label: "Cross-sectional dependence",              phase: B6, areas: [32], section: "reference/32-panel-time-series/index.md#cross-sectional-dependence"}
   # ---- B7 branch leaves (drawn on the P1 page, its owner)
-  - {id: B7_GLOBAL_VS_LOCAL,    label: "Global or local models",                    phase: B7, areas: [22, 18], section: "reference/22-forecasting-practice/index.md#global-or-local-models"}
+  - {id: B7_GLOBAL_VS_LOCAL, label: "Pooling strategies for many series", phase: B7, areas: [22, 18], section: "reference/22-forecasting-practice/index.md#pooling-strategies-for-many-series"}
   - {id: B7_HIERARCHY,          label: "Detect hierarchical and grouped structure", phase: B7, areas: [22], section: "reference/22-forecasting-practice/index.md#detect-hierarchical-and-grouped-structure"}
   - {id: B7_CLUSTER_THEN_LOCAL, label: "Cluster series, then fit local models",     phase: B7, areas: [19, 22], section: "reference/19-classification-anomaly/index.md#cluster-series-then-fit-local-models"}
   # ---- foundation section referenced from B1

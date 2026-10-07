@@ -520,7 +520,7 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
 | P2_SI_EXPERIMENT_DESIGN | Input design and persistent excitation | | [33] | reference/33-system-identification/index.md |
-| P2_SI_MODEL_STRUCTURE | Choose the model structure | polynomial ARX and ARMAX, state space, block-oriented | [33] | reference/33-system-identification/index.md |
+| P2_SI_MODEL_STRUCTURE | Choose the model structure | polynomial ARX, ARMAX and Box-Jenkins, state space, block-oriented | [33] | reference/33-system-identification/index.md |
 | P2_SI_ORDER_SELECTION | Order selection | Hankel singular values | [33] | reference/33-system-identification/index.md |
 | P2_SI_TRANSFER_FUNCTION | Estimate the frequency response | empirical transfer-function estimate | [33] | reference/33-system-identification/index.md |
 | P2_SI_STABILITY | Poles, zeros and stability | | [33] | reference/33-system-identification/index.md |
@@ -677,7 +677,7 @@ Foundation row: `F_MARKOV` | Markov chains | `00-foundations/stochastic-processe
 
 | ID | label | second line | areas | section file |
 |---|---|---|---|---|
-| B7_GLOBAL_VS_LOCAL | Global or local models | | [22, 18] | reference/22-forecasting-practice/index.md |
+| B7_GLOBAL_VS_LOCAL | Pooling strategies for many series | global, cluster then local, hierarchical | [22, 18] | reference/22-forecasting-practice/index.md |
 | B7_HIERARCHY | Detect hierarchical and grouped structure | | [22] | reference/22-forecasting-practice/index.md |
 | B7_CLUSTER_THEN_LOCAL | Cluster series, then fit local models | | [19, 22] | reference/19-classification-anomaly/index.md |
 

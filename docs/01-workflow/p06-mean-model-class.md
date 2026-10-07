@@ -223,11 +223,12 @@ graph TD
     P6_IO_STRUCTURE -->|"State space"| P6_SUBSPACE["Subspace identification<br/>N4SID"]
     P6_IO_STRUCTURE -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER["Hammerstein-Wiener models"]
     P6_IO_STRUCTURE -->|"Sparse nonlinear"| P6_SINDY["Sparse identification of nonlinear dynamics"]
-    P6_ARX_ARMAX & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER & P6_SINDY --> P7[["P7: Error-process specification"]]
+    P6_IO_STRUCTURE -->|"Polynomial with noise model"| P6_TRANSFER_FUNCTION[["Transfer-function and intervention models"]]
+    P6_ARX_ARMAX & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER & P6_SINDY & P6_TRANSFER_FUNCTION --> P7[["P7: Error-process specification"]]
     class P6_ARX_ARMAX,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P6_SINDY escalate
     class P6_PART_8_IN terminator
     class P6_IO_STRUCTURE decision
-    class P7 ref
+    class P6_TRANSFER_FUNCTION,P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
