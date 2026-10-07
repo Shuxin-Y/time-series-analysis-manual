@@ -2,12 +2,15 @@
 
 Master phase boxes sit on the master diagram, not in a sub-diagram, so their areas do not count.
 """
+from pathlib import Path
+
 import audit_flowcharts as audit
 import sitekit
 
 
 def test_every_area_has_a_leaf():
-    rows, findings = audit.load_inventory(sitekit.REPO.joinpath("docs", *audit.INVENTORY_PATH))
+    docs = Path(audit.load_site_config(sitekit.REPO / "mkdocs.yml")["docs_dir"])
+    rows, findings = audit.load_inventory(docs.joinpath(*audit.INVENTORY_PATH))
     assert not findings
     covered = {a for r in rows if r.phase != audit.MASTER_PHASE for a in r.areas}
     missing = sorted(set(audit.AREAS) - covered)

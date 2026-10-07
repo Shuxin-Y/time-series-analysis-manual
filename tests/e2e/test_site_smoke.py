@@ -31,6 +31,7 @@ except ImportError:
 REPO = Path(__file__).resolve().parents[2]
 # Material's repository widget asks api.github.com for the latest release; the repository has none (404).
 ALLOWED_ERROR_ORIGIN = "api.github.com"
+P7_PAGE = "01-workflow/p07-error-process/"
 
 
 class _LoopbackServer(ThreadingHTTPServer):
@@ -86,7 +87,7 @@ def svg_node(page, node_id):
 
 
 def test_leaf_click_lands_on_its_section(page, site_url):
-    page.goto(site_url + "01-workflow/p07-error-process/")
+    page.goto(site_url + P7_PAGE)
     garch = svg_node(page, "P7_GARCH")
     garch.scroll_into_view_if_needed()
     garch.click()
@@ -95,7 +96,7 @@ def test_leaf_click_lands_on_its_section(page, site_url):
 
 
 def test_two_line_labels_fit_their_boxes(page, site_url):
-    page.goto(site_url + "01-workflow/p07-error-process/")
+    page.goto(site_url + P7_PAGE)
     svg_node(page, "P7_MEAN_TESTS")
     overflowing = page.evaluate("""() => [...document.querySelectorAll('.mermaid-container g.node foreignObject')]
         .filter(fo => fo.firstElementChild.getBoundingClientRect().height > fo.getBoundingClientRect().height + 1)
