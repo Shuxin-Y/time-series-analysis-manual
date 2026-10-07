@@ -116,7 +116,7 @@ MIN_SCALE = 0.45
 RENDER_ERROR_PREFIX = "Error rendering diagram"
 SCALES = """() => [...document.querySelectorAll('.mermaid-container > svg')].map((svg, i) => ({
     i, scale: svg.getBoundingClientRect().width / svg.viewBox.baseVal.width,
-    clipped: svg.getBoundingClientRect().width > svg.parentElement.clientWidth + 1,
+    wider: svg.getBoundingClientRect().width > svg.parentElement.clientWidth + 1,
     scrolls: svg.parentElement.scrollWidth > svg.parentElement.clientWidth}))"""
 
 
@@ -136,12 +136,11 @@ def test_every_diagram_renders_readably(page, site_url, path):
     assert report["errors"] == []
     assert page.console_errors[errors_before:] == []
     assert report["overflowing"] == []
-    desktop = page.evaluate(SCALES)
-    assert [(d["i"], round(d["scale"], 3)) for d in desktop if d["scale"] < MIN_SCALE] == []
-    page.set_viewport_size(PHONE_VIEWPORT)
-    phone = page.evaluate(SCALES)
-    assert [(d["i"], round(d["scale"], 3)) for d in phone if d["scale"] < MIN_SCALE] == []
-    assert [d["i"] for d in phone if d["clipped"] and not d["scrolls"]] == []
+    for viewport in (DESKTOP_VIEWPORT, PHONE_VIEWPORT):
+        page.set_viewport_size(viewport)
+        scales = page.evaluate(SCALES)
+        assert [(d["i"], round(d["scale"], 3)) for d in scales if d["scale"] < MIN_SCALE] == [], viewport
+        assert [d["i"] for d in scales if d["wider"] and not d["scrolls"]] == [], viewport
     assert page.evaluate("() => document.documentElement.scrollWidth <= window.innerWidth")
 
 
