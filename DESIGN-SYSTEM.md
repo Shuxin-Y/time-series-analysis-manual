@@ -1,6 +1,6 @@
 # Design System — Time Series Analysis Manual
 
-**Version:** 1.1
+**Version:** 1.2
 
 This document is the single source of truth for the book's *appearance*: the brand tokens, typography, components, and composition patterns that every chapter shares.
 
@@ -114,7 +114,7 @@ Content uses Material's default centred column width; the responsive and print r
 
 ## Tier 2a — Components
 
-Components are the reusable building blocks an author drops into a chapter. Each entry below records its purpose, when to use it, the copy-paste markup, a note on what renders, and a do/don't. All markup and class names are read from `docs/00-introduction/*.md`, `docs/stylesheets/extra.css`, and `docs/javascripts/glossary.js`; those files are the implementation, and this catalog mirrors them.
+Components are the reusable building blocks an author drops into a chapter. Each entry below records its purpose, when to use it, the copy-paste markup, a note on what renders, and a do/don't. All markup and class names are read from `docs/00-foundations/*.md`, `docs/stylesheets/extra.css`, and `docs/javascripts/glossary.js`; those files are the implementation, and this catalog mirrors them.
 
 ### Admonitions
 
@@ -265,7 +265,7 @@ $$\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \sum_{t=1}^T \left( y
 
 These components add behaviour at runtime. Each is described with its trigger and its motion or focus states.
 
-**Glossary drawer.** A custom component (`docs/javascripts/glossary.js` plus `docs/stylesheets/glossary.css`) that highlights known glossary terms across all chapters (00–07) and appendices, and opens a right-slide drawer on click. The script wraps matched terms in `<span class="glossary-term">`; the span shows a `cursor: help` and a hover state. The `.glossary-drawer` slides in from the right via `transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1)` when the `.open` class is added, and the drawer body shows the term's definition, mathematical form, and historical context. Use it by authoring terms in `docs/glossary/NN-chapter.yml`; highlighting is automatic and requires no per-page markup.
+**Glossary drawer.** A custom component (`docs/javascripts/glossary.js` plus `docs/stylesheets/glossary.css`) that highlights known glossary terms on every page except the home page and the design-system showcase (`GLOSSARY_DISABLED_PAGES` in `scripts/audit_flowcharts.py`, passed to the script through the generated `glossary/index.yml`), and opens a right-slide drawer on click. The script wraps matched terms in `<span class="glossary-term">`; the span shows a `cursor: help` and a hover state. The `.glossary-drawer` slides in from the right via `transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1)` when the `.open` class is added, and the drawer body shows the term's definition, mathematical form, derivation chain ("Why it holds"), upstream terms ("Rests on"), historical context and home section ("First developed in"). Use it by authoring terms in the glossary file of the page where each term is first developed (see Naming conventions); highlighting is automatic and requires no per-page markup.
 
 **Tabbed sets.** Provided by `pymdownx.tabbed`. Use `=== "Tab Title"` blocks to group parallel content such as alternative approaches or reader tracks. Outer-level tab labels are enlarged (`0.8rem`, weight 700) so nested tab sets read hierarchically.
 
@@ -309,6 +309,10 @@ Every display equation is immediately followed by a `(Read: …)` pronunciation 
 ### Hypothesis-test layout
 
 A diagnostic test is laid out in a fixed five-part order: null hypothesis, alternative hypothesis, test statistic, decision rule, interpretation. The null and alternative go in the [`.hypothesis-test` box](#hypothesis-test-and-decision-rule-boxes), whose CSS injects the `H₀:` and `H₁:` labels; the reject/retain rule goes in the nested `.decision-rule` box. The test statistic and the plain-English interpretation are written as ordinary prose around the box. This layout keeps every test in the book recognisable at a glance and frees the author from typing the hypothesis labels by hand.
+
+### Content rules: method sections, why-chains, single source
+
+What a section contains and where a concept lives (method and theory sections, body text, why-chains in the glossary drawer, single source) is defined in `.claude/rules/writing.md`, the single home of those rules. This document defines only how they look: the drawer blocks in the glossary component above and the flowchart notation below.
 
 ### Page-footer navigation
 
@@ -401,10 +405,18 @@ graph TD
 - **Edge curve by scenario.** Top-down decision charts use `linear` or `step` for crisp right angles; left-right pipelines use `basis` for smooth flow. Set the curve per diagram via `%%{init: {"flowchart": {"curve": "…"}}}%%`.
 - **Edge-type semantics.** `-->` is primary flow; `-.->` is optional, secondary, or feedback flow; `==>` is the highlighted main route. Decision branches are always labelled, as in `-->|Yes|`.
 - **Direction.** Use `TD` for decision workflows and `LR` for sequences.
-- **Node IDs.** Use `SCREAMING_SNAKE_CASE`, semantic rather than `A`/`B`.
+- **Node IDs.** `SCREAMING_SNAKE_CASE`, prefixed by the owning sub-diagram: `P3_ADF`, `P7_GARCH`, `B2_HAWKES`, `P2_CPD_PELT`. Master phase boxes are `P0` … `P11`; branch entries are `B1` … `B7`. Decision and terminator nodes carry the prefix too, because every defined ID is unique across the whole book.
+- **Leaf nodes.** A defined rectangle `[ ]` that is not a `ref` and whose ID does not end in `_FLAG` is a leaf: one section of the book. Every leaf has a row in `docs/flowcharts/inventory.yml` (`id`, `label`, `phase`, `areas`, `section`). Diamonds, terminators, parallelograms (data), subroutine boxes and flag nodes are not leaves. `subgraph` headers are clusters, never nodes.
+- **Inventory rows.** `id` is a `SCREAMING_SNAKE_CASE` string; `phase` is one of `P0`–`P11`, `B1`–`B7`, `MASTER` or `F`; `areas` is a list of area numbers 1–34; `section` is a docs-relative `path.md#anchor` whose anchor is a rendered heading id. The id carries the phase as owner prefix (`P7_GARCH` has phase `P7`), with two named exceptions: the master boxes `P0`–`P11` have phase `MASTER`, and the branch entries `B1`–`B7` have their own ID as phase. Phase-`F` rows are `F_` ids. Each phase has one owner page: the page of its phase box (`P0`–`P11`) or branch entry (`B1`–`B7`, so `B7` is owned by the P1 page), and `MASTER` is owned by `01-workflow/index.md`; P2 and P5 are owned by their directories `01-workflow/p02-purpose/` and `01-workflow/p05-representation/`, whose sub-chart pages hold their leaves. A leaf is defined in a diagram on its phase's owner page or, for P2 and P5, in the owner directory.
+- **Labels.** The first line of a node's label (the text before `<br/>`) equals the inventory `label` of its ID, for leaves and for refs alike, so the diagram, the hover title and the section heading show one string.
+- **References.** A node that belongs to another sub-diagram is drawn as a `[[ ]]` subroutine box with the `ref` class and the owner's exact ID. A `ref` resolves to that definition, or to an inventory row of phase `F` (a Part 0 section, which has no diagram of its own).
+- **No URLs in diagrams.** `docs/javascripts/flowchart-links.js` makes nodes clickable from the inventory at render time. A `click` directive, an `href=` or an `http(s)://` inside a diagram is an audit error.
+- **Audit.** `scripts/audit_flowcharts.py` enforces the rules above on every pull request and push. It renders each page with the `markdown_extensions` of `mkdocs.yml`, so it sees every diagram the site renders (fences indented in admonitions or tabs, `~~~`, four-backtick and snippet fences) and the heading ids the toc really generates. A node id that is not `SCREAMING_SNAKE_CASE`, a shape outside this notation, an id drawn with two shapes and an inline `:::class` are errors. A purely illustrative diagram opts out with the comment line `%% audit: skip` inside its fence; the marker is honoured only on the pages in `AUDIT_SKIP_PAGES` (the design-system showcase and the Part 0 gateway chart) and is an error anywhere else.
+- **Content units.** Which headings on `docs/reference/` and `docs/01-workflow/` pages are leaf sections, structural headings or glossary homes is a content rule, stated in `.claude/rules/writing.md`. The structural headings are the `STRUCTURAL_H2` constant in `scripts/audit_flowcharts.py`, their one home; a new structural heading is added there.
+- **Rendering.** Diagrams are authored as fences; superfences emits them as `div.mermaid` (`fence_div_format`), and `docs/javascripts/mermaid-init.js` is the only renderer, with Mermaid pinned to `10.9.8` because node linking reads its SVG ids (`flowchart-<ID>-<n>`). Material's native `pre.mermaid` renderer is bypassed on purpose: it draws into a closed shadow root, which the node-linking script cannot reach. `docs/javascripts/site-urls.js` holds the one docs-path-to-URL mapping that node links and glossary links share.
 - **Applying classes.** Assign classes with `class <ID>[,<ID>...] <className>` statements after the edges, not the inline `:::className` shorthand. The statement form is the most compatible across the Mermaid 10.x renderer the site loads; the inline shorthand on shaped, edge-chained nodes can raise a parse error there.
 - **Quote every label.** Wrap all node and edge labels in double quotes, as in `OK["Model: OLS"]` and `-->|"Yes, persistent"|`. Characters such as `+`, `:`, `(`, and `,` raise a parse error in the Mermaid 10.x renderer the site loads when the label is unquoted; quoting is unconditional so the rule never has to be reconsidered per label.
-- **Text.** No emojis; use `<br/>` for line breaks; outcome terminals name **model → estimator → inference** in that order.
+- **Text.** No emojis; use `<br/>` for line breaks. What an outcome terminal names (model → estimator → inference) is a content rule in `.claude/rules/writing.md`.
 - **Accessibility.** Type is encoded by shape first, colour reinforces, and the outcome category is also stated in the node text, so colour is never the sole signal (WCAG 1.4.1).
 
 ### Table standard
@@ -514,7 +526,7 @@ Names follow fixed conventions so that files, anchors, and components are predic
 - **Section anchors.** Derived by MkDocs from the heading text (lowercased, spaces to hyphens); reference them with cross-reference labels rather than hardcoded numbers.
 - **CSS class names.** Semantic and kebab-case (`hypothesis-test`, `decision-rule`, `decision-matrix`, `glossary-term`), matching the selectors in `extra.css` and `glossary.css`.
 - **Component IDs.** Semantic; the `references` block relies on the `id="references"` that MkDocs derives from the literal heading "References".
-- **Glossary terms.** Placed in `docs/glossary/NN-chapter.yml`, in the file for the chapter where the term is first introduced.
+- **Glossary terms.** One file per page under `docs/glossary/`, named after the page stem (`stochastic-processes.yml`, `maximum-likelihood.yml`, `p03-exploratory-diagnostics.yml`); when the page is an `index.md` the file is named after its directory (a term homed on `reference/10-volatility/index.md` would live in `10-volatility.yml`; no term is homed on an index page yet). A term lives in the file of its `reference` page, the page where it is first developed; the audit checks the name. Where a term may be homed is a content rule in `.claude/rules/writing.md`. `glossary/index.yml` is generated at build time and git-ignored.
 
 ### Brand assets (reserved)
 
@@ -536,7 +548,7 @@ Changing a component is a three-step procedure that keeps the catalog and the im
 
 ### Versioning
 
-The document carries a version number at the top (currently `1.0`) and a `## Changelog` at the bottom with dated entries. Each substantive change adds an entry. Deprecations are recorded in the changelog rather than deleted silently, so the history of the design is recoverable.
+The document carries a version number at the top (currently `1.2`) and a `## Changelog` at the bottom with dated entries. Each substantive change adds an entry. Deprecations are recorded in the changelog rather than deleted silently, so the history of the design is recoverable.
 
 ### Change process
 
@@ -555,26 +567,31 @@ To match the house style, every chapter satisfies the following. The list is der
 - Tables follow the table standard (header row, aligned numerics, units in the header, self-contained caption).
 - Figures are generated through `brand.py` so they share the book's palette and matplotlib style.
 - The chapter ends with a `## References` block in Chicago author-date style.
-- New glossary terms are added to the chapter's `docs/glossary/NN-chapter.yml` file.
+- New glossary terms are added to the glossary file of the page where they are first developed, with `reference` as a docs-relative `path.md#anchor`.
+- Every leaf node drawn in the chapter's diagrams has a row in `docs/flowcharts/inventory.yml`, and every method section is such a leaf.
+- `python scripts/audit_flowcharts.py` reports zero errors.
 - `mkdocs build --strict` passes.
 
 ### Relationship to `.claude/rules`
 
 This document governs appearance; the `.claude/rules` files govern how Claude works. The two are kept distinct.
 
-The `notation`, `writing`, `code`, and `glossary` rule files are referenced from here, not absorbed: their conventions (mathematical notation, prose voice, Python style, glossary-data standards) remain their own source of truth. The appearance content formerly in `chapters.md` and `figures.md` has moved into this document, and those two files are reduced to pointers.
+The one tracked rule file is `.claude/rules/writing.md`, the single home of the content rules. It is referenced from here, not absorbed.
 
-Because `.claude/` is git-ignored, the `.claude/rules` pointers are visible only to Claude in a working tree and never to someone cloning the repository. The human-facing pointer to this design system therefore lives in tracked files — `CLAUDE.md` and `DESIGN-SYSTEM.md` itself. The `.claude/rules` pointers serve only Claude's in-tree context and are never relied on for human discoverability.
+`.claude/` is git-ignored except for `.claude/rules/`, so `writing.md` is visible to everyone who clones the repository; `CLAUDE.md` and this document point to it.
 
 ## Known gaps and future items
 
 The following items are documented but deliberately not addressed in version 1.0.
 
-- Existing Mermaid diagrams in the chapters still use ad-hoc `fill:` styling; migrating them to the `classDef` sets is a follow-up task.
 - No logo, favicon, or social-card artwork exists yet; the specification is reserved above.
 - A published, living "kitchen-sink" demo of every component, pattern, and figure style exists at `docs/design-system-showcase.md` (nav: *Design System Showcase*). Keep it in sync when components change.
 
 ## Changelog
+
+### 1.2 — 2026-10-06
+
+Flowchart framework: owner-prefixed node IDs, leaf-node definition and the `docs/flowcharts/inventory.yml` registry, `ref` resolution rules, runtime node linking (`flowchart-links.js`), the `%% audit: skip` opt-out and `scripts/audit_flowcharts.py`. New pattern "Content rules: method sections, why-chains, single source", a pointer to `.claude/rules/writing.md`, which holds the rules. Notation gains inventory-row validation, label equality, heading-level content units (`STRUCTURAL_H2`) and the audit's pipeline rendering. Glossary schema gains `derivation`, `depends_on`, `foundation` (Part 0 only); `reference` becomes a docs-relative source path; glossary files are named after their reference page; the drawer shows "Why it holds", "Rests on" and "First developed in". Mermaid fences are emitted as `div.mermaid` and rendered only by `mermaid-init.js`.
 
 ### 1.1 — 2026-06-29
 

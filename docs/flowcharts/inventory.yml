@@ -1,0 +1,83 @@
+# Leaf-node inventory. One row per leaf (rectangle that is not a ref and not a *_FLAG).
+# Rows with phase F are foundation sections: they have no diagram definition and must be
+# referenced by at least one ref node. See planning/2026-10-06-flowchart-framework-design.md §10.4.
+nodes:
+  # ---- master phases
+  - {id: P0,  label: "P0: Data acquisition and cleaning",  phase: MASTER, areas: [31],                 section: "01-workflow/p00-data.md#p0-data-acquisition-and-cleaning"}
+  - {id: P1,  label: "P1: Data-type gate",                 phase: MASTER, areas: [31],                 section: "01-workflow/p01-data-type-gate.md#p1-data-type-gate"}
+  - {id: P2,  label: "P2: Purpose",                        phase: MASTER, areas: [19, 25, 30],         section: "01-workflow/p02-purpose/index.md#p2-purpose"}
+  - {id: P3,  label: "P3: Exploratory diagnostics",        phase: MASTER, areas: [2, 5, 28, 29, 30],   section: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"}
+  - {id: P4,  label: "P4: Transformations",                phase: MASTER, areas: [2, 3, 29, 30],       section: "01-workflow/p04-transformations.md#p4-transformations"}
+  - {id: P5,  label: "P5: Representation selection",       phase: MASTER, areas: [13, 33],             section: "01-workflow/p05-representation/index.md#p5-representation-selection"}
+  - {id: P6,  label: "P6: Conditional-mean model class",   phase: MASTER, areas: [3, 6, 8, 9, 11, 12, 18, 27, 33], section: "01-workflow/p06-mean-model-class.md#p6-conditional-mean-model-class"}
+  - {id: P7,  label: "P7: Error-process specification",    phase: MASTER, areas: [10],                 section: "01-workflow/p07-error-process.md#p7-error-process-specification"}
+  - {id: P8,  label: "P8: Estimation",                     phase: MASTER, areas: [4, 12],              section: "01-workflow/p08-estimation.md#p8-estimation"}
+  - {id: P9,  label: "P9: Diagnostics and model selection", phase: MASTER, areas: [5, 6],              section: "01-workflow/p09-diagnostics-selection.md#p9-diagnostics-and-model-selection"}
+  - {id: P10, label: "P10: Inference and interpretation",  phase: MASTER, areas: [21, 22, 34],         section: "01-workflow/p10-inference.md#p10-inference-and-interpretation"}
+  - {id: P11, label: "P11: Validation and deployment",     phase: MASTER, areas: [6, 23, 34],          section: "01-workflow/p11-validation-deployment.md#p11-validation-and-deployment"}
+  # ---- P1 gate and branch entries
+  - {id: B1, label: "B1 Counts and categorical",                phase: B1, areas: [16],         section: "reference/16-count-categorical/index.md#b1-counts-and-categorical"}
+  - {id: B2, label: "B2 Event times",                           phase: B2, areas: [17, 14, 26], section: "reference/17-point-processes/index.md#b2-event-times"}
+  - {id: B3, label: "B3 Irregular sampling and continuous time", phase: B3, areas: [15, 11, 13], section: "reference/15-continuous-time/index.md#b3-irregular-sampling-and-continuous-time"}
+  - {id: B4, label: "B4 Functional",                            phase: B4, areas: [14],         section: "reference/14-functional-high-frequency/index.md#b4-functional"}
+  - {id: B5, label: "B5 Spatial and network",                   phase: B5, areas: [20],         section: "reference/20-spatio-temporal/index.md#b5-spatial-and-network"}
+  - {id: B6, label: "B6 Wide panel",                            phase: B6, areas: [32],         section: "reference/32-panel-time-series/index.md#b6-wide-panel"}
+  - {id: B7, label: "B7 Many similar series",                   phase: B7, areas: [22, 18, 34, 19], section: "01-workflow/p01-data-type-gate.md#b7-many-similar-series"}
+  # ---- P2 purposes
+  - {id: P2_FORECASTING,   label: "Purpose 1: Forecasting",                                     phase: P2, areas: [22], section: "01-workflow/p02-purpose/01-forecasting.md#purpose-1-forecasting"}
+  - {id: P2_CAUSAL,        label: "Purpose 2: Causal and structural inference",                 phase: P2, areas: [21], section: "01-workflow/p02-purpose/02-causal-inference.md#purpose-2-causal-and-structural-inference"}
+  - {id: P2_SIGNAL,        label: "Purpose 3: Signal extraction and denoising",                 phase: P2, areas: [13], section: "01-workflow/p02-purpose/03-signal-extraction.md#purpose-3-signal-extraction-and-denoising"}
+  - {id: P2_CHANGE_POINT,  label: "Purpose 4: Change-point detection",                          phase: P2, areas: [30, 19], section: "01-workflow/p02-purpose/04-change-point-detection.md#purpose-4-change-point-detection"}
+  - {id: P2_ANOMALY,       label: "Purpose 5: Anomaly and regime detection",                    phase: P2, areas: [19], section: "01-workflow/p02-purpose/05-anomaly-regime-detection.md#purpose-5-anomaly-and-regime-detection"}
+  - {id: P2_DECOMPOSITION, label: "Purpose 6: Decomposition",                                   phase: P2, areas: [3, 29], section: "01-workflow/p02-purpose/06-decomposition.md#purpose-6-decomposition"}
+  - {id: P2_FEATURES,      label: "Purpose 7: Feature extraction, classification and clustering", phase: P2, areas: [19], section: "01-workflow/p02-purpose/07-feature-extraction-classification.md#purpose-7-feature-extraction-classification-and-clustering"}
+  - {id: P2_SPECTRAL,      label: "Purpose 8: Spectral analysis",                               phase: P2, areas: [13], section: "01-workflow/p02-purpose/08-spectral-analysis.md#purpose-8-spectral-analysis"}
+  - {id: P2_SYSTEM_ID,     label: "Purpose 9: System identification",                           phase: P2, areas: [33], section: "01-workflow/p02-purpose/09-system-identification.md#purpose-9-system-identification"}
+  - {id: P2_SIMULATION,    label: "Purpose 10: Simulation and scenario generation",             phase: P2, areas: [25], section: "01-workflow/p02-purpose/10-simulation.md#purpose-10-simulation-and-scenario-generation"}
+  # ---- P5 representations
+  - {id: P5_TIME_DOMAIN,      label: "Representation 1: Time domain",        phase: P5, areas: [3, 9],  section: "01-workflow/p05-representation/01-time-domain.md#representation-1-time-domain"}
+  - {id: P5_FREQUENCY_DOMAIN, label: "Representation 2: Frequency domain",   phase: P5, areas: [13],    section: "01-workflow/p05-representation/02-frequency-domain.md#representation-2-frequency-domain"}
+  - {id: P5_TIME_FREQUENCY,   label: "Representation 3: Time-frequency",     phase: P5, areas: [13],    section: "01-workflow/p05-representation/03-time-frequency.md#representation-3-time-frequency"}
+  - {id: P5_STATE_SPACE,      label: "Representation 4: State space",        phase: P5, areas: [11],    section: "01-workflow/p05-representation/04-state-space.md#representation-4-state-space"}
+  - {id: P5_FUNCTIONAL,       label: "Representation 5: Functional",         phase: P5, areas: [14],    section: "01-workflow/p05-representation/05-functional.md#representation-5-functional"}
+  - {id: P5_HILBERT,          label: "Representation 6: Hilbert and phase",  phase: P5, areas: [13],    section: "01-workflow/p05-representation/06-hilbert-phase.md#representation-6-hilbert-and-phase"}
+  # ---- P7 procedural leaves (live in the phase page)
+  - {id: P7_MEAN_TESTS,   label: "Test residual autocorrelation",                       phase: P7, areas: [5, 10], section: "01-workflow/p07-error-process.md#test-residual-autocorrelation"}
+  - {id: P7_VAR_TESTS,    label: "Test conditional heteroskedasticity",                 phase: P7, areas: [5, 10], section: "01-workflow/p07-error-process.md#test-conditional-heteroskedasticity"}
+  - {id: P7_DIST_TESTS,   label: "Test the distribution of standardised innovations",   phase: P7, areas: [5, 10], section: "01-workflow/p07-error-process.md#test-the-distribution-of-standardised-innovations"}
+  - {id: P7_REGIME_TESTS, label: "Test for variance regimes",                           phase: P7, areas: [10, 30], section: "01-workflow/p07-error-process.md#test-for-variance-regimes"}
+  - {id: P7_CORR_TESTS,   label: "Test innovation correlation structure",               phase: P7, areas: [10, 9],  section: "01-workflow/p07-error-process.md#test-innovation-correlation-structure"}
+  - {id: P7_COUNT_TESTS,  label: "Test overdispersion of count innovations",            phase: P7, areas: [16],    section: "01-workflow/p07-error-process.md#test-overdispersion-of-count-innovations"}
+  - {id: P7_RESCALING,    label: "Time-rescaling check of event-time residuals",        phase: P7, areas: [17],    section: "01-workflow/p07-error-process.md#time-rescaling-check-of-event-time-residuals"}
+  - {id: P7_OUT,          label: "Assemble the joint model",                            phase: P7, areas: [10, 4], section: "01-workflow/p07-error-process.md#assemble-the-joint-model"}
+  # ---- P7 model-family leaves (live in reference chapters)
+  - {id: P7_ARMA_ERRORS,   label: "Regression with ARMA errors",                        phase: P7, areas: [27, 3],  section: "reference/27-regression-time-series/index.md#regression-with-arma-errors"}
+  - {id: P7_ARFIMA_ERRORS, label: "ARFIMA errors",                                      phase: P7, areas: [7],      section: "reference/07-long-memory/index.md#arfima-errors"}
+  - {id: P7_GARCH,         label: "GARCH",                                              phase: P7, areas: [10],     section: "reference/10-volatility/index.md#garch"}
+  - {id: P7_ASYM_GARCH,    label: "Asymmetric GARCH: EGARCH, GJR, TGARCH",              phase: P7, areas: [10],     section: "reference/10-volatility/index.md#asymmetric-garch-egarch-gjr-tgarch"}
+  - {id: P7_FIGARCH,       label: "FIGARCH",                                            phase: P7, areas: [10, 7],  section: "reference/10-volatility/index.md#figarch"}
+  - {id: P7_IGARCH,        label: "IGARCH",                                             phase: P7, areas: [10],     section: "reference/10-volatility/index.md#igarch"}
+  - {id: P7_GARCH_M,       label: "GARCH-in-mean",                                      phase: P7, areas: [10],     section: "reference/10-volatility/index.md#garch-in-mean"}
+  - {id: P7_SV,            label: "Stochastic volatility",                              phase: P7, areas: [10, 11], section: "reference/10-volatility/index.md#stochastic-volatility"}
+  - {id: P7_REALIZED,      label: "Realised measures: HAR-RV and Realized GARCH",       phase: P7, areas: [10, 14], section: "reference/10-volatility/index.md#realised-measures-har-rv-and-realized-garch"}
+  - {id: P7_GAUSSIAN,      label: "Gaussian innovations",                               phase: P7, areas: [10, 4],  section: "reference/10-volatility/index.md#gaussian-innovations"}
+  - {id: P7_HEAVY_TAILS,   label: "Heavy-tailed innovations: Student-t, GED, QMLE",     phase: P7, areas: [10, 4],  section: "reference/10-volatility/index.md#heavy-tailed-innovations-student-t-ged-qmle"}
+  - {id: P7_SKEWED,        label: "Skewed innovations",                                 phase: P7, areas: [10],     section: "reference/10-volatility/index.md#skewed-innovations"}
+  - {id: P7_EVT,           label: "Extreme value theory for tails",                     phase: P7, areas: [10],     section: "reference/10-volatility/index.md#extreme-value-theory-for-tails"}
+  - {id: P7_JUMPS,         label: "Jump diffusion",                                     phase: P7, areas: [15, 10], section: "reference/15-continuous-time/index.md#jump-diffusion"}
+  - {id: P7_MS_GARCH,      label: "Markov-switching GARCH and segmented variance",      phase: P7, areas: [10, 30], section: "reference/10-volatility/index.md#markov-switching-garch-and-segmented-variance"}
+  - {id: P7_CCC,           label: "Constant conditional correlation",                   phase: P7, areas: [10, 9],  section: "reference/10-volatility/index.md#constant-conditional-correlation"}
+  - {id: P7_DCC,           label: "Dynamic conditional correlation and BEKK",           phase: P7, areas: [10, 9],  section: "reference/10-volatility/index.md#dynamic-conditional-correlation-and-bekk"}
+  - {id: P7_COPULA,        label: "Copula dependence",                                  phase: P7, areas: [10],     section: "reference/10-volatility/index.md#copula-dependence"}
+  - {id: P7_INGARCH,       label: "INGARCH and negative-binomial innovations",          phase: P7, areas: [16],     section: "reference/16-count-categorical/index.md#ingarch-and-negative-binomial-innovations"}
+  - {id: P7_INTENSITY,     label: "Intensity misspecification",                         phase: P7, areas: [17],     section: "reference/17-point-processes/index.md#intensity-misspecification"}
+  # ---- foundation sections referenced from P7 (phase F: no diagram definition)
+  - {id: F_WHITE_NOISE,        label: "White noise, martingale difference, independence", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"}
+  - {id: F_WOLD,               label: "Wold decomposition",                              phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#wold-decomposition"}
+  - {id: F_LONG_MEMORY,        label: "Long memory and hyperbolic decay",                phase: F, areas: [1, 7], section: "00-foundations/stochastic-processes.md#long-memory-and-hyperbolic-decay"}
+  - {id: F_GARCH_STATIONARITY, label: "Stationarity conditions of GARCH",                phase: F, areas: [1, 10], section: "00-foundations/stochastic-processes.md#stationarity-conditions-of-garch"}
+  - {id: F_LATENT_FILTERING,   label: "Latent processes and filtering",                  phase: F, areas: [1, 11], section: "00-foundations/stochastic-processes.md#latent-processes-and-filtering"}
+  - {id: F_LEVY,               label: "Brownian motion, Poisson jumps, Levy processes",  phase: F, areas: [1, 15], section: "00-foundations/stochastic-processes.md#brownian-motion-poisson-jumps-levy-processes"}
+  - {id: F_HMM,                label: "Hidden Markov chains",                            phase: F, areas: [1, 8],  section: "00-foundations/stochastic-processes.md#hidden-markov-chains"}
+  - {id: F_SKLAR,              label: "Sklar's theorem",                                 phase: F, areas: [1, 10], section: "00-foundations/stochastic-processes.md#sklars-theorem"}
+  - {id: F_TIME_RESCALING,     label: "Time-rescaling theorem",                          phase: F, areas: [1, 17], section: "00-foundations/stochastic-processes.md#time-rescaling-theorem"}

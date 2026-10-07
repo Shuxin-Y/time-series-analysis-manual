@@ -3,14 +3,15 @@
 A comprehensive, practical guide to time series analysis that bridges classical econometrics and modern machine learning approaches.
 
 [![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://shuxin-y.github.io/time-series-analysis-manual)
-[![License](https://img.shields.io/badge/license-CC%20BY--SA%204.0-green)](LICENSE)
+[![License](https://img.shields.io/badge/license-CC%20BY--SA%204.0-green)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
 ---
 
 ## 🎯 What Makes This Manual Different?
 
-- **Decision Flowcharts as First-Class Citizens**: Three comprehensive flowcharts (general, purpose-based, representation-based) guide every analytical choice
+- **Flowcharts as the framework**: every section of the book is a leaf node of a workflow sub-diagram; follow the arrows, run the named test, land on the method
+- **Derivation chains**: every method traces back to first principles through the glossary drawer
 - **Test-Driven Methodology**: Every decision based on explicit hypothesis tests with clear interpretation rules
 - **Integrated Workflow**: Seamlessly move between time domain, frequency domain, and time-frequency representations
 - **Production-Ready Code**: Complete Python implementations with all dependencies and examples
@@ -20,19 +21,13 @@ A comprehensive, practical guide to time series analysis that bridges classical 
 
 ## 📚 Content Overview
 
-### Core Chapters
+### Three axes
 
-1. **Introduction** - Who this book is for, how to use it, and comparison with existing textbooks
-2. **Flowcharts** - Three complementary decision workflows
-   - General: Complete econometric workflow from data to deployment
-   - Purpose-Based: Organized by goal (forecasting, causal analysis, etc.)
-   - Representation-Based: Organized by domain (time, frequency, state-space, etc.)
-3. **Data Preparation** - Cleaning, sampling, missing data, outliers
-4. **Exploratory Analysis** - Distributions, stationarity, ACF/PACF
-5. **Frequency Domain** - Spectral analysis, FFT, periodicities, filtering
-6. **Modelling** - ARIMA, VAR, GARCH, state-space, ML approaches
-7. **Feature Extraction** - Engineering features for machine learning
-8. **Validation & Deployment** - Testing, monitoring, production systems
+1. **Foundations** (`docs/00-foundations/`) - The model / estimator / test framework, OLS assumptions and how time series violates them, stochastic processes, asymptotics for dependent data; the roots of every derivation chain
+2. **Workflow** (`docs/01-workflow/`) - The general flowchart: twelve phases P0 to P11 from raw data to a deployed model, with two decision indexes
+   - Purpose (P2): ten analytical goals
+   - Representation (P5): six mathematical representations
+3. **Reference** (`docs/reference/`) - Thirty-four areas, each with its own chapter group; every leaf node of a workflow sub-diagram opens one reference section
 
 ---
 
@@ -80,21 +75,20 @@ mkdocs build
 
 Visit the live documentation at: **[https://shuxin-y.github.io/time-series-analysis-manual](https://shuxin-y.github.io/time-series-analysis-manual)**
 
-Or build locally and explore the `code/` directory for standalone examples.
+Or build locally with `mkdocs serve`.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+Issues and pull requests are welcome. Pull requests must pass the tests, the flowchart audit and the strict build (see CLAUDE.md).
 
 ---
 
 ## 📜 License
 
-Documentation: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)  
-Code: [MIT License](LICENSE-CODE)
+Documentation: CC BY-SA 4.0. Code: MIT.
 
 ---
 
-**[Read Online](https://shuxin-y.github.io/time-series-analysis-manual)** | **[Get Started](docs/00-introduction/overview.md)**
+**[Read Online](https://shuxin-y.github.io/time-series-analysis-manual)** | **[Get Started](docs/00-foundations/ols-assumptions.md)**

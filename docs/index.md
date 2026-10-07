@@ -25,31 +25,27 @@ Throughout this book:
 
 ## Book Structure
 
-The manual is organized into focused chapters that build progressively:
+The manual has three axes. Read Foundations first; follow the Workflow when you have data in hand; open Reference chapters when the workflow sends you there.
 
-### Core Content
+### Foundations
 
-<div class="annotate" markdown>
+- **[The logic of statistical analysis](00-foundations/logic-of-statistical-analysis.md)**: model class, estimator, test
+- **[Do you need time series analysis?](00-foundations/do-you-need-time-series-analysis.md)**: the gateway flowchart from OLS to richer models
+- **[OLS assumptions and how time series violates them](00-foundations/ols-assumptions.md)**
+- **[Stochastic processes](00-foundations/stochastic-processes.md)**: the roots of every error-process choice
+- **[Asymptotics for dependent data](00-foundations/asymptotics.md)**
 
-1. **[Introduction](00-introduction/logic-of-statistical-analysis.md)** - The model/estimator/test framework, when time series methods are needed, and how time series breaks the classical OLS assumptions
-2. **[Flowcharts](01-master-flowchart/01-general-flowchart.md)** - Three comprehensive decision workflows (1)
-3. **[Data Preparation](02-data-preparation/index.md)** - Cleaning, sampling, and quality checks
-4. **[Exploratory Analysis](03-exploratory-analysis/index.md)** - Stationarity, distributions, temporal structure
-5. **[Frequency Domain](04-frequency-domain/index.md)** - Spectral analysis, periodicities, filtering
-6. **[Modelling](05-modelling/index.md)** - ARIMA, VAR, GARCH, state-space, and ML approaches
-7. **[Feature Extraction](06-feature-extraction/index.md)** - Engineering features for machine learning
-8. **[Validation & Deployment](07-validation-deployment/index.md)** - Testing, monitoring, and production systems
+### Workflow
 
-</div>
+The [general flowchart](01-workflow/index.md) runs through twelve phases, P0 to P11, from raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p02-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
 
-1.  The three flowcharts provide complementary views:
-    - **General**: Complete econometric workflow from data to deployment
-    - **Purpose-Based**: Organized by analytical goal (forecasting, causal analysis, etc.)
-    - **Representation-Based**: Organized by mathematical domain (time, frequency, state-space, etc.)
+### Reference
+
+Thirty-four areas, listed under *Techniques This Book Covers* below, each with its own chapter group under Reference. Every leaf node of a workflow sub-diagram opens one reference section.
 
 ### Reference Materials
 
-- **[Appendices](appendices/index.md)** - Mathematical foundations, statistical tests reference, datasets, and resources
+- **[Appendices](appendices/index.md)**: link indexes for tests, datasets, software, and the Python environment
 
 ---
 
@@ -57,29 +53,29 @@ The manual is organized into focused chapters that build progressively:
 
 === "New to Time Series"
     
-    1. Read the [Introduction](00-introduction/logic-of-statistical-analysis.md) to understand the framework
-    2. Skim the [General Flowchart](01-master-flowchart/01-general-flowchart.md) for the big picture
-    3. Follow the Guided Walkthrough (WIP) for detailed explanations
-    4. Work through chapters 3-7 in order
+    1. Read [Foundations](00-foundations/logic-of-statistical-analysis.md) to understand the model / estimator / test framework
+    2. Open the [General Flowchart](01-workflow/index.md) and follow the phases with your own data
+    3. Click any node to reach the section that teaches it
+    4. Return to [Stochastic processes](00-foundations/stochastic-processes.md) whenever a residual-modelling choice needs its why
 
 === "Have Specific Goals"
 
-    - Forecasting → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#1-forecasting-workflow)
-    - Causal Analysis → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#2-causal-analysis-structural-inference)
-    - Anomaly Detection → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#5-anomaly-regime-detection)
-    - Feature Engineering → [Purpose-Based Workflow](01-master-flowchart/02-purpose-workflow.md#7-feature-extraction-for-ml)
+    - Forecasting → [Purpose-Based Workflow](01-workflow/p02-purpose/01-forecasting.md)
+    - Causal Analysis → [Purpose-Based Workflow](01-workflow/p02-purpose/02-causal-inference.md)
+    - Anomaly Detection → [Purpose-Based Workflow](01-workflow/p02-purpose/05-anomaly-regime-detection.md)
+    - Feature Engineering → [Purpose-Based Workflow](01-workflow/p02-purpose/07-feature-extraction-classification.md)
 
 === "Know Your Domain"
 
-    - Finance → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#1-time-domain-representation)
-    - Signal Processing → [Representation Workflow](01-master-flowchart/03-representation-workflow.md#2-frequency-domain-representation)
+    - Finance → [Representation Workflow](01-workflow/p05-representation/01-time-domain.md)
+    - Signal Processing → [Representation Workflow](01-workflow/p05-representation/02-frequency-domain.md)
 
 
 === "Want Examples"
 
     - Browse code examples in each chapter
     - Check [Python Setup](appendices/C-python-environment-setup.md) for environment configuration
-    - Code directory (WIP)
+    - Code examples accompany each reference section as they are written
 
 ---
 ## Techniques This Book Covers
@@ -115,6 +111,14 @@ The manual is organized into focused chapters that build progressively:
     === "25. Simulation"
 
         Monte Carlo, block/stationary/sieve bootstrap, simulation-based inference, numerical MLE, EM algorithm for state-space models, ABC for intractable likelihoods, variational inference.
+
+    === "27. Regression with TS Data"
+
+        OLS under temporal dependence, HAC inference (Newey-West, bandwidth choice), feasible GLS (Cochrane-Orcutt, Prais-Winsten), dynamic regression, distributed lags, trending regressors, spurious regression.
+
+    === "28. Nonstationarity Theory"
+
+        Unit-root asymptotics (functional CLT, Brownian limits), cointegration theory, near-unit roots and local-to-unity, fractional cointegration, explosive roots and bubble tests (PSY, GSADF).
 
 === "Core Models"
 
@@ -165,6 +169,18 @@ The manual is organized into focused chapters that build progressively:
         - **Extreme value theory:** GEV, GPD, peaks-over-threshold, extremal index
         - **Rough volatility:** rough Heston, fBM-driven models, rough Bergomi
 
+    === "29. Seasonality & Calendar"
+
+        Seasonal unit roots (HEGY, Canova-Hansen, OCSB), seasonal adjustment (X-13, SEATS, STL as methodology), periodic autoregression (PAR), multiple seasonality (MSTL, TBATS, Fourier terms), calendar and holiday effects, cyclostationary processes.
+
+    === "30. Structural Change & TVP"
+
+        Break tests, time-varying parameter models, rolling and recursive estimation, forecasting under breaks (Pesaran-Timmermann), statistical process control (Shewhart, EWMA, CUSUM charts).
+
+    === "32. Panel Time Series"
+
+        Panel unit roots and cointegration, dynamic panel GMM (Arellano-Bond), heterogeneous panels (mean group, pooled mean group), cross-sectional dependence (CD test, CCE), large-N large-T asymptotics.
+
 === "Specialized Models"
 
     === "11. State-Space"
@@ -181,13 +197,17 @@ The manual is organized into focused chapters that build progressively:
 
     === "16. Count & Categorical"
 
-        - **Integer-valued:** INAR, PAR, INGARCH, negative binomial autoregression
+        - **Integer-valued:** INAR, Poisson autoregression, INGARCH, negative binomial autoregression
         - **Categorical/qualitative:** Markov chains for discrete states, autoregressive logit/probit, multinomial time series
         - **Compositional:** Dirichlet regression, log-ratio transforms for constrained series
 
     === "17. Point Processes"
 
         Poisson process, Cox process, Hawkes process (self-exciting), renewal processes, temporal point process models, neural point processes, intensity estimation, Marked point processes.
+
+    === "33. System ID & Dynamical Systems"
+
+        ARX, ARMAX and Box-Jenkins transfer functions from the control perspective, subspace methods (N4SID), Hammerstein-Wiener, Takens embedding and phase-space reconstruction, dynamic mode decomposition, Koopman operators, SINDy.
 
 === "Representations & Signals"
 
@@ -266,6 +286,17 @@ The manual is organized into focused chapters that build progressively:
         - **Privacy-preserving methods:** federated learning for sequential data, differential privacy
         - **Ethics and fairness:** accountability in forecasting, bias in temporal predictions
 
+        Explicit sub-domains: condition monitoring and reliability (vibration analysis, degradation processes, remaining useful life), environmental trend methods (Mann-Kendall, Sen slope), epidemiology (Rt estimation, SIR fitting).
+
+    === "31. Data Preparation"
+
+        Imputation (interpolation, Kalman-smoother and multiple imputation), irregular sampling, the outlier taxonomy (AO, IO, LS, TC), temporal disaggregation and benchmarking (Chow-Lin, Denton), data revisions and real-time vintages, calendar alignment.
+
+    === "34. Probabilistic Forecasting"
+
+        Density and quantile forecasts, scoring rules (CRPS, pinball, log score), calibration and PIT histograms, CAViaR, multi-step strategies (recursive, direct, MIMO), intermittent demand (Croston, TSB), MinT reconciliation, judgmental forecasting.
+
+
 
 ---
 
@@ -301,7 +332,7 @@ If you use this manual in your research or work, please cite:
 
 This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 
-<!-- Abbreviation definitions — ordered by "What This Book Covers" sections 1–26 -->
+<!-- Abbreviation definitions — ordered by "What This Book Covers" areas 1–34 -->
 
 <!-- 1. Mathematical and Statistical Foundations -->
 *[LLN]: Law of Large Numbers
@@ -446,7 +477,7 @@ This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 Interna
 
 <!-- 16. Count and Categorical Time Series -->
 *[INAR]: Integer-valued Autoregressive
-*[PAR]: Poisson Autoregression
+*[PAR]: Periodic Autoregression
 *[INGARCH]: Integer-valued Generalized ARCH
 
 <!-- 17. Point Processes and Event-Time Series -->
@@ -503,3 +534,12 @@ This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 Interna
 *[fMRI]: Functional Magnetic Resonance Imaging
 *[IoT]: Internet of Things
 
+<!-- 27–34. Areas added in the flowchart framework -->
+*[HAC]: Heteroskedasticity-and-Autocorrelation-Consistent
+*[PSY]: Phillips-Shi-Yu bubble test
+*[HEGY]: Hylleberg-Engle-Granger-Yoo seasonal unit root test
+*[CCE]: Common Correlated Effects
+*[MinT]: Minimum Trace reconciliation
+*[PIT]: Probability Integral Transform
+*[SINDy]: Sparse Identification of Nonlinear Dynamics
+*[DMD]: Dynamic Mode Decomposition
