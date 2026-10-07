@@ -205,3 +205,14 @@ nodes:
   # ---- foundation sections referenced from P8
   - {id: F_LLN, label: "Law of large numbers",   phase: F, areas: [1], section: "00-foundations/asymptotics.md#law-of-large-numbers"}
   - {id: F_CLT, label: "Central limit theorem",  phase: F, areas: [1], section: "00-foundations/asymptotics.md#central-limit-theorem"}
+  # ---- P9 diagnostic and selection leaves
+  - {id: P9_RESIDUAL_AUTOCORRELATION, label: "Residual autocorrelation tests",    phase: P9, areas: [5, 6], section: "01-workflow/p09-diagnostics-selection.md#residual-autocorrelation-tests"}
+  - {id: P9_RESIDUAL_ARCH,            label: "Residual heteroskedasticity tests", phase: P9, areas: [5, 10], section: "01-workflow/p09-diagnostics-selection.md#residual-heteroskedasticity-tests"}
+  - {id: P9_RESIDUAL_NORMALITY,       label: "Residual normality tests",          phase: P9, areas: [5], section: "01-workflow/p09-diagnostics-selection.md#residual-normality-tests"}
+  - {id: P9_RESIDUAL_NONLINEARITY,    label: "Remaining nonlinearity",            phase: P9, areas: [8, 5], section: "01-workflow/p09-diagnostics-selection.md#remaining-nonlinearity"}
+  - {id: P9_VOLATILITY_DIAGNOSTICS,   label: "Volatility model diagnostics",      phase: P9, areas: [10], section: "01-workflow/p09-diagnostics-selection.md#volatility-model-diagnostics"}
+  - {id: P9_COUNT_DIAGNOSTICS,        label: "Count model diagnostics",           phase: P9, areas: [16], section: "01-workflow/p09-diagnostics-selection.md#count-model-diagnostics"}
+  - {id: P9_INFORMATION_CRITERIA,     label: "Information criteria",              phase: P9, areas: [6, 12], section: "reference/06-model-selection/index.md#information-criteria"}
+  - {id: P9_BOOTSTRAP,                label: "Bootstrap inference",               phase: P9, areas: [5, 25], section: "reference/06-model-selection/index.md#bootstrap-inference"}
+  - {id: P9_FORECAST_COMPARISON,      label: "Forecast comparison tests",         phase: P9, areas: [6], section: "reference/06-model-selection/index.md#forecast-comparison-tests"}
+  - {id: P9_ENCOMPASSING,             label: "Forecast encompassing",             phase: P9, areas: [6], section: "reference/06-model-selection/index.md#forecast-encompassing"}
