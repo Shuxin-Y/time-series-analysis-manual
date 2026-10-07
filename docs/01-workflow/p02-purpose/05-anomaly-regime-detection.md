@@ -18,12 +18,12 @@ graph TD
     P2_AN_CONTEXT -->|"Reconstruction error"| P2_AN_AUTOENCODER["Autoencoders and variational autoencoders"]
     P2_AN_COLLECTIVE -->|"Distance-based"| P2_AN_MATRIX_PROFILE["Matrix profile and discord discovery"]
     P2_AN_COLLECTIVE -->|"Isolation-based"| P2_AN_ISOLATION_FOREST["Isolation forests for time series"]
-    P2_AN_STATISTICAL & P2_AN_RESIDUAL & P2_AN_AUTOENCODER --> P2_AN_LABELS
-    P2_AN_MATRIX_PROFILE & P2_AN_ISOLATION_FOREST & P6_MARKOV_SWITCHING --> P2_AN_LABELS{"Labels available?"}
-    P2_AN_LABELS -->|"Yes"| P8[["P8: Estimation"]]
+    P2_AN_RESIDUAL & P2_AN_AUTOENCODER & P6_MARKOV_SWITCHING --> P2_AN_LABELS{"Labels available?"}
+    P2_AN_LABELS -->|"Yes: tune the model"| P8[["P8: Estimation"]]
     P2_AN_LABELS -->|"No"| P2_AN_THRESHOLD
     P8 --> P8_HYPERPARAMETERS[["Time-aware hyperparameter tuning"]]
     P8_HYPERPARAMETERS --> P2_AN_THRESHOLD["Set thresholds by the cost of errors"]
+    P2_AN_STATISTICAL & P2_AN_MATRIX_PROFILE & P2_AN_ISOLATION_FOREST --> P2_AN_THRESHOLD
     P2_AN_THRESHOLD --> P11[["P11: Validation and deployment"]]
     P11 --> P11_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
     P11_CLASSIFICATION_METRICS --> P11_DRIFT_MONITORING[["Drift monitoring"]]

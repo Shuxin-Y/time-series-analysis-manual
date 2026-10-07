@@ -20,16 +20,15 @@ graph TD
     P2_DC_METHOD -->|"Nonparametric"| P4_SSA[["Singular spectrum analysis"]]
     P2_DC_METHOD -->|"Filter-based, no seasonality"| P4_FILTER_DECOMPOSITION[["Filter-based decomposition"]]
     P4_SEASONAL_ADJUSTMENT & P4_MULTIPLE_SEASONALITY & P4_MODEL_DECOMPOSITION & P4_SSA & P4_FILTER_DECOMPOSITION --> P2_DC_COMPONENT_ANALYSIS["Analyse and interpret the components"]
-    P2_DC_COMPONENT_ANALYSIS --> P7[["P7: Error-process specification"]]
-    P7 --> P7_MEAN_TESTS[["Test residual autocorrelation"]]
-    P7_MEAN_TESTS --> P2_DC_RESIDUAL{"Residual white?"}
+    P2_DC_COMPONENT_ANALYSIS --> P11[["P11: Validation and deployment"]]
+    P11 --> P2_DC_RESIDUAL{"Remainder white?"}
+    P7_MEAN_TESTS[["Test residual autocorrelation"]] -.- P2_DC_RESIDUAL
     P2_DC_RESIDUAL -.->|"No"| P2_DC_METHOD
     P2_DC_RESIDUAL -->|"Yes"| P2_DC_REVISION["Revision stability of real-time decompositions"]
-    P2_DC_REVISION --> P11[["P11: Validation and deployment"]]
     class P2_DC_IN terminator
     class P2_DC_SEASONAL,P2_DC_METHOD,P2_DC_RESIDUAL decision
     class P2_DC_ADDITIVE_MULTIPLICATIVE,P2_DC_COMPONENT_ANALYSIS,P2_DC_REVISION process
-    class P3,P3_SEASONALITY,P4,P4_SEASONAL_ADJUSTMENT,P4_MULTIPLE_SEASONALITY,P4_MODEL_DECOMPOSITION,P4_SSA,P4_FILTER_DECOMPOSITION,P7,P7_MEAN_TESTS,P11 ref
+    class P3,P3_SEASONALITY,P4,P4_SEASONAL_ADJUSTMENT,P4_MULTIPLE_SEASONALITY,P4_MODEL_DECOMPOSITION,P4_SSA,P4_FILTER_DECOMPOSITION,P11,P7_MEAN_TESTS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

@@ -50,17 +50,18 @@ graph TD
     P2_FE_LEARNER -->|"Clustering"| P2_FE_CLUSTERING["Clustering<br/>k-means with DTW, spectral clustering"]
     P2_FE_LEARNER -->|"Regression"| P6[["P6: Conditional-mean model class"]]
     P6 --> P6_TREE_ENSEMBLES[["Tree ensembles on lag features"]]
-    P2_FE_DISTANCES & P2_FE_SHAPELETS & P2_FE_DEEP_CLASSIFIERS & P2_FE_CLUSTERING & P6_TREE_ENSEMBLES --> P2_FE_AUGMENTATION["Data augmentation<br/>slicing, warping, synthetic oversampling"]
-    P2_FE_AUGMENTATION --> P8[["P8: Estimation"]]
+    P2_FE_DISTANCES & P2_FE_SHAPELETS & P2_FE_DEEP_CLASSIFIERS & P2_FE_CLUSTERING --> P2_FE_AUGMENTATION["Data augmentation<br/>slicing, warping, synthetic oversampling"]
+    P2_FE_AUGMENTATION --> P10[["P10: Inference and interpretation"]]
+    P6_TREE_ENSEMBLES --> P8[["P8: Estimation"]]
     P8 --> P8_HYPERPARAMETERS[["Time-aware hyperparameter tuning"]]
-    P8_HYPERPARAMETERS --> P10[["P10: Inference and interpretation"]]
+    P8_HYPERPARAMETERS --> P10
     P10 --> P10_INTERPRETABILITY[["Interpretability"]]
     P10_INTERPRETABILITY --> P11[["P11: Validation and deployment"]]
     P11 --> P11_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
     class P2_FE_FROM_PART_1 terminator
     class P2_FE_FEATURE_Q_2,P2_FE_REPRESENTATION,P2_FE_LEARNER,P2_FE_CLASSIFIER decision
     class P2_FE_SYMBOLIC,P2_FE_REPRESENTATION_LEARNING,P2_FE_TDA,P2_FE_DISTANCES,P2_FE_SHAPELETS,P2_FE_DEEP_CLASSIFIERS,P2_FE_CLUSTERING,P2_FE_AUGMENTATION process
-    class P6,P6_TREE_ENSEMBLES,P8,P8_HYPERPARAMETERS,P10,P10_INTERPRETABILITY,P11,P11_CLASSIFICATION_METRICS ref
+    class P6,P6_TREE_ENSEMBLES,P10,P8,P8_HYPERPARAMETERS,P10_INTERPRETABILITY,P11,P11_CLASSIFICATION_METRICS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
