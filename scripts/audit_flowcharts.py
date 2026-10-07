@@ -623,9 +623,8 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
 
     A theory page must be reachable: the reachable set starts with every method page and every area landing page
     (`reference/NN-*/index.md`) and grows to a fixed point by adding every page a reachable page links to, and every
-    page linked from the derivation of a term whose home page is reachable. A theory page is reachable when a method
-    page or an area landing page reaches it, directly or through pages and derivations of terms homed on reachable
-    pages; pages that only reach each other are not reachable, because nothing in such a group is a seed.
+    page linked from the derivation of a term whose home page is reachable; pages that only reach each other are not
+    reachable, because none of them is a seed.
     """
     method_files = {r.file for r in rows}
     derivation_links: dict[str, set[str]] = {}  # term home page -> pages its terms' derivations link
