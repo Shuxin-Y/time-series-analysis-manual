@@ -637,9 +637,8 @@ code {
     overflow-x: auto;
   }
 
-  /* Adjust mermaid diagrams */
-  .mermaid,
-  .mermaid-container {
+  /* Adjust mermaid diagrams (.mermaid-container scrolls at every width, see above) */
+  .mermaid {
     overflow-x: auto;
   }
 }
