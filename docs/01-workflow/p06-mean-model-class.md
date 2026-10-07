@@ -76,7 +76,7 @@ graph TD
     P6_DIMENSION -->|"Bayesian shrinkage"| P6_BVAR["Bayesian VAR<br/>Minnesota and conjugate priors"]
     P6_DIMENSION -->|"Graph"| P6_GRAPHICAL_MODELS["Graphical models and sparse precision matrices"]
     P6_DIMENSION -->|"Tensor"| P6_TENSOR_AR["Matrix and tensor autoregression"]
-    P6_FACTOR_MODELS -->|"Factors in a VAR"| P6_FAVAR["FAVAR and global VAR"]
+    P6_FACTOR_MODELS -->|"Factors in a VAR"| P6_FAVAR["FAVAR and GVAR"]
     P6_FACTOR_MODELS -->|"Factors alone"| P7
     P6_FAVAR & P6_REGULARISED_VAR & P6_BVAR & P6_GRAPHICAL_MODELS & P6_TENSOR_AR --> P7[["P7: Error-process specification"]]
     class P6_PART_3_IN terminator

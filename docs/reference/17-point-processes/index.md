@@ -16,7 +16,7 @@ graph TD
     B2_CLUSTERING -->|"No"| B2_BASELINE{"Intensity?"}
     B2_CLUSTERING -->|"Yes"| B2_EXCITATION{"Excitation model?"}
     B2_BASELINE -->|"Deterministic"| B2_POISSON["Poisson and renewal processes"]
-    B2_BASELINE -->|"Random"| B2_COX["Cox processes"]
+    B2_BASELINE -->|"Random"| B2_COX["Doubly stochastic (Cox) processes"]
     B2_EXCITATION -->|"Parametric kernel"| B2_HAWKES["Hawkes self-exciting processes"]
     B2_EXCITATION -->|"Marks or several streams"| B2_MARKED["Marked and multivariate point processes"]
     B2_EXCITATION -->|"Learned intensity"| B2_NEURAL_PP["Neural point processes"]
@@ -82,10 +82,6 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B2_POISSON`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Cox processes
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `B2_COX`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Hawkes self-exciting processes
 
@@ -106,3 +102,8 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B2_SURVIVAL`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Doubly stochastic (Cox) processes
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B2_COX`). Write this section following the content rules in `.claude/rules/writing.md`.

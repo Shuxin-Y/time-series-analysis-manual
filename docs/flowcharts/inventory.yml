@@ -155,7 +155,7 @@ nodes:
   - {id: P6_REGULARISED_VAR,    label: "Regularised VAR",                                phase: P6, areas: [9], section: "reference/09-multivariate/index.md#regularised-var"}
   - {id: P6_GRAPHICAL_MODELS,   label: "Graphical models and sparse precision matrices", phase: P6, areas: [9], section: "reference/09-multivariate/index.md#graphical-models-and-sparse-precision-matrices"}
   - {id: P6_TENSOR_AR,          label: "Matrix and tensor autoregression",               phase: P6, areas: [9], section: "reference/09-multivariate/index.md#matrix-and-tensor-autoregression"}
-  - {id: P6_FAVAR,              label: "FAVAR and global VAR",                           phase: P6, areas: [9], section: "reference/09-multivariate/index.md#favar-and-global-var"}
+  - {id: P6_FAVAR, label: "FAVAR and GVAR", phase: P6, areas: [9], section: "reference/09-multivariate/index.md#favar-and-gvar"}
   - {id: P6_MIXED_FREQUENCY,    label: "Mixed-frequency models",                         phase: P6, areas: [22, 9], section: "reference/22-forecasting-practice/index.md#mixed-frequency-models"}
   - {id: P6_STRUCTURAL_TS,      label: "Structural time-series models",                  phase: P6, areas: [11], section: "reference/11-state-space/index.md#structural-time-series-models"}
   - {id: P6_DLM,                label: "Dynamic linear models",                          phase: P6, areas: [11, 12], section: "reference/11-state-space/index.md#dynamic-linear-models"}
@@ -351,7 +351,7 @@ nodes:
   # ---- B2 branch leaves
   - {id: B2_EVENT_EDA,   label: "Event-time diagnostics",                          phase: B2, areas: [17], section: "reference/17-point-processes/index.md#event-time-diagnostics"}
   - {id: B2_POISSON,     label: "Poisson and renewal processes",                   phase: B2, areas: [17], section: "reference/17-point-processes/index.md#poisson-and-renewal-processes"}
-  - {id: B2_COX,         label: "Cox processes",                                   phase: B2, areas: [17], section: "reference/17-point-processes/index.md#cox-processes"}
+  - {id: B2_COX, label: "Doubly stochastic (Cox) processes", phase: B2, areas: [17], section: "reference/17-point-processes/index.md#doubly-stochastic-cox-processes"}
   - {id: B2_HAWKES,      label: "Hawkes self-exciting processes",                  phase: B2, areas: [17], section: "reference/17-point-processes/index.md#hawkes-self-exciting-processes"}
   - {id: B2_MARKED,      label: "Marked and multivariate point processes",         phase: B2, areas: [17], section: "reference/17-point-processes/index.md#marked-and-multivariate-point-processes"}
   - {id: B2_NEURAL_PP,   label: "Neural point processes",                          phase: B2, areas: [17, 18], section: "reference/17-point-processes/index.md#neural-point-processes"}

@@ -149,7 +149,7 @@ Ten purpose sub-charts. Purposes 9 and 10 are new: 9 is split from the former "s
 | 5 | Anomaly and regime detection | Thresholds, regime probabilities | Event-level precision / recall, NAB score |
 | 6 | Decomposition | Component interpretation | Residual white-noise check, revision stability |
 | 7 | Feature extraction, classification and clustering | Feature importance, prototypes | Downstream CV, F1, silhouette |
-| 8 | Spectral analysis | Peak significance, coherence, phase | Fisher's g, confidence bands |
+| 8 | Spectral analysis | Peak significance, coherence, phase | Fisher's g-test, confidence bands |
 | 9 | System identification | Transfer function, poles and zeros, stability | Prediction error, cross-validated fit |
 | 10 | Simulation and scenario generation | Path simulation, stress testing, synthetic data | Distribution matching, bootstrap coverage |
 
@@ -157,7 +157,7 @@ Fixed structure of every purpose sub-chart: purpose-specific preliminary questio
 
 ### 7.2 Representations (P5 chapter)
 
-Six representation sub-charts: time domain, frequency domain, time–frequency, state space, functional, Hilbert / phase. Fixed structure: when to choose this representation (three discriminating questions) → representation-specific leaves (transforms and estimators) → available P6 model families as `ref` → back to P6. The state-space sub-chart's model families are all `ref` to P6 (structural models) and P8 (Kalman, EM, particle filters); its only owned leaf is the state-space rewriting of ARIMA.
+Six representation sub-charts: time domain, frequency domain, time–frequency, state space, functional, Hilbert / phase. Fixed structure: when to choose this representation (three discriminating questions) → representation-specific leaves (transforms and estimators) → available P6 model families as `ref` → back to P6. The state-space sub-chart's model families are all `ref` to P6 (structural models) and P8 (Kalman, EM, particle filters); its owned leaves are the state-space rewriting of ARIMA, latent states and missing observations, Takens embedding, and dynamic mode decomposition.
 
 ### 7.3 Index rules
 
