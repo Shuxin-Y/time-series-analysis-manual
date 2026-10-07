@@ -38,6 +38,7 @@ Single home of the content rules: what a section contains and where a concept li
 - Outcome terminals in diagrams name **model → estimator → inference**, in that order.
 - Purpose sub-charts index the spine (spec §7.1). The reader's route is the spine; a chart indexes it and may omit phases but never reorders them. The spine's purpose-flag diamonds (P6 entry, P10, P11) make every purpose's route total. A chart that refs a phase's leaves also draws that phase's box, before those leaves.
 - On a path where no conditional-mean model is fitted, a purpose chart draws no P6 to P9 box or routed leaf; a dotted pointer to one is allowed. A dotted side ref (`-.-`) is a pointer, not a route, and is exempt from the order rule.
+- A purpose chart ends at the P11 box or at a P11 leaf.
 
 ## After writing
 
