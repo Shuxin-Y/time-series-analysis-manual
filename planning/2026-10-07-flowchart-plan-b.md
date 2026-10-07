@@ -382,7 +382,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P10_SVAR_IDENTIFICATION | SVAR identification | Cholesky, sign restrictions, long-run, external instruments | [21, 9] | reference/21-causal-inference/index.md |
 | P10_IRF_FEVD | Impulse responses and variance decompositions | | [9, 21] | reference/09-multivariate/index.md |
 | P10_LOCAL_PROJECTIONS | Local projections | | [21] | reference/21-causal-inference/index.md |
-| P10_COUNTERFACTUALS | Counterfactual designs | intervention analysis, interrupted time series, difference-in-differences, synthetic control, CausalImpact | [21] | reference/21-causal-inference/index.md |
+| P10_COUNTERFACTUALS | Counterfactual designs | interrupted time series, difference-in-differences, synthetic control, CausalImpact | [21] | reference/21-causal-inference/index.md |
 | P10_POINT_FORECASTS | Point forecasts and horizons | | [22] | reference/22-forecasting-practice/index.md |
 | P10_INTERVALS | Prediction intervals | analytical, bootstrap, conformal | [34, 22] | reference/34-probabilistic-forecasting/index.md |
 | P10_DENSITY_QUANTILE | Density and quantile forecasts | | [34] | reference/34-probabilistic-forecasting/index.md |
@@ -392,7 +392,7 @@ git commit -m "test: assert every area has a leaf; split the P7 diagram into two
 | P10_JUDGMENTAL | Judgmental adjustment | | [22] | reference/22-forecasting-practice/index.md |
 | P10_NOWCASTING | Nowcasting | bridge equations, factor models | [22, 9] | reference/22-forecasting-practice/index.md |
 | P10_RISK_MEASURES | Risk measures and their backtests | VaR, expected shortfall, Kupiec, Christoffersen | [10] | reference/10-volatility/index.md |
-| P10_SCENARIOS | Scenario simulation and stress testing | | [25, 10] | reference/25-simulation/index.md |
+| P10_SCENARIOS | Stress testing and scenario design |  | [25, 10] | reference/25-simulation/index.md |
 | P10_INTERPRETABILITY | Interpretability | SHAP, attention | [18] | reference/18-machine-learning/index.md |
 
 **Foundation rows.** `F_CONDITIONAL_EXPECTATION` | Conditional expectation as the optimal forecast | `00-foundations/stochastic-processes.md#conditional-expectation-as-the-optimal-forecast`. `F_PROJECTION` | Projection theorem and best linear prediction | `00-foundations/stochastic-processes.md#projection-theorem-and-best-linear-prediction`.

@@ -52,7 +52,7 @@ nodes:
   - {id: P7_OUT,          label: "Assemble the joint model",                            phase: P7, areas: [10, 4], section: "01-workflow/p07-error-process.md#assemble-the-joint-model"}
   # ---- P7 model-family leaves (live in reference chapters)
   - {id: P7_ARMA_ERRORS,   label: "Regression with ARMA errors",                        phase: P7, areas: [27, 3],  section: "reference/27-regression-time-series/index.md#regression-with-arma-errors"}
-  - {id: P7_ARFIMA_ERRORS, label: "ARFIMA errors",                                      phase: P7, areas: [7],      section: "reference/07-long-memory/index.md#arfima-errors"}
+  - {id: P7_ARFIMA_ERRORS, label: "Regression with ARFIMA errors",                      phase: P7, areas: [7],      section: "reference/07-long-memory/index.md#regression-with-arfima-errors"}
   - {id: P7_GARCH,         label: "GARCH",                                              phase: P7, areas: [10],     section: "reference/10-volatility/index.md#garch"}
   - {id: P7_ASYM_GARCH,    label: "Asymmetric GARCH: EGARCH, GJR, TGARCH",              phase: P7, areas: [10],     section: "reference/10-volatility/index.md#asymmetric-garch-egarch-gjr-tgarch"}
   - {id: P7_FIGARCH,       label: "FIGARCH",                                            phase: P7, areas: [10, 7],  section: "reference/10-volatility/index.md#figarch"}
@@ -231,7 +231,7 @@ nodes:
   - {id: P10_JUDGMENTAL,          label: "Judgmental adjustment",                         phase: P10, areas: [22], section: "reference/22-forecasting-practice/index.md#judgmental-adjustment"}
   - {id: P10_NOWCASTING,          label: "Nowcasting",                                    phase: P10, areas: [22, 9], section: "reference/22-forecasting-practice/index.md#nowcasting"}
   - {id: P10_RISK_MEASURES,       label: "Risk measures and their backtests",             phase: P10, areas: [10], section: "reference/10-volatility/index.md#risk-measures-and-their-backtests"}
-  - {id: P10_SCENARIOS,           label: "Scenario simulation and stress testing",        phase: P10, areas: [25, 10], section: "reference/25-simulation/index.md#scenario-simulation-and-stress-testing"}
+  - {id: P10_SCENARIOS, label: "Stress testing and scenario design", phase: P10, areas: [25, 10], section: "reference/25-simulation/index.md#stress-testing-and-scenario-design"}
   - {id: P10_INTERPRETABILITY,    label: "Interpretability",                              phase: P10, areas: [18], section: "reference/18-machine-learning/index.md#interpretability"}
   # ---- foundation sections referenced from P10
   - {id: F_CONDITIONAL_EXPECTATION, label: "Conditional expectation as the optimal forecast", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#conditional-expectation-as-the-optimal-forecast"}

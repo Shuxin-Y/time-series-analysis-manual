@@ -23,7 +23,7 @@ graph TD
     P7_MEAN_TESTS --> P7_MEAN_DEP{"Mean dependence?"}
     P7_MEAN_DEP -->|"None"| P7_TO_PART_2
     P7_MEAN_DEP -->|"Short memory"| P7_ARMA_ERRORS["Regression with ARMA errors"]
-    P7_MEAN_DEP -->|"Slow decay"| P7_ARFIMA_ERRORS["ARFIMA errors"]
+    P7_MEAN_DEP -->|"Slow decay"| P7_ARFIMA_ERRORS["Regression with ARFIMA errors"]
     P7_MEAN_DEP -.->|"Already ARMA: raise the order"| P6[["P6: Conditional-mean model class"]]
     P7_ARMA_ERRORS & P7_ARFIMA_ERRORS --> P7_TO_PART_2(["Continue in part 2"])
     F_WHITE_NOISE[["White noise, martingale difference, independence"]] -.- P7_MEAN_DEP
@@ -138,7 +138,7 @@ graph TD
 | 3 | Distribution of standardised innovations? | Jarque-Bera, QQ, Hill tail index, BNS jump test | Gaussian; Student-t / GED or QMLE; skewed-t; EVT; jump diffusion |
 | 4 | Regimes in variance? | ICSS, Markov-switching LR | None: step 5. Present: MS-GARCH or segmented variance |
 | 5 | Several series? | Engle-Sheppard constant-correlation test, tail dependence | CCC; DCC / BEKK; copula |
-| 6 | Branch data types | Overdispersion tests; time-rescaling KS test | Counts: INGARCH / negative binomial. Event times: intensity misspecification |
+| 6 | Branch data types | Overdispersion tests; time-rescaling KS test | Counts: Poisson or negative-binomial innovations. Event times: intensity misspecification |
 
 Terminals name **model → estimator → inference**; for example, regression + ARMA errors + GARCH-t → joint MLE → asymptotic-normal standard errors.
 
@@ -158,7 +158,7 @@ Terminals name **model → estimator → inference**; for example, regression + 
 
 ## Relation to P9
 
-P7 is specified once. After joint estimation in P8, P9 re-runs steps 1 to 5 on the complete model and loops back to P6 or P7 on failure.
+P7 is specified once. After joint estimation in P8, P9 re-runs steps 1 to 6 on the complete model and loops back to P6 or P7 on failure.
 
 ## Test residual autocorrelation
 

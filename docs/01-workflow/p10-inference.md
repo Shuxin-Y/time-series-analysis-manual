@@ -62,7 +62,7 @@ graph TD
     P10_COEFFICIENT_TESTS --> P10_HAC["HAC inference<br/>Newey-West, bandwidth choice"]
     P10_HAC --> P10_SYSTEM{"Multivariate flag?"}
     P10_SYSTEM -->|"Yes"| P10_TO_PART_3(["Continue in part 3"])
-    P10_SYSTEM -->|"No"| P10_COUNTERFACTUALS["Counterfactual designs<br/>intervention analysis, interrupted time series, difference-in-differences, synthetic control, CausalImpact"]
+    P10_SYSTEM -->|"No"| P10_COUNTERFACTUALS["Counterfactual designs<br/>interrupted time series, difference-in-differences, synthetic control, CausalImpact"]
     P10_COUNTERFACTUALS --> P11[["P11: Validation and deployment"]]
     class P10_PART_2_IN,P10_TO_PART_3 terminator
     class P10_SYSTEM decision
@@ -141,7 +141,7 @@ graph TD
     P10_PART_5_IN(["From part 1: other outputs"]) --> P10_OUTPUTS{"Which output?"}
     P10_OUTPUTS -->|"Features and labels"| P10_INTERPRETABILITY["Interpretability<br/>SHAP, attention"]
     P10_OUTPUTS -->|"A system model"| P2_SI_TRANSFER_FUNCTION[["Estimate the frequency response"]]
-    P10_OUTPUTS -->|"Simulated paths"| P10_SCENARIOS["Scenario simulation and stress testing"]
+    P10_OUTPUTS -->|"Simulated paths"| P10_SCENARIOS["Stress testing and scenario design"]
     P2_SI_TRANSFER_FUNCTION --> P2_SI_STABILITY[["Poles, zeros and stability"]]
     P10_SCENARIOS --> P10_RISK_MEASURES["Risk measures and their backtests<br/>VaR, expected shortfall, Kupiec, Christoffersen"]
     P10_INTERPRETABILITY & P2_SI_STABILITY & P10_RISK_MEASURES --> P11[["P11: Validation and deployment"]]

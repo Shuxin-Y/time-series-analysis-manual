@@ -7,10 +7,6 @@ Simulation-based inference, Monte Carlo and resampled path simulation, synthetic
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_SIMULATION_INFERENCE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Scenario simulation and stress testing
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_SCENARIOS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Monte Carlo simulation from a fitted model
 
@@ -33,3 +29,8 @@ Simulation-based inference, Monte Carlo and resampled path simulation, synthetic
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P2_SM_BOOTSTRAP_PATHS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Stress testing and scenario design
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_SCENARIOS`). Write this section following the content rules in `.claude/rules/writing.md`.

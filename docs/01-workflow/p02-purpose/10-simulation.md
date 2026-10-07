@@ -18,7 +18,7 @@ graph TD
     P9_BOOTSTRAP --> P2_SM_BOOTSTRAP_PATHS["Simulating paths by resampling"]
     P2_SM_MONTE_CARLO & P2_SM_BOOTSTRAP_PATHS & P2_SM_SYNTHETIC --> P2_SM_DISTRIBUTION_MATCH["Check distribution and dependence matching"]
     P2_SM_DISTRIBUTION_MATCH --> P10[["P10: Inference and interpretation"]]
-    P10 --> P10_SCENARIOS[["Scenario simulation and stress testing"]]
+    P10 --> P10_SCENARIOS[["Stress testing and scenario design"]]
     P10_SCENARIOS --> P10_RISK_MEASURES[["Risk measures and their backtests"]]
     P10_RISK_MEASURES --> P11[["P11: Validation and deployment"]]
     class P2_SM_IN terminator
@@ -37,7 +37,7 @@ graph TD
 
 ## P10 inference for this purpose
 
-[Scenario simulation and stress testing](../../reference/25-simulation/index.md#scenario-simulation-and-stress-testing), [Risk measures and their backtests](../../reference/10-volatility/index.md#risk-measures-and-their-backtests).
+[Stress testing and scenario design](../../reference/25-simulation/index.md#stress-testing-and-scenario-design), [Risk measures and their backtests](../../reference/10-volatility/index.md#risk-measures-and-their-backtests).
 
 ## P11 metrics for this purpose
 
