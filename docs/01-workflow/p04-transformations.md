@@ -78,15 +78,15 @@ graph TD
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P4_OVERDIFFERENCING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Fractional differencing
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P4_FRACTIONAL_DIFFERENCE`). Write this section following the content rules in `.claude/rules/writing.md`.
-
 ## Detrending by regression on time
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P4_DETREND`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Fractional differencing
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P4_FRACTIONAL_DIFFERENCE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Seasonal differencing
 

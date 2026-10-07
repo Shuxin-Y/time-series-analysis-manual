@@ -2,7 +2,7 @@
 
 **Question this phase answers:** Does the fitted model hold up?
 
-Residual tests on the complete model, volatility and count diagnostics, information criteria, bootstrap inference, and forecast-comparison tests; failures loop back to P6 or P7.
+Residual tests on the complete model, posterior predictive checks for Bayesian fits, volatility and count diagnostics, information criteria, bootstrap inference, and forecast-comparison tests; failures loop back to P6 or P7.
 
 ## Sub-diagram
 
