@@ -114,10 +114,14 @@ PHONE_VIEWPORT = {"width": 390, "height": 844}
 MIN_SCALE = 0.45
 # mermaid-init.js replaces each div.mermaid with a .mermaid-container, or fills it with this <pre> on a parse error.
 RENDER_ERROR_PREFIX = "Error rendering diagram"
-SCALES = """() => [...document.querySelectorAll('.mermaid-container > svg')].map((svg, i) => ({
-    i, scale: svg.getBoundingClientRect().width / svg.viewBox.baseVal.width,
-    wider: svg.getBoundingClientRect().width > svg.parentElement.clientWidth + 1,
-    scrolls: svg.parentElement.scrollWidth > svg.parentElement.clientWidth}))"""
+SCALES = """() => [...document.querySelectorAll('.mermaid-container > svg')].map((svg, i) => {
+    const box = svg.parentElement, style = getComputedStyle(box);
+    const content = box.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    return {i, fit: content / svg.viewBox.baseVal.width,
+        scale: svg.getBoundingClientRect().width / svg.viewBox.baseVal.width,
+        wider: svg.getBoundingClientRect().width > content + 1,
+        scrolls: box.scrollWidth > box.clientWidth};
+})"""
 
 
 @pytest.mark.parametrize("path", _diagram_pages())
@@ -136,11 +140,13 @@ def test_every_diagram_renders_readably(page, site_url, path):
     assert report["errors"] == []
     assert page.console_errors[errors_before:] == []
     assert report["overflowing"] == []
-    for viewport in (DESKTOP_VIEWPORT, PHONE_VIEWPORT):
-        page.set_viewport_size(viewport)
-        scales = page.evaluate(SCALES)
-        assert [(d["i"], round(d["scale"], 3)) for d in scales if d["scale"] < MIN_SCALE] == [], viewport
-        assert [d["i"] for d in scales if d["wider"] and not d["scrolls"]] == [], viewport
+    desktop = page.evaluate(SCALES)  # fits its column at scale >= MIN_SCALE without the clamp or a scroll bar
+    assert [(d["i"], round(d["fit"], 3)) for d in desktop if d["fit"] < MIN_SCALE] == []
+    assert [d["i"] for d in desktop if d["scrolls"]] == []
+    page.set_viewport_size(PHONE_VIEWPORT)
+    phone = page.evaluate(SCALES)  # the clamp holds the scale; the container, not the page, scrolls
+    assert [(d["i"], round(d["scale"], 3)) for d in phone if d["scale"] < MIN_SCALE] == []
+    assert [d["i"] for d in phone if d["wider"] and not d["scrolls"]] == []
     assert page.evaluate("() => document.documentElement.scrollWidth <= window.innerWidth")
 
 
