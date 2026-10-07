@@ -37,8 +37,8 @@ graph TD
 
 ## P10 inference for this purpose
 
-[Peak significance](../../reference/13-spectral-analysis/index.md#peak-significance).
+[Peak significance](../../reference/13-spectral-analysis/index.md#peak-significance). The same leaf serves as inference and metric.
 
 ## P11 metrics for this purpose
 
-[Peak significance](../../reference/13-spectral-analysis/index.md#peak-significance).
+[Peak significance](../../reference/13-spectral-analysis/index.md#peak-significance). The same leaf serves as inference and metric.

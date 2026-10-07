@@ -48,7 +48,7 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P5_FD_PART_2_IN(["From part 1"]) --> P5_FD_TASK_2{"Task?"}
-    P5_FD_TASK_2 -->|"Filter"| P5_FD_FILTERS["FIR and IIR filter design<br/>low-pass, high-pass, band-pass, notch; FIR and IIR; zero-phase"]
+    P5_FD_TASK_2 -->|"Filter"| P5_FD_FILTERS["FIR and IIR filter design<br/>low-pass, high-pass, band-pass, notch; zero-phase"]
     P5_FD_TASK_2 -->|"Vibration"| P5_FD_ENVELOPE["Machine-vibration analysis<br/>envelope analysis, cepstrum, order tracking, spectral kurtosis"]
     P5_FD_FILTERS & P5_FD_ENVELOPE --> P6[["P6: Conditional-mean model class"]]
     class P5_FD_PART_2_IN terminator

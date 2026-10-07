@@ -34,7 +34,7 @@
 | Path | Responsibility |
 |---|---|
 | `docs/01-workflow/p00-data.md`, `p03-…`, `p04-…`, `p06-…`, `p08-…`, `p09-…`, `p10-…`, `p11-…` | Phase sub-diagram replaces the "Diagram pending" note; procedural leaf sections scaffolded below |
-| `docs/01-workflow/p07-error-process.md` | P7 split into two stacked diagrams (layout fix) |
+| `docs/01-workflow/p07-error-process.md` | P7 split into three stacked diagrams (width rule) |
 | `docs/01-workflow/p02-purpose/01-…10-*.md` | Purpose sub-charts replace the pending note; quick-navigation table on `index.md` |
 | `docs/01-workflow/p05-representation/01-…06-*.md` | Representation sub-charts; quick-navigation table on `index.md` |
 | `docs/01-workflow/p01-data-type-gate.md` | B7 sub-chart appended under its leaf heading |
@@ -560,7 +560,7 @@ Fixed structure of every purpose sub-chart (spec §7.1): `P2_<XX>_IN` terminator
 | P5_FD_PARAMETRIC | Parametric spectra | AR and ARMA spectral estimates | [13] | reference/13-spectral-analysis/index.md |
 | P5_FD_LOMB_SCARGLE | Lomb-Scargle periodogram | irregular sampling | [13, 15] | reference/13-spectral-analysis/index.md |
 | P5_FD_LEAKAGE | Leakage, tapering and the Nyquist frequency | | [13] | reference/13-spectral-analysis/index.md |
-| P5_FD_FILTERS | FIR and IIR filter design | low-pass, high-pass, band-pass, notch; FIR and IIR; zero-phase | [13] | reference/13-spectral-analysis/index.md |
+| P5_FD_FILTERS | FIR and IIR filter design | low-pass, high-pass, band-pass, notch; zero-phase | [13] | reference/13-spectral-analysis/index.md |
 | P5_FD_ENVELOPE | Machine-vibration analysis | envelope analysis, cepstrum, order tracking, spectral kurtosis | [26, 13] | reference/26-applied-domains/index.md |
 
 **11.3 Time-frequency (TF).** Flow as drawn (revised in review round 1, see Deviations): Part 1: when to choose it, and Fourier and wavelet transforms: `P5_TF_IN(["Transformed series from P4"])` → `P5_TF_CHANGING{"Frequency content changes over time?"}`; `P5_TF_CHANGING` →|"Yes"| `P5_TF_TRANSFORM{"Transform?"}`; `P5_TF_CHANGING` →|"No"| `P5_TF_TRANSIENTS{"Transients or bursts?"}`; `P5_TF_TRANSIENTS` →|"Yes"| `P5_TF_TRANSFORM`; `P5_TF_TRANSIENTS` →|"No"| `P5_TF_LOCALISATION{"Need both localisations?"}`; `P5_TF_LOCALISATION` →|"Yes"| `P5_TF_TRANSFORM`; `P5_TF_LOCALISATION` →|"No"| `P5` (ref); `P5_TF_TRANSFORM` →|"Fixed window"| `P5_TF_STFT`; `P5_TF_TRANSFORM` →|"Continuous wavelet"| `P5_TF_CWT`; `P5_TF_TRANSFORM` →|"Discrete wavelet"| `P5_TF_DWT`; `P5_TF_TRANSFORM` →|"Adaptive modes"| `P5_TF_TO_PART_2(["Continue in part 2"])`; `P5_TF_CWT` → `P5_TF_SYNCHROSQUEEZING`; `P5_TF_STFT` & `P5_TF_SYNCHROSQUEEZING` → `P2_FE_TF_FEATURES` (ref); `P5_TF_DWT` → `P2_SE_WAVELET_DENOISING` (ref); `P2_FE_TF_FEATURES` & `P2_SE_WAVELET_DENOISING` → `P6` (ref). Part 2: adaptive mode decompositions: `P5_TF_PART_2_IN(["From part 1: adaptive modes"])` → `P5_TF_ADAPTIVE{"Decomposition?"}`; `P5_TF_ADAPTIVE` →|"Empirical"| `P5_TF_EMD`; `P5_TF_ADAPTIVE` →|"Variational"| `P5_TF_VMD`; `P5_TF_EMD` & `P5_TF_VMD` → `P2_FE_TF_FEATURES` (ref); `P2_FE_TF_FEATURES` → `P6` (ref).

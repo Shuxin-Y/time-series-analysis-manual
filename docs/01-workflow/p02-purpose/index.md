@@ -48,12 +48,12 @@ graph TD
     P2_OUTPUTS -->|"Features and labels"| P2_FEATURES["Purpose 7: Feature extraction, classification and clustering"]
     P2_OUTPUTS -->|"A system model"| P2_SYSTEM_ID["Purpose 9: System identification"]
     P2_OUTPUTS -->|"Simulated paths"| P2_SIMULATION["Purpose 10: Simulation and scenario generation"]
-    P2_CHANGE_POINT & P2_ANOMALY & P2_FEATURES & P2_SYSTEM_ID & P2_SIMULATION --> P2_PART_2_PURPOSE_FLAG["Set flag: purpose"]
-    P2_PART_2_PURPOSE_FLAG --> P3[["P3: Exploratory diagnostics"]]
+    P2_CHANGE_POINT & P2_ANOMALY & P2_FEATURES & P2_SYSTEM_ID & P2_SIMULATION --> P2_PURPOSE_FLAG[["Set flag: purpose"]]
+    P2_PURPOSE_FLAG --> P3[["P3: Exploratory diagnostics"]]
     class P2_PART_2_IN terminator
     class P2_QUESTION_2,P2_EVENTS,P2_OUTPUTS decision
-    class P2_CHANGE_POINT,P2_ANOMALY,P2_FEATURES,P2_SYSTEM_ID,P2_SIMULATION,P2_PART_2_PURPOSE_FLAG process
-    class P3 ref
+    class P2_CHANGE_POINT,P2_ANOMALY,P2_FEATURES,P2_SYSTEM_ID,P2_SIMULATION process
+    class P2_PURPOSE_FLAG,P3 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
