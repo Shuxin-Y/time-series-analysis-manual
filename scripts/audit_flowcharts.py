@@ -351,7 +351,8 @@ def collect_diagrams(site: Site) -> list[Diagram]:
 # heading: `<a id>`, attr-list ids on paragraphs and footnote ids are not targets (a node is a section).
 # ASCII-only classes (Python's \w is Unicode, JavaScript's is ASCII); path segments may not start with "." (no `..`,
 # no hidden files). glossary.js DOC_LINK_RE uses this same pattern for its link target.
-SECTION_RE = re.compile(r"^(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.md#[A-Za-z0-9_-]+$")
+SECTION_PATH = r"(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.md#[A-Za-z0-9_-]+"
+SECTION_RE = re.compile(f"^{SECTION_PATH}$")
 SECTION_FORMAT = "path/file.md#anchor"
 
 
@@ -577,11 +578,23 @@ def check_nodes_vs_inventory(diagrams: list[Diagram], rows: list[Row]) -> list[F
 
 # ---------------------------------------------------------------- sections
 
-# Any Markdown link target in glossary text, up to the closing parenthesis (titles and spaces included); it must be
-# exactly a SECTION_RE `path.md#anchor` that resolves, which is the only form the drawer renders as a link.
-GLOSSARY_LINK_RE = re.compile(r"\]\(([^)]*)\)")
+# The drawer's whole link pattern (glossary.js DOC_LINK_RE, pinned by a test): non-empty text without `]`, then a
+# SECTION_PATH target. Any other `](` in glossary text is an error, so the drawer renders exactly the audited links.
+GLOSSARY_LINK_RE = re.compile(r"\[([^\]]+)\]\((" + SECTION_PATH + r")\)")
+LINK_OPENING_RE = re.compile(r"\]\(([^)]*)\)?")
 GLOSSARY_TEXT_FIELDS = ("mathematical", "derivation", "historical")
 AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
+
+
+def glossary_links(text: str) -> tuple[list[str], list[str]]:
+    """(targets of the links the drawer renders, raw targets of every other `](` in the text)."""
+    covered: list[tuple[int, int]] = []
+    targets: list[str] = []
+    for m in GLOSSARY_LINK_RE.finditer(text):
+        covered.append((m.start(), m.end()))
+        targets.append(m.group(2))
+    stray = [m.group(1) for m in LINK_OPENING_RE.finditer(text) if not any(s <= m.start() < e for s, e in covered)]
+    return targets, stray
 
 
 def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Finding]:
@@ -596,7 +609,7 @@ def check_sections(site: Site, rows: list[Row], terms: list[dict]) -> list[Findi
     derivation_links: dict[str, set[str]] = {}  # term home page -> pages its terms' derivations link
     for t in terms:
         home = split_section(str(t.get("reference") or ""))[0]
-        for target in GLOSSARY_LINK_RE.findall(str(t.get("derivation") or "")):
+        for target in glossary_links(str(t.get("derivation") or ""))[0]:
             if resolve_section(target, site) is None and split_section(target)[0] != home:
                 derivation_links.setdefault(home, set()).add(split_section(target)[0])
     site_pages = set(site.pages_under(""))  # only docs Markdown pages are walked: no images, PDFs or paths outside docs/
@@ -720,10 +733,13 @@ def check_glossary(terms: list[dict], site: Site) -> list[Finding]:
         elif (home := glossary_file_for(split_section(ref)[0])) != t["_file"]:
             findings.append(Finding(ERROR, where, f"term belongs in {GLOSSARY_DIR}/{home}, the file named after its reference page"))
         for fld in GLOSSARY_TEXT_FIELDS:
-            for target in GLOSSARY_LINK_RE.findall(str(t.get(fld) or "")):
+            targets, stray = glossary_links(str(t.get(fld) or ""))
+            for target in targets:
                 link_problem = resolve_section(target, site)
                 if link_problem:
                     findings.append(Finding(ERROR, where, f"{fld} link {link_problem}"))
+            findings.extend(Finding(ERROR, where, f"{fld} link {raw!r} is not a [text]({SECTION_FORMAT}) link the drawer renders")
+                            for raw in stray)
         if "foundation" in t and not _is_foundation(t):
             findings.append(Finding(ERROR, where, f"foundation must be absent or exactly true, not {t['foundation']!r}"))
         if not _is_foundation(t) and SECTION_RE.match(ref) and not ref.startswith(TERM_HOME_DIRS):

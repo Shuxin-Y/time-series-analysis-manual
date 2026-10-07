@@ -361,8 +361,8 @@ def test_every_link_in_glossary_text_must_be_a_resolving_section(tmp_path):
     messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
     assert messages == [
         "historical link anchor #no-such-anchor not found in reference/04-estimation/index.md",
-        "mathematical link '../reference/04-estimation/index.md#joint-density' must look like path/file.md#anchor",
-        "mathematical link 'reference/04-estimation/index.md' must look like path/file.md#anchor",
+        "mathematical link '../reference/04-estimation/index.md#joint-density' is not a [text](path/file.md#anchor) link the drawer renders",
+        "mathematical link 'reference/04-estimation/index.md' is not a [text](path/file.md#anchor) link the drawer renders",
     ]
 
 
@@ -394,8 +394,8 @@ def test_titled_and_non_ascii_links_are_findings(tmp_path):
     '''})
     messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
     assert messages == [
-        "historical link 'reference/04-estimation/index.md#joint-density \"title\"' must look like path/file.md#anchor",
-        "historical link 'reference/04-estimation/übersicht.md#a' must look like path/file.md#anchor",
+        "historical link 'reference/04-estimation/index.md#joint-density \"title\"' is not a [text](path/file.md#anchor) link the drawer renders",
+        "historical link 'reference/04-estimation/übersicht.md#a' is not a [text](path/file.md#anchor) link the drawer renders",
     ]
 
 
@@ -403,8 +403,8 @@ def test_drawer_link_pattern_is_the_audit_section_pattern():
     import re as _re
 
     js = (sitekit.REPO / "docs" / "javascripts" / "glossary.js").read_text(encoding="utf-8")
-    target = _re.search(r"const DOC_LINK_RE = /\\\[\(\[\^\\\]\]\+\)\\\]\\\(\((.*)\)\\\)/g;", js).group(1)
-    assert "^" + target.replace("\\/", "/") + "$" == audit.SECTION_RE.pattern
+    source = _re.search(r"const DOC_LINK_RE = /(.*)/g;", js).group(1)
+    assert source.replace("\\/", "/") == audit.GLOSSARY_LINK_RE.pattern
 
 
 def test_reachability_walk_never_reads_non_page_link_targets(tmp_path):
@@ -417,3 +417,15 @@ def test_reachability_walk_never_reads_non_page_link_targets(tmp_path):
     rows = [audit.Row("P8_JOINT", "Joint density", "P8", (4,), "reference/04-estimation/index.md#joint-density")]
     findings = audit.check_sections(sitekit.site(tmp_path), rows, [])
     assert any(f.where == "reference/04-estimation/theory.md" for f in findings)
+
+
+def test_links_the_drawer_would_not_render_are_findings(tmp_path):
+    findings = glossary_findings(tmp_path, {"stochastic-processes.yml": '''
+        terms:
+          - term: "Independence"
+            foundation: true
+            reference: "00-foundations/stochastic-processes.md#independence"
+            historical: "[](reference/04-estimation/index.md#joint-density) and [see [1]](reference/04-estimation/index.md#joint-density)"
+    '''})
+    messages = [f.message for f in findings if f.where == "stochastic-processes.yml:Independence"]
+    assert messages == ["historical link 'reference/04-estimation/index.md#joint-density' is not a [text](path/file.md#anchor) link the drawer renders"] * 2
