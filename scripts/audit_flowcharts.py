@@ -588,8 +588,19 @@ GLOSSARY_TEXT_FIELDS = ("mathematical", "derivation", "historical")
 AREA_LANDING_RE = re.compile(r"^reference/[^/]+/index\.md$")
 
 
+def _raw_link(line: str, m: re.Match) -> str:
+    """The whole link around a stray `](`: from its matching `[` (or the line start) to its `)` (or the line end)."""
+    depth, start = 0, 0
+    for i in range(m.start(), -1, -1):
+        depth += {"]": 1, "[": -1}.get(line[i], 0)
+        if depth == 0:
+            start = i
+            break
+    return line[start:m.end()]
+
+
 def glossary_links(text: str) -> tuple[list[str], list[str]]:
-    """(targets of the links the drawer renders, raw targets of every other `](` in the text).
+    """(targets of the links the drawer renders, every other link in the text quoted whole from `[` to `)`).
 
     The scan unit is the drawer's: each line separately (renderMarkdown splits on newlines), with NUL stripped
     and math spans masked per line, so a link or a math span never spans lines here either.
@@ -602,7 +613,7 @@ def glossary_links(text: str) -> tuple[list[str], list[str]]:
         for m in GLOSSARY_LINK_RE.finditer(line):
             covered.append((m.start(), m.end()))
             targets.append(m.group(2))
-        stray.extend(m.group(1) for m in LINK_OPENING_RE.finditer(line) if not any(s <= m.start() < e for s, e in covered))
+        stray.extend(_raw_link(line, m) for m in LINK_OPENING_RE.finditer(line) if not any(s <= m.start() < e for s, e in covered))
     return targets, stray
 
 

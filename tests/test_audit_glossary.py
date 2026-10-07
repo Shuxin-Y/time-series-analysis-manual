@@ -361,8 +361,8 @@ def test_every_link_in_glossary_text_must_be_a_resolving_section(tmp_path):
     messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
     assert messages == [
         "historical link anchor #no-such-anchor not found in reference/04-estimation/index.md",
-        "mathematical link '../reference/04-estimation/index.md#joint-density' is not a [text](path/file.md#anchor) link the drawer renders",
-        "mathematical link 'reference/04-estimation/index.md' is not a [text](path/file.md#anchor) link the drawer renders",
+        "mathematical link '[bare](reference/04-estimation/index.md)' is not a [text](path/file.md#anchor) link the drawer renders",
+        "mathematical link '[up](../reference/04-estimation/index.md#joint-density)' is not a [text](path/file.md#anchor) link the drawer renders",
     ]
 
 
@@ -394,8 +394,8 @@ def test_titled_and_non_ascii_links_are_findings(tmp_path):
     '''})
     messages = sorted(f.message for f in findings if f.where == "stochastic-processes.yml:Independence")
     assert messages == [
-        "historical link 'reference/04-estimation/index.md#joint-density \"title\"' is not a [text](path/file.md#anchor) link the drawer renders",
-        "historical link 'reference/04-estimation/übersicht.md#a' is not a [text](path/file.md#anchor) link the drawer renders",
+        "historical link '[t](reference/04-estimation/index.md#joint-density \"title\")' is not a [text](path/file.md#anchor) link the drawer renders",
+        "historical link '[u](reference/04-estimation/übersicht.md#a)' is not a [text](path/file.md#anchor) link the drawer renders",
     ]
 
 
@@ -428,7 +428,8 @@ def test_links_the_drawer_would_not_render_are_findings(tmp_path):
             historical: "[](reference/04-estimation/index.md#joint-density) and [see [1]](reference/04-estimation/index.md#joint-density)"
     '''})
     messages = [f.message for f in findings if f.where == "stochastic-processes.yml:Independence"]
-    assert messages == ["historical link 'reference/04-estimation/index.md#joint-density' is not a [text](path/file.md#anchor) link the drawer renders"] * 2
+    assert messages == ["historical link '[](reference/04-estimation/index.md#joint-density)' is not a [text](path/file.md#anchor) link the drawer renders",
+                        "historical link '[see [1]](reference/04-estimation/index.md#joint-density)' is not a [text](path/file.md#anchor) link the drawer renders"]
 
 
 def test_math_spans_are_not_scanned_for_links(tmp_path):
