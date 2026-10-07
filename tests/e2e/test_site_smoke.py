@@ -117,9 +117,8 @@ RENDER_ERROR_PREFIX = "Error rendering diagram"
 SCALES = """() => [...document.querySelectorAll('.mermaid-container > svg')].map((svg, i) => {
     const box = svg.parentElement, style = getComputedStyle(box);
     const content = box.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-    return {i, fit: content / svg.viewBox.baseVal.width,
-        scale: svg.getBoundingClientRect().width / svg.viewBox.baseVal.width,
-        wider: svg.getBoundingClientRect().width > content + 1,
+    const natural = svg.viewBox.baseVal.width, rendered = svg.getBoundingClientRect().width;
+    return {i, fit: content / natural, scale: rendered / natural, wider: rendered > content + 1,
         scrolls: box.scrollWidth > box.clientWidth};
 })"""
 
