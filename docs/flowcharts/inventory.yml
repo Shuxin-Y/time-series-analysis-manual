@@ -203,8 +203,10 @@ nodes:
   - {id: P8_OLS_GLS,              label: "OLS, GLS and feasible GLS",                             phase: P8, areas: [4, 27], section: "reference/04-estimation/index.md#ols-gls-and-feasible-gls"}
   - {id: P8_YULE_WALKER,          label: "Yule-Walker and the method of moments",                 phase: P8, areas: [4], section: "reference/04-estimation/index.md#yule-walker-and-the-method-of-moments"}
   - {id: P8_DURBIN_LEVINSON,      label: "Durbin-Levinson and the innovations algorithm",         phase: P8, areas: [4], section: "reference/04-estimation/index.md#durbin-levinson-and-the-innovations-algorithm"}
-  - {id: P8_HANNAN_RISSANEN,      label: "Hannan-Rissanen and Burg estimation",                   phase: P8, areas: [4], section: "reference/04-estimation/index.md#hannan-rissanen-and-burg-estimation"}
+  - {id: P8_HANNAN_RISSANEN,      label: "Hannan-Rissanen estimation",                   phase: P8, areas: [4], section: "reference/04-estimation/index.md#hannan-rissanen-estimation"}
+  - {id: P8_BURG, label: "Burg estimation", phase: P8, areas: [4], section: "reference/04-estimation/index.md#burg-estimation"}
   - {id: P8_FMOLS_DOLS,           label: "Cointegrating regression",                              phase: P8, areas: [4, 28], section: "reference/04-estimation/index.md#cointegrating-regression"}
+  - {id: P8_RRR, label: "Reduced-rank regression", phase: P8, areas: [4, 9, 28], section: "reference/04-estimation/index.md#reduced-rank-regression"}
   - {id: P8_ROBUST,               label: "Robust estimation",                                     phase: P8, areas: [24, 4], section: "reference/24-robust-nonparametric/index.md#robust-estimation"}
   - {id: P8_PREDICTION_ERROR,     label: "Prediction-error decomposition",                        phase: P8, areas: [4, 11], section: "reference/04-estimation/index.md#prediction-error-decomposition"}
   - {id: P8_KALMAN,               label: "Kalman filter and smoother",                            phase: P8, areas: [11], section: "reference/11-state-space/index.md#kalman-filter-and-smoother"}
@@ -215,6 +217,7 @@ nodes:
   - {id: P8_EM,                   label: "EM for state-space models",                             phase: P8, areas: [4, 11], section: "reference/04-estimation/index.md#em-for-state-space-models"}
   - {id: P8_GMM,                  label: "Generalised method of moments",                         phase: P8, areas: [4], section: "reference/04-estimation/index.md#generalised-method-of-moments"}
   - {id: P8_WHITTLE,              label: "Whittle and local Whittle estimation",                  phase: P8, areas: [4, 7], section: "reference/04-estimation/index.md#whittle-and-local-whittle-estimation"}
+  - {id: P8_CSS, label: "Conditional sum of squares", phase: P8, areas: [4, 7], section: "reference/04-estimation/index.md#conditional-sum-of-squares"}
   - {id: P8_MCMC,                 label: "Bayesian computation",                                  phase: P8, areas: [12], section: "reference/12-bayesian/index.md#bayesian-computation"}
   - {id: P8_VARIATIONAL,          label: "Variational inference",                                 phase: P8, areas: [12], section: "reference/12-bayesian/index.md#variational-inference"}
   - {id: P8_SIMULATION_INFERENCE, label: "Simulation-based inference",                            phase: P8, areas: [25, 4], section: "reference/25-simulation/index.md#simulation-based-inference"}

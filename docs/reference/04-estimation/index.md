@@ -19,15 +19,25 @@ The maximum-likelihood chain and the home of the term *Joint density* are on [Ma
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_DURBIN_LEVINSON`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Hannan-Rissanen and Burg estimation
+## Hannan-Rissanen estimation
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_HANNAN_RISSANEN`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Burg estimation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_BURG`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Cointegrating regression
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_FMOLS_DOLS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Reduced-rank regression
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_RRR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Prediction-error decomposition
 
@@ -58,3 +68,8 @@ The maximum-likelihood chain and the home of the term *Joint density* are on [Ma
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_WHITTLE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Conditional sum of squares
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P8_CSS`). Write this section following the content rules in `.claude/rules/writing.md`.
