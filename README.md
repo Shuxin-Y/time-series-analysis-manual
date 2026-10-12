@@ -3,7 +3,8 @@
 A comprehensive, practical guide to time series analysis that bridges classical econometrics and modern machine learning approaches.
 
 [![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://shuxin-y.github.io/time-series-analysis-manual)
-[![License](https://img.shields.io/badge/license-CC%20BY--SA%204.0-green)](LICENSE)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey)](LICENSE)
+[![Code: MIT](https://img.shields.io/badge/code-MIT-green)](LICENSE-CODE)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
 ---
@@ -92,8 +93,11 @@ Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) 
 
 ## 📜 License
 
-Documentation: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)  
-Code: [MIT License](LICENSE-CODE)
+Content (text, mathematics, figures, diagrams, glossary): [CC BY-NC-SA 4.0](LICENSE). You may share and adapt it for non-commercial purposes with attribution, under the same license. For commercial use, contact the author.
+
+Code (source files and code examples in the book): [MIT License](LICENSE-CODE).
+
+Third-party fonts keep their own license (SIL Open Font License 1.1).
 
 ---
 

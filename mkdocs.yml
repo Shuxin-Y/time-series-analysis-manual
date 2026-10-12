@@ -176,4 +176,7 @@ nav:
   - Design System Showcase: design-system-showcase.md
 
 # Copyright
-copyright: Copyright &copy; 2024 Time Series Analysis Manual
+copyright: >-
+  Copyright &copy; 2025&ndash;2026 Yang Shuxin.
+  Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>;
+  code under <a href="https://github.com/Shuxin-Y/time-series-analysis-manual/blob/main/LICENSE-CODE">MIT</a>.
