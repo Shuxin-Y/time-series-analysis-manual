@@ -15,7 +15,7 @@ terms:
       - 1858: Cayley introduces matrix algebra and formalises the concept of rank
       - 1888: Sylvester coins the term "rank" for matrices
       - Mid-20th century: Full-rank condition becomes the standard identification requirement for OLS uniqueness in Gauss-Markov theorem statements
-    reference: "00-foundations/ols-assumptions.md#the-5-classical-ols-assumptions-and-how-time-series-violates-them"
+    reference: "00-foundations/ols-assumptions.md#the-classical-ols-assumptions-and-how-time-series-violates-them"
 
   - term: "Closed-Form Solution"
     definition: "An exact expression evaluated in a finite number of standard operations, requiring no iteration or numerical approximation."
@@ -30,4 +30,4 @@ terms:
       - 1805: Legendre publishes the method of least squares, the first statement of the OLS objective
       - 1809: Gauss derives the same method independently for planetary orbit estimation and establishes the normal equations
       - 20th century: Matrix notation consolidates the normal equations into the compact closed-form $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$
-    reference: "00-foundations/ols-assumptions.md#the-5-classical-ols-assumptions-and-how-time-series-violates-them"
+    reference: "00-foundations/ols-assumptions.md#the-classical-ols-assumptions-and-how-time-series-violates-them"
