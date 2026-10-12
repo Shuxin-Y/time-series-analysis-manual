@@ -37,7 +37,7 @@ Baselines, the Theta method, point forecasts and horizons, mixed-frequency model
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P11_NOWCASTING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Naive and seasonal-naive baselines
+## Baselines for comparison
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_FC_BASELINES`). Write this section following the content rules in `.claude/rules/writing.md`.

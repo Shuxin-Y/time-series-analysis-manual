@@ -35,6 +35,11 @@ nodes:
   - {id: P0_SPECTRAL,      label: "Purpose 8: Spectral analysis",                               phase: P0, areas: [13], section: "01-workflow/p00-purpose/08-spectral-analysis.md#purpose-8-spectral-analysis"}
   - {id: P0_SYSTEM_ID,     label: "Purpose 9: System identification",                           phase: P0, areas: [33], section: "01-workflow/p00-purpose/09-system-identification.md#purpose-9-system-identification"}
   - {id: P0_SIMULATION,    label: "Purpose 10: Simulation and scenario generation",             phase: P0, areas: [25], section: "01-workflow/p00-purpose/10-simulation.md#purpose-10-simulation-and-scenario-generation"}
+  - {id: P0_FORECAST_TASK, label: "Specify the forecasting task", phase: P0, areas: [22, 34], section: "01-workflow/p00-purpose/index.md#specify-the-forecasting-task"}
+  - {id: P0_DETECTION_TASK, label: "Specify the detection task", phase: P0, areas: [19, 30], section: "01-workflow/p00-purpose/index.md#specify-the-detection-task"}
+  - {id: P0_ESTIMAND, label: "Specify the estimand", phase: P0, areas: [21, 33], section: "01-workflow/p00-purpose/index.md#specify-the-estimand"}
+  - {id: P0_SPLIT_UNIT, label: "Choose the split unit", phase: P0, areas: [19, 18], section: "01-workflow/p00-purpose/index.md#choose-the-split-unit"}
+  - {id: P0_COVARIATES, label: "Covariates and their availability", phase: P0, areas: [27, 22], section: "01-workflow/p00-purpose/index.md#covariates-and-their-availability"}
   # ---- P5 representations
   - {id: P5_TIME_DOMAIN,      label: "Representation 1: Time domain",        phase: P5, areas: [3, 9],  section: "01-workflow/p05-representation/01-time-domain.md#representation-1-time-domain"}
   - {id: P5_FREQUENCY_DOMAIN, label: "Representation 2: Frequency domain",   phase: P5, areas: [13],    section: "01-workflow/p05-representation/02-frequency-domain.md#representation-2-frequency-domain"}
@@ -249,7 +254,7 @@ nodes:
   - {id: P12_ONLINE_UPDATING,        label: "Online updating",                    phase: P12, areas: [23], section: "reference/23-online-adaptive/index.md#online-updating"}
   - {id: P12_RETRAINING,             label: "Retraining policy",                  phase: P12, areas: [23], section: "01-workflow/p12-deployment-monitoring.md#retraining-policy"}
   # ---- P0 purpose leaves: FC (sections in reference chapters)
-  - {id: P0_FC_BASELINES, label: "Naive and seasonal-naive baselines",     phase: P0, areas: [22], section: "reference/22-forecasting-practice/index.md#naive-and-seasonal-naive-baselines"}
+  - {id: P0_FC_BASELINES, label: "Baselines for comparison", phase: P0, areas: [22], section: "reference/22-forecasting-practice/index.md#baselines-for-comparison"}
   - {id: P0_FC_EPIDEMIC,  label: "Epidemic nowcasting",                    phase: P0, areas: [26, 22], section: "reference/26-applied-domains/index.md#epidemic-nowcasting"}
   # ---- P0 purpose leaves: CA (sections in reference chapters)
   - {id: P0_CA_IDENTIFICATION, label: "Identification strategy and exogeneity",     phase: P0, areas: [21], section: "reference/21-causal-inference/index.md#identification-strategy-and-exogeneity"}
