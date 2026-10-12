@@ -4,54 +4,71 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-A MkDocs-based educational documentation site covering time series analysis, bridging classical econometrics and modern machine learning. Deployed to GitHub Pages at https://shuxin-y.github.io/time-series-analysis-manual.
+A MkDocs-based educational manual on time series analysis, bridging classical econometrics and modern machine learning. Deployed to GitHub Pages at https://shuxin-y.github.io/time-series-analysis-manual.
+
+Two goals, in order: readers must understand *why* each method works (every method traces back to Part 0 through an explicit derivation chain), and coverage is as complete as possible (34 areas, listed on the landing page). The flowcharts are the organising framework: every content unit is a leaf node of a workflow sub-diagram. The design is in `planning/2026-10-06-flowchart-framework-design.md`.
 
 ## Build & Development Commands
 
 ```bash
-# Local development (hot-reload)
-source venv/bin/activate && mkdocs serve
+# One-time setup (docs toolchain only; requirements.txt holds the code-example stack)
+python3 -m venv venv && venv/bin/pip install -r requirements-docs.txt
 
-# Production build (use --strict to catch warnings as errors)
-source venv/bin/activate && mkdocs build --strict
+# Local development (hot-reload). The pre-build hook regenerates glossary/index.yml and prints audit findings.
+venv/bin/mkdocs serve
 
-# Deploy happens automatically via GitHub Actions on push to main
+# Production build. Audit errors surface as warnings, which --strict turns into a failed build.
+venv/bin/mkdocs build --strict
+
+# Tests, audit, stub scaffolding
+venv/bin/pytest tests -q                           # e2e smoke test needs: venv/bin/playwright install chromium
+TSAM_REQUIRE_E2E=1 venv/bin/pytest tests -q        # as CI runs it: the browser test fails instead of skipping
+venv/bin/python scripts/audit_flowcharts.py        # exit 1 on any error; run from the repository root (snippets base path)
+venv/bin/python scripts/scaffold_stubs.py --dry-run  # pending sections the inventory still needs
+
+# Deploy happens automatically via GitHub Actions on push to main (tests, audit, strict build).
 ```
 
 ## Architecture
 
-### Three-Layer Enhancement System
+### Three axes of content
 
-All three systems are SPA-aware, hooking into Material theme's `document$.subscribe()` for re-rendering on navigation:
+| Axis | Location | Role |
+|---|---|---|
+| Part 0 Foundations | `docs/00-foundations/` | Roots of every derivation chain: statistical-analysis logic, OLS assumptions, stochastic processes, asymptotics |
+| Workflow | `docs/01-workflow/` | The general flowchart: master diagram plus one chapter per phase P0–P11; `p02-purpose/` (10 purposes) and `p05-representation/` (6 representations) are decision indexes |
+| Reference | `docs/reference/NN-slug/` | One chapter group per area (34) |
 
-1. **MathJax** (`docs/javascripts/mathjax.js`) — Renders LaTeX. Uses `\( \)` for inline, `\[ \]` for display. Custom macros defined in file. Equation numbering is AMS style.
+### Node = content unit
 
-2. **Mermaid** (`docs/javascripts/mermaid-init.js`) — Renders diagrams via superfences (NOT `<div>` tags). Initialized with `startOnLoad: false`.
+Every leaf rectangle in a workflow sub-diagram has a row in `docs/flowcharts/inventory.yml` pointing at one section (`path.md#anchor`), and the node label's first line equals the row's `label`. `scripts/audit_flowcharts.py` renders every page with the `markdown_extensions` of `mkdocs.yml` and checks: rows are well-formed, defined IDs unique, `ref` nodes resolve, leaves have rows and targets exist, no URLs or `click` in diagrams, every non-index page under `reference/` and `01-workflow/` is a method page (in the inventory) or a reachable `kind: theory` page (rule in `.claude/rules/writing.md`), every H2 there is a content unit or a structural heading (`STRUCTURAL_H2`), glossary chains resolve and terminate at `foundation: true` terms in Part 0, and each term sits in the glossary file named after its reference page. `scripts/scaffold_stubs.py` appends pending sections for rows whose target is missing.
 
-3. **Interactive Glossary** (`docs/javascripts/glossary.js`) — Loads per-chapter YAML files from `docs/glossary/`, highlights terms in all chapters (00–07) and appendices, shows right-slide drawer.
+### Browser-side systems
+
+MathJax, Mermaid and the glossary hook into Material's `document$.subscribe()`; flowchart-links listens for `mermaid:rendered`. `docs/javascripts/site-urls.js` loads first and provides `window.tsamSite` (`base()`, `docUrl()`, `fetchText()`), the one docs-path-to-URL mapping and checked fetch both linking scripts use.
+
+1. **MathJax** (`docs/javascripts/mathjax.js`): `\( \)` inline, `\[ \]` display, AMS numbering.
+2. **Mermaid** (`docs/javascripts/mermaid-init.js`): renders superfences blocks, `startOnLoad: false`, dispatches `mermaid:rendered` after each diagram; Mermaid is pinned to `10.9.8`. Fences are emitted as `div.mermaid` (`fence_div_format` in `mkdocs.yml`) so this script is the only renderer; Material's native `pre.mermaid` renderer draws into a closed shadow root and is bypassed on purpose.
+3. **Flowchart links** (`docs/javascripts/flowchart-links.js`): reads the inventory once and makes matching SVG nodes navigate to their section, including diagrams rendered before it loaded. Diagrams contain no URLs.
+4. **Glossary** (`docs/javascripts/glossary.js`): loads the YAML files listed in `glossary/index.yml` (one per reference page, named after it), and stays off on the pages that index lists as `disabled_pages` (generated by `scripts/mkdocs_hooks.py`), highlights terms, and shows a drawer with definition, formulation, derivation chain, upstream chips and the home-section link.
 
 ### Custom CSS
 
-- `docs/stylesheets/extra.css` — Custom admonitions: `theorem` (purple), `definition` (teal). Hypothesis test boxes. Mermaid centering.
-- `docs/stylesheets/glossary.css` — Drawer panel, overlay, animations.
-
-These files are the runtime source of truth for tokens and components; `DESIGN-SYSTEM.md` (repo root) is their authoritative catalog. See Content Conventions below and the design system's Governance tier for the catalog-vs-implementation relationship.
+`docs/stylesheets/extra.css` (admonitions, hypothesis-test boxes, Mermaid, clickable nodes) and `docs/stylesheets/glossary.css` (drawer, chips). `DESIGN-SYSTEM.md` is the catalog; the CSS/JS is the runtime truth.
 
 ## Content Conventions
 
-- **No emojis** in content or diagrams
-- Chapter directories: `NN-kebab-case/` with `index.md` as landing page
-- Navigation: defined explicitly in `mkdocs.yml` under `nav:`
-- Primary notation: conditional expectation form (most general, modern standard)
-- **Design system:** visual and structural standards (brand palette, typography, components, decision-flowchart notation, table standard, figure/matplotlib conventions) are defined in `DESIGN-SYSTEM.md` at the repo root — the single source of truth for the book's appearance.
-- See `.claude/rules/` for detailed standards: chapters, notation, code, figures, writing
+- **No emojis** in content or diagrams.
+- **Content rules** (node = content unit, why-chains in the drawer, single source, heading rule): `.claude/rules/writing.md`, their one home.
+- **Primary notation:** conditional-expectation form.
+- **Design system:** `DESIGN-SYSTEM.md` governs appearance, flowchart notation, tables and figures.
 
 ## CI/CD
 
-GitHub Actions (`.github/workflows/deploy.yml`): triggers on push to main, builds with Python 3.11, deploys to GitHub Pages.
+GitHub Actions (`.github/workflows/deploy.yml`) runs the same gates on every pull request to main and on every push to main: install `requirements-docs.txt` (Playwright pinned there) and its Chromium, run `pytest` with `TSAM_REQUIRE_E2E=1` (including the browser smoke test in `tests/e2e/`), run the audit, build with `mkdocs build --strict`. The audit also runs inside the strict build through the pre-build hook; the explicit step is kept so an audit failure is reported on its own, before the build. Only a push to main deploys to GitHub Pages.
 
 ## Basic
 
 请使用第一性原理思考。你不能总假设我非常清楚自己想要什么和该怎么得到。请保持审慎，从原始需求和问题出发，如果动机和目标不清晰，停下来和我讨论。如果目标清晰但是路径不是最短，告诉我，并建议更好的办法。
 
-Do not commit or push without permission. 
+Do not commit or push without permission.

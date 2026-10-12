@@ -1,72 +1,68 @@
 /**
  * Interactive Glossary System for Time Series Analysis Manual
  *
- * Recognizes technical terms in the content and makes them clickable.
- * When clicked, displays a drawer panel from the right with:
- * - Definition
- * - Mathematical formulation
- * - Historical context
- * - Reference link
+ * Recognises glossary terms in the page and makes them clickable. A click opens a
+ * right-hand drawer with the term's definition, mathematical formulation, derivation
+ * chain ("Why it holds"), upstream terms ("Rests on", clickable chips that open the
+ * upstream drawer, with a back stack), historical context, and a link to the section
+ * where the term is first developed.
  *
- * Note: Applies to all chapters (00–07) and appendices
+ * Term files are listed in glossary/index.yml, generated at build time by
+ * scripts/mkdocs_hooks.py. Paths in `reference` are docs-relative source paths
+ * (path/file.md#anchor); tsamSite.docUrl() (site-urls.js) converts them to site URLs.
  */
 
 (function() {
   'use strict';
 
-  // Configuration — chapter files are resolved relative to the site root so
-  // the path works both on localhost (root = /) and GitHub Pages (root = /repo-name/).
-  // Add a new entry here whenever a chapter introduces its first glossary term.
-  const GLOSSARY_CHAPTERS = [
-    '00-introduction',
-    '02-data-preparation',
-    '03-exploratory-analysis',
-    '04-frequency-domain',
-    '05-modelling',
-  ];
+  let indexPromise = null;
+  let termsPromise = null;
+  let allTerms = [];
+  let drawerStack = [];
 
-  const ENABLED_PATHS = [
-    '/00-introduction/',
-    '/01-master-flowchart/',
-    '/02-data-preparation/',
-    '/03-exploratory-analysis/',
-    '/04-frequency-domain/',
-    '/05-modelling/',
-    '/06-feature-extraction/',
-    '/07-validation-deployment/',
-    '/appendices/'
-  ];
-
-  // Check if glossary should be enabled on current page
-  function isGlossaryEnabled() {
-    const path = window.location.pathname;
-    return ENABLED_PATHS.some(enabledPath => path.includes(enabledPath));
+  // glossary/index.yml (written by scripts/mkdocs_hooks.py) lists the term files and the pages where the
+  // glossary is switched off (GLOSSARY_DISABLED_PAGES in scripts/audit_flowcharts.py).
+  function isGlossaryEnabled(disabledPages) {
+    const here = window.location.pathname.replace(/index\.html$/, '');
+    return !disabledPages.some(page => new URL(window.tsamSite.docUrl(page)).pathname === here);
   }
 
-  // Load glossary data from all chapter files in parallel
-  async function loadGlossary() {
-    const base = window.__md_scope || '/';
-
-    const fetches = GLOSSARY_CHAPTERS.map(async chapter => {
-      try {
-        const url = new URL(`glossary/${chapter}.yml`, base).href;
-        const response = await fetch(url);
-        const yamlText = await response.text();
-        const data = jsyaml.load(yamlText);
-        return (data && data.terms) || [];
-      } catch (error) {
-        console.warn(`Could not load glossary/${chapter}.yml:`, error);
-        return [];
-      }
-    });
-
-    const results = await Promise.all(fetches);
-    return results.flat();
+  // The index is fetched once per page load, before any term file, so disabled pages fetch nothing else.
+  function loadIndex() {
+    if (!indexPromise) {
+      indexPromise = window.tsamSite.fetchText('glossary/index.yml')
+        .then(text => jsyaml.load(text) || {})
+        .catch(error => {
+          console.error('glossary: file list unusable', error);
+          return {};
+        });
+    }
+    return indexPromise;
   }
 
-  // Escape regex special characters
+  // Term files are fetched once, on the first enabled page; a failed file is logged and contributes no terms.
+  function loadTerms(files) {
+    if (!termsPromise) {
+      termsPromise = Promise.all(files.map(async name => {
+        try {
+          const data = jsyaml.load(await window.tsamSite.fetchText(`glossary/${name}`));
+          return (data && data.terms) || [];
+        } catch (error) {
+          console.error(`glossary: ${name} unusable`, error);
+          return [];
+        }
+      })).then(lists => lists.flat());
+    }
+    return termsPromise;
+  }
+
   function escapeRegex(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function escapeHtml(string) {
+    return String(string)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   // Find and mark glossary terms in content
@@ -74,256 +70,223 @@
     const content = document.querySelector('.md-content__inner');
     if (!content) return;
 
-    // Build regex pattern for all terms
-    // Sort by length (longest first) to match "Unit Root Test" before "Unit Root"
     const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
-    const termPattern = sortedTerms
-      .map(t => escapeRegex(t.term))
-      .join('|');
+    const regex = new RegExp(`\\b(${sortedTerms.map(t => escapeRegex(t.term)).join('|')})\\b`, 'gi');
 
-    const regex = new RegExp(`\\b(${termPattern})\\b`, 'gi');
-
-    // Process text nodes only (not already marked, not in code blocks)
-    const walker = document.createTreeWalker(
-      content,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode: function(node) {
-          // Skip if parent is already a glossary term
-          if (node.parentElement.classList.contains('glossary-term')) {
-            return NodeFilter.FILTER_REJECT;
-          }
-          // Skip code blocks
-          if (node.parentElement.closest('code, pre, .highlight')) {
-            return NodeFilter.FILTER_REJECT;
-          }
-          // Skip if no text content
-          if (!node.textContent.trim()) {
-            return NodeFilter.FILTER_REJECT;
-          }
-          return NodeFilter.FILTER_ACCEPT;
-        }
+    const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node) {
+        if (node.parentElement.classList.contains('glossary-term')) return NodeFilter.FILTER_REJECT;
+        if (node.parentElement.closest('a, code, pre, .highlight, .mermaid-container, .arithmatex')) return NodeFilter.FILTER_REJECT;
+        if (!node.textContent.trim()) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
       }
-    );
+    });
 
     const nodesToProcess = [];
     let node;
-    while (node = walker.nextNode()) {
-      nodesToProcess.push(node);
-    }
+    while ((node = walker.nextNode())) nodesToProcess.push(node);
 
-    // Process nodes
     nodesToProcess.forEach(textNode => {
       const text = textNode.textContent;
+      regex.lastIndex = 0;
       if (!regex.test(text)) return;
-
-      // Create a temporary container
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = text.replace(regex, match => {
-        // Find the actual term (preserve case)
-        const matchedTerm = sortedTerms.find(t =>
-          t.term.toLowerCase() === match.toLowerCase()
-        );
-        if (!matchedTerm) return match;
-
-        return `<span class="glossary-term" data-term="${matchedTerm.term}">${match}</span>`;
+      tempDiv.innerHTML = escapeHtml(text).replace(regex, match => {
+        const matched = sortedTerms.find(t => t.term.toLowerCase() === match.toLowerCase());
+        if (!matched) return match;
+        return `<span class="glossary-term" data-term="${escapeHtml(matched.term)}">${match}</span>`;
       });
-
-      // Replace the text node with marked up content
       const parent = textNode.parentNode;
-      while (tempDiv.firstChild) {
-        parent.insertBefore(tempDiv.firstChild, textNode);
-      }
+      while (tempDiv.firstChild) parent.insertBefore(tempDiv.firstChild, textNode);
       parent.removeChild(textNode);
     });
   }
 
-  // Add click handlers to glossary terms
-  function addClickHandlers(terms) {
+  function addClickHandlers() {
     document.querySelectorAll('.glossary-term').forEach(element => {
+      if (element.dataset.bound) return;
+      element.dataset.bound = 'true';
       element.addEventListener('click', function(e) {
         e.preventDefault();
-        const termName = this.dataset.term;
-        const termData = terms.find(t => t.term === termName);
-        if (termData) {
-          showDrawer(termData);
-        }
+        openTerm(this.dataset.term, { reset: true });
       });
     });
   }
 
-  // Convert inline markdown (**bold**, *italic*) to HTML.
-  // Bold is processed first so ** is not mis-parsed as two single asterisks.
-  // The italic pattern requires non-space characters immediately inside the
-  // asterisks, so isolated asterisks (e.g. multiplication in prose) are left alone.
-  function inlineMarkdownToHtml(text) {
-    return text
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '<em>$1</em>');
+  function findTerm(name) {
+    return allTerms.find(t => t.term === name);
   }
 
-  // Render simple markdown (bold + bullet lists) to HTML.
-  // Math delimiters ($...$ and $$...$$) are left intact for MathJax.
+  function openTerm(name, options) {
+    const termData = findTerm(name);
+    if (!termData) return;
+    if (options && options.reset) drawerStack = [];
+    drawerStack.push(termData);
+    showDrawer(termData);
+  }
+
+  // Math spans ($$...$$, $...$, \(...\), \[...\]) pass through to MathJax untouched by the transforms below.
+  const MATH_SPAN_RE = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\])/;
+
+  // The whole pattern is GLOSSARY_LINK_RE in scripts/audit_flowcharts.py, character for character (a test pins it):
+  // non-empty link text without "]", then a SECTION_PATH target with ASCII classes, anchor required and no segment
+  // starting with ".". The audit resolves every match and reports every other "](" in glossary text, so the drawer
+  // renders as a link exactly the links the audit has resolved.
+  const DOC_LINK_RE = /\[([^\]]+)\]\(((?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.md#[A-Za-z0-9_-]+)\)/g;
+
+  // Inline markdown on escaped text: **bold**, *italic*, [text](path.md#anchor). Math spans are masked with
+  // placeholders while the transforms run, so emphasis may enclose math, then restored escaped and untouched.
+  function inlineMarkdownToHtml(text) {
+    const math = [];
+    // NUL is the placeholder delimiter, so it is removed from the input first and cannot collide.
+    const masked = text.replace(/\u0000/g, '').split(MATH_SPAN_RE).map((part, i) => {
+      if (i % 2 === 0) return escapeHtml(part);
+      math.push(escapeHtml(part));
+      return `\u0000${math.length - 1}\u0000`;
+    }).join('');
+    return masked
+      .replace(DOC_LINK_RE, (_, label, target) => `<a href="${escapeHtml(window.tsamSite.docUrl(target))}">${label}</a>`)
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '<em>$1</em>')
+      .replace(/\u0000(\d+)\u0000/g, (_, i) => math[Number(i)]);
+  }
+
+  // Block markdown: paragraphs, "- " bullets, "1. " numbered steps. Math left for MathJax.
   function renderMarkdown(text) {
     if (!text) return '';
-
-    const lines = text.split('\n');
     const output = [];
-    let inList = false;
-
-    for (const raw of lines) {
+    let open = null; // 'ul' | 'ol' | null
+    const close = () => { if (open) { output.push(`</${open}>`); open = null; } };
+    for (const raw of text.split('\n')) {
       const line = raw.trim();
-
-      if (!line) {
-        if (inList) { output.push('</ul>'); inList = false; }
-        continue;
-      }
-
-      if (line.startsWith('- ')) {
-        if (!inList) { output.push('<ul>'); inList = true; }
-        output.push(`<li class="arithmatex">${inlineMarkdownToHtml(line.slice(2))}</li>`);
+      if (!line) { close(); continue; }
+      const bullet = line.match(/^- (.*)$/);
+      const numbered = line.match(/^\d+\.\s+(.*)$/);
+      if (bullet) {
+        if (open !== 'ul') { close(); output.push('<ul>'); open = 'ul'; }
+        output.push(`<li class="arithmatex">${inlineMarkdownToHtml(bullet[1])}</li>`);
+      } else if (numbered) {
+        if (open !== 'ol') { close(); output.push('<ol>'); open = 'ol'; }
+        output.push(`<li class="arithmatex">${inlineMarkdownToHtml(numbered[1])}</li>`);
       } else {
-        if (inList) { output.push('</ul>'); inList = false; }
+        close();
         output.push(`<p class="arithmatex">${inlineMarkdownToHtml(line)}</p>`);
       }
     }
-
-    if (inList) output.push('</ul>');
+    close();
     return output.join('');
   }
 
-  // Show the glossary drawer
-  function showDrawer(termData) {
-    // Remove existing drawer if any
-    const existingDrawer = document.querySelector('.glossary-drawer');
-    if (existingDrawer) {
-      existingDrawer.remove();
-    }
+  function section(title, bodyHtml, extraClass) {
+    if (!bodyHtml) return '';
+    return `<section class="glossary-section ${extraClass || ''}"><h4>${title}</h4>${bodyHtml}</section>`;
+  }
 
-    // Create drawer element
+  function showDrawer(termData) {
+    const existing = document.querySelector('.glossary-drawer');
+    if (existing) existing.remove();
+
+    const crumbs = drawerStack.map(t => escapeHtml(t.term)).join(' › ');
+    const backButton = drawerStack.length > 1
+      ? `<button class="glossary-back" aria-label="Back to ${escapeHtml(drawerStack[drawerStack.length - 2].term)}">‹ Back</button>`
+      : '';
+    const chips = (termData.depends_on || []).map(name => {
+      const known = !!findTerm(name);
+      return known
+        ? `<button class="glossary-chip" data-term="${escapeHtml(name)}">${escapeHtml(name)}</button>`
+        : `<span class="glossary-chip glossary-chip--missing" title="No glossary entry yet">${escapeHtml(name)}</span>`;
+    }).join('');
+    const reference = termData.reference
+      ? `<p><a href="${window.tsamSite.docUrl(termData.reference)}">${escapeHtml(termData.reference.split('#')[0])}</a></p>`
+      : '';
+
     const drawer = document.createElement('div');
     drawer.className = 'glossary-drawer';
     drawer.innerHTML = `
       <div class="glossary-drawer-content">
         <div class="glossary-drawer-header">
-          <h3>${termData.term}</h3>
+          <div>
+            ${backButton}
+            <h3>${escapeHtml(termData.term)}${termData.foundation === true ? ' <span class="glossary-root" title="Foundation: root of derivation chains">root</span>' : ''}</h3>
+            ${drawerStack.length > 1 ? `<div class="glossary-crumbs">${crumbs}</div>` : ''}
+          </div>
           <button class="close-drawer" aria-label="Close">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
             </svg>
           </button>
         </div>
-
         <div class="glossary-drawer-body">
-          <section class="glossary-section">
-            <h4>Definition</h4>
-            <p>${termData.definition}</p>
-          </section>
-
-          ${termData.mathematical ? `
-            <section class="glossary-section">
-              <h4>Mathematical Formulation</h4>
-              <div class="math-block">
-                ${renderMarkdown(termData.mathematical)}
-              </div>
-            </section>
-          ` : ''}
-
-          ${termData.historical ? `
-            <section class="glossary-section">
-              <h4>Historical Context</h4>
-              <div class="historical-note">
-                ${renderMarkdown(termData.historical)}
-              </div>
-            </section>
-          ` : ''}
-
+          ${section('Definition', `<p>${escapeHtml(termData.definition || '')}</p>`)}
+          ${section('Mathematical Formulation', termData.mathematical ? `<div class="math-block">${renderMarkdown(termData.mathematical)}</div>` : '')}
+          ${section('Why it holds', termData.derivation ? `<div class="derivation">${renderMarkdown(termData.derivation)}</div>` : '')}
+          ${section('Rests on', chips ? `<div class="glossary-chips">${chips}</div>` : '')}
+          ${section('Historical Context', termData.historical ? `<div class="historical-note">${renderMarkdown(termData.historical)}</div>` : '')}
+          ${section('First developed in', reference)}
         </div>
       </div>
-
       <div class="glossary-drawer-overlay"></div>
     `;
-
     document.body.appendChild(drawer);
-
-    // Trigger reflow for animation
     drawer.offsetHeight;
+    setTimeout(() => drawer.classList.add('open'), 10);
 
-    // Add open class for animation
-    setTimeout(() => {
-      drawer.classList.add('open');
-    }, 10);
-
-    // Render math in the drawer if MathJax is available.
-    // Pass .arithmatex elements directly to bypass ignoreHtmlClass filtering.
-    if (window.MathJax && termData.mathematical) {
+    if (window.MathJax) {
       const mathBlocks = Array.from(drawer.querySelectorAll('.arithmatex'));
       if (mathBlocks.length > 0) {
-        MathJax.typesetPromise(mathBlocks).catch(err => {
-          console.warn('MathJax rendering in drawer failed:', err);
-        });
+        MathJax.typesetPromise(mathBlocks).catch(err => console.warn('MathJax rendering in drawer failed:', err));
       }
     }
-
-    // Close handlers
-    const closeBtn = drawer.querySelector('.close-drawer');
-    const overlay = drawer.querySelector('.glossary-drawer-overlay');
 
     function closeDrawer() {
       drawer.classList.remove('open');
-      setTimeout(() => {
-        drawer.remove();
-      }, 300); // Match CSS transition duration
+      drawerStack = [];
+      setTimeout(() => drawer.remove(), 300);
+      document.removeEventListener('keydown', handleEscape);
     }
-
-    closeBtn.addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
-
-    // Close on Escape key
     function handleEscape(e) {
-      if (e.key === 'Escape') {
-        closeDrawer();
-        document.removeEventListener('keydown', handleEscape);
-      }
+      if (e.key === 'Escape') closeDrawer();
     }
+
+    drawer.querySelector('.close-drawer').addEventListener('click', closeDrawer);
+    drawer.querySelector('.glossary-drawer-overlay').addEventListener('click', closeDrawer);
     document.addEventListener('keydown', handleEscape);
+
+    drawer.querySelectorAll('.glossary-chip[data-term]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.removeEventListener('keydown', handleEscape);
+        openTerm(chip.dataset.term);
+      });
+    });
+    const back = drawer.querySelector('.glossary-back');
+    if (back) {
+      back.addEventListener('click', () => {
+        document.removeEventListener('keydown', handleEscape);
+        drawerStack.pop();
+        showDrawer(drawerStack[drawerStack.length - 1]);
+      });
+    }
   }
 
-  // Initialize glossary system
   async function initGlossary() {
-    if (!isGlossaryEnabled()) {
-      console.log('Glossary not enabled on this page');
-      return;
-    }
-
-    console.log('Initializing glossary system...');
-
-    const terms = await loadGlossary();
-    if (terms.length === 0) {
-      console.warn('No glossary terms loaded');
-      return;
-    }
-
-    console.log(`Loaded ${terms.length} glossary terms`);
-
-    highlightTerms(terms);
-    addClickHandlers(terms);
-
-    console.log('Glossary system initialized');
+    const index = await loadIndex();
+    if (!isGlossaryEnabled(index.disabled_pages || [])) return;
+    allTerms = await loadTerms(index.files || []);
+    if (allTerms.length === 0) { console.error('No glossary terms loaded'); return; }
+    highlightTerms(allTerms);
+    addClickHandlers();
   }
 
-  // Run on page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initGlossary);
   } else {
     initGlossary();
   }
 
-  // Re-run when navigating in SPA mode (Material for MkDocs)
   if (typeof document$ !== 'undefined') {
-    document$.subscribe(() => {
-      setTimeout(initGlossary, 100); // Small delay for content to load
-    });
+    document$.subscribe(() => setTimeout(initGlossary, 100));
   }
 
+  // Exposed for the browser smoke test, which checks the drawer markup without a dedicated glossary term.
+  window.tsamGlossary = { renderMarkdown };
 })();

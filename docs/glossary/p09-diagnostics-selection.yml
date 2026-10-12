@@ -1,0 +1,21 @@
+# Glossary: P9: Diagnostics and model selection
+
+terms:
+
+  - term: "Ljung-Box Test"
+    definition: "A portmanteau test for autocorrelation in residuals. Tests whether residuals are white noise."
+    mathematical: |
+      Test statistic:
+      $$Q = n(n+2) \sum_{k=1}^h \frac{\hat{\rho}_k^2}{n-k}$$
+
+      Under $H_0$, $Q \sim \chi^2(h-p-q)$ where $h$ is number of lags tested, $p$ and $q$ are ARMA orders.
+
+      **Hypotheses:**
+      - $H_0$: No autocorrelation up to lag $h$
+      - $H_1$: Autocorrelation exists
+
+      **Decision**: Reject $H_0$ if $p < \alpha$
+    historical: |
+      - 1970: Box and Pierce introduce the Q-test
+      - 1978: Ljung and Box improve the test statistic for small samples
+    reference: "01-workflow/p09-diagnostics-selection.md#p9-diagnostics-and-model-selection"

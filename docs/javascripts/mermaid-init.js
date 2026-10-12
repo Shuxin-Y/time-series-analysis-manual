@@ -39,19 +39,18 @@
         .forEach(node => node.remove());
     }
 
+    function showError(element, error) {
+      const pre = document.createElement('pre');
+      pre.textContent = `Error rendering diagram: ${error.message}`;
+      element.replaceChildren(pre);
+    }
+
     // Function to render diagrams
     function renderDiagrams() {
       clearOrphanedArtifacts();
 
-      // Handle multiple possible selectors:
-      // - <code class="mermaid">
-      // - <div class="mermaid">
-      // - <pre class="mermaid"><code>
-      const codeBlocks = document.querySelectorAll('code.mermaid');
-      const divBlocks = document.querySelectorAll('div.mermaid');
-      const preBlocks = document.querySelectorAll('pre.mermaid');
-
-      const allBlocks = [...codeBlocks, ...divBlocks, ...preBlocks];
+      // superfences emits every mermaid fence as <div class="mermaid"> (fence_div_format in mkdocs.yml).
+      const allBlocks = [...document.querySelectorAll('div.mermaid')];
 
       if (allBlocks.length > 0) {
         allBlocks.forEach((element, index) => {
@@ -65,13 +64,17 @@
                 container.className = 'mermaid-container';
                 container.innerHTML = result.svg;
                 element.replaceWith(container);
+                container.dispatchEvent(new CustomEvent('mermaid:rendered', {
+                  bubbles: true,
+                  detail: { container: container }
+                }));
               }).catch(error => {
                 console.error('Mermaid rendering error:', error);
-                element.innerHTML = `<pre>Error rendering diagram: ${error.message}</pre>`;
+                showError(element, error);
               });
             } catch (error) {
               console.error('Mermaid rendering error:', error);
-              element.innerHTML = `<pre>Error rendering diagram: ${error.message}</pre>`;
+              showError(element, error);
             }
           }
         });

@@ -1,0 +1,63 @@
+# Glossary: P3: Exploratory diagnostics
+
+terms:
+
+  - term: "ADF Test"
+    definition: "Augmented Dickey-Fuller test for unit roots. Tests whether a time series is non-stationary."
+    mathematical: |
+      Test equation:
+      $$\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^p \delta_i \Delta y_{t-i} + \varepsilon_t$$
+
+      **Hypotheses:**
+      - $H_0$: $\gamma = 0$ (unit root exists, series is non-stationary)
+      - $H_1$: $\gamma < 0$ (no unit root, series is stationary)
+
+      **Decision**: Reject $H_0$ if $p < \alpha$ (typically 0.05)
+    historical: |
+      - 1979: Dickey and Fuller introduce the DF test
+      - 1981: Said and Dickey propose the augmented version
+      - 1992: Elliott, Rothenberg, and Stock develop the DF-GLS variant
+    reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"
+
+  - term: "KPSS Test"
+    definition: "Kwiatkowski-Phillips-Schmidt-Shin test for stationarity. Has the opposite null hypothesis to ADF."
+    mathematical: |
+      Test statistic based on LM principle:
+      $$\text{KPSS} = \frac{1}{T^2} \sum_{t=1}^T \frac{S_t^2}{\hat{\sigma}^2}$$
+      where $S_t = \sum_{i=1}^t \hat{\varepsilon}_i$ (partial sum of residuals)
+
+      **Hypotheses:**
+      - $H_0$: Series is stationary
+      - $H_1$: Series is non-stationary
+
+      **Decision**: Reject $H_0$ if $p < \alpha$
+    historical: |
+      - 1992: Kwiatkowski, Phillips, Schmidt, and Shin introduce the test
+      - 1992: Complements ADF by reversing the null hypothesis
+    reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"
+
+  - term: "ACF"
+    definition: "Autocorrelation Function. Measures the correlation between a time series and its lagged values."
+    mathematical: |
+      $$\rho_k = \frac{\gamma_k}{\gamma_0} = \frac{\text{Cov}(y_t, y_{t-k})}{\text{Var}(y_t)} = \frac{E[(y_t - \mu)(y_{t-k} - \mu)]}{\sigma^2}$$
+
+      Sample ACF:
+      $$\hat{\rho}_k = \frac{\sum_{t=k+1}^n (y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t=1}^n (y_t - \bar{y})^2}$$
+
+      Standard error: $\text{SE}(\hat{\rho}_k) \approx \frac{1}{\sqrt{n}}$ for white noise
+    historical: |
+      - 1927: Yule introduces the autocorrelation concept
+      - 1970: Box and Jenkins use ACF for ARIMA model identification
+    reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"
+
+  - term: "PACF"
+    definition: "Partial Autocorrelation Function. Measures the correlation between observations at lag k, controlling for intermediate lags."
+    mathematical: |
+      $$\phi_{kk} = \text{Corr}(y_t, y_{t-k} \mid y_{t-1}, \ldots, y_{t-k+1})$$
+
+      The $k$-th PACF coefficient is the last coefficient in an AR($k$) model:
+      $$y_t = \phi_{k1} y_{t-1} + \cdots + \phi_{kk} y_{t-k} + \varepsilon_t$$
+    historical: |
+      - 1949: Quenouille develops the partial autocorrelation concept
+      - 1970: Box and Jenkins use PACF to identify AR order in ARIMA modelling
+    reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"

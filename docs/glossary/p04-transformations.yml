@@ -1,0 +1,20 @@
+# Glossary: P4: Transformations
+
+terms:
+
+  - term: "Differencing"
+    definition: "A transformation that removes trends by computing the change between consecutive observations."
+    mathematical: |
+      **First difference:**
+      $$\Delta y_t = y_t - y_{t-1}$$
+
+      **Second difference:**
+      $$\Delta^2 y_t = \Delta y_t - \Delta y_{t-1} = y_t - 2y_{t-1} + y_{t-2}$$
+
+      **Seasonal difference:**
+      $$\Delta_s y_t = y_t - y_{t-s}$$
+      where $s$ is the seasonal period (e.g., $s=12$ for monthly data)
+    historical: |
+      - 1970: Box and Jenkins formalise differencing within the ARIMA methodology
+      - 1976: Granger and Newbold demonstrate spurious regression from non-stationary series
+    reference: "01-workflow/p04-transformations.md#p4-transformations"

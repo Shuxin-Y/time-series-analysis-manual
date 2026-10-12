@@ -7,6 +7,8 @@ site_url: https://shuxin-y.github.io/time-series-analysis-manual
 repo_name: time-series-analysis-manual
 repo_url: https://github.com/Shuxin-Y/time-series-analysis-manual
 edit_uri: edit/main/docs/
+# site-urls.js maps docs paths to URLs under this setting
+use_directory_urls: true
 
 # Theme configuration
 theme:
@@ -27,7 +29,6 @@ theme:
     - content.code.copy
     - content.code.annotate
     - content.tabs.link
-    - content.mermaid
   palette:
     # NOTE: primary/accent are set here only to enable the scheme toggle; the
     # actual brand colours (Sunset header, Cerulean/Burgundy) are defined in
@@ -97,7 +98,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+          format: !!python/name:pymdownx.superfences.fence_div_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
@@ -110,14 +111,35 @@ plugins:
       separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
   - autorefs
   - tags
+  # Pages moved or folded into the workflow by the flowchart framework keep their published URLs
+  - redirects:
+      redirect_maps:
+        00-introduction/logic-of-statistical-analysis.md: 00-foundations/logic-of-statistical-analysis.md
+        00-introduction/do-you-need-time-series-analysis.md: 00-foundations/do-you-need-time-series-analysis.md
+        00-introduction/overview.md: 00-foundations/ols-assumptions.md
+        01-master-flowchart/01-general-flowchart.md: 01-workflow/index.md
+        01-master-flowchart/02-purpose-workflow.md: 01-workflow/p02-purpose/index.md
+        01-master-flowchart/03-representation-workflow.md: 01-workflow/p05-representation/index.md
+        02-data-preparation/index.md: 01-workflow/p00-data.md
+        03-exploratory-analysis/index.md: 01-workflow/p03-exploratory-diagnostics.md
+        04-frequency-domain/index.md: 01-workflow/p05-representation/index.md
+        05-modelling/index.md: 01-workflow/p06-mean-model-class.md
+        06-feature-extraction/index.md: 01-workflow/p02-purpose/07-feature-extraction-classification.md
+        07-validation-deployment/index.md: 01-workflow/p11-validation-deployment.md
+
+# Build hooks: glossary index generation and the flowchart/glossary audit
+hooks:
+  - scripts/mkdocs_hooks.py
 
 # Extra JavaScript
 extra_javascript:
+  - javascripts/site-urls.js
   - javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js
-  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
-  - javascripts/mermaid-init.js
   - https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js
+  - https://unpkg.com/mermaid@10.9.8/dist/mermaid.min.js
+  - javascripts/flowchart-links.js
+  - javascripts/mermaid-init.js
   - javascripts/glossary.js
 
 # Extra CSS
@@ -149,26 +171,85 @@ extra:
 # Navigation structure
 nav:
   - Home: index.md
-  - Introduction:
-      - 00-introduction/logic-of-statistical-analysis.md
-      - 00-introduction/do-you-need-time-series-analysis.md
-      - 00-introduction/overview.md
-  - Flowcharts:
-      - 01-master-flowchart/01-general-flowchart.md
-      - 01-master-flowchart/02-purpose-workflow.md
-      - 01-master-flowchart/03-representation-workflow.md
-  - Data Preparation:
-      - 02-data-preparation/index.md
-  - Exploratory Analysis:
-      - 03-exploratory-analysis/index.md
-  - Frequency Domain:
-      - 04-frequency-domain/index.md
-  - Modelling:
-      - 05-modelling/index.md
-  - Feature Extraction:
-      - 06-feature-extraction/index.md
-  - Validation & Deployment:
-      - 07-validation-deployment/index.md
+  - Foundations:
+      - 00-foundations/logic-of-statistical-analysis.md
+      - 00-foundations/do-you-need-time-series-analysis.md
+      - 00-foundations/ols-assumptions.md
+      - 00-foundations/stochastic-processes.md
+      - 00-foundations/asymptotics.md
+  - Workflow:
+      - 01-workflow/index.md
+      - 01-workflow/p00-data.md
+      - 01-workflow/p01-data-type-gate.md
+      - Purpose:
+          - 01-workflow/p02-purpose/index.md
+          - 01-workflow/p02-purpose/01-forecasting.md
+          - 01-workflow/p02-purpose/02-causal-inference.md
+          - 01-workflow/p02-purpose/03-signal-extraction.md
+          - 01-workflow/p02-purpose/04-change-point-detection.md
+          - 01-workflow/p02-purpose/05-anomaly-regime-detection.md
+          - 01-workflow/p02-purpose/06-decomposition.md
+          - 01-workflow/p02-purpose/07-feature-extraction-classification.md
+          - 01-workflow/p02-purpose/08-spectral-analysis.md
+          - 01-workflow/p02-purpose/09-system-identification.md
+          - 01-workflow/p02-purpose/10-simulation.md
+      - 01-workflow/p03-exploratory-diagnostics.md
+      - 01-workflow/p04-transformations.md
+      - Representation:
+          - 01-workflow/p05-representation/index.md
+          - 01-workflow/p05-representation/01-time-domain.md
+          - 01-workflow/p05-representation/02-frequency-domain.md
+          - 01-workflow/p05-representation/03-time-frequency.md
+          - 01-workflow/p05-representation/04-state-space.md
+          - 01-workflow/p05-representation/05-functional.md
+          - 01-workflow/p05-representation/06-hilbert-phase.md
+      - 01-workflow/p06-mean-model-class.md
+      - 01-workflow/p07-error-process.md
+      - 01-workflow/p08-estimation.md
+      - 01-workflow/p09-diagnostics-selection.md
+      - 01-workflow/p10-inference.md
+      - 01-workflow/p11-validation-deployment.md
+  - Reference:
+      - Theory & Inference:
+          - reference/01-math-foundations/index.md
+          - reference/04-estimation/index.md
+          - reference/04-estimation/maximum-likelihood.md
+          - reference/05-hypothesis-testing/index.md
+          - reference/06-model-selection/index.md
+          - reference/25-simulation/index.md
+          - reference/27-regression-time-series/index.md
+          - reference/28-nonstationarity-theory/index.md
+      - Core Models:
+          - reference/02-fundamentals/index.md
+          - reference/03-classical/index.md
+          - reference/07-long-memory/index.md
+          - reference/08-nonlinear/index.md
+          - reference/09-multivariate/index.md
+          - reference/10-volatility/index.md
+          - reference/29-seasonality-calendar/index.md
+          - reference/30-structural-change/index.md
+          - reference/32-panel-time-series/index.md
+      - Specialized Models:
+          - reference/11-state-space/index.md
+          - reference/12-bayesian/index.md
+          - reference/15-continuous-time/index.md
+          - reference/16-count-categorical/index.md
+          - reference/17-point-processes/index.md
+          - reference/33-system-identification/index.md
+      - Representations & Signals:
+          - reference/13-spectral-analysis/index.md
+          - reference/14-functional-high-frequency/index.md
+          - reference/19-classification-anomaly/index.md
+          - reference/20-spatio-temporal/index.md
+      - ML, Forecasting & Practice:
+          - reference/18-machine-learning/index.md
+          - reference/21-causal-inference/index.md
+          - reference/22-forecasting-practice/index.md
+          - reference/23-online-adaptive/index.md
+          - reference/24-robust-nonparametric/index.md
+          - reference/26-applied-domains/index.md
+          - reference/31-data-preparation/index.md
+          - reference/34-probabilistic-forecasting/index.md
   - Appendices:
       - appendices/index.md
       - "Appendix A: OLS Derivation": appendices/A-ols-derivation.md

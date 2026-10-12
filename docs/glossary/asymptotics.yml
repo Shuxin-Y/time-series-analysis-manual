@@ -1,0 +1,8 @@
+# Glossary: Asymptotics for Dependent Data
+
+terms:
+
+  - term: "Law of large numbers"
+    definition: "A sample average converges to the corresponding expectation as the sample grows. For dependent data the result needs stationarity and ergodicity (or mixing) in place of independence."
+    foundation: true
+    reference: "00-foundations/asymptotics.md#law-of-large-numbers"

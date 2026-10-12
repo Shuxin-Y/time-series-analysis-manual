@@ -349,7 +349,7 @@ pip install -r requirements.txt
 jupyter notebook
 ```
 
-**You're all set!** Proceed to [Chapter 1: Master Flowchart](../01-master-flowchart/01-general-flowchart.md) or start with [code examples](../code-examples/notebooks/).
+**You're all set!** Proceed to [General Flowchart](../01-workflow/index.md) or start with [code examples](../code-examples/notebooks/).
 
 ---
 

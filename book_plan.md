@@ -1,3 +1,5 @@
+> Superseded for structure and flowcharts by `planning/2026-10-06-flowchart-framework-design.md` (approved 2026-10-06). The functional requirements below remain valid.
+
 ## structure
 
 1. Introduction

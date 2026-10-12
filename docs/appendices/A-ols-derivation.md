@@ -1,6 +1,6 @@
 # Appendix A: OLS Estimation — Derivation and Properties
 
-This appendix develops the mathematical foundations of Ordinary Least Squares estimation. The results here underpin the discussion of assumption violations in [Chapter 0 (Introduction)](../00-introduction/overview.md#the-5-classical-ols-assumptions-and-how-time-series-violates-them). Readers familiar with matrix calculus may proceed directly to [Section A.2](#a2-the-fundamental-decomposition).
+This appendix develops the mathematical foundations of Ordinary Least Squares estimation. The results here underpin the discussion of assumption violations in [Chapter 0 (Introduction)](../00-foundations/ols-assumptions.md#the-5-classical-ols-assumptions-and-how-time-series-violates-them). Readers familiar with matrix calculus may proceed directly to [Section A.2](#a2-the-fundamental-decomposition).
 
 ---
 

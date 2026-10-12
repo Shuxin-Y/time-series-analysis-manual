@@ -410,13 +410,31 @@ code {
 
 /* ===== Mermaid Diagrams ===== */
 
-/* Better mermaid diagram styling */
-.mermaid {
+/* Better mermaid diagram styling. mermaid-init.js replaces each .mermaid source block with a .mermaid-container. */
+.mermaid,
+.mermaid-container {
   text-align: center;
   background: var(--md-default-bg-color);
   padding: 1rem;
   border-radius: 0.25rem;
   border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* Flowchart nodes that resolve to a section via docs/flowcharts/inventory.yml */
+.mermaid-container .flowchart-link {
+  cursor: pointer;
+}
+
+.mermaid-container .flowchart-link:hover rect,
+.mermaid-container .flowchart-link:hover polygon,
+.mermaid-container .flowchart-link:focus rect,
+.mermaid-container .flowchart-link:focus polygon {
+  stroke-width: 2px;
+  filter: brightness(0.96);
+}
+
+.mermaid-container .flowchart-link:focus {
+  outline: none;
 }
 
 /* ===== Navigation & TOC ===== */
@@ -608,7 +626,8 @@ code {
   }
 
   /* Adjust mermaid diagrams */
-  .mermaid {
+  .mermaid,
+  .mermaid-container {
     overflow-x: auto;
   }
 }
