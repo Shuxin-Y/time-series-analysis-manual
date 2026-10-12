@@ -12,3 +12,8 @@ Periodic autoregression and the revision stability of real-time decompositions. 
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_DC_REVISION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Decomposition diagnostics
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_DC_DIAGNOSTICS`). Write this section following the content rules in `.claude/rules/writing.md`.

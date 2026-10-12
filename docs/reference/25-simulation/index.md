@@ -31,3 +31,8 @@ Simulation-based inference, Monte Carlo and resampled path simulation, synthetic
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_SM_DISTRIBUTION_MATCH`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Train on synthetic, test on real
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_SM_TSTR`). Write this section following the content rules in `.claude/rules/writing.md`.

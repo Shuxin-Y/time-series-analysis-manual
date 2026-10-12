@@ -47,11 +47,11 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P11_PART_2_IN(["From part 1: causes"]) --> P11_POST_SELECTION["Inference after a specification search<br/>pre-specification, sample splitting, bootstrap of the whole procedure"]
-    P11_POST_SELECTION --> P11_COEFFICIENT_TESTS["Coefficient and restriction tests<br/>t, F, likelihood ratio, Wald, Lagrange multiplier"]
-    P11_COEFFICIENT_TESTS --> P11_ERRORS_Q{"Error process modelled?"}
+    P11_POST_SELECTION --> P11_ERRORS_Q{"Error process modelled?"}
     P11_ERRORS_Q -->|"No"| P11_HAC["HAC inference<br/>Newey-West, bandwidth choice"]
     P11_ERRORS_Q -->|"Yes"| P8_QMLE[["Quasi-maximum likelihood and sandwich standard errors"]]
-    P11_HAC & P8_QMLE --> P11_SYSTEM{"Multivariate flag?"}
+    P11_HAC & P8_QMLE --> P11_COEFFICIENT_TESTS["Coefficient and restriction tests<br/>t, F, likelihood ratio, Wald, Lagrange multiplier"]
+    P11_COEFFICIENT_TESTS --> P11_SYSTEM{"Multivariate flag?"}
     P11_SYSTEM -->|"Yes"| P11_TO_PART_3(["Continue in part 3"])
     P11_SYSTEM -->|"No"| P11_COUNTERFACTUALS["Counterfactual designs<br/>interrupted time series, difference-in-differences, synthetic control, CausalImpact"]
     P11_COUNTERFACTUALS --> P11_PART_2_OUT(["Continue in part 6"])

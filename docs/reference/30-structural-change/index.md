@@ -22,10 +22,20 @@ Time-varying parameter regression, statistical process control, and change-point
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_CP_BOCPD`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Calibrate the threshold
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_CP_CALIBRATE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Offline segmentation
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_CP_PELT`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Dependence-aware detection
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_CP_DEPENDENT`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Choose the number of change points
 

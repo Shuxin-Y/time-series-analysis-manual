@@ -188,13 +188,14 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P6_PART_7_IN(["From part 4: input-output system"]) --> P6_IO_STRUCTURE{"Structure?"}
-    P6_IO_STRUCTURE -->|"Polynomial"| P6_ARX_ARMAX["ARX and ARMAX input-output models"]
+    P6_IO_STRUCTURE -->|"Noise shares the system poles"| P6_ARX_ARMAX["ARX and ARMAX input-output models"]
     P6_IO_STRUCTURE -->|"State space"| P6_SUBSPACE["Subspace identification<br/>N4SID"]
     P6_IO_STRUCTURE -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER["Hammerstein-Wiener models"]
     P6_IO_STRUCTURE -->|"Sparse nonlinear"| P6_SINDY["Sparse identification of nonlinear dynamics"]
-    P6_IO_STRUCTURE -->|"Polynomial with noise model"| P6_TRANSFER_FUNCTION[["Transfer-function and intervention models"]]
-    P6_ARX_ARMAX & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER & P6_SINDY & P6_TRANSFER_FUNCTION --> P6_PART_7_OUT(["Continue in part 10"])
-    class P6_ARX_ARMAX,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P6_SINDY escalate
+    P6_IO_STRUCTURE -->|"Independent noise model"| P6_TRANSFER_FUNCTION[["Transfer-function and intervention models"]]
+    P6_IO_STRUCTURE -->|"No noise model"| P6_OUTPUT_ERROR["Output-error models"]
+    P6_ARX_ARMAX & P6_OUTPUT_ERROR & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER & P6_SINDY & P6_TRANSFER_FUNCTION --> P6_PART_7_OUT(["Continue in part 10"])
+    class P6_ARX_ARMAX,P6_OUTPUT_ERROR,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P6_SINDY escalate
     class P6_PART_7_IN,P6_PART_7_OUT terminator
     class P6_IO_STRUCTURE decision
     class P6_TRANSFER_FUNCTION ref

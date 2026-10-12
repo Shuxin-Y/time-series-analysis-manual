@@ -181,6 +181,7 @@ nodes:
   - {id: P6_SUBSPACE,           label: "Subspace identification",                        phase: P6, areas: [33], section: "reference/33-system-identification/index.md#subspace-identification"}
   - {id: P6_HAMMERSTEIN_WIENER, label: "Hammerstein-Wiener models",                      phase: P6, areas: [33], section: "reference/33-system-identification/index.md#hammerstein-wiener-models"}
   - {id: P6_SINDY,              label: "Sparse identification of nonlinear dynamics",    phase: P6, areas: [33], section: "reference/33-system-identification/index.md#sparse-identification-of-nonlinear-dynamics"}
+  - {id: P6_OUTPUT_ERROR, label: "Output-error models", phase: P6, areas: [33], section: "reference/33-system-identification/index.md#output-error-models"}
   - {id: P6_TREE_ENSEMBLES,     label: "Tree ensembles on lag features",                 phase: P6, areas: [18], section: "reference/18-machine-learning/index.md#tree-ensembles-on-lag-features"}
   - {id: P6_GAUSSIAN_PROCESS,   label: "Gaussian-process regression",                    phase: P6, areas: [18], section: "reference/18-machine-learning/index.md#gaussian-process-regression"}
   - {id: P6_RESERVOIR,          label: "Reservoir computing",                            phase: P6, areas: [18], section: "reference/18-machine-learning/index.md#reservoir-computing"}
@@ -286,7 +287,7 @@ nodes:
   - {id: P12_REUSE, label: "Reuse a stored model", phase: P12, areas: [23], section: "reference/23-online-adaptive/index.md#reuse-a-stored-model"}
   # ---- P0 purpose leaves: FC (sections in reference chapters)
   - {id: P0_FC_BASELINES, label: "Baselines for comparison", phase: P0, areas: [22], section: "reference/22-forecasting-practice/index.md#baselines-for-comparison"}
-  - {id: P0_FC_EPIDEMIC,  label: "Epidemic nowcasting",                    phase: P0, areas: [26, 22], section: "reference/26-applied-domains/index.md#epidemic-nowcasting"}
+  - {id: P0_FC_EPIDEMIC,  label: "Reproduction number and SIR fitting",                    phase: P0, areas: [26, 22], section: "reference/26-applied-domains/index.md#reproduction-number-and-sir-fitting"}
   # ---- P0 purpose leaves: CA (sections in reference chapters)
   - {id: P0_CA_IDENTIFICATION, label: "Identification strategy and exogeneity",     phase: P0, areas: [21], section: "reference/21-causal-inference/index.md#identification-strategy-and-exogeneity"}
   - {id: P0_CA_PLACEBO,        label: "Placebo and falsification tests",            phase: P0, areas: [21], section: "reference/21-causal-inference/index.md#placebo-and-falsification-tests"}
@@ -295,6 +296,8 @@ nodes:
   - {id: P0_CP_CUSUM,        label: "Sequential detection",                   phase: P0, areas: [30, 23], section: "reference/30-structural-change/index.md#sequential-detection"}
   - {id: P0_CP_BOCPD,        label: "Bayesian online change-point detection", phase: P0, areas: [30, 12], section: "reference/30-structural-change/index.md#bayesian-online-change-point-detection"}
   - {id: P0_CP_PELT,         label: "Offline segmentation",                   phase: P0, areas: [30, 19], section: "reference/30-structural-change/index.md#offline-segmentation"}
+  - {id: P0_CP_DEPENDENT, label: "Dependence-aware detection", phase: P0, areas: [30, 5], section: "reference/30-structural-change/index.md#dependence-aware-detection"}
+  - {id: P0_CP_CALIBRATE, label: "Calibrate the threshold", phase: P0, areas: [30, 23], section: "reference/30-structural-change/index.md#calibrate-the-threshold"}
   - {id: P0_CP_PENALTY,      label: "Choose the number of change points",     phase: P0, areas: [30, 6], section: "reference/30-structural-change/index.md#choose-the-number-of-change-points"}
   - {id: P0_CP_MULTIVARIATE, label: "Multivariate change points",             phase: P0, areas: [30], section: "reference/30-structural-change/index.md#multivariate-change-points"}
   - {id: P0_CP_TYPE,         label: "Classify the change",                    phase: P0, areas: [30], section: "reference/30-structural-change/index.md#classify-the-change"}
@@ -309,6 +312,7 @@ nodes:
   - {id: P0_DC_ADDITIVE_MULTIPLICATIVE, label: "Additive or multiplicative decomposition",       phase: P0, areas: [3], section: "reference/03-classical/index.md#additive-or-multiplicative-decomposition"}
   - {id: P0_DC_COMPONENT_ANALYSIS,      label: "Analyse and interpret the components",           phase: P0, areas: [3], section: "reference/03-classical/index.md#analyse-and-interpret-the-components"}
   - {id: P0_DC_REVISION,                label: "Revision stability of real-time decompositions", phase: P0, areas: [29], section: "reference/29-seasonality-calendar/index.md#revision-stability-of-real-time-decompositions"}
+  - {id: P0_DC_DIAGNOSTICS, label: "Decomposition diagnostics", phase: P0, areas: [29, 3], section: "reference/29-seasonality-calendar/index.md#decomposition-diagnostics"}
   # ---- P0 purpose leaves: FE (sections in reference chapters)
   - {id: P0_FE_TIME_FEATURES,           label: "Time-domain features",                          phase: P0, areas: [19], section: "reference/19-classification-anomaly/index.md#time-domain-features"}
   - {id: P0_FE_FREQ_FEATURES,           label: "Frequency-domain features",                     phase: P0, areas: [19, 13], section: "reference/19-classification-anomaly/index.md#frequency-domain-features"}
@@ -322,9 +326,12 @@ nodes:
   - {id: P0_FE_SHAPELETS,               label: "Shapelets and ROCKET",                          phase: P0, areas: [19], section: "reference/19-classification-anomaly/index.md#shapelets-and-rocket"}
   - {id: P0_FE_DEEP_CLASSIFIERS,        label: "Deep classifiers",                              phase: P0, areas: [19, 18], section: "reference/19-classification-anomaly/index.md#deep-classifiers"}
   - {id: P0_FE_CLUSTERING,              label: "Clustering",                                    phase: P0, areas: [19], section: "reference/19-classification-anomaly/index.md#clustering"}
+  - {id: P0_FE_TABULAR, label: "Tabular learners on feature vectors", phase: P0, areas: [19, 18], section: "reference/19-classification-anomaly/index.md#tabular-learners-on-feature-vectors"}
   - {id: P0_FE_AUGMENTATION,            label: "Data augmentation",                             phase: P0, areas: [19], section: "reference/19-classification-anomaly/index.md#data-augmentation"}
   # ---- P0 purpose leaves: SI (sections in reference chapters)
   - {id: P0_SI_EXPERIMENT_DESIGN, label: "Input design and persistent excitation",                phase: P0, areas: [33], section: "reference/33-system-identification/index.md#input-design-and-persistent-excitation"}
+  - {id: P0_SI_CLOSED_LOOP, label: "Closed-loop identification", phase: P0, areas: [33], section: "reference/33-system-identification/index.md#closed-loop-identification"}
+  - {id: P0_SI_NONPARAMETRIC, label: "Nonparametric analysis of the system", phase: P0, areas: [33, 13], section: "reference/33-system-identification/index.md#nonparametric-analysis-of-the-system"}
   - {id: P0_SI_MODEL_STRUCTURE,   label: "Choose the model structure",                            phase: P0, areas: [33], section: "reference/33-system-identification/index.md#choose-the-model-structure"}
   - {id: P0_SI_ORDER_SELECTION,   label: "Order selection",                                       phase: P0, areas: [33], section: "reference/33-system-identification/index.md#order-selection"}
   - {id: P0_SI_TRANSFER_FUNCTION, label: "Estimate the frequency response", phase: P0, areas: [33], section: "reference/33-system-identification/index.md#estimate-the-frequency-response"}
@@ -335,6 +342,7 @@ nodes:
   - {id: P0_SM_BOOTSTRAP_PATHS, label: "Simulating paths by resampling", phase: P0, areas: [25], section: "reference/25-simulation/index.md#simulating-paths-by-resampling"}
   - {id: P0_SM_SYNTHETIC,          label: "Synthetic data generation",                  phase: P0, areas: [25, 18], section: "reference/25-simulation/index.md#synthetic-data-generation"}
   - {id: P0_SM_DISTRIBUTION_MATCH, label: "Check distribution and dependence matching", phase: P0, areas: [25], section: "reference/25-simulation/index.md#check-distribution-and-dependence-matching"}
+  - {id: P0_SM_TSTR, label: "Train on synthetic, test on real", phase: P0, areas: [25, 18], section: "reference/25-simulation/index.md#train-on-synthetic-test-on-real"}
   # ---- P0 purpose leaves: SE (sections in reference chapters)
   - {id: P0_SE_NOISE_TYPE,        label: "Characterise the noise",                              phase: P0, areas: [13], section: "reference/13-spectral-analysis/index.md#characterise-the-noise"}
   - {id: P0_SE_WIENER,            label: "Wiener filtering",                                    phase: P0, areas: [13], section: "reference/13-spectral-analysis/index.md#wiener-filtering"}

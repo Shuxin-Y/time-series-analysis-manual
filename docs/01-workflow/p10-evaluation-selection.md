@@ -91,14 +91,14 @@ graph TD
     P10_OUTPUTS -->|"System identification"| P0_SI_VALIDATION[["Validate on held-out input-output data"]]
     P10_OUTPUTS -->|"Inference only"| P10_INFERENCE_ONLY{"What is inferred?"}
     P10_INFERENCE_ONLY -->|"Causes"| P0_CA_SENSITIVITY[["Sensitivity analysis across specifications"]]
-    P10_INFERENCE_ONLY -->|"Components"| P7_MEAN_TESTS[["Test residual autocorrelation"]]
+    P10_INFERENCE_ONLY -->|"Components"| P0_DC_DIAGNOSTICS[["Decomposition diagnostics"]]
     P10_INFERENCE_ONLY -->|"Frequencies"| P0_SP_PEAK_SIGNIFICANCE[["Peak significance"]]
     P10_SIGNAL_EVALUATION & P0_SM_DISTRIBUTION_MATCH & P0_SI_VALIDATION --> P10_PART_4_OUT(["Continue in part 5"])
-    P0_CA_SENSITIVITY & P7_MEAN_TESTS & P0_SP_PEAK_SIGNIFICANCE --> P10_PART_4_OUT
+    P0_CA_SENSITIVITY & P0_DC_DIAGNOSTICS & P0_SP_PEAK_SIGNIFICANCE --> P10_PART_4_OUT
     class P10_PART_4_IN,P10_PART_4_OUT terminator
     class P10_OUTPUTS,P10_INFERENCE_ONLY decision
     class P10_SIGNAL_EVALUATION process
-    class P0_SM_DISTRIBUTION_MATCH,P0_SI_VALIDATION,P0_CA_SENSITIVITY,P7_MEAN_TESTS,P0_SP_PEAK_SIGNIFICANCE ref
+    class P0_SM_DISTRIBUTION_MATCH,P0_SI_VALIDATION,P0_CA_SENSITIVITY,P0_DC_DIAGNOSTICS,P0_SP_PEAK_SIGNIFICANCE ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

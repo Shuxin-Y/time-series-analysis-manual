@@ -7,6 +7,11 @@ ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input des
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_ARX_ARMAX`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Output-error models
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_OUTPUT_ERROR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Subspace identification
 
 !!! note "Section pending"
@@ -26,6 +31,16 @@ ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input des
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_SI_EXPERIMENT_DESIGN`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Closed-loop identification
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_SI_CLOSED_LOOP`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Nonparametric analysis of the system
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_SI_NONPARAMETRIC`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Choose the model structure
 

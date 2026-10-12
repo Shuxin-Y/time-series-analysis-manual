@@ -105,6 +105,11 @@ Time-series features and representations, distance measures, shapelets, deep cla
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_FE_CLUSTERING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Tabular learners on feature vectors
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_FE_TABULAR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Data augmentation
 
 !!! note "Section pending"

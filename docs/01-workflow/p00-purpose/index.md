@@ -135,20 +135,20 @@ Real time applies to live outputs, learner features and real-time detection. A f
 
 ## Quick navigation
 
-Emphasised phases are the phases whose leaves the purpose's sub-chart routes through (dotted pointers excluded).
+Emphasised phases are the phases after P0 whose leaves the purpose's sub-chart routes through (dotted pointers excluded).
 
 | Purpose | Emphasised phases | Key leaves |
 |---|---|---|
-| [1. Forecasting](01-forecasting.md) | P6, P9, P11, P10 | Naive and seasonal-naive baselines; Epidemic nowcasting |
+| [1. Forecasting](01-forecasting.md) | P1, P6, P10, P11 | Baselines for comparison; Complete forecast product per origin; Reproduction number and SIR fitting |
 | [2. Causal and structural inference](02-causal-inference.md) | P3, P6, P11 | Identification strategy and exogeneity; Placebo and falsification tests; Sensitivity analysis across specifications |
-| [3. Signal extraction and denoising](03-signal-extraction.md) | P1, P5, P8 | Characterise the noise; Wavelet denoising; Evaluate the signal-to-noise ratio |
-| [4. Change-point detection](04-change-point-detection.md) | P3, P4, P6, P10 | Sequential detection; Bayesian online change-point detection; Offline segmentation |
-| [5. Anomaly and regime detection](05-anomaly-regime-detection.md) | P6, P8, P10 | Statistical outlier scores; Matrix profile and discord discovery; Set thresholds by the cost of errors |
-| [6. Decomposition](06-decomposition.md) | P3, P4 | Analyse and interpret the components; Additive or multiplicative decomposition; Revision stability of real-time decompositions |
-| [7. Feature extraction, classification and clustering](07-feature-extraction-classification.md) | P6, P8, P11, P10 | Time-domain features; Shapelets and ROCKET; Clustering |
-| [8. Spectral analysis](08-spectral-analysis.md) | P5 | Interpret the spectral shape; Peak significance; Cross-spectrum, coherence and phase |
-| [9. System identification](09-system-identification.md) | P6 | Input design and persistent excitation; Order selection; Poles, zeros and stability |
-| [10. Simulation and scenario generation](10-simulation.md) | P6, P11 | Monte Carlo simulation from a fitted model; Simulating paths by resampling; Check distribution and dependence matching |
+| [3. Signal extraction and denoising](03-signal-extraction.md) | P4, P5, P8, P10 | Characterise the noise; Wavelet denoising; Evaluate the signal-to-noise ratio |
+| [4. Change-point detection](04-change-point-detection.md) | P3, P6, P10, P11 | Dependence-aware detection; Calibrate the threshold; Offline segmentation |
+| [5. Anomaly and regime detection](05-anomaly-regime-detection.md) | P4, P6, P10, P12 | Statistical outlier scores; Matrix profile and discord discovery; Set thresholds by the cost of errors |
+| [6. Decomposition](06-decomposition.md) | P3, P4, P5, P6 | Analyse and interpret the components; Decomposition diagnostics; Revision stability of real-time decompositions |
+| [7. Feature extraction, classification and clustering](07-feature-extraction-classification.md) | P8, P10, P11 | Time-domain features; Shapelets and ROCKET; Tabular learners on feature vectors |
+| [8. Spectral analysis](08-spectral-analysis.md) | P5, P11 | Interpret the spectral shape; Peak significance; Cross-spectrum, coherence and phase |
+| [9. System identification](09-system-identification.md) | P6 | Closed-loop identification; Nonparametric analysis of the system; Poles, zeros and stability |
+| [10. Simulation and scenario generation](10-simulation.md) | P6, P8, P11 | Monte Carlo simulation from a fitted model; Check distribution and dependence matching; Train on synthetic, test on real |
 
 ## Specify the forecasting task
 
