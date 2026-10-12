@@ -31,6 +31,7 @@ except ImportError:
 REPO = Path(__file__).resolve().parents[2]
 # Material's repository widget asks api.github.com for the latest release; the repository has none (404).
 ALLOWED_ERROR_ORIGIN = "api.github.com"
+P7_PAGE = "01-workflow/p07-error-process/"
 
 
 class _LoopbackServer(ThreadingHTTPServer):
@@ -86,12 +87,70 @@ def svg_node(page, node_id):
 
 
 def test_leaf_click_lands_on_its_section(page, site_url):
-    page.goto(site_url + "01-workflow/p07-error-process/")
+    page.goto(site_url + P7_PAGE)
     garch = svg_node(page, "P7_GARCH")
     garch.scroll_into_view_if_needed()
     garch.click()
     page.wait_for_url(re.compile(r".*reference/10-volatility/#garch$"))
     assert page.url.endswith("reference/10-volatility/#garch")
+
+
+def _diagram_pages() -> list[str]:
+    """Site paths of every page with Mermaid source, the audit-exempt showcase and Part 0 gateway included."""
+    import audit_flowcharts as audit
+    from mkdocs.config import load_config
+
+    config = load_config(config_file=str(REPO / "mkdocs.yml"))
+    site = audit.Site(config, Path(config["docs_dir"]))
+    files = [f for f in site.pages_under("") if site.page(f) and site.page(f).mermaid_sources]
+    index = "index.md"  # served at its directory (use_directory_urls, as in site-urls.js)
+    return [f.removesuffix(index) if f.endswith(index) else f.removesuffix(".md") + "/" for f in files]
+
+
+# Width rule (DESIGN-SYSTEM.md, "Width"; MIN_SCALE in docs/javascripts/mermaid-init.js): rendered width over SVG
+# width, at the desktop viewport where splitting meets it and at a phone viewport where the container scrolls.
+DESKTOP_VIEWPORT = {"width": 1280, "height": 900}
+PHONE_VIEWPORT = {"width": 390, "height": 844}
+MIN_SCALE = 0.45
+# mermaid-init.js replaces each div.mermaid with a .mermaid-container, or fills it with this <pre> on a parse error.
+RENDER_ERROR_PREFIX = "Error rendering diagram"
+SCALES = """() => [...document.querySelectorAll('.mermaid-container > svg')].map((svg, i) => {
+    const box = svg.parentElement, style = getComputedStyle(box);
+    const content = box.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    const natural = svg.viewBox.baseVal.width, rendered = svg.getBoundingClientRect().width;
+    const wider = rendered > content + 1;
+    box.scrollLeft = 1;
+    const scrollable = ['auto', 'scroll'].includes(style.overflowX) && box.scrollLeft > 0;
+    box.scrollLeft = 0;
+    return {i, fit: content / natural, scale: rendered / natural, wider, scrollable,
+        scrolls: box.scrollWidth > box.clientWidth};
+})"""
+
+
+@pytest.mark.parametrize("path", _diagram_pages())
+def test_every_diagram_renders_readably(page, site_url, path):
+    errors_before = len(page.console_errors)
+    page.set_viewport_size(DESKTOP_VIEWPORT)
+    page.goto(site_url + path)
+    page.wait_for_function("() => [...document.querySelectorAll('div.mermaid')].every(d => d.querySelector('pre'))",
+                           timeout=30000)
+    report = page.evaluate("""prefix => ({
+        errors: [...document.querySelectorAll('div.mermaid pre')].map(p => p.textContent).filter(t => t.startsWith(prefix)),
+        overflowing: [...document.querySelectorAll('.mermaid-container g.node foreignObject')]
+            .filter(fo => fo.firstElementChild.getBoundingClientRect().height > fo.getBoundingClientRect().height + 1)
+            .map(fo => fo.closest('g.node').id),
+    })""", RENDER_ERROR_PREFIX)
+    assert report["errors"] == []
+    assert page.console_errors[errors_before:] == []
+    assert report["overflowing"] == []
+    desktop = page.evaluate(SCALES)  # fits its column at scale >= MIN_SCALE without the clamp or a scroll bar
+    assert [(d["i"], round(d["fit"], 3)) for d in desktop if d["fit"] < MIN_SCALE] == []
+    assert [d["i"] for d in desktop if d["scrolls"]] == []
+    page.set_viewport_size(PHONE_VIEWPORT)
+    phone = page.evaluate(SCALES)  # the clamp holds the scale; the container, not the page, can be scrolled
+    assert [(d["i"], round(d["scale"], 3)) for d in phone if d["scale"] < MIN_SCALE] == []
+    assert [d["i"] for d in phone if d["wider"] and not d["scrollable"]] == []
+    assert page.evaluate("() => document.documentElement.scrollWidth <= window.innerWidth")
 
 
 def test_glossary_chip_opens_the_upstream_term(page, site_url):

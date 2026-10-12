@@ -39,6 +39,17 @@
         .forEach(node => node.remove());
     }
 
+    // Width rule (DESIGN-SYSTEM.md, "Width"; MIN_SCALE in tests/e2e/test_site_smoke.py): the SVG never renders
+    // below this share of its natural width, so on a narrow screen the container scrolls instead.
+    const MIN_SCALE = 0.45;
+
+    function keepMinimumScale(svg) {
+      const natural = svg && svg.viewBox.baseVal.width;
+      if (natural) {
+        svg.style.minWidth = `${Math.ceil(MIN_SCALE * natural)}px`;
+      }
+    }
+
     function showError(element, error) {
       const pre = document.createElement('pre');
       pre.textContent = `Error rendering diagram: ${error.message}`;
@@ -63,6 +74,7 @@
                 const container = document.createElement('div');
                 container.className = 'mermaid-container';
                 container.innerHTML = result.svg;
+                keepMinimumScale(container.querySelector('svg'));
                 element.replaceWith(container);
                 container.dispatchEvent(new CustomEvent('mermaid:rendered', {
                   bubbles: true,

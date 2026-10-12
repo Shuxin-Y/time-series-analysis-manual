@@ -261,3 +261,8 @@ copyright: >-
   Copyright &copy; 2025&ndash;2026 Yang Shuxin.
   Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>;
   code under <a href="https://github.com/Shuxin-Y/time-series-analysis-manual/blob/main/LICENSE-CODE">MIT</a>.
+
+# --strict turns these warnings into failures: a relabelled leaf must not leave a stale link anchor behind.
+validation:
+  links:
+    anchors: warn
