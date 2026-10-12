@@ -20,12 +20,13 @@ graph TD
     P5_FD_LEAKAGE --> P0_SP_ESTIMATOR{"Estimator?"}
     P0_SP_ESTIMATOR -->|"Smoothed periodogram"| P5_FD_SMOOTHED[["Smoothed spectral estimates"]]
     P0_SP_ESTIMATOR -->|"Multitaper"| P5_FD_MULTITAPER[["Multitaper spectral estimation"]]
-    P0_SP_ESTIMATOR -->|"AR or ARMA spectrum"| P6[["P6: Conditional-mean model class"]]
+    P0_SP_ESTIMATOR -->|"AR or ARMA spectrum"| P5_FD_PARAMETRIC[["Parametric spectra"]]
+    P5_FD_PARAMETRIC --> P6[["P6: Conditional-mean model class"]]
     P6 --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
-    P9 --> P5_FD_PARAMETRIC[["Parametric spectra"]]
-    P5_FD_SMOOTHED & P5_FD_MULTITAPER & P5_FD_PARAMETRIC --> P0_SP_TO_PART_2(["Continue in part 2"])
-    class P0_SP_IN,P0_SP_TO_PART_2 terminator
+    P5_FD_SMOOTHED & P5_FD_MULTITAPER & P9 --> P0_SP_TO_PART_2(["Continue in part 2"])
+    P5_TIME_FREQUENCY --> P0_SP_TF_TO_PART_3(["Continue in part 3"])
+    class P0_SP_IN,P0_SP_TO_PART_2,P0_SP_TF_TO_PART_3 terminator
     class P0_SP_CHANGES,P0_SP_ESTIMATOR decision
     class P1,P3,P4,P5,P5_TIME_FREQUENCY,P5_FD_DFT,P5_FD_LEAKAGE,P5_FD_SMOOTHED,P5_FD_MULTITAPER,P6,P8,P9,P5_FD_PARAMETRIC ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
@@ -70,7 +71,7 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P0_SP_PART_3_IN(["From part 2"]) --> P10[["P10: Out-of-sample evaluation and selection"]]
+    P0_SP_PART_3_IN(["From parts 1 and 2"]) --> P10[["P10: Out-of-sample evaluation and selection"]]
     P10 --> P11[["P11: Inference and interpretation"]]
     P11 --> P11_SPECTRAL_BANDS[["Confidence bands for spectral estimates"]]
     P11_SPECTRAL_BANDS --> P12[["P12: Deployment and monitoring"]]

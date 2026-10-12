@@ -18,8 +18,7 @@ graph TD
     P6 --> P0_SM_FIT{"Model?"}
     P0_SM_FIT -->|"Generative network"| P6_GENERATIVE[["Generative models for time series"]]
     P0_SM_FIT -->|"Conditional-mean model"| P7[["P7: Error-process specification"]]
-    P6_GENERATIVE --> P8_HYPERPARAMETERS[["Time-aware hyperparameter tuning"]]
-    P8_HYPERPARAMETERS --> P0_SM_SYNTHETIC["Synthetic data generation<br/>TimeGAN"]
+    P6_GENERATIVE --> P0_SM_SYNTHETIC["Synthetic data generation<br/>TimeGAN"]
     P7 --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
     P9 --> P0_SM_MONTE_CARLO["Monte Carlo simulation from a fitted model<br/>innovations from P7; parameter uncertainty by bootstrap or posterior draws"]
@@ -28,7 +27,7 @@ graph TD
     class P0_SM_IN,P0_SM_TO_PART_2 terminator
     class P0_SM_SOURCE,P0_SM_FIT decision
     class P0_SM_BOOTSTRAP_PATHS,P0_SM_SYNTHETIC,P0_SM_MONTE_CARLO process
-    class P1,P3,P4,P6,P6_GENERATIVE,P7,P8_HYPERPARAMETERS,P8,P9,P9_BOOTSTRAP ref
+    class P1,P3,P4,P6,P6_GENERATIVE,P7,P8,P9,P9_BOOTSTRAP ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

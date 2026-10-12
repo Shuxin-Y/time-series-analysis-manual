@@ -37,7 +37,7 @@ TERM_HOME_DIRS = tuple(f"{d}/" for d in SECTION_DIRS) + (FOUNDATION_DIR,)
 STRUCTURAL_H2 = frozenset({
     "Sub-diagram", "Branch sub-diagram", "Phase guide", "Question order", "Part 0 hooks", "Relation to P9",
     "Routing variables", "Branches", "Quick navigation", "Purpose selector", "Representation selector",
-    "Master diagram", "How to read the diagrams", "Sub-chart", "P11 inference for this purpose",
+    "Master diagram", "Why this order", "How to read the diagrams", "Sub-chart", "P11 inference for this purpose",
     "P10 metrics for this purpose", "References",
 })
 GLOSSARY_DIR = "glossary"

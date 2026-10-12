@@ -95,9 +95,8 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P0_FE_PART_4_IN(["From parts 2 and 3: supervised learners"]) --> P0_FE_AUGMENTATION["Data augmentation<br/>slicing, warping, synthetic oversampling, inside training folds"]
-    P0_FE_AUGMENTATION --> P8[["P8: Estimation"]]
-    P8 --> P8_HYPERPARAMETERS[["Time-aware hyperparameter tuning"]]
-    P8_HYPERPARAMETERS --> P10[["P10: Out-of-sample evaluation and selection"]]
+    P0_FE_AUGMENTATION --> P10[["P10: Out-of-sample evaluation and selection"]]
+    P8_HYPERPARAMETERS[["Time-aware hyperparameter tuning"]] -.- P0_FE_AUGMENTATION
     P0_FE_CLUSTER_IN(["From part 2: clustering"]) --> P10
     P10 --> P10_GROUPED_SPLITS[["Grouped and temporal splits"]]
     P10_GROUPED_SPLITS --> P10_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
@@ -106,7 +105,7 @@ graph TD
     P11_INTERPRETABILITY --> P12[["P12: Deployment and monitoring"]]
     class P0_FE_PART_4_IN,P0_FE_CLUSTER_IN terminator
     class P0_FE_AUGMENTATION process
-    class P8,P8_HYPERPARAMETERS,P10,P10_GROUPED_SPLITS,P10_CLASSIFICATION_METRICS,P11,P11_INTERPRETABILITY,P12 ref
+    class P8_HYPERPARAMETERS,P10,P10_GROUPED_SPLITS,P10_CLASSIFICATION_METRICS,P11,P11_INTERPRETABILITY,P12 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

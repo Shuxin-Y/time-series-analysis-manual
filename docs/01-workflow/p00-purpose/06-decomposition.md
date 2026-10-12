@@ -45,7 +45,8 @@ graph TD
     P0_DC_PART_2_IN(["From part 1"]) --> P0_DC_FAMILY{"Which?"}
     P0_DC_FAMILY -->|"Model-based"| P4_MODEL_DECOMPOSITION[["Model-based decomposition"]]
     P0_DC_FAMILY -->|"Adaptive or multiscale"| P5[["P5: Representation selection"]]
-    P4_MODEL_DECOMPOSITION --> P6_STRUCTURAL_TS[["Structural time-series models"]]
+    P4_MODEL_DECOMPOSITION --> P6[["P6: Conditional-mean model class"]]
+    P6 --> P6_STRUCTURAL_TS[["Structural time-series models"]]
     P6_STRUCTURAL_TS --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
     P5 --> P0_DC_ADAPTIVE{"Decomposition?"}
@@ -55,7 +56,7 @@ graph TD
     P9 & P5_TF_EMD & P5_TF_VMD & P5_TF_MRA --> P0_DC_PART_2_OUT(["Continue in part 3"])
     class P0_DC_PART_2_IN,P0_DC_PART_2_OUT terminator
     class P0_DC_FAMILY,P0_DC_ADAPTIVE decision
-    class P4_MODEL_DECOMPOSITION,P6_STRUCTURAL_TS,P8,P9,P5,P5_TF_EMD,P5_TF_VMD,P5_TF_MRA ref
+    class P4_MODEL_DECOMPOSITION,P6,P6_STRUCTURAL_TS,P8,P9,P5,P5_TF_EMD,P5_TF_VMD,P5_TF_MRA ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
