@@ -7,6 +7,11 @@ Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutiona
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P6_FRACTIONAL_DIFFERENCE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Pooled linear autoregression
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_POOLED_AR`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Tree ensembles on lag features
 
 !!! note "Section pending"

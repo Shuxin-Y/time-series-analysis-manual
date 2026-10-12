@@ -190,6 +190,10 @@ nodes:
   - {id: P6_GENERATIVE,         label: "Generative models for time series",              phase: P6, areas: [18], section: "reference/18-machine-learning/index.md#generative-models-for-time-series"}
   - {id: P6_HYBRID,             label: "Hybrid models",                                  phase: P6, areas: [18], section: "reference/18-machine-learning/index.md#hybrid-models"}
   - {id: P6_GLOBAL_MODELS,      label: "Global models across many series",               phase: P6, areas: [18, 22], section: "reference/18-machine-learning/index.md#global-models-across-many-series"}
+  - {id: P6_PARTIAL_POOLING, label: "Hierarchical models with partial pooling", phase: P6, areas: [12, 22], section: "reference/12-bayesian/index.md#hierarchical-models-with-partial-pooling"}
+  - {id: P6_POOLED_AR, label: "Pooled linear autoregression", phase: P6, areas: [18, 22], section: "reference/18-machine-learning/index.md#pooled-linear-autoregression"}
+  - {id: P6_DETERMINISTIC, label: "Deterministic regressors", phase: P6, areas: [27, 29], section: "reference/27-regression-time-series/index.md#deterministic-regressors"}
+  - {id: P6_CANDIDATE_SET, label: "Candidate set", phase: P6, areas: [22, 6], section: "01-workflow/p06-mean-model-class.md#candidate-set"}
   # ---- foundation section referenced from P6
   - {id: F_LAG_OPERATOR, label: "Lag operator, difference equations and characteristic roots", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#lag-operator-difference-equations-and-characteristic-roots"}
   # ---- P8 estimator leaves
@@ -237,7 +241,7 @@ nodes:
   - {id: P11_POINT_FORECASTS,     label: "Point forecasts and horizons",                  phase: P11, areas: [22], section: "reference/22-forecasting-practice/index.md#point-forecasts-and-horizons"}
   - {id: P11_INTERVALS,           label: "Prediction intervals",                          phase: P11, areas: [34, 22], section: "reference/34-probabilistic-forecasting/index.md#prediction-intervals"}
   - {id: P11_DENSITY_QUANTILE,    label: "Density and quantile forecasts",                phase: P11, areas: [34], section: "reference/34-probabilistic-forecasting/index.md#density-and-quantile-forecasts"}
-  - {id: P11_MULTISTEP,           label: "Multi-step strategies",                         phase: P11, areas: [34, 22], section: "reference/34-probabilistic-forecasting/index.md#multi-step-strategies"}
+  - {id: P6_MULTISTEP,           label: "Multi-step strategies",                         phase: P6, areas: [34, 22], section: "reference/34-probabilistic-forecasting/index.md#multi-step-strategies"}
   - {id: P11_RECONCILIATION,      label: "Hierarchical and temporal reconciliation",      phase: P11, areas: [22, 34], section: "reference/22-forecasting-practice/index.md#hierarchical-and-temporal-reconciliation"}
   - {id: P11_COMBINATION,         label: "Forecast combination and model averaging",      phase: P11, areas: [22, 12], section: "reference/22-forecasting-practice/index.md#forecast-combination-and-model-averaging"}
   - {id: P11_JUDGMENTAL,          label: "Judgmental adjustment",                         phase: P11, areas: [22], section: "reference/22-forecasting-practice/index.md#judgmental-adjustment"}

@@ -21,3 +21,8 @@ Bayesian VAR, time-varying parameter VAR, Bayesian computation and variational i
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_VARIATIONAL`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Hierarchical models with partial pooling
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_PARTIAL_POOLING`). Write this section following the content rules in `.claude/rules/writing.md`.

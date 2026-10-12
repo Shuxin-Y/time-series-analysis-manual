@@ -20,7 +20,7 @@ Intermittent demand, prediction intervals, density and quantile forecasts, multi
 ## Multi-step strategies
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P11_MULTISTEP`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P6_MULTISTEP`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Probabilistic metrics
 

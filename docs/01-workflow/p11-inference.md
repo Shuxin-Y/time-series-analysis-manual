@@ -20,11 +20,8 @@ graph TD
     P11_INTERVALS --> P11_DENSITY_QUANTILE["Density and quantile forecasts"]
     P11_DENSITY_QUANTILE --> P11_RISK{"Risk measures needed?"}
     P11_RISK -->|"Yes"| P11_RISK_MEASURES[["Risk measures and their backtests"]]
-    P11_RISK -->|"No"| P11_MULTISTEP_Q
-    P11_RISK_MEASURES --> P11_MULTISTEP_Q{"Horizon beyond one step?"}
-    P11_MULTISTEP_Q -->|"Yes"| P11_MULTISTEP["Multi-step strategies<br/>recursive, direct, MIMO"]
-    P11_MULTISTEP_Q -->|"No"| P11_HIERARCHY
-    P11_MULTISTEP --> P11_HIERARCHY{"Hierarchy flag?"}
+    P11_RISK -->|"No"| P11_HIERARCHY
+    P11_RISK_MEASURES --> P11_HIERARCHY{"Hierarchy flag?"}
     P11_HIERARCHY -->|"Yes"| P11_RECONCILIATION["Hierarchical and temporal reconciliation<br/>bottom-up, top-down, MinT"]
     P11_HIERARCHY -->|"No"| P11_COMBINATION
     P11_RECONCILIATION --> P11_COMBINATION["Forecast combination and model averaging"]
@@ -40,8 +37,8 @@ graph TD
     F_PROJECTION[["Projection theorem and best linear prediction"]] -.- P11_INTERVALS
     P6_MIXED_FREQUENCY[["Mixed-frequency models"]] -.- P11_NOWCASTING
     class P11_IN,P11_TO_PART_2,P11_TO_PART_4,P11_TO_PART_5 terminator
-    class P11_PURPOSE,P11_RISK,P11_MULTISTEP_Q,P11_HIERARCHY,P11_BLACK_BOX,P11_MIXED decision
-    class P11_POINT_FORECASTS,P11_INTERVALS,P11_DENSITY_QUANTILE,P11_MULTISTEP,P11_RECONCILIATION,P11_COMBINATION,P11_JUDGMENTAL,P11_NOWCASTING process
+    class P11_PURPOSE,P11_RISK,P11_HIERARCHY,P11_BLACK_BOX,P11_MIXED decision
+    class P11_POINT_FORECASTS,P11_INTERVALS,P11_DENSITY_QUANTILE,P11_RECONCILIATION,P11_COMBINATION,P11_JUDGMENTAL,P11_NOWCASTING process
     class P11_RISK_MEASURES,P11_INTERPRETABILITY,P10,F_CONDITIONAL_EXPECTATION,F_PROJECTION,P6_MIXED_FREQUENCY ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
