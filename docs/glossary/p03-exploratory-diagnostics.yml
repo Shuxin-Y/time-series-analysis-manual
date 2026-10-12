@@ -3,61 +3,62 @@
 terms:
 
   - term: "ADF Test"
-    definition: "Augmented Dickey-Fuller test for unit roots. Tests whether a time series is non-stationary."
+    definition: "Augmented Dickey-Fuller test. Its null hypothesis is a unit root; rejection supports stationarity around the deterministic terms of the test regression. Non-rejection is weak evidence for a unit root, because the test has low power against roots close to one."
     mathematical: |
-      Test equation:
-      $$\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^p \delta_i \Delta y_{t-i} + \varepsilon_t$$
+      Test equation, with constant $c$ and trend coefficient $\delta$:
+      $$\Delta y_t = c + \delta t + \gamma y_{t-1} + \sum_{i=1}^{p} \zeta_i \Delta y_{t-i} + \varepsilon_t$$
 
       **Hypotheses:**
-      - $H_0$: $\gamma = 0$ (unit root exists, series is non-stationary)
-      - $H_1$: $\gamma < 0$ (no unit root, series is stationary)
+      - $H_0$: $\gamma = 0$ (unit root)
+      - $H_1$: $\gamma < 0$ (stationary around the deterministic terms included: a level without the trend term, a linear trend with it)
 
-      **Decision**: Reject $H_0$ if $p < \alpha$ (typically 0.05)
+      The t-ratio on $\gamma$ has the non-standard Dickey–Fuller distribution, whose critical values depend on which deterministic terms are included (MacKinnon 1996). The test rejects in the left tail.
     historical: |
       - 1979: Dickey and Fuller introduce the DF test
-      - 1981: Said and Dickey propose the augmented version
-      - 1992: Elliott, Rothenberg, and Stock develop the DF-GLS variant
+      - 1984: Said and Dickey propose the augmented version
+      - 1996: Elliott, Rothenberg, and Stock publish the DF-GLS variant
+    depends_on: ["Integrated process", "Stationarity"]
     reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"
 
   - term: "KPSS Test"
-    definition: "Kwiatkowski-Phillips-Schmidt-Shin test for stationarity. Has the opposite null hypothesis to ADF."
+    definition: "Kwiatkowski-Phillips-Schmidt-Shin test. Its null hypothesis is stationarity around a level or around a linear trend, the reverse of the ADF null; the two tests are read together."
     mathematical: |
-      Test statistic based on LM principle:
-      $$\text{KPSS} = \frac{1}{T^2} \sum_{t=1}^T \frac{S_t^2}{\hat{\sigma}^2}$$
-      where $S_t = \sum_{i=1}^t \hat{\varepsilon}_i$ (partial sum of residuals)
+      With $\hat{\varepsilon}_t$ the residuals of a regression of $y_t$ on a constant (level version) or on a constant and a trend (trend version), $S_t = \sum_{i=1}^t \hat{\varepsilon}_i$, and $\hat{\omega}^2$ a consistent estimator of the long-run variance (a kernel estimator with a bandwidth):
+      $$\text{KPSS} = \frac{1}{T^2} \sum_{t=1}^T \frac{S_t^2}{\hat{\omega}^2}$$
 
       **Hypotheses:**
-      - $H_0$: Series is stationary
-      - $H_1$: Series is non-stationary
+      - $H_0$: level-stationary (or trend-stationary, for the trend version)
+      - $H_1$: unit root
 
-      **Decision**: Reject $H_0$ if $p < \alpha$
+      The level and trend versions have different critical values. With the plain residual variance in place of $\hat{\omega}^2$, the test over-rejects under serial correlation.
     historical: |
-      - 1992: Kwiatkowski, Phillips, Schmidt, and Shin introduce the test
-      - 1992: Complements ADF by reversing the null hypothesis
+      - 1992: Kwiatkowski, Phillips, Schmidt, and Shin introduce the test, reversing the null hypothesis of the Dickey–Fuller tests
+    depends_on: ["Stationarity", "Long-run variance", "Integrated process"]
     reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"
 
   - term: "ACF"
-    definition: "Autocorrelation Function. Measures the correlation between a time series and its lagged values."
+    definition: "Autocorrelation Function. The correlation between a weakly stationary series and its own values k periods earlier, as a function of k."
     mathematical: |
-      $$\rho_k = \frac{\gamma_k}{\gamma_0} = \frac{\text{Cov}(y_t, y_{t-k})}{\text{Var}(y_t)} = \frac{E[(y_t - \mu)(y_{t-k} - \mu)]}{\sigma^2}$$
+      $$\rho_k = \frac{\gamma_k}{\gamma_0} = \frac{\text{Cov}(y_t, y_{t-k})}{\text{Var}(y_t)}$$
 
       Sample ACF:
       $$\hat{\rho}_k = \frac{\sum_{t=k+1}^n (y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t=1}^n (y_t - \bar{y})^2}$$
 
-      Standard error: $\text{SE}(\hat{\rho}_k) \approx \frac{1}{\sqrt{n}}$ for white noise
+      Standard error: $\text{SE}(\hat{\rho}_k) \approx 1/\sqrt{n}$ for i.i.d. noise (Bartlett). For uncorrelated but conditionally heteroskedastic noise, such as GARCH errors, the variance of $\sqrt{n}\,\hat{\rho}_k$ is $\mathbb{E}[\epsilon_t^2\epsilon_{t-k}^2]/\sigma^4$, which exceeds 1, so the $\pm 1.96/\sqrt{n}$ bands are too narrow; robust bands use that variance.
     historical: |
       - 1927: Yule introduces the autocorrelation concept
-      - 1970: Box and Jenkins use ACF for ARIMA model identification
+      - 1946: Bartlett derives the large-sample variance of sample autocorrelations
+      - 1970: Box and Jenkins use the ACF for ARIMA model identification
+    depends_on: ["Stationarity", "Ergodicity"]
     reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"
 
   - term: "PACF"
-    definition: "Partial Autocorrelation Function. Measures the correlation between observations at lag k, controlling for intermediate lags."
+    definition: "Partial Autocorrelation Function. The correlation between y_t and y_{t-k} after removing the linear effect of the intermediate values; it equals the conditional correlation for Gaussian processes."
     mathematical: |
-      $$\phi_{kk} = \text{Corr}(y_t, y_{t-k} \mid y_{t-1}, \ldots, y_{t-k+1})$$
-
-      The $k$-th PACF coefficient is the last coefficient in an AR($k$) model:
+      $\phi_{kk}$ is the correlation between the residuals of the best linear predictions of $y_t$ and of $y_{t-k}$ from $y_{t-1}, \ldots, y_{t-k+1}$. Equivalently, it is the last coefficient in the best linear AR($k$) predictor:
       $$y_t = \phi_{k1} y_{t-1} + \cdots + \phi_{kk} y_{t-k} + \varepsilon_t$$
     historical: |
       - 1949: Quenouille develops the partial autocorrelation concept
-      - 1970: Box and Jenkins use PACF to identify AR order in ARIMA modelling
+      - 1970: Box and Jenkins use the PACF to identify the AR order in ARIMA modelling
+    depends_on: ["ACF"]
     reference: "01-workflow/p03-exploratory-diagnostics.md#p3-exploratory-diagnostics"

@@ -159,8 +159,8 @@ def test_glossary_chip_opens_the_upstream_term(page, site_url):
     drawer = page.locator(".glossary-drawer.open")
     drawer.wait_for(timeout=10000)
     assert drawer.locator("h3").inner_text().startswith("Joint density")
-    drawer.locator('.glossary-chip[data-term="Independence"]').click()
-    page.wait_for_function("() => document.querySelector('.glossary-drawer h3').textContent.startsWith('Independence')")
+    drawer.locator('.glossary-chip[data-term="Probability density"]').click()
+    page.wait_for_function("() => document.querySelector('.glossary-drawer h3').textContent.startsWith('Probability density')")
     assert "Joint density" in page.locator(".glossary-crumbs").inner_text()
     rendered = page.evaluate("t => window.tsamGlossary.renderMarkdown(t)",
                              "1. **Reject $H_0$** if $s<t$, see [Joint density](reference/04-estimation/maximum-likelihood.md#joint-density)")

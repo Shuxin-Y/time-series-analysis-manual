@@ -30,14 +30,14 @@ The manual has three axes. Read Foundations first; follow the Workflow when you 
 ### Foundations
 
 - **[The logic of statistical analysis](00-foundations/logic-of-statistical-analysis.md)**: model class, estimator, test
-- **[Do you need time series analysis?](00-foundations/do-you-need-time-series-analysis.md)**: the gateway flowchart from OLS to richer models
+- **[Stochastic processes](00-foundations/stochastic-processes.md)**: stationarity, white noise, martingale differences and independence, ergodicity — the roots of every error-process choice
+- **[Asymptotics for dependent data](00-foundations/asymptotics.md)**: the law of large numbers, the central limit theorem, consistency
 - **[OLS assumptions and how time series violates them](00-foundations/ols-assumptions.md)**
-- **[Stochastic processes](00-foundations/stochastic-processes.md)**: the roots of every error-process choice
-- **[Asymptotics for dependent data](00-foundations/asymptotics.md)**
+- **[Do you need time series analysis?](00-foundations/do-you-need-time-series-analysis.md)**: the gateway flowchart, which uses all of the above
 
 ### Workflow
 
-The [general flowchart](01-workflow/index.md) runs through thirteen phases, P0 to P12, from raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p00-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
+The [general flowchart](01-workflow/index.md) runs through thirteen phases, P0 to P12, from the question and the raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p00-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
 
 ### Reference
 
@@ -96,7 +96,8 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
         - **Cointegration:** Engle-Granger, Johansen, ARDL bounds
         - **Causality:** Granger, Sims, Toda-Yamamoto
         - **Structural Breaks:** Chow test, CUSUM, Bai-Perron
-        - **Serial Correlation:** Breusch-Godfrey, Ljung-Box, Durbin-Watson, White test
+        - **Serial Correlation:** Breusch-Godfrey, Ljung-Box, Durbin-Watson
+        - **Heteroskedasticity:** White test, ARCH-LM
         - **Normality:** Jarque-Bera
         - **Bootstrap:** block, sieve
 

@@ -31,10 +31,10 @@ terms:
     reference: "01-workflow/p05-representation/02-frequency-domain.md#representation-2-frequency-domain"
 
   - term: "Periodogram"
-    definition: "An estimate of the power spectral density obtained by computing the squared magnitude of the Fourier transform."
+    definition: "The squared magnitude of the discrete Fourier transform of a mean-corrected series at the Fourier frequencies. It is asymptotically unbiased for the spectral density and inconsistent: its variance does not shrink as the sample grows, so smoothing or tapering is required for a spectral estimate."
     mathematical: |
-      $$I(\omega_k) = \frac{1}{2\pi n} \left|\sum_{t=1}^n y_t e^{-i\omega_k t}\right|^2$$
-      where $\omega_k = \frac{2\pi k}{n}$
+      $$I(\omega_k) = \frac{1}{2\pi n} \left|\sum_{t=1}^n (y_t - \bar{y}) e^{-i\omega_k t}\right|^2$$
+      where $\omega_k = \frac{2\pi k}{n}$. At each Fourier frequency $I(\omega_k)$ is approximately $f(\omega_k)\,\chi^2_2/2$, whose variance does not shrink with $n$. This is the normalisation used throughout the book; the form $\frac{1}{N}|X_k|^2$ in the PSD entry differs by the factor $2\pi$ and the frequency unit.
     historical: |
       - 1898: Schuster introduces the periodogram for detecting hidden periodicities
       - Early 20th century: Widely adopted in astronomy for periodic signal detection

@@ -1,33 +1,52 @@
-# Glossary: What Is Time Series Analysis?
+# Glossary: OLS Assumptions and How Time Series Violates Them
 
 terms:
 
   - term: "Full Column Rank"
-    definition: "A matrix has full column rank if all its columns are linearly independent — no column can be expressed as a linear combination of the others. This is the condition that guarantees the OLS estimator has a unique solution."
+    definition: "A matrix has full column rank when its columns are linearly independent: no column is a linear combination of the others. For the regressor matrix X this is Assumption 0, the condition under which the OLS estimator exists and is unique."
     mathematical: |
       An $N \times K$ matrix $\mathbf{X}$ has full column rank when $\text{rank}(\mathbf{X}) = K$.
 
-      Equivalently, $\mathbf{X}^T\mathbf{X}$ is invertible (non-singular), which is required for the OLS closed-form:
-      $$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
+      Equivalently, $\mathbf{X}^T\mathbf{X}$ is invertible (non-singular), which is required for the OLS closed form
+      $$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}.$$
 
       The condition fails when regressors are perfectly collinear — one column is an exact linear combination of others — making $\mathbf{X}^T\mathbf{X}$ singular and $\hat{\boldsymbol{\beta}}$ undefined.
     historical: |
-      - 1858: Cayley introduces matrix algebra and formalises the concept of rank
-      - 1888: Sylvester coins the term "rank" for matrices
-      - Mid-20th century: Full-rank condition becomes the standard identification requirement for OLS uniqueness in Gauss-Markov theorem statements
+      - 1858: Cayley introduces matrix algebra
+      - 1879: Frobenius defines the rank of a matrix
+      - Mid-20th century: the full-rank condition becomes the standard existence requirement in statements of the Gauss–Markov theorem
+    foundation: true
     reference: "00-foundations/ols-assumptions.md#the-classical-ols-assumptions-and-how-time-series-violates-them"
 
   - term: "Closed-Form Solution"
-    definition: "An exact expression evaluated in a finite number of standard operations, requiring no iteration or numerical approximation."
+    definition: "An exact expression evaluated in a finite number of standard operations, requiring no iteration or numerical approximation. OLS has one when the regressor matrix has full column rank; a likelihood with unobservable components usually has none and is maximised numerically."
     mathematical: |
       The OLS estimator is a closed-form solution:
       $$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
 
       This contrasts with iterative methods such as gradient descent, which approximate the solution through repeated updates and may not converge to the exact optimum.
-
-      Existence requires $\mathbf{X}^T\mathbf{X}$ to be invertible; see Full Column Rank.
     historical: |
       - 1805: Legendre publishes the method of least squares, the first statement of the OLS objective
       - 1809: Gauss derives the same method independently for planetary orbit estimation and establishes the normal equations
-      - 20th century: Matrix notation consolidates the normal equations into the compact closed-form $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$
+      - 20th century: matrix notation consolidates the normal equations into the compact closed form
+    depends_on: ["Full Column Rank"]
+    reference: "00-foundations/ols-assumptions.md#the-classical-ols-assumptions-and-how-time-series-violates-them"
+
+  - term: "Gauss–Markov Conditions"
+    definition: "The assumptions under which the ordinary least squares estimator is the best linear unbiased estimator (BLUE): zero conditional mean of the errors given the regressors, constant variance and no serial correlation, for a model linear in its parameters whose regressor matrix has full column rank. They are sufficient, not necessary, and they do not require normality."
+    mathematical: |
+      For the linear model $y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t$ with regressor matrix $\mathbf{X}$, numbered as on the page that develops them:
+
+      - **A0 (rank)** — $\text{rank}(\mathbf{X}) = K$, so that $\hat{\boldsymbol{\beta}}$ exists.
+      - **A1 (zero mean)** — $\mathbb{E}[\epsilon_t] = 0$; implied by A4.
+      - **A2 (homoskedasticity)** — $\text{Var}(\epsilon_t \mid \mathbf{X}) = \sigma^2$ for every $t$.
+      - **A3 (no serial correlation)** — $\mathbb{E}[\epsilon_t \epsilon_s \mid \mathbf{X}] = 0$ for $t \neq s$.
+      - **A4 (strict exogeneity)** — $\mathbb{E}[\epsilon_t \mid \mathbf{X}] = 0$.
+
+      Under A0 and A1–A4 the Gauss–Markov theorem states that $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ has the smallest variance among all linear unbiased estimators. Normality (A5) is not required.
+    historical: |
+      - 1821–1823: Gauss proves the variance-minimising property of least squares in *Theoria Combinationis Observationum Erroribus Minimis Obnoxiae*, without assuming normal errors
+      - 1912: Markov restates the result in his treatment of probability, and the modern name "Gauss–Markov" credits this exposition
+      - 1935: Aitken extends the theorem to correlated and heteroskedastic errors, giving generalized least squares (GLS)
+    depends_on: ["Conditional expectation", "Full Column Rank"]
     reference: "00-foundations/ols-assumptions.md#the-classical-ols-assumptions-and-how-time-series-violates-them"

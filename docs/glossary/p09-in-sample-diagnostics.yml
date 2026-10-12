@@ -3,19 +3,20 @@
 terms:
 
   - term: "Ljung-Box Test"
-    definition: "A portmanteau test for autocorrelation in residuals. Tests whether residuals are white noise."
+    definition: "A portmanteau test of the null hypothesis that a series, usually a set of residuals, has no autocorrelation up to lag h. Its chi-squared null distribution is asymptotic and derived for i.i.d. noise; under conditional heteroskedasticity it over-rejects, and robust versions or standardised residuals are used."
     mathematical: |
-      Test statistic:
+      Test statistic for $n$ observations and $h$ lags:
       $$Q = n(n+2) \sum_{k=1}^h \frac{\hat{\rho}_k^2}{n-k}$$
 
-      Under $H_0$, $Q \sim \chi^2(h-p-q)$ where $h$ is number of lags tested, $p$ and $q$ are ARMA orders.
+      Under $H_0$ and i.i.d. noise, $Q$ is approximately $\chi^2(h)$ for an observed series. For the residuals of a fitted ARMA($a$, $b$) model the degrees of freedom are $h - a - b$, an approximation that needs $h$ large; residuals of a regression get no such adjustment.
 
       **Hypotheses:**
-      - $H_0$: No autocorrelation up to lag $h$
-      - $H_1$: Autocorrelation exists
+      - $H_0$: no autocorrelation up to lag $h$
+      - $H_1$: autocorrelation at some lag up to $h$
 
-      **Decision**: Reject $H_0$ if $p < \alpha$
+      Reject $H_0$ when the p-value is below the significance level. Under GARCH errors the test over-rejects; it is then run on standardised residuals or replaced by a heteroskedasticity-robust portmanteau test (Lobato, Nankervis and Savin 2001; Francq, Roy and Zakoïan 2005).
     historical: |
       - 1970: Box and Pierce introduce the Q-test
       - 1978: Ljung and Box improve the test statistic for small samples
+    depends_on: ["ACF", "i.i.d"]
     reference: "01-workflow/p09-in-sample-diagnostics.md#p9-in-sample-diagnostics"

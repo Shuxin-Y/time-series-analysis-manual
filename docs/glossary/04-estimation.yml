@@ -1,0 +1,12 @@
+# Glossary: 4. Estimation
+
+terms:
+
+  - term: "Prediction-error decomposition"
+    definition: "The log-likelihood of a time series written as a sum over time of one-step-ahead conditional log-densities. For a Gaussian model it depends on the data only through the one-step prediction errors and their variances, which the Kalman filter computes."
+    derivation: |
+      1. The chain rule of probability factorises the joint density of the sample into $p(y_1)\prod_{t \ge 2} p(y_t \mid y_{t-1}, \ldots, y_1)$; taking logarithms turns the product into a sum.
+      2. In a Gaussian model each conditional density is normal; its mean is the conditional expectation $\hat{y}_{t \mid t-1}$, the optimal one-step forecast under squared loss, and its variance is $F_t$.
+      3. Substituting the normal density gives $\log L = -\frac{1}{2}\sum_t (\log 2\pi + \log F_t + v_t^2/F_t)$ with $v_t = y_t - \hat{y}_{t \mid t-1}$, so the likelihood is evaluated from the forecast errors alone.
+    depends_on: ["Chain rule of probability", "Conditional expectation"]
+    reference: "reference/04-estimation/index.md#prediction-error-decomposition"

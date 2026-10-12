@@ -189,10 +189,10 @@ nav:
   - Home: index.md
   - Foundations:
       - 00-foundations/logic-of-statistical-analysis.md
-      - 00-foundations/do-you-need-time-series-analysis.md
-      - 00-foundations/ols-assumptions.md
       - 00-foundations/stochastic-processes.md
       - 00-foundations/asymptotics.md
+      - 00-foundations/ols-assumptions.md
+      - 00-foundations/do-you-need-time-series-analysis.md
   - Workflow:
       - 01-workflow/index.md
       - Purpose:

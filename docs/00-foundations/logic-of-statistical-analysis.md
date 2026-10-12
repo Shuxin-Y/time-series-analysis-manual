@@ -11,14 +11,14 @@ A model class specifies *form*. Once the form is fixed, the estimator's job is t
 
 A model class answers questions like:
 
-- Does the conditional mean of $y_t$ depend linearly on a set of regressors?
+- Does the conditional mean of \(y_t\) depend linearly on a set of regressors?
 - Does the conditional variance follow a particular recursion?
 
 Three model classes used in this manual illustrate the breadth of the concept. Each captures a different aspect of the data: the conditional mean given features, the temporal dependence of a univariate series, and the conditional variance.
 
-- **Linear regression**: $y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t$, with $\epsilon_t$ i.i.d. The unknown parameters are the coefficient vector $\boldsymbol{\beta}$ and the error variance $\sigma^2$. It says: today's level is a weighted sum of today's regressors, plus unpredictable noise.
-- **ARMA(p, q)**: $y_t = \sum_{j=1}^p \phi_j y_{t-j} + \sum_{k=1}^q \theta_k \epsilon_{t-k} + \epsilon_t$. The unknowns are the autoregressive coefficients $\phi_j$, the moving-average coefficients $\theta_k$, and $\sigma^2$. It says: today's value is explained by its own recent values and recent shocks.
-- **GARCH(1, 1)**: $\epsilon_t = \sigma_t z_t$ with $z_t$ i.i.d. with mean 0 and variance 1, and $\sigma_t^2 = \omega + \alpha_1 \epsilon_{t-1}^2 + \beta_1 \sigma_{t-1}^2$ with $\omega > 0$ and $\alpha_1, \beta_1 \ge 0$. The unknowns are $\omega$, $\alpha_1$ and $\beta_1$ (scalars, unrelated to the regression vector $\boldsymbol{\beta}$). The constraints keep $\sigma_t^2$ positive, so each parameter value defines a distribution for the series. It says: volatility is persistent — a large shock today raises the expected variance tomorrow. Here the conditional error variance is time-varying ($\sigma_t^2$), in contrast to the constant ($\sigma^2$) above.
+- **Linear regression**: \(y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t\), with \(\epsilon_t\) i.i.d. The unknown parameters are the coefficient vector \(\boldsymbol{\beta}\) and the error variance \(\sigma^2\). It says: today's level is a weighted sum of today's regressors, plus unpredictable noise.
+- **ARMA(p, q)**: \(y_t = \sum_{j=1}^p \phi_j y_{t-j} + \sum_{k=1}^q \theta_k \epsilon_{t-k} + \epsilon_t\). The unknowns are the autoregressive coefficients \(\phi_j\), the moving-average coefficients \(\theta_k\), and \(\sigma^2\). It says: today's value is explained by its own recent values and recent shocks.
+- **GARCH(1, 1)**: \(\epsilon_t = \sigma_t z_t\) with \(z_t\) i.i.d. with mean 0 and variance 1, and \(\sigma_t^2 = \omega + \alpha_1 \epsilon_{t-1}^2 + \beta_1 \sigma_{t-1}^2\) with \(\omega > 0\) and \(\alpha_1, \beta_1 \ge 0\). The unknowns are \(\omega\), \(\alpha_1\) and \(\beta_1\) (scalars, unrelated to the regression vector \(\boldsymbol{\beta}\)). The constraints keep \(\sigma_t^2\) positive, so each parameter value defines a distribution for the series. It says: volatility is persistent — a large shock today raises the expected variance tomorrow. Here the conditional error variance is time-varying (\(\sigma_t^2\)), in contrast to the constant (\(\sigma^2\)) above.
 
 A complete specification often combines several: a regression on features for the mean, an ARMA structure for the residual serial correlation, and a GARCH structure for the residual volatility.
 
@@ -33,17 +33,17 @@ Different estimators reflect different optimality criteria: minimizing predictio
 
 OLS chooses parameters that minimize the sum of squared residuals:
 
-$$\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \sum_{t=1}^T \left( y_t - \mathbf{x}_t^T \boldsymbol{\beta} \right)^2.$$
+\[\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \sum_{t=1}^T \left( y_t - \mathbf{x}_t^T \boldsymbol{\beta} \right)^2.\]
 
-(Read: beta-hat is the argmin over beta of the sum over $t$ of the squared residual.)
+(Read: beta-hat is the argmin over beta of the sum over \(t\) of the squared residual.)
 
-For linear regression with strictly exogenous regressors and errors satisfying the Gauss–Markov conditions, OLS is the *best linear unbiased estimator* (BLUE). It admits a closed-form solution and requires no distributional assumption beyond second moments. For a pure autoregression AR($p$) and a vector autoregression (VAR) the regressors are lagged values of the series, strict exogeneity fails, and OLS is biased in finite samples, consistent, and equal to conditional Gaussian maximum likelihood ([OLS assumptions](ols-assumptions.md#assumption-4)).
+For linear regression with strictly exogenous regressors and errors satisfying the Gauss–Markov conditions, OLS is the *best linear unbiased estimator* (BLUE). It admits a closed-form solution and requires no distributional assumption beyond second moments. For a pure autoregression AR(\(p\)) and a vector autoregression (VAR) the regressors are lagged values of the series, strict exogeneity fails, and OLS is biased in finite samples, consistent, and equal to conditional Gaussian maximum likelihood ([OLS assumptions](ols-assumptions.md#assumption-4)).
 
 ### Maximum Likelihood (MLE)
 
 MLE chooses parameters that maximize the likelihood of the observed data under the model:
 
-$$\hat{\boldsymbol{\theta}} = \arg\max_{\boldsymbol{\theta}} L(\boldsymbol{\theta}; y_1, \dots, y_T).$$
+\[\hat{\boldsymbol{\theta}} = \arg\max_{\boldsymbol{\theta}} L(\boldsymbol{\theta}; y_1, \dots, y_T).\]
 
 (Read: theta-hat is the argmax over theta of the likelihood of theta given the observed data.)
 
@@ -51,19 +51,19 @@ MLE is the default estimator when the model contains components that are not dir
 
 ### Generalized Method of Moments (GMM)
 
-GMM chooses parameters that make sample moment conditions match their theoretical counterparts. Given a vector of moment conditions $\mathbb{E}[g(y_t, \boldsymbol{\theta})] = 0$ implied by the model, GMM minimizes a weighted quadratic form in the sample analogue:
+GMM chooses parameters that make sample moment conditions match their theoretical counterparts. Given a vector of moment conditions \(\mathbb{E}[g(y_t, \boldsymbol{\theta})] = 0\) implied by the model, GMM minimizes a weighted quadratic form in the sample analogue:
 
-$$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \left( \frac{1}{T}\sum_t g(y_t, \boldsymbol{\theta}) \right)^T W \left( \frac{1}{T}\sum_t g(y_t, \boldsymbol{\theta}) \right),$$
+\[\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \left( \frac{1}{T}\sum_t g(y_t, \boldsymbol{\theta}) \right)^T W \left( \frac{1}{T}\sum_t g(y_t, \boldsymbol{\theta}) \right),\]
 
-(Read: theta-hat is the argmin over theta of the sample moment condition transposed times $W$ times the sample moment condition.)
+(Read: theta-hat is the argmin over theta of the sample moment condition transposed times \(W\) times the sample moment condition.)
 
-where $W$ is a positive-definite weighting matrix. GMM is the natural choice when the full likelihood is intractable or when the analyst is willing to specify only a subset of the data-generating process. It underpins instrumental variable estimation, dynamic panel models (Arellano and Bond, 1991), and many macroeconomic Euler-equation analyses.
+where \(W\) is a positive-definite weighting matrix. GMM is the natural choice when the full likelihood is intractable or when the analyst is willing to specify only a subset of the data-generating process. It underpins instrumental variable estimation, dynamic panel models (Arellano and Bond, 1991), and many macroeconomic Euler-equation analyses.
 
 ### Spectral / Whittle Estimation
 
-Spectral estimators work in the frequency domain rather than the time domain. The Whittle (1953) likelihood approximates the Gaussian likelihood using the periodogram $I(\omega_j)$ and the model's spectral density $f(\omega_j; \boldsymbol{\theta})$:
+Spectral estimators work in the frequency domain rather than the time domain. The Whittle (1953) likelihood approximates the Gaussian likelihood using the periodogram \(I(\omega_j)\) and the model's spectral density \(f(\omega_j; \boldsymbol{\theta})\):
 
-$$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \sum_j \left[ \log f(\omega_j; \boldsymbol{\theta}) + \frac{I(\omega_j)}{f(\omega_j; \boldsymbol{\theta})} \right].$$
+\[\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \sum_j \left[ \log f(\omega_j; \boldsymbol{\theta}) + \frac{I(\omega_j)}{f(\omega_j; \boldsymbol{\theta})} \right].\]
 
 (Read: theta-hat is the argmin over theta of the sum over frequencies of log spectral density plus the periodogram divided by the spectral density.)
 
@@ -73,15 +73,15 @@ Spectral methods are the natural choice for long-memory models (ARFIMA), for ana
 
 Modern machine learning estimators minimize an empirical loss by gradient descent or boosting:
 
-$$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \frac{1}{T} \sum_{t=1}^T \ell\left(y_t, \hat{y}_t(\boldsymbol{\theta})\right) + \lambda R(\boldsymbol{\theta}).$$
+\[\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \frac{1}{T} \sum_{t=1}^T \ell\left(y_t, \hat{y}_t(\boldsymbol{\theta})\right) + \lambda R(\boldsymbol{\theta}).\]
 
 (Read: theta-hat is the argmin over theta of the average loss plus a regularization penalty.)
 
-The loss $\ell$ is typically squared error or cross-entropy; $R$ is a regularization term such as an $L_2$ norm. This is the estimator used for recurrent and convolutional networks, transformers, and gradient-boosted trees applied to lagged features. It is neither closed-form nor likelihood-based, and the classical inference tools (t-statistics, Hessian-based confidence intervals) generally do not apply. Uncertainty is instead quantified through resampling (the bootstrap), distribution-free coverage guarantees (conformal prediction; Vovk, Gammerman, and Shafer, 2005), or model ensembles. Overall validity is assessed by out-of-sample performance rather than asymptotic theory.
+The loss \(\ell\) is typically squared error or cross-entropy; \(R\) is a regularization term such as an \(L_2\) norm. This is the estimator used for recurrent and convolutional networks, transformers, and gradient-boosted trees applied to lagged features. It is neither closed-form nor likelihood-based, and the classical inference tools (t-statistics, Hessian-based confidence intervals) generally do not apply. Uncertainty is instead quantified through resampling (the bootstrap), distribution-free coverage guarantees (conformal prediction; Vovk, Gammerman, and Shafer, 2005), or model ensembles. Overall validity is assessed by out-of-sample performance rather than asymptotic theory.
 
 ### Choice of Estimator
 
-A single model class can often be reached by more than one estimator. AR($p$) can be estimated by OLS on lagged values, by MLE under a Gaussian innovation assumption, by Whittle approximation in the frequency domain, or by an empirical-loss estimator with lag features. The choice is governed by which assumptions one is willing to make and by what efficiency or robustness is required. The practical boundary runs between linear least squares, which has a closed form, and the numerical optimisation of a likelihood or another criterion, which a model with unobservable components (moving-average innovations, latent states, conditional variances) requires; maximum likelihood is the default criterion there, and [P8](../01-workflow/p08-estimation.md) lists the alternatives.
+A single model class can often be reached by more than one estimator. AR(\(p\)) can be estimated by OLS on lagged values, by MLE under a Gaussian innovation assumption, by Whittle approximation in the frequency domain, or by an empirical-loss estimator with lag features. The choice is governed by which assumptions one is willing to make and by what efficiency or robustness is required. The practical boundary runs between linear least squares, which has a closed form, and the numerical optimisation of a likelihood or another criterion, which a model with unobservable components (moving-average innovations, latent states, conditional variances) requires; maximum likelihood is the default criterion there, and [P8](../01-workflow/p08-estimation.md) lists the alternatives.
 
 ## Statistical Test
 
@@ -90,28 +90,28 @@ A single model class can often be reached by more than one estimator. AR($p$) ca
 
 A test has four components:
 
-1. **Null hypothesis** $H_0$ — the statement to be challenged (for example, "the coefficient is zero," or "the series has a unit root").
-2. **Alternative hypothesis** $H_1$ — what is concluded if $H_0$ is rejected.
-3. **Test statistic** — a function of the data whose sampling distribution under $H_0$ is known or can be approximated.
-4. **Decision rule** — reject $H_0$ when the test statistic falls in the rejection region: the right tail for $\chi^2$ and F statistics, the left tail for the augmented Dickey–Fuller statistic, both tails for a two-sided t-test. Equivalently, reject when the p-value falls below the significance level $\alpha$.
+1. **Null hypothesis** \(H_0\) — the statement to be challenged (for example, "the coefficient is zero," or "the series has a unit root").
+2. **Alternative hypothesis** \(H_1\) — what is concluded if \(H_0\) is rejected.
+3. **Test statistic** — a function of the data whose sampling distribution under \(H_0\) is known or can be approximated.
+4. **Decision rule** — reject \(H_0\) when the test statistic falls in the rejection region: the right tail for \(\chi^2\) and F statistics, the left tail for the augmented Dickey–Fuller statistic, both tails for a two-sided t-test. Equivalently, reject when the p-value falls below the significance level \(\alpha\).
 
-A test is judged by two probabilities. Its **size** is the probability of rejecting $H_0$ when $H_0$ is true; the significance level $\alpha$ is the size the analyst sets. Its **power** at a given alternative is the probability of rejecting $H_0$ when that alternative is true. Power grows with the sample size and with the distance between the alternative and $H_0$.
+A test is judged by two probabilities. Its **size** is the probability of rejecting \(H_0\) when \(H_0\) is true; the significance level \(\alpha\) is the size the analyst sets. Its **power** at a given alternative is the probability of rejecting \(H_0\) when that alternative is true. Power grows with the sample size and with the distance between the alternative and \(H_0\).
 
-The **p-value** is the probability, computed under $H_0$, of a test statistic at least as extreme as the one observed. It is not the probability that $H_0$ is true. Rejecting when the p-value is below $\alpha$ gives a test of size $\alpha$.
+The **p-value** is the probability, computed under \(H_0\), of a test statistic at least as extreme as the one observed. It is not the probability that \(H_0\) is true. Rejecting when the p-value is below \(\alpha\) gives a test of size \(\alpha\).
 
-Non-rejection is not evidence for $H_0$. A test with low power often fails to reject a false null hypothesis, so "fail to reject" means that the data are compatible with $H_0$, not that $H_0$ holds.
+Non-rejection is not evidence for \(H_0\). A test with low power often fails to reject a false null hypothesis, so "fail to reject" means that the data are compatible with \(H_0\), not that \(H_0\) holds.
 
-For example, in $y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t$ the t-statistic for $H_0: \beta_j = 0$ is
+For example, in \(y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t\) the t-statistic for \(H_0: \beta_j = 0\) is
 
-$$t = \frac{\hat{\beta}_j}{\widehat{\text{se}}(\hat{\beta}_j)}.$$
+\[t = \frac{\hat{\beta}_j}{\widehat{\text{se}}(\hat{\beta}_j)}.\]
 
 (Read: t equals beta-hat-sub-j divided by its estimated standard error.)
 
-Under $H_0$, and under the assumptions that make the standard error consistent, $t$ is approximately standard normal in large samples, so a two-sided test at $\alpha = 0.05$ rejects when $|t| > 1.96$. With $t = 1.2$ the p-value is about 0.23: the data do not contradict $\beta_j = 0$, and they do not establish it. A confidence interval for $\beta_j$ shows which values remain compatible with the data.
+Under \(H_0\), and under the assumptions that make the standard error consistent, \(t\) is approximately standard normal in large samples, so a two-sided test at \(\alpha = 0.05\) rejects when \(|t| > 1.96\). With \(t = 1.2\) the p-value is about 0.23: the data do not contradict \(\beta_j = 0\), and they do not establish it. A confidence interval for \(\beta_j\) shows which values remain compatible with the data.
 
-Pre-tests change the size of later tests. When a specification is chosen by earlier tests on the same data — dropping a regressor whose t-test did not reject, or choosing the differencing order by a unit-root test — the later statistic no longer has its nominal distribution, and the actual size of the later test differs from $\alpha$ (Giles and Giles 1993; Leeb and Pötscher 2005). [P11](../01-workflow/p11-inference.md) treats inference after such a specification search.
+Pre-tests change the size of later tests. When a specification is chosen by earlier tests on the same data — dropping a regressor whose t-test did not reject, or choosing the differencing order by a unit-root test — the later statistic no longer has its nominal distribution, and the actual size of the later test differs from \(\alpha\) (Giles and Giles 1993; Leeb and Pötscher 2005). [P11](../01-workflow/p11-inference.md) treats inference after such a specification search.
 
-Tests sit downstream of the estimator. A test statistic is built from a parameter estimate, and its sampling distribution depends on both the model class and the estimation procedure. Testing $H_0: \beta_j = 0$ via a t-statistic, for instance, requires that the OLS standard error is consistent — which in turn requires assumptions about the error structure that may or may not hold for time series data.
+Tests sit downstream of the estimator. A test statistic is built from a parameter estimate, and its sampling distribution depends on both the model class and the estimation procedure. Testing \(H_0: \beta_j = 0\) via a t-statistic, for instance, requires that the OLS standard error is consistent — which in turn requires assumptions about the error structure that may or may not hold for time series data.
 
 Tests in this manual fall into two groups:
 

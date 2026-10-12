@@ -10,31 +10,31 @@ The distinction is whether **time orders the observations** or merely **labels t
 
 ## Feature Engineering vs Time Series Modelling
 
-A dataset's temporal structure can take many forms. Calendar effects, a deterministic trend and regime indicators are **strictly exogenous features**: a linear regression on them, estimated by OLS, keeps the finite-sample Gauss–Markov results of the [OLS assumptions](ols-assumptions.md). Dependence on the series' own past can also be written with finite features — the lags $y_{t-1}, \ldots, y_{t-p}$ — and an AR($p$) model is a linear regression on them.
+A dataset's temporal structure can take many forms. Calendar effects, a deterministic trend and regime indicators are **strictly exogenous features**: a linear regression on them, estimated by OLS, keeps the finite-sample Gauss–Markov results of the [OLS assumptions](ols-assumptions.md). Dependence on the series' own past can also be written with finite features — the lags \(y_{t-1}, \ldots, y_{t-p}\) — and an AR(\(p\)) model is a linear regression on them.
 
 Two boundaries change the theory:
 
-- **Predetermined instead of strictly exogenous regressors.** Lags of $y$ are correlated with past errors. OLS on them is biased in finite samples and is justified by large-sample asymptotics instead of the Gauss–Markov theorem ([Assumption 4](ols-assumptions.md#assumption-4)).
-- **Dependence through unobserved past shocks.** A moving-average term makes $y_t$ depend on past shocks that are never observed; written in observable lags it is a regression on infinitely many of them. A finite parameterisation of that dependence has no closed-form least-squares solution and needs numerical estimation, usually by maximum likelihood.
+- **Predetermined instead of strictly exogenous regressors.** Lags of \(y\) are correlated with past errors. OLS on them is biased in finite samples and is justified by large-sample asymptotics instead of the Gauss–Markov theorem ([Assumption 4](ols-assumptions.md#assumption-4)).
+- **Dependence through unobserved past shocks.** A moving-average term makes \(y_t\) depend on past shocks that are never observed; written in observable lags it is a regression on infinitely many of them. A finite parameterisation of that dependence has no closed-form least-squares solution and needs numerical estimation, usually by maximum likelihood.
 
 Three situations admit a linear regression model — possibly with an inference adjustment — instead of a richer time series model:
 
 - **Independent errors.** Some measurements carry no dependence from one period to the next once the regressors are accounted for — repeated lab measurements with no carryover, for example. If the residual ACF and the squared-residual ACF are flat at all non-zero lags, the data can be treated as cross-sectional.
-- **Panel data with $N \gg T$.** When the cross-section is wide and the time dimension short, panel models (fixed effects, dynamic panel GMM) typically dominate per-unit time series models.
+- **Panel data with \(N \gg T\).** When the cross-section is wide and the time dimension short, panel models (fixed effects, dynamic panel GMM) typically dominate per-unit time series models.
 - **Contemporaneous-only inference.** When only the relationship between variables at the same time matters, the linear regression model is retained and estimated by OLS; only the inference layer is swapped, replacing conventional standard errors with heteroskedasticity-and-autocorrelation-consistent (HAC) standard errors — Newey and West (1987), for instance. This salvages inference without committing to a model of the error process.
 
 
 ## The Core Question: Independence of the Errors
 
-The question is stated on the errors, not on $y$. After conditioning on the regressors, are the errors
+The question is stated on the errors, not on \(y\). After conditioning on the regressors, are the errors
 
-$$\epsilon_t = y_t - \mathbb{E}[y_t \mid \mathbf{x}_t]$$
+\[\epsilon_t = y_t - \mathbb{E}[y_t \mid \mathbf{x}_t]\]
 
 (Read: epsilon-sub-t equals y-sub-t minus the conditional expectation of y-sub-t given x-sub-t.)
 
-i.i.d., or at least a martingale difference sequence, $\mathbb{E}[\epsilon_t \mid \epsilon_{t-1}, \epsilon_{t-2}, \ldots] = 0$? When they are, the temporal labels carry no statistical information beyond their role as identifiers, and the data can be treated as cross-sectional.
+i.i.d., or at least a martingale difference sequence, \(\mathbb{E}[\epsilon_t \mid \epsilon_{t-1}, \epsilon_{t-2}, \ldots] = 0\)? When they are, the temporal labels carry no statistical information beyond their role as identifiers, and the data can be treated as cross-sectional.
 
-A persistent $y$ does not answer the question. With a persistent regressor $x_t$ and i.i.d. errors, $y_t = \beta x_t + \epsilon_t$ is autocorrelated, yet every Gauss–Markov condition holds. The checks therefore run on the residuals of a regression on the features:
+A persistent \(y\) does not answer the question. With a persistent regressor \(x_t\) and i.i.d. errors, \(y_t = \beta x_t + \epsilon_t\) is autocorrelated, yet every Gauss–Markov condition holds. The checks therefore run on the residuals of a regression on the features:
 
 - The residual ACF and the Ljung–Box test check **uncorrelatedness**. A flat residual ACF establishes uncorrelatedness only.
 - The squared-residual ACF and the ARCH-LM test check one form of **dependence beyond correlation**. Errors with GARCH volatility have a flat ACF and dependent squares.
@@ -97,17 +97,17 @@ The flowchart implies an allocation of work. Feature engineering absorbs the exo
 
 Escalating from a linear regression model with i.i.d. errors to a time series specification does not mean fitting a separate model on the OLS residuals. It means **replacing the model**. The canonical form is **regression with ARMA errors**:
 
-$$y_t = \mathbf{x}_t^T \boldsymbol{\beta} + u_t, \qquad u_t \text{ follows an ARMA process.}$$
+\[y_t = \mathbf{x}_t^T \boldsymbol{\beta} + u_t, \qquad u_t \text{ follows an ARMA process.}\]
 
 (Read: y at time t equals a linear combination of features x-sub-t plus an error u-sub-t that follows an autoregressive moving-average process.)
 
-Here $u_t$ is a *theoretical* error term — what remains in $y_t$ after the features are accounted for — not the observed residual from a prior OLS fit. $\boldsymbol{\beta}$ and the ARMA parameters are estimated together by **maximum likelihood (MLE)** on the original $y_t$ data, not in sequence. **ARMA** (autoregressive moving-average) is a class of models in which $u_t$ depends on its own past values and on past random shocks. In this form $\boldsymbol{\beta}$ is the marginal effect of $\mathbf{x}_t$ on $\mathbb{E}[y_t \mid \mathbf{x}_t]$.
+Here \(u_t\) is a *theoretical* error term — what remains in \(y_t\) after the features are accounted for — not the observed residual from a prior OLS fit. \(\boldsymbol{\beta}\) and the ARMA parameters are estimated together by **maximum likelihood (MLE)** on the original \(y_t\) data, not in sequence. **ARMA** (autoregressive moving-average) is a class of models in which \(u_t\) depends on its own past values and on past random shocks. In this form \(\boldsymbol{\beta}\) is the marginal effect of \(\mathbf{x}_t\) on \(\mathbb{E}[y_t \mid \mathbf{x}_t]\).
 
-**ARIMAX** is a different model. It places the regressors inside the ARMA recursion, $\phi(B)\, y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \theta(B)\, \epsilon_t$, so $\boldsymbol{\beta}$ is the impact of $\mathbf{x}_t$ on $y_t$ and the long-run effect is $\boldsymbol{\beta} / \phi(1)$ (Hyndman 2010). Reading ARIMAX coefficients as marginal effects confuses the two.
+**ARIMAX** is a different model. It places the regressors inside the ARMA recursion, \(\phi(B)\, y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \theta(B)\, \epsilon_t\), so \(\boldsymbol{\beta}\) is the impact of \(\mathbf{x}_t\) on \(y_t\) and the long-run effect is \(\boldsymbol{\beta} / \phi(1)\) (Hyndman 2010). Reading ARIMAX coefficients as marginal effects confuses the two.
 
-The OLS fit served only as a diagnostic step. The question it answered was whether the regression left uncorrelated residuals with uncorrelated squares. When the answer is no, that model is replaced, and the replacement is estimated on the original $y_t$. The estimator changes because the model changed — not the other way around.
+The OLS fit served only as a diagnostic step. The question it answered was whether the regression left uncorrelated residuals with uncorrelated squares. When the answer is no, that model is replaced, and the replacement is estimated on the original \(y_t\). The estimator changes because the model changed — not the other way around.
 
-**Cochrane–Orcutt (1949)** is the classical estimator for a regression with AR(1) errors. It estimates the AR coefficient $\rho$ from the OLS residuals, quasi-differences the data ($y_t - \hat{\rho} y_{t-1}$ and $\mathbf{x}_t - \hat{\rho} \mathbf{x}_{t-1}$), re-estimates $\boldsymbol{\beta}$ by OLS on the transformed data, and iterates. That is feasible generalised least squares. With strictly exogenous regressors it is asymptotically equivalent to GLS and to Gaussian MLE (Hamilton 1994, ch. 8); its finite-sample loss is the dropped first observation, which Prais and Winsten (1954) restore. With a lagged dependent variable among the regressors and autocorrelated errors, the first-stage OLS is inconsistent and the iteration can converge to an inconsistent solution (Betancourt and Kelejian 1981). Joint MLE covers ARMA errors of any order and remains valid with lagged dependent variables, which is why the workflow uses it.
+**Cochrane–Orcutt (1949)** is the classical estimator for a regression with AR(1) errors. It estimates the AR coefficient \(\rho\) from the OLS residuals, quasi-differences the data (\(y_t - \hat{\rho} y_{t-1}\) and \(\mathbf{x}_t - \hat{\rho} \mathbf{x}_{t-1}\)), re-estimates \(\boldsymbol{\beta}\) by OLS on the transformed data, and iterates. That is feasible generalised least squares. With strictly exogenous regressors it is asymptotically equivalent to GLS and to Gaussian MLE (Hamilton 1994, ch. 8); its finite-sample loss is the dropped first observation, which Prais and Winsten (1954) restore. With a lagged dependent variable among the regressors and autocorrelated errors, the first-stage OLS is inconsistent and the iteration can converge to an inconsistent solution (Betancourt and Kelejian 1981). Joint MLE covers ARMA errors of any order and remains valid with lagged dependent variables, which is why the workflow uses it.
 
 **Regression with ARMA errors is the canonical, not the only, escalation.** Two other escalations start from the same baseline:
 

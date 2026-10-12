@@ -2,7 +2,7 @@
 
 **Question this phase answers:** What process do the innovations follow?
 
-P7 reads the model-kind flag first. A learner fitted by loss minimisation gets an output distribution or quantile heads chosen from the forecast task, because it has no likelihood for a variance model to enter. A likelihood or Bayesian model is fitted once by the class's default consistent method (OLS or conditional least squares for linear classes), because residuals exist only after a fit; the error questions are asked on those residuals: remaining mean dependence, variance regimes, conditional heteroskedasticity, distribution, cross-series dependence, and the count and event-time variants. The output is a joint model that P8 re-estimates jointly, which is where Cochrane-Orcutt two-step estimation is replaced by joint maximum likelihood.
+P7 reads the model-kind flag first. A learner fitted by loss minimisation gets an output distribution or quantile heads chosen from the forecast task, because it has no likelihood for a variance model to enter. A likelihood or Bayesian model is fitted once by the class's default consistent method (OLS or conditional least squares for linear classes), because residuals exist only after a fit; the error questions are asked on those residuals: remaining mean dependence, variance regimes, conditional heteroskedasticity, distribution, cross-series dependence, and the count and event-time variants. The output is a joint model that P8 estimates jointly, usually by maximum likelihood; feasible GLS (Cochrane-Orcutt, Prais-Winsten) is the classical approximation for AR(p) errors with strictly exogenous regressors, and fitting ARMA to OLS residuals and stopping leaves the regression coefficients at their OLS values.
 
 ## Sub-diagram
 
