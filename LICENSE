@@ -17,9 +17,10 @@ Legal code:      https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
 Code is licensed under the MIT License; see LICENSE-CODE.
 
-Third-party material keeps its own license: the Inter and Source Serif 4 font
-files are under the SIL Open Font License 1.1 (see assets/fonts/inter/OFL.txt
-and design-system/fonts/Inter-OFL.txt).
+Third-party material keeps its own license. The Inter font files are under the
+SIL Open Font License 1.1 (see assets/fonts/inter/OFL.txt and
+design-system/fonts/Inter-OFL.txt). The Source Serif 4 font files are Adobe's,
+under the SIL Open Font License 1.1 (https://github.com/adobe-fonts/source-serif).
 
 For commercial use of the content, contact the copyright holder:
 https://github.com/Shuxin-Y
