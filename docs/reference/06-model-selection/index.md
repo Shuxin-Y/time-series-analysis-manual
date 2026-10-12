@@ -1,6 +1,6 @@
 # 6. Model Selection
 
-Information criteria, bootstrap inference, forecast comparison and encompassing tests, and point-forecast metrics. Rolling-origin backtesting lives in P11 and residual diagnostics in P7 and P9.
+Information criteria, bootstrap inference, forecast comparison and encompassing tests, and point-forecast metrics. Rolling-origin backtesting lives in P10 and residual diagnostics in P7 and P9.
 
 ## Information criteria
 
@@ -25,4 +25,4 @@ Information criteria, bootstrap inference, forecast comparison and encompassing 
 ## Point-forecast metrics
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P11_POINT_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P10_POINT_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.

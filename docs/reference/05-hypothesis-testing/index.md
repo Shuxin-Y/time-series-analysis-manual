@@ -5,4 +5,4 @@ Coefficient and restriction tests: t, F, likelihood ratio, Wald and Lagrange mul
 ## Coefficient and restriction tests
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_COEFFICIENT_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_COEFFICIENT_TESTS`). Write this section following the content rules in `.claude/rules/writing.md`.

@@ -275,11 +275,11 @@ def test_glossary_homes_sit_in_a_leaf_section_or_on_a_theory_page(tmp_path):
 
 def test_first_mention_scan_covers_workflow_pages(tmp_path):
     docs = make_docs(tmp_path)
-    (docs / "01-workflow" / "p00-data.md").write_text("# P0\n\nImputation fills gaps.\n", encoding="utf-8")
+    (docs / "01-workflow" / "p01-data.md").write_text("# P1\n\nImputation fills gaps.\n", encoding="utf-8")
     (docs / "reference" / "31-data").mkdir(parents=True)
     (docs / "reference" / "31-data" / "index.md").write_text("# Data\n\nImputation again.\n", encoding="utf-8")
-    sitekit.write_project(tmp_path, {}, nav=["01-workflow/p00-data.md", "reference/31-data/index.md"])
-    terms = [{"term": "Imputation", "_file": "p00-data.yml", "reference": "01-workflow/p00-data.md#p0"}]
+    sitekit.write_project(tmp_path, {}, nav=["01-workflow/p01-data.md", "reference/31-data/index.md"])
+    terms = [{"term": "Imputation", "_file": "p01-data.yml", "reference": "01-workflow/p01-data.md#p0"}]
     assert audit.first_mention_warnings(sitekit.site(tmp_path), terms) == []
 
 
@@ -310,9 +310,9 @@ def test_term_homes_are_confined_to_content_and_part_0_pages(tmp_path):
 def test_first_mention_scan_skips_pages_where_the_glossary_is_disabled(tmp_path):
     docs = make_docs(tmp_path)
     (docs / "index.md").write_text("# Home\n\nImputation listed here.\n", encoding="utf-8")
-    (docs / "01-workflow" / "p00-data.md").write_text("# P0\n\nImputation fills gaps.\n", encoding="utf-8")
-    sitekit.write_project(tmp_path, {}, nav=["index.md", "01-workflow/p00-data.md"])
-    terms = [{"term": "Imputation", "_file": "p00-data.yml", "reference": "01-workflow/p00-data.md#p0"}]
+    (docs / "01-workflow" / "p01-data.md").write_text("# P1\n\nImputation fills gaps.\n", encoding="utf-8")
+    sitekit.write_project(tmp_path, {}, nav=["index.md", "01-workflow/p01-data.md"])
+    terms = [{"term": "Imputation", "_file": "p01-data.yml", "reference": "01-workflow/p01-data.md#p0"}]
     assert audit.first_mention_warnings(sitekit.site(tmp_path), terms) == []
 
 

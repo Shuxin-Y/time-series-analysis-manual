@@ -75,4 +75,4 @@ Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutiona
 ## Interpretability
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_INTERPRETABILITY`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_INTERPRETABILITY`). Write this section following the content rules in `.claude/rules/writing.md`.

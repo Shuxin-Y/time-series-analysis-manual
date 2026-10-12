@@ -1,4 +1,4 @@
-# Glossary: P9: Diagnostics and model selection
+# Glossary: P9: In-sample diagnostics
 
 terms:
 
@@ -18,4 +18,4 @@ terms:
     historical: |
       - 1970: Box and Pierce introduce the Q-test
       - 1978: Ljung and Box improve the test statistic for small samples
-    reference: "01-workflow/p09-diagnostics-selection.md#p9-diagnostics-and-model-selection"
+    reference: "01-workflow/p09-in-sample-diagnostics.md#p9-in-sample-diagnostics"

@@ -37,8 +37,8 @@ TERM_HOME_DIRS = tuple(f"{d}/" for d in SECTION_DIRS) + (FOUNDATION_DIR,)
 STRUCTURAL_H2 = frozenset({
     "Sub-diagram", "Branch sub-diagram", "Phase guide", "Question order", "Part 0 hooks", "Relation to P9",
     "Routing variables", "Branches", "Quick navigation", "Purpose selector", "Representation selector",
-    "Master diagram", "How to read the diagrams", "Sub-chart", "P10 inference for this purpose",
-    "P11 metrics for this purpose", "References",
+    "Master diagram", "How to read the diagrams", "Sub-chart", "P11 inference for this purpose",
+    "P10 metrics for this purpose", "References",
 })
 GLOSSARY_DIR = "glossary"
 GLOSSARY_INDEX_NAME = "index.yml"
@@ -362,10 +362,10 @@ def split_section(section: str) -> tuple[str, str]:
     return file, anchor
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
 MASTER_PHASE = "MASTER"
-MASTER_PAGE = "01-workflow/index.md"  # owner page of the master boxes P0-P11
-# P2 and P5 are chapters: their sub-chart pages own purpose- and representation-specific leaves (spec 7.1, 7.2).
-DIRECTORY_OWNED_PHASES = ("P2", "P5")
-MASTER_IDS = frozenset(f"P{i}" for i in range(12))
+MASTER_PAGE = "01-workflow/index.md"  # owner page of the master boxes P0-P12
+# P0 and P5 are chapters: their sub-chart pages own purpose- and representation-specific leaves (spec 7.1, 7.2).
+DIRECTORY_OWNED_PHASES = ("P0", "P5")
+MASTER_IDS = frozenset(f"P{i}" for i in range(13))
 BRANCH_IDS = frozenset(f"B{i}" for i in range(1, 8))
 PHASES = MASTER_IDS | BRANCH_IDS | {MASTER_PHASE, FOUNDATION_PHASE}
 AREAS = range(1, 35)
@@ -412,13 +412,13 @@ def row_problem(raw: object) -> str | None:
     if not isinstance(raw["label"], str) or not raw["label"].strip():
         return "label must be a non-empty string"
     if phase not in PHASES:
-        return f"phase {phase!r} must be one of P0-P11, B1-B7, {MASTER_PHASE} or {FOUNDATION_PHASE}"
+        return f"phase {phase!r} must be one of P0-P12, B1-B7, {MASTER_PHASE} or {FOUNDATION_PHASE}"
     if not isinstance(areas, list) or not all(type(a) is int and a in AREAS for a in areas):
         return f"areas {areas!r} must be a list of area numbers 1-34"
     if not isinstance(raw["section"], str) or not SECTION_RE.match(raw["section"]):
         return f"section {raw['section']!r} must look like {SECTION_FORMAT}"
     if (rid in MASTER_IDS) != (phase == MASTER_PHASE):
-        return f"phase {MASTER_PHASE} is for the master boxes P0-P11 and only them (id {rid}, phase {phase})"
+        return f"phase {MASTER_PHASE} is for the master boxes P0-P12 and only them (id {rid}, phase {phase})"
     if rid in BRANCH_IDS:
         return None if phase == rid else f"branch entry {rid} must have phase {rid}"
     if phase == MASTER_PHASE:
@@ -540,7 +540,7 @@ def check_refs(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
 
 
 def owner_pages(rows: list[Row]) -> dict[str, str]:
-    """Phase -> its owner: the page of the phase box (P0-P11) or branch entry (B1-B7), or for
+    """Phase -> its owner: the page of the phase box (P0-P12) or branch entry (B1-B7), or for
     DIRECTORY_OWNED_PHASES the directory of that page (a value ending in "/")."""
     owners = {MASTER_PHASE: MASTER_PAGE}
     for r in rows:

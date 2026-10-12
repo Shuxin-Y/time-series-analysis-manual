@@ -8,7 +8,7 @@ The B3 branch (Kalman filtering on an irregular grid, the Ornstein-Uhlenbeck pro
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     B3["B3 Irregular sampling and continuous time"] --> B3_ROUTE{"Route?"}
-    B3_ROUTE -.->|"Resample"| P0_RESAMPLE[["Resample and anti-alias"]]
+    B3_ROUTE -.->|"Resample"| P1_RESAMPLE[["Resample and anti-alias"]]
     B3_ROUTE -->|"Keep the grid"| B3_IRREGULAR_KALMAN["Kalman filtering on an irregular grid"]
     B3_ROUTE -->|"Continuous time"| B3_PROCESS{"Process type?"}
     B3_PROCESS -->|"Mean-reverting Gaussian"| B3_OU["Ornstein-Uhlenbeck process and exact discretisation"]
@@ -26,7 +26,7 @@ graph TD
     B3_SDE_INFERENCE --> P8[["P8: Estimation"]]
     class B3_ROUTE,B3_PROCESS,B3_JUMPS decision
     class B3,B3_IRREGULAR_KALMAN,B3_OU,B3_CARMA,B3_FBM,B3_SDE,B3_SDE_INFERENCE process
-    class P0_RESAMPLE,P5_FD_LOMB_SCARGLE,P5,P7_JUMPS,P8 ref
+    class P1_RESAMPLE,P5_FD_LOMB_SCARGLE,P5,P7_JUMPS,P8 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

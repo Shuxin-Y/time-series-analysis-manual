@@ -10,19 +10,19 @@ Intermittent demand, prediction intervals, density and quantile forecasts, multi
 ## Prediction intervals
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_INTERVALS`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_INTERVALS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Density and quantile forecasts
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_DENSITY_QUANTILE`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_DENSITY_QUANTILE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Multi-step strategies
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_MULTISTEP`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_MULTISTEP`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Probabilistic metrics
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P11_PROBABILISTIC_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P10_PROBABILISTIC_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.

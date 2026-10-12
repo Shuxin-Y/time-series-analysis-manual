@@ -17,12 +17,12 @@ graph TD
     P5_HP_ANALYTIC_SIGNAL --> P5_HP_SIGNALS{"One signal or two?"}
     P5_HP_SIGNALS -->|"One: instantaneous amplitude and frequency"| P5_TF_EMD[["Empirical mode decomposition and the Hilbert-Huang transform"]]
     P5_HP_SIGNALS -->|"Two: phase synchronisation"| P5_HP_PHASE_SYNC["Phase synchronisation and the phase-locking value"]
-    P5_HP_PHASE_SYNC --> P2_FE_NONLINEAR_FEATURES[["Nonlinear dynamics features"]]
-    P5_TF_EMD & P2_FE_NONLINEAR_FEATURES --> P6[["P6: Conditional-mean model class"]]
+    P5_HP_PHASE_SYNC --> P0_FE_NONLINEAR_FEATURES[["Nonlinear dynamics features"]]
+    P5_TF_EMD & P0_FE_NONLINEAR_FEATURES --> P6[["P6: Conditional-mean model class"]]
     class P5_HP_IN terminator
     class P5_HP_INSTANTANEOUS,P5_HP_AMPLITUDE,P5_HP_PHASE_RELATIONS,P5_HP_SIGNALS decision
     class P5_HP_ANALYTIC_SIGNAL,P5_HP_PHASE_SYNC process
-    class P5,P5_TF_EMD,P2_FE_NONLINEAR_FEATURES,P6 ref
+    class P5,P5_TF_EMD,P0_FE_NONLINEAR_FEATURES,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

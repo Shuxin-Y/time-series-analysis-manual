@@ -1,4 +1,4 @@
-# P9: Diagnostics and model selection
+# P9: In-sample diagnostics
 
 **Question this phase answers:** Does the fitted model hold up?
 
@@ -75,7 +75,7 @@ graph TD
     P9_BOOTSTRAP --> P9_FORECAST_COMPARISON["Forecast comparison tests<br/>Diebold-Mariano, Clark-West, reality check, model confidence set"]
     P9_FORECAST_COMPARISON --> P9_ENCOMPASSING["Forecast encompassing"]
     P9_ENCOMPASSING --> P9_PASS{"All diagnostics pass?"}
-    P9_PASS -->|"Yes"| P9_OUT(["To P10 Inference"])
+    P9_PASS -->|"Yes"| P9_OUT(["To P11 Inference"])
     P9_PASS -.->|"Mean misspecified"| P6[["P6: Conditional-mean model class"]]
     P9_PASS -.->|"Innovations misspecified"| P7[["P7: Error-process specification"]]
     class P9_PART_2_IN,P9_OUT terminator

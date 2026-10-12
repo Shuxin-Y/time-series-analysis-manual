@@ -16,10 +16,10 @@ graph TD
     B6_HETERO -->|"No"| B6_CROSS_SECTION_DEPENDENCE
     B6_HETEROGENEOUS --> B6_CROSS_SECTION_DEPENDENCE["Cross-sectional dependence<br/>CD test, common correlated effects"]
     B6_CROSS_SECTION_DEPENDENCE --> P8[["P8: Estimation"]]
-    B6_CROSS_SECTION_DEPENDENCE --> P10[["P10: Inference and interpretation"]]
+    B6_CROSS_SECTION_DEPENDENCE --> P11[["P11: Inference and interpretation"]]
     class B6_DYNAMIC,B6_HETERO decision
     class B6,B6_PANEL_UNIT_ROOT,B6_STATIC_PANEL,B6_DYNAMIC_PANEL,B6_HETEROGENEOUS,B6_CROSS_SECTION_DEPENDENCE process
-    class P8,P10 ref
+    class P8,P11 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

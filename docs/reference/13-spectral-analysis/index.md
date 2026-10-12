@@ -5,47 +5,47 @@ The discrete Fourier transform and periodogram, spectral estimators, leakage, fi
 ## Characterise the noise
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SE_NOISE_TYPE`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SE_NOISE_TYPE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Wiener filtering
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SE_WIENER`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SE_WIENER`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Wavelet denoising
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SE_WAVELET_DENOISING`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SE_WAVELET_DENOISING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Evaluate the signal-to-noise ratio
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SE_SNR`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SE_SNR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Interpret the spectral shape
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SP_SPECTRAL_SHAPE`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SP_SPECTRAL_SHAPE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Peak significance
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SP_PEAK_SIGNIFICANCE`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SP_PEAK_SIGNIFICANCE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Harmonic regression from detected frequencies
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SP_HARMONIC_REGRESSION`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SP_HARMONIC_REGRESSION`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Cross-spectrum, coherence and phase
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SP_CROSS_SPECTRUM`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SP_CROSS_SPECTRUM`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Frequency-domain Granger causality
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_SP_FREQ_GRANGER`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_SP_FREQ_GRANGER`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Discrete Fourier transform and the periodogram
 

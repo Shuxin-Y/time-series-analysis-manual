@@ -24,14 +24,14 @@ graph TD
     P5_FD_ESTIMATOR -->|"Tapers"| P5_FD_MULTITAPER["Multitaper spectral estimation"]
     P5_FD_ESTIMATOR -->|"Model-based"| P5_FD_PARAMETRIC["Parametric spectra<br/>AR and ARMA spectral estimates"]
     P5_FD_ESTIMATOR -->|"Irregular grid"| P5_FD_LOMB_SCARGLE["Lomb-Scargle periodogram<br/>irregular sampling"]
-    P5_FD_SMOOTHED & P5_FD_MULTITAPER & P5_FD_PARAMETRIC & P5_FD_LOMB_SCARGLE --> P2_SP_SPECTRAL_SHAPE[["Interpret the spectral shape"]]
-    P2_SP_SPECTRAL_SHAPE --> P2_SP_HARMONIC_REGRESSION[["Harmonic regression from detected frequencies"]]
-    P2_SP_SPECTRAL_SHAPE --> P6_ARFIMA[["ARFIMA"]]
-    P2_SP_SPECTRAL_SHAPE & P2_SP_HARMONIC_REGRESSION & P6_ARFIMA --> P6[["P6: Conditional-mean model class"]]
+    P5_FD_SMOOTHED & P5_FD_MULTITAPER & P5_FD_PARAMETRIC & P5_FD_LOMB_SCARGLE --> P0_SP_SPECTRAL_SHAPE[["Interpret the spectral shape"]]
+    P0_SP_SPECTRAL_SHAPE --> P0_SP_HARMONIC_REGRESSION[["Harmonic regression from detected frequencies"]]
+    P0_SP_SPECTRAL_SHAPE --> P6_ARFIMA[["ARFIMA"]]
+    P0_SP_SPECTRAL_SHAPE & P0_SP_HARMONIC_REGRESSION & P6_ARFIMA --> P6[["P6: Conditional-mean model class"]]
     class P5_FD_IN,P5_FD_TO_PART_2 terminator
     class P5_FD_PERIODIC,P5_FD_BANDS,P5_FD_SPECTRAL,P5_FD_TASK,P5_FD_ESTIMATOR decision
     class P5_FD_DFT,P5_FD_LEAKAGE,P5_FD_SMOOTHED,P5_FD_MULTITAPER,P5_FD_PARAMETRIC,P5_FD_LOMB_SCARGLE process
-    class P5,P2_SP_SPECTRAL_SHAPE,P2_SP_HARMONIC_REGRESSION,P6_ARFIMA,P6 ref
+    class P5,P0_SP_SPECTRAL_SHAPE,P0_SP_HARMONIC_REGRESSION,P6_ARFIMA,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

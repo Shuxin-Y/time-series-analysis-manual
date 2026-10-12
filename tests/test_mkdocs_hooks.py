@@ -32,7 +32,7 @@ def test_on_pre_build_logs_errors_as_warnings(tmp_path, caplog):
     docs = tmp_path / "docs"
     (docs / "glossary").mkdir(parents=True)
     (docs / "flowcharts").mkdir()
-    (docs / "flowcharts" / "inventory.yml").write_text("nodes:\n  - id: P0_X\n    label: x\n    phase: P0\n    areas: []\n    section: 'a/b.md#c'\n", encoding="utf-8")
+    (docs / "flowcharts" / "inventory.yml").write_text("nodes:\n  - id: P1_X\n    label: x\n    phase: P1\n    areas: []\n    section: 'a/b.md#c'\n", encoding="utf-8")
     with caplog.at_level(logging.INFO, logger="mkdocs.plugins.tsam_hooks"):
         hooks.on_pre_build(audit.load_site_config(sitekit.write_project(tmp_path, {})))
     warnings = [r for r in caplog.records if r.levelno == logging.WARNING]
@@ -44,9 +44,9 @@ def strict_build(tmp_path, anchor):
     from mkdocs.commands.build import build
 
     config = sitekit.write_project(tmp_path, {
-        "01-workflow/index.md": '# P0: Data\n\n```mermaid\ngraph TD\n    P0["P0: Data"]\n```\n',
+        "01-workflow/index.md": '# P1: Data\n\n```mermaid\ngraph TD\n    P1["P1: Data"]\n```\n',
         "glossary/.keep": "",
-        "flowcharts/inventory.yml": f'nodes:\n  - {{id: P0, label: "P0: Data", phase: MASTER, areas: [31], section: "01-workflow/index.md#{anchor}"}}\n',
+        "flowcharts/inventory.yml": f'nodes:\n  - {{id: P1, label: "P1: Data", phase: MASTER, areas: [31], section: "01-workflow/index.md#{anchor}"}}\n',
     })
     with config.open("a", encoding="utf-8") as fh:
         fh.write(f"\nhooks:\n  - {sitekit.REPO / 'scripts' / 'mkdocs_hooks.py'}\n")
@@ -57,7 +57,7 @@ def strict_build(tmp_path, anchor):
 def test_strict_build_aborts_on_an_audit_error(tmp_path):
     from mkdocs.exceptions import Abort
 
-    strict_build(tmp_path / "ok", "p0-data")
+    strict_build(tmp_path / "ok", "p1-data")
     with pytest.raises(Abort):
         strict_build(tmp_path / "broken", "no-such-anchor")
 

@@ -15,4 +15,4 @@ Regression with ARMA errors, distributed-lag and ADL models, and HAC inference. 
 ## HAC inference
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_HAC`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_HAC`). Write this section following the content rules in `.claude/rules/writing.md`.

@@ -9,7 +9,7 @@ Distribution, variance stability, trend-stationary versus difference-stationary 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P3_IN(["Series and flags from P2"]) --> P3_PLOT["Plot the series"]
+    P3_IN(["Series and flags from P0"]) --> P3_PLOT["Plot the series"]
     P3_PLOT --> P3_DISTRIBUTION["Test the distribution<br/>Shapiro-Wilk, Jarque-Bera, skewness, tail index"]
     P3_DISTRIBUTION --> P3_VARIANCE_STABILITY["Check variance stability<br/>rolling variance, ARCH-LM on levels"]
     P3_VARIANCE_STABILITY --> P3_HETERO{"Variance behaviour?"}

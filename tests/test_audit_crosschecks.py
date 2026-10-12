@@ -33,7 +33,7 @@ def test_check_refs_resolve_to_definitions_or_foundation_rows():
 
 def test_a_ref_repeats_the_first_line_of_its_definition_label():
     spine = diagram('graph TD\n    P3_IN(["in"]) --> P3_COINT_VERDICT{"Cointegrated?"}\n    P3_COINT_VERDICT -->|"Yes"| P3_COINT_FLAG["Set flag: cointegrated"]\n', "p03.md#mermaid-1")
-    chart = diagram('graph TD\n    P2_CA_IN(["in"]) --> P3_COINT_VERDICT[["Cointegrated now?"]]\n    P3_COINT_VERDICT --> P3_COINT_FLAG[["Set flag: cointegrated<br/>for P4"]]\n', "02-causal.md#mermaid-1")
+    chart = diagram('graph TD\n    P0_CA_IN(["in"]) --> P3_COINT_VERDICT[["Cointegrated now?"]]\n    P3_COINT_VERDICT --> P3_COINT_FLAG[["Set flag: cointegrated<br/>for P4"]]\n', "02-causal.md#mermaid-1")
     messages = [f.message for f in audit.check_refs([spine, chart], [])]
     assert messages == ["ref P3_COINT_VERDICT label 'Cointegrated now?' differs from its definition's label 'Cointegrated?' in p03.md#mermaid-1"]
     leaf_def = diagram('graph TD\n    P7_GARCH["GARCH"]\n', "p07.md#mermaid-1")
@@ -82,11 +82,11 @@ def test_a_leaf_must_be_defined_on_its_phase_owner_page():
 
 
 def test_purpose_and_representation_leaves_may_sit_on_their_sub_chart_pages():
-    rows = [audit.Row("P2", "P2: Purpose", "MASTER", (19,), "01-workflow/p02-purpose/index.md#p2-purpose"),
-            audit.Row("P2_CPD_PELT", "PELT", "P2", (30,), "01-workflow/p02-purpose/04-change-point-detection.md#sub-chart"),
-            audit.Row("P2_STRAY", "Stray", "P2", (30,), "01-workflow/p02-purpose/04-change-point-detection.md#sub-chart")]
-    sub_chart = diagram('graph TD\n    P2_CPD_PELT["PELT"]\n', "01-workflow/p02-purpose/04-change-point-detection.md#mermaid-1")
-    outside = diagram('graph TD\n    P2_STRAY["Stray"]\n', "01-workflow/p03-exploratory-diagnostics.md#mermaid-1")
+    rows = [audit.Row("P0", "P0: Purpose and evaluation plan", "MASTER", (19,), "01-workflow/p00-purpose/index.md#p0-purpose-and-evaluation-plan"),
+            audit.Row("P0_CPD_PELT", "PELT", "P0", (30,), "01-workflow/p00-purpose/04-change-point-detection.md#sub-chart"),
+            audit.Row("P0_STRAY", "Stray", "P0", (30,), "01-workflow/p00-purpose/04-change-point-detection.md#sub-chart")]
+    sub_chart = diagram('graph TD\n    P0_CPD_PELT["PELT"]\n', "01-workflow/p00-purpose/04-change-point-detection.md#mermaid-1")
+    outside = diagram('graph TD\n    P0_STRAY["Stray"]\n', "01-workflow/p03-exploratory-diagnostics.md#mermaid-1")
     messages = [f.message for f in audit.check_nodes_vs_inventory([sub_chart, outside], rows)]
-    assert not any("P2_CPD_PELT" in m for m in messages)
-    assert "leaf P2_STRAY of phase P2 is defined on 01-workflow/p03-exploratory-diagnostics.md, but P2 is owned by 01-workflow/p02-purpose/" in messages
+    assert not any("P0_CPD_PELT" in m for m in messages)
+    assert "leaf P0_STRAY of phase P0 is defined on 01-workflow/p03-exploratory-diagnostics.md, but P0 is owned by 01-workflow/p00-purpose/" in messages

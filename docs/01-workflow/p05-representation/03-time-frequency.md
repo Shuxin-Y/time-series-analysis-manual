@@ -21,13 +21,13 @@ graph TD
     P5_TF_TRANSFORM -->|"Discrete wavelet"| P5_TF_DWT["Discrete and maximal-overlap wavelet transforms"]
     P5_TF_TRANSFORM -->|"Adaptive modes"| P5_TF_TO_PART_2(["Continue in part 2"])
     P5_TF_CWT --> P5_TF_SYNCHROSQUEEZING["Reassignment and synchrosqueezing"]
-    P5_TF_STFT & P5_TF_SYNCHROSQUEEZING --> P2_FE_TF_FEATURES[["Time-frequency features"]]
-    P5_TF_DWT --> P2_SE_WAVELET_DENOISING[["Wavelet denoising"]]
-    P2_FE_TF_FEATURES & P2_SE_WAVELET_DENOISING --> P6[["P6: Conditional-mean model class"]]
+    P5_TF_STFT & P5_TF_SYNCHROSQUEEZING --> P0_FE_TF_FEATURES[["Time-frequency features"]]
+    P5_TF_DWT --> P0_SE_WAVELET_DENOISING[["Wavelet denoising"]]
+    P0_FE_TF_FEATURES & P0_SE_WAVELET_DENOISING --> P6[["P6: Conditional-mean model class"]]
     class P5_TF_IN,P5_TF_TO_PART_2 terminator
     class P5_TF_CHANGING,P5_TF_TRANSFORM,P5_TF_TRANSIENTS,P5_TF_LOCALISATION decision
     class P5_TF_STFT,P5_TF_CWT,P5_TF_DWT,P5_TF_SYNCHROSQUEEZING process
-    class P5,P2_FE_TF_FEATURES,P2_SE_WAVELET_DENOISING,P6 ref
+    class P5,P0_FE_TF_FEATURES,P0_SE_WAVELET_DENOISING,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -46,12 +46,12 @@ graph TD
     P5_TF_PART_2_IN(["From part 1: adaptive modes"]) --> P5_TF_ADAPTIVE{"Decomposition?"}
     P5_TF_ADAPTIVE -->|"Empirical"| P5_TF_EMD["Empirical mode decomposition and the Hilbert-Huang transform"]
     P5_TF_ADAPTIVE -->|"Variational"| P5_TF_VMD["Variational mode decomposition"]
-    P5_TF_EMD & P5_TF_VMD --> P2_FE_TF_FEATURES[["Time-frequency features"]]
-    P2_FE_TF_FEATURES --> P6[["P6: Conditional-mean model class"]]
+    P5_TF_EMD & P5_TF_VMD --> P0_FE_TF_FEATURES[["Time-frequency features"]]
+    P0_FE_TF_FEATURES --> P6[["P6: Conditional-mean model class"]]
     class P5_TF_PART_2_IN terminator
     class P5_TF_ADAPTIVE decision
     class P5_TF_EMD,P5_TF_VMD process
-    class P2_FE_TF_FEATURES,P6 ref
+    class P0_FE_TF_FEATURES,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

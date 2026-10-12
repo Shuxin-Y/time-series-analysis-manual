@@ -37,7 +37,7 @@ The manual has three axes. Read Foundations first; follow the Workflow when you 
 
 ### Workflow
 
-The [general flowchart](01-workflow/index.md) runs through twelve phases, P0 to P11, from raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p02-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
+The [general flowchart](01-workflow/index.md) runs through thirteen phases, P0 to P12, from raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p00-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
 
 ### Reference
 
@@ -60,10 +60,10 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
 === "Have Specific Goals"
 
-    - Forecasting → [Purpose-Based Workflow](01-workflow/p02-purpose/01-forecasting.md)
-    - Causal Analysis → [Purpose-Based Workflow](01-workflow/p02-purpose/02-causal-inference.md)
-    - Anomaly Detection → [Purpose-Based Workflow](01-workflow/p02-purpose/05-anomaly-regime-detection.md)
-    - Feature Engineering → [Purpose-Based Workflow](01-workflow/p02-purpose/07-feature-extraction-classification.md)
+    - Forecasting → [Purpose-Based Workflow](01-workflow/p00-purpose/01-forecasting.md)
+    - Causal Analysis → [Purpose-Based Workflow](01-workflow/p00-purpose/02-causal-inference.md)
+    - Anomaly Detection → [Purpose-Based Workflow](01-workflow/p00-purpose/05-anomaly-regime-detection.md)
+    - Feature Engineering → [Purpose-Based Workflow](01-workflow/p00-purpose/07-feature-extraction-classification.md)
 
 === "Know Your Domain"
 

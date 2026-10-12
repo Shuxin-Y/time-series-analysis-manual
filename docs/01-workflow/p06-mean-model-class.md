@@ -12,7 +12,7 @@ Routing on the multivariate, global and exogenous-variable flags, then the model
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P6_IN(["Transformed series, representation, flags"]) --> P6_MODEL_NEEDED{"Is a conditional-mean model the deliverable?"}
-    P6_MODEL_NEEDED -->|"No: component, filtered signal, spectrum, classifier, detector, segmentation or resampled path (state-space smoothing, regime switching and residual-based detection fit a model: answer Yes)"| P10[["P10: Inference and interpretation"]]
+    P6_MODEL_NEEDED -->|"No: component, filtered signal, spectrum, classifier, detector, segmentation or resampled path (state-space smoothing, regime switching and residual-based detection fit a model: answer Yes)"| P11[["P11: Inference and interpretation"]]
     P6_MODEL_NEEDED -->|"Yes"| P6_EXOGENOUS{"Exogenous variables?"}
     P6_EXOGENOUS -->|"Future known"| P6_EXOG_FLAG["Set flag: exogenous regressors"]
     P6_EXOGENOUS -->|"Co-forecast"| P6_MULTI_FLAG["Set flag: multivariate"]
@@ -33,7 +33,7 @@ graph TD
     class P6_IN,P6_TO_PART_4,P6_TO_PART_2,P6_TO_PART_3 terminator
     class P6_MODEL_NEEDED,P6_EXOGENOUS,P6_GLOBAL_Q,P6_MIXED_Q,P6_MULTI_Q,P6_MANY_Q decision
     class P6_EXOG_FLAG,P6_MULTI_FLAG process
-    class P10,B7_CLUSTER_THEN_LOCAL,P7 ref
+    class P11,B7_CLUSTER_THEN_LOCAL,P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -52,7 +52,7 @@ graph TD
     P6_PART_2_IN(["From part 1: a few related series"]) --> P6_COINTEGRATED{"Cointegrated flag?"}
     P6_COINTEGRATED -->|"Yes"| P6_VECM["VECM<br/>fractional cointegration (FCVAR)"]
     P6_COINTEGRATED -->|"No"| P6_VAR["VAR"]
-    P6_VAR -->|"Structural question"| P6_SVAR["SVAR<br/>identification schemes in P10"]
+    P6_VAR -->|"Structural question"| P6_SVAR["SVAR<br/>identification schemes in P11"]
     P6_VAR -->|"Time-varying"| P6_TVP_VAR["Time-varying parameter VAR"]
     P6_VAR -->|"Reduced form"| P7
     P6_VECM & P6_SVAR & P6_TVP_VAR --> P7[["P7: Error-process specification"]]

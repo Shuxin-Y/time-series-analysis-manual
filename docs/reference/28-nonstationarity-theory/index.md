@@ -5,4 +5,4 @@ Cointegration inference. Unit-root and explosive-root (bubble) tests and the coi
 ## Cointegration inference
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_COINTEGRATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_COINTEGRATION`). Write this section following the content rules in `.claude/rules/writing.md`.
