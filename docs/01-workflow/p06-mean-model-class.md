@@ -12,7 +12,7 @@ P6 reads the pooling, mixed-frequency and structure flags to choose a route, the
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P6_IN(["Transformed series, representation, flags"]) --> P6_MODEL_NEEDED{"Is a conditional-mean model the deliverable?"}
-    P6_MODEL_NEEDED -->|"No: a component, filter output, spectrum, classifier or detector"| P11[["P11: Inference and interpretation"]]
+    P6_MODEL_NEEDED -->|"No: a component, filter output, spectrum, classifier or detector"| P10[["P10: Out-of-sample evaluation and selection"]]
     P6_MODEL_NEEDED -->|"Yes"| P6_POOLING{"Pooling flag?"}
     P6_POOLING -->|"Global"| P6_GLOBAL_MODELS["Global models across many series<br/>one learner trained on all series"]
     P6_POOLING -->|"Compare: both routes"| P6_GLOBAL_MODELS
@@ -29,7 +29,7 @@ graph TD
     class P6_GLOBAL_MODELS,P6_PARTIAL_POOLING,P6_MIXED_FREQUENCY escalate
     class P6_IN,P6_TO_PART_8,P6_TO_PART_4,P6_TO_PART_2,P6_TO_PART_3,P6_PART_1_OUT terminator
     class P6_MODEL_NEEDED,P6_POOLING,P6_MIXED_Q,P6_STRUCTURE_Q decision
-    class P11 ref
+    class P10 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

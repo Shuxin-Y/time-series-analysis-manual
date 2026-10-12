@@ -22,8 +22,8 @@ graph TD
     P6_ARIMAX & P6_ARIMA_SARIMA & P6_ETS & P6_GLOBAL_MODELS --> P7[["P7: Error-process specification"]]
     P7 --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
-    P9 --> P9_FORECAST_COMPARISON[["Forecast comparison tests"]]
-    P9_FORECAST_COMPARISON --> P0_FC_BASELINES[["Baselines for comparison"]]
+    P9 --> P10_FORECAST_COMPARISON[["Forecast comparison tests"]]
+    P10_FORECAST_COMPARISON --> P0_FC_BASELINES[["Baselines for comparison"]]
     P0_FC_BASELINES --> P0_FC_DOMAIN{"Epidemic counts?"}
     P0_FC_DOMAIN -->|"Yes"| P0_FC_EPIDEMIC["Epidemic nowcasting<br/>reproduction-number estimation, SIR fitting"]
     P0_FC_DOMAIN -->|"No"| P11
@@ -41,7 +41,7 @@ graph TD
     class P0_FC_IN terminator
     class P0_FC_MANY,P0_FC_EXOG,P0_FC_FAMILY,P0_FC_DOMAIN decision
     class P0_FC_EPIDEMIC process
-    class B7,P3,P4,P6,P6_ARIMAX,P6_ARIMA_SARIMA,P6_ETS,P6_GLOBAL_MODELS,P7,P8,P9,P9_FORECAST_COMPARISON,P11,P11_POINT_FORECASTS,P11_INTERVALS,P11_HIERARCHY,P11_RECONCILIATION,P11_COMBINATION,P10,P10_ROLLING_ORIGIN,P10_POINT_METRICS,P10_PROBABILISTIC_METRICS ref
+    class B7,P3,P4,P6,P6_ARIMAX,P6_ARIMA_SARIMA,P6_ETS,P6_GLOBAL_MODELS,P7,P8,P9,P10_FORECAST_COMPARISON,P11,P11_POINT_FORECASTS,P11_INTERVALS,P11_HIERARCHY,P11_RECONCILIATION,P11_COMBINATION,P10,P10_ROLLING_ORIGIN,P10_POINT_METRICS,P10_PROBABILISTIC_METRICS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

@@ -82,6 +82,11 @@ Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutiona
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_HYPERPARAMETERS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Validation loss and pooled residual diagnostics
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P9_LEARNER_DIAGNOSTICS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Interpretability
 
 !!! note "Section pending"

@@ -15,12 +15,12 @@ Information criteria, bootstrap inference, forecast comparison and encompassing 
 ## Forecast comparison tests
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P9_FORECAST_COMPARISON`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P10_FORECAST_COMPARISON`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Forecast encompassing
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P9_ENCOMPASSING`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P10_ENCOMPASSING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Point-forecast metrics
 

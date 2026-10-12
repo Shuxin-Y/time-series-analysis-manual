@@ -146,3 +146,8 @@ The discrete Fourier transform and periodogram, spectral estimators, leakage, fi
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P5_HP_PHASE_SYNC`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Signal-extraction evaluation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_SIGNAL_EVALUATION`). Write this section following the content rules in `.claude/rules/writing.md`.

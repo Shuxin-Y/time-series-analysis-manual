@@ -114,3 +114,13 @@ Time-series features and representations, distance measures, shapelets, deep cla
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B7_CLUSTER_THEN_LOCAL`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Grouped and temporal splits
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_GROUPED_SPLITS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Synthetic injection and expert review
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_UNLABELLED`). Write this section following the content rules in `.claude/rules/writing.md`.

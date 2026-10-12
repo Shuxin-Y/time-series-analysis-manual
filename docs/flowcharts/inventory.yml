@@ -229,11 +229,15 @@ nodes:
   - {id: F_CLT, label: "Central limit theorem",  phase: F, areas: [1], section: "00-foundations/asymptotics.md#central-limit-theorem"}
   # ---- P9 diagnostic and selection leaves
   - {id: P9_RESIDUAL_NONLINEARITY,    label: "Remaining nonlinearity",            phase: P9, areas: [8, 5], section: "01-workflow/p09-in-sample-diagnostics.md#remaining-nonlinearity"}
+  - {id: P9_DIST_FIT, label: "Test the assumed innovation distribution", phase: P9, areas: [5, 10], section: "01-workflow/p09-in-sample-diagnostics.md#test-the-assumed-innovation-distribution"}
+  - {id: P9_STABILITY, label: "Parameter-stability tests", phase: P9, areas: [30, 5], section: "01-workflow/p09-in-sample-diagnostics.md#parameter-stability-tests"}
+  - {id: P9_ROOTS, label: "Roots, invertibility and parameter redundancy", phase: P9, areas: [3, 9], section: "01-workflow/p09-in-sample-diagnostics.md#roots-invertibility-and-parameter-redundancy"}
+  - {id: P9_LEARNER_DIAGNOSTICS, label: "Validation loss and pooled residual diagnostics", phase: P9, areas: [18, 6], section: "reference/18-machine-learning/index.md#validation-loss-and-pooled-residual-diagnostics"}
   - {id: P9_VOLATILITY_DIAGNOSTICS,   label: "Volatility model diagnostics",      phase: P9, areas: [10], section: "01-workflow/p09-in-sample-diagnostics.md#volatility-model-diagnostics"}
   - {id: P9_INFORMATION_CRITERIA,     label: "Information criteria",              phase: P9, areas: [6, 12], section: "reference/06-model-selection/index.md#information-criteria"}
   - {id: P9_BOOTSTRAP,                label: "Bootstrap inference",               phase: P9, areas: [5, 25], section: "reference/06-model-selection/index.md#bootstrap-inference"}
-  - {id: P9_FORECAST_COMPARISON,      label: "Forecast comparison tests",         phase: P9, areas: [6], section: "reference/06-model-selection/index.md#forecast-comparison-tests"}
-  - {id: P9_ENCOMPASSING,             label: "Forecast encompassing",             phase: P9, areas: [6], section: "reference/06-model-selection/index.md#forecast-encompassing"}
+  - {id: P10_FORECAST_COMPARISON,      label: "Forecast comparison tests",         phase: P10, areas: [6], section: "reference/06-model-selection/index.md#forecast-comparison-tests"}
+  - {id: P10_ENCOMPASSING,             label: "Forecast encompassing",             phase: P10, areas: [6], section: "reference/06-model-selection/index.md#forecast-encompassing"}
   # ---- P11 inference leaves
   - {id: P11_COEFFICIENT_TESTS,   label: "Coefficient and restriction tests",             phase: P11, areas: [5], section: "reference/05-hypothesis-testing/index.md#coefficient-and-restriction-tests"}
   - {id: P11_HAC,                 label: "HAC inference",                                 phase: P11, areas: [27, 5], section: "reference/27-regression-time-series/index.md#hac-inference"}
@@ -260,10 +264,15 @@ nodes:
   - {id: F_PROJECTION,              label: "Projection theorem and best linear prediction",   phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#projection-theorem-and-best-linear-prediction"}
   # ---- P10 validation and deployment leaves
   - {id: P10_ROLLING_ORIGIN, label: "Rolling-origin backtesting", phase: P10, areas: [6], section: "01-workflow/p10-evaluation-selection.md#rolling-origin-backtesting"}
+  - {id: P10_FORECAST_PRODUCT, label: "Complete forecast product per origin", phase: P10, areas: [22, 34], section: "01-workflow/p10-evaluation-selection.md#complete-forecast-product-per-origin"}
+  - {id: P10_FINAL_HOLDOUT, label: "Final hold-out or nested rolling origin", phase: P10, areas: [6, 22], section: "01-workflow/p10-evaluation-selection.md#final-hold-out-or-nested-rolling-origin"}
   - {id: P10_POINT_METRICS,          label: "Point-forecast metrics",             phase: P10, areas: [6], section: "reference/06-model-selection/index.md#point-forecast-metrics"}
   - {id: P10_PROBABILISTIC_METRICS,  label: "Probabilistic metrics",              phase: P10, areas: [34], section: "reference/34-probabilistic-forecasting/index.md#probabilistic-metrics"}
   - {id: P10_CLASSIFICATION_METRICS, label: "Classification and anomaly metrics", phase: P10, areas: [19], section: "reference/19-classification-anomaly/index.md#classification-and-anomaly-metrics"}
   - {id: P10_CHANGE_POINT_METRICS,   label: "Change-point metrics",               phase: P10, areas: [19, 30], section: "reference/19-classification-anomaly/index.md#change-point-metrics"}
+  - {id: P10_GROUPED_SPLITS, label: "Grouped and temporal splits", phase: P10, areas: [19, 6], section: "reference/19-classification-anomaly/index.md#grouped-and-temporal-splits"}
+  - {id: P10_UNLABELLED, label: "Synthetic injection and expert review", phase: P10, areas: [19], section: "reference/19-classification-anomaly/index.md#synthetic-injection-and-expert-review"}
+  - {id: P10_SIGNAL_EVALUATION, label: "Signal-extraction evaluation", phase: P10, areas: [13], section: "reference/13-spectral-analysis/index.md#signal-extraction-evaluation"}
   - {id: P12_DOCUMENTATION,          label: "Document the model specification",   phase: P12, areas: [6], section: "01-workflow/p12-deployment-monitoring.md#document-the-model-specification"}
   - {id: P12_DRIFT_MONITORING,       label: "Drift monitoring",                   phase: P12, areas: [23, 30], section: "reference/23-online-adaptive/index.md#drift-monitoring"}
   - {id: P12_SPC,                    label: "Statistical process control",        phase: P12, areas: [30, 23], section: "reference/30-structural-change/index.md#statistical-process-control"}
