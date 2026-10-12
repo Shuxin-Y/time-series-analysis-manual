@@ -105,8 +105,8 @@ nodes:
   - {id: P1_SCREEN, label: "Screen data errors and mark candidate outliers", phase: P1, areas: [31, 19, 24], section: "01-workflow/p01-data.md#screen-data-errors-and-mark-candidate-outliers"}
   # ---- P3 procedural leaves (live in the phase page)
   - {id: P3_PLOT, label: "Plot the series", phase: P3, areas: [2], section: "01-workflow/p03-exploratory-diagnostics.md#plot-the-series"}
-  - {id: P3_DISTRIBUTION,           label: "Test the distribution",                     phase: P3, areas: [5, 2], section: "01-workflow/p03-exploratory-diagnostics.md#test-the-distribution"}
-  - {id: P3_VARIANCE_STABILITY,     label: "Check variance stability",                  phase: P3, areas: [10, 5], section: "01-workflow/p03-exploratory-diagnostics.md#check-variance-stability"}
+  - {id: P3_DISTRIBUTION,           label: "Describe the distribution",                     phase: P3, areas: [5, 2], section: "01-workflow/p03-exploratory-diagnostics.md#describe-the-distribution"}
+  - {id: P3_VARIANCE_STABILITY,     label: "Check level-dependent variance",                  phase: P3, areas: [10, 5], section: "01-workflow/p03-exploratory-diagnostics.md#check-level-dependent-variance"}
   - {id: P3_TREND_TYPE,             label: "Trend-stationary or difference-stationary", phase: P3, areas: [28, 2], section: "01-workflow/p03-exploratory-diagnostics.md#trend-stationary-or-difference-stationary"}
   - {id: P3_UNIT_ROOT,              label: "Unit-root tests",                           phase: P3, areas: [5, 28], section: "01-workflow/p03-exploratory-diagnostics.md#unit-root-tests"}
   - {id: P3_UNIT_ROOT_BREAKS,       label: "Unit-root tests with breaks",               phase: P3, areas: [5, 30], section: "01-workflow/p03-exploratory-diagnostics.md#unit-root-tests-with-breaks"}
@@ -116,11 +116,13 @@ nodes:
   - {id: P3_SEASONALITY,            label: "Detect seasonality",                        phase: P3, areas: [29, 2], section: "01-workflow/p03-exploratory-diagnostics.md#detect-seasonality"}
   - {id: P3_SEASONAL_UNIT_ROOT,     label: "Seasonal unit-root tests",                  phase: P3, areas: [29, 5], section: "01-workflow/p03-exploratory-diagnostics.md#seasonal-unit-root-tests"}
   - {id: P3_ACF_PACF,               label: "Read the ACF and PACF",                     phase: P3, areas: [2], section: "01-workflow/p03-exploratory-diagnostics.md#read-the-acf-and-pacf"}
-  - {id: P3_LONG_MEMORY,            label: "Long-memory indicators",                    phase: P3, areas: [7], section: "01-workflow/p03-exploratory-diagnostics.md#long-memory-indicators"}
+  - {id: P3_LONG_MEMORY,            label: "Estimate the memory parameter d",                    phase: P3, areas: [7], section: "01-workflow/p03-exploratory-diagnostics.md#estimate-the-memory-parameter-d"}
+  - {id: P3_LM_VS_BREAKS, label: "Long memory or breaks", phase: P3, areas: [7, 30], section: "01-workflow/p03-exploratory-diagnostics.md#long-memory-or-breaks"}
   - {id: P3_NONLINEARITY,           label: "Nonlinearity tests",                        phase: P3, areas: [8, 5], section: "01-workflow/p03-exploratory-diagnostics.md#nonlinearity-tests"}
   - {id: P3_NONPARAMETRIC_TREND,    label: "Nonparametric trend tests",                 phase: P3, areas: [24], section: "01-workflow/p03-exploratory-diagnostics.md#nonparametric-trend-tests"}
   - {id: P3_CROSS_CORRELATION,      label: "Cross-correlation and lead-lag",            phase: P3, areas: [9], section: "01-workflow/p03-exploratory-diagnostics.md#cross-correlation-and-lead-lag"}
-  - {id: P3_COINTEGRATION_PRECHECK, label: "Cointegration pre-check",                   phase: P3, areas: [28, 9], section: "01-workflow/p03-exploratory-diagnostics.md#cointegration-pre-check"}
+  - {id: P3_SERIES_ORDERS, label: "Integration order of every series", phase: P3, areas: [28, 9, 27], section: "01-workflow/p03-exploratory-diagnostics.md#integration-order-of-every-series"}
+  - {id: P3_COINTEGRATION_PRECHECK, label: "Cointegration tests",                   phase: P3, areas: [28, 9], section: "01-workflow/p03-exploratory-diagnostics.md#cointegration-tests"}
   # ---- foundation sections referenced from P3
   - {id: F_STATIONARITY,          label: "Strict and weak stationarity",            phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#strict-and-weak-stationarity"}
   - {id: F_ERGODICITY,            label: "Ergodicity and mixing",                   phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#ergodicity-and-mixing"}

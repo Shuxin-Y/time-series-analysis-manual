@@ -13,10 +13,10 @@ graph TD
     P0_CA_DESIGN -->|"Randomised or natural experiment"| P0_CA_TO_PART_2
     P0_CA_DESIGN -->|"Observational"| P3[["P3: Exploratory diagnostics"]]
     P3 --> P0_CA_MULTI{"Multivariate flag?"}
-    P0_CA_MULTI -->|"Yes"| P3_COINTEGRATION_PRECHECK[["Cointegration pre-check"]]
+    P0_CA_MULTI -->|"Yes"| P3_COINTEGRATION_PRECHECK[["Cointegration tests"]]
     P0_CA_MULTI -->|"No"| P4
     P3_COINTEGRATION_PRECHECK --> P3_COINT_VERDICT[["Cointegrated?"]]
-    P3_COINT_VERDICT -->|"Yes"| P3_COINT_FLAG[["Set flag: cointegrated"]]
+    P3_COINT_VERDICT -->|"Yes"| P3_COINT_FLAG[["Set flag: cointegrated, rank r"]]
     P3_COINT_VERDICT -->|"No"| P4
     P3_COINT_FLAG --> P4[["P4: Transformations"]]
     P4 --> P6[["P6: Conditional-mean model class"]]
