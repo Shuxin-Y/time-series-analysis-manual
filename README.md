@@ -25,7 +25,7 @@ A comprehensive, practical guide to time series analysis that bridges classical 
 ### Three axes
 
 1. **Foundations** (`docs/00-foundations/`) - The model / estimator / test framework, OLS assumptions and how time series violates them, stochastic processes, asymptotics for dependent data; the roots of every derivation chain
-2. **Workflow** (`docs/01-workflow/`) - The general flowchart: thirteen phases P0 to P12 from raw data to a deployed model, with two decision indexes
+2. **Workflow** (`docs/01-workflow/`) - The general flowchart: thirteen phases P0 to P12 from the question and the raw data to a deployed model, with two decision indexes
    - Purpose (P0): ten analytical goals
    - Representation (P5): six mathematical representations
 3. **Reference** (`docs/reference/`) - Thirty-four areas, each with its own chapter group; every leaf node of a workflow sub-diagram opens one reference section
