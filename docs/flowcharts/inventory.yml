@@ -55,6 +55,8 @@ nodes:
   - {id: P7_CORR_TESTS,   label: "Test innovation correlation structure",               phase: P7, areas: [10, 9],  section: "01-workflow/p07-error-process.md#test-innovation-correlation-structure"}
   - {id: P7_COUNT_TESTS,  label: "Test overdispersion of count innovations",            phase: P7, areas: [16],    section: "01-workflow/p07-error-process.md#test-overdispersion-of-count-innovations"}
   - {id: P7_RESCALING,    label: "Time-rescaling check of event-time residuals",        phase: P7, areas: [17],    section: "01-workflow/p07-error-process.md#time-rescaling-check-of-event-time-residuals"}
+  - {id: P7_PRELIM_FIT, label: "Preliminary fit of the P6 class", phase: P7, areas: [4, 3], section: "01-workflow/p07-error-process.md#preliminary-fit-of-the-p6-class"}
+  - {id: P7_STD_RECHECK, label: "Re-check mean dependence on standardised residuals", phase: P7, areas: [5, 10], section: "01-workflow/p07-error-process.md#re-check-mean-dependence-on-standardised-residuals"}
   - {id: P7_OUT,          label: "Assemble the joint model",                            phase: P7, areas: [10, 4], section: "01-workflow/p07-error-process.md#assemble-the-joint-model"}
   # ---- P7 model-family leaves (live in reference chapters)
   - {id: P7_ARMA_ERRORS,   label: "Regression with ARMA errors",                        phase: P7, areas: [27, 3],  section: "reference/27-regression-time-series/index.md#regression-with-arma-errors"}
@@ -77,6 +79,7 @@ nodes:
   - {id: P7_COPULA,        label: "Copula dependence",                                  phase: P7, areas: [10],     section: "reference/10-volatility/index.md#copula-dependence"}
   - {id: P7_INGARCH,       label: "Count innovations: Poisson or negative binomial",    phase: P7, areas: [16],     section: "reference/16-count-categorical/index.md#count-innovations-poisson-or-negative-binomial"}
   - {id: P7_INTENSITY,     label: "Intensity misspecification",                         phase: P7, areas: [17],     section: "reference/17-point-processes/index.md#intensity-misspecification"}
+  - {id: P7_LEARNER_OUTPUT, label: "Output distribution or quantile heads", phase: P7, areas: [34, 18], section: "reference/34-probabilistic-forecasting/index.md#output-distribution-or-quantile-heads"}
   # ---- foundation sections referenced from P7 (phase F: no diagram definition)
   - {id: F_WHITE_NOISE,        label: "White noise, martingale difference, independence", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"}
   - {id: F_WOLD,               label: "Wold decomposition",                              phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#wold-decomposition"}

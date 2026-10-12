@@ -26,3 +26,8 @@ Intermittent demand, prediction intervals, density and quantile forecasts, multi
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P10_PROBABILISTIC_METRICS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Output distribution or quantile heads
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P7_LEARNER_OUTPUT`). Write this section following the content rules in `.claude/rules/writing.md`.
