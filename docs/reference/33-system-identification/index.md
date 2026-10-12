@@ -57,6 +57,11 @@ ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input des
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P5_SS_TAKENS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Chaos indicators with surrogate data
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_SS_CHAOS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Dynamic mode decomposition and Koopman operators
 
 !!! note "Section pending"

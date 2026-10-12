@@ -17,13 +17,14 @@ graph TD
     P5_TD_AUTOCOVARIANCE --> P5_TD_LAG_STRUCTURE["Lag structure and memory"]
     P5_TD_LAG_STRUCTURE --> P6_AR_MA_ARMA[["AR, MA and ARMA"]]
     P5_TD_LAG_STRUCTURE --> P6_ARIMA_SARIMA[["ARIMA and SARIMA"]]
+    P5_TD_LAG_STRUCTURE --> P6_ARFIMA[["ARFIMA"]]
     P5_TD_LAG_STRUCTURE --> P6_VAR[["VAR"]]
     P5_TD_LAG_STRUCTURE --> P6_THRESHOLD[["Threshold models"]]
-    P6_AR_MA_ARMA & P6_ARIMA_SARIMA & P6_VAR & P6_THRESHOLD --> P6[["P6: Conditional-mean model class"]]
+    P6_AR_MA_ARMA & P6_ARIMA_SARIMA & P6_ARFIMA & P6_VAR & P6_THRESHOLD --> P6[["P6: Conditional-mean model class"]]
     class P5_TD_IN terminator
     class P5_TD_PREDICT,P5_TD_CAUSAL,P5_TD_SEQUENTIAL decision
     class P5_TD_AUTOCOVARIANCE,P5_TD_LAG_STRUCTURE process
-    class P5,P6_AR_MA_ARMA,P6_ARIMA_SARIMA,P6_VAR,P6_THRESHOLD,P6 ref
+    class P5,P6_AR_MA_ARMA,P6_ARIMA_SARIMA,P6_ARFIMA,P6_VAR,P6_THRESHOLD,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

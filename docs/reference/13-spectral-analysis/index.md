@@ -92,10 +92,35 @@ The discrete Fourier transform and periodogram, spectral estimators, leakage, fi
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P5_TF_CWT`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Wigner-Ville and Cohen-class distributions
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_TF_WVD`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Locally stationary spectral estimation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_TF_LOCALLY_STATIONARY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Significance and the cone of influence
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_TF_SIGNIFICANCE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Discrete and maximal-overlap wavelet transforms
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P5_TF_DWT`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Multiresolution analysis
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_TF_MRA`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Wavelet variance and wavelet estimation of d
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P5_TF_WAVELET_VARIANCE`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Reassignment and synchrosqueezing
 

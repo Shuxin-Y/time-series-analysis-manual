@@ -336,7 +336,12 @@ nodes:
   # ---- P5 representation leaves: TF (sections in reference chapters)
   - {id: P5_TF_STFT,             label: "Short-time Fourier transform and the spectrogram",             phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#short-time-fourier-transform-and-the-spectrogram"}
   - {id: P5_TF_CWT,              label: "Continuous wavelet transform and the scalogram",               phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#continuous-wavelet-transform-and-the-scalogram"}
+  - {id: P5_TF_WVD, label: "Wigner-Ville and Cohen-class distributions", phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#wigner-ville-and-cohen-class-distributions"}
+  - {id: P5_TF_LOCALLY_STATIONARY, label: "Locally stationary spectral estimation", phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#locally-stationary-spectral-estimation"}
+  - {id: P5_TF_SIGNIFICANCE, label: "Significance and the cone of influence", phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#significance-and-the-cone-of-influence"}
   - {id: P5_TF_DWT,              label: "Discrete and maximal-overlap wavelet transforms",              phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#discrete-and-maximal-overlap-wavelet-transforms"}
+  - {id: P5_TF_MRA, label: "Multiresolution analysis", phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#multiresolution-analysis"}
+  - {id: P5_TF_WAVELET_VARIANCE, label: "Wavelet variance and wavelet estimation of d", phase: P5, areas: [13, 7], section: "reference/13-spectral-analysis/index.md#wavelet-variance-and-wavelet-estimation-of-d"}
   - {id: P5_TF_SYNCHROSQUEEZING, label: "Reassignment and synchrosqueezing",                            phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#reassignment-and-synchrosqueezing"}
   - {id: P5_TF_EMD,              label: "Empirical mode decomposition and the Hilbert-Huang transform", phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#empirical-mode-decomposition-and-the-hilbert-huang-transform"}
   - {id: P5_TF_VMD,              label: "Variational mode decomposition",                               phase: P5, areas: [13], section: "reference/13-spectral-analysis/index.md#variational-mode-decomposition"}
@@ -344,6 +349,7 @@ nodes:
   - {id: P5_SS_FORM,   label: "State-space form and the ARIMA rewriting",                   phase: P5, areas: [11], section: "reference/11-state-space/index.md#state-space-form-and-the-arima-rewriting"}
   - {id: P5_SS_LATENT, label: "Latent states and missing observations", phase: P5, areas: [11], section: "reference/11-state-space/index.md#latent-states-and-missing-observations"}
   - {id: P5_SS_TAKENS, label: "Takens embedding and phase-space reconstruction",            phase: P5, areas: [33, 8], section: "reference/33-system-identification/index.md#takens-embedding-and-phase-space-reconstruction"}
+  - {id: P5_SS_CHAOS, label: "Chaos indicators with surrogate data", phase: P5, areas: [33, 8], section: "reference/33-system-identification/index.md#chaos-indicators-with-surrogate-data"}
   - {id: P5_SS_DMD,    label: "Dynamic mode decomposition and Koopman operators",           phase: P5, areas: [33], section: "reference/33-system-identification/index.md#dynamic-mode-decomposition-and-koopman-operators"}
   # ---- P5 representation leaves: FN (sections in reference chapters)
   - {id: P5_FN_BASIS,      label: "Basis representation and smoothing of curves",        phase: P5, areas: [14], section: "reference/14-functional-high-frequency/index.md#basis-representation-and-smoothing-of-curves"}
