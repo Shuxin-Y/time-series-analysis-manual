@@ -299,7 +299,7 @@ If you use this manual in your research or work, please cite:
 
 ## License
 
-This work is licensed under [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
+The content of this book is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). Code and code examples are licensed under the [MIT License](https://github.com/Shuxin-Y/time-series-analysis-manual/blob/main/LICENSE-CODE). For commercial use of the content, contact the author.
 
 <!-- Abbreviation definitions — ordered by "What This Book Covers" sections 1–26 -->
 
