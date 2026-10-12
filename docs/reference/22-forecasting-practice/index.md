@@ -51,3 +51,8 @@ Baselines, the Theta method, point forecasts and horizons, mixed-frequency model
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B7_HIERARCHY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Back-transformation and re-seasonalisation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_BACK_TRANSFORM`). Write this section following the content rules in `.claude/rules/writing.md`.

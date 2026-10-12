@@ -41,3 +41,8 @@ Time-varying parameter regression, statistical process control, and change-point
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_CP_TYPE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Break-date confidence intervals
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_BREAK_DATE_CI`). Write this section following the content rules in `.claude/rules/writing.md`.

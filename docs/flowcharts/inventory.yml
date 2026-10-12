@@ -240,6 +240,7 @@ nodes:
   - {id: P10_ENCOMPASSING,             label: "Forecast encompassing",             phase: P10, areas: [6], section: "reference/06-model-selection/index.md#forecast-encompassing"}
   # ---- P11 inference leaves
   - {id: P11_COEFFICIENT_TESTS,   label: "Coefficient and restriction tests",             phase: P11, areas: [5], section: "reference/05-hypothesis-testing/index.md#coefficient-and-restriction-tests"}
+  - {id: P11_POST_SELECTION, label: "Inference after a specification search", phase: P11, areas: [5, 6], section: "reference/05-hypothesis-testing/index.md#inference-after-a-specification-search"}
   - {id: P11_HAC,                 label: "HAC inference",                                 phase: P11, areas: [27, 5], section: "reference/27-regression-time-series/index.md#hac-inference"}
   - {id: P11_COINTEGRATION,       label: "Cointegration inference",                       phase: P11, areas: [28, 5], section: "reference/28-nonstationarity-theory/index.md#cointegration-inference"}
   - {id: P11_GRANGER,             label: "Granger, Sims and Toda-Yamamoto causality",     phase: P11, areas: [21], section: "reference/21-causal-inference/index.md#granger-sims-and-toda-yamamoto-causality"}
@@ -251,6 +252,7 @@ nodes:
   - {id: P11_POINT_FORECASTS,     label: "Point forecasts and horizons",                  phase: P11, areas: [22], section: "reference/22-forecasting-practice/index.md#point-forecasts-and-horizons"}
   - {id: P11_INTERVALS,           label: "Prediction intervals",                          phase: P11, areas: [34, 22], section: "reference/34-probabilistic-forecasting/index.md#prediction-intervals"}
   - {id: P11_DENSITY_QUANTILE,    label: "Density and quantile forecasts",                phase: P11, areas: [34], section: "reference/34-probabilistic-forecasting/index.md#density-and-quantile-forecasts"}
+  - {id: P11_BACK_TRANSFORM, label: "Back-transformation and re-seasonalisation", phase: P11, areas: [22, 29], section: "reference/22-forecasting-practice/index.md#back-transformation-and-re-seasonalisation"}
   - {id: P6_MULTISTEP,           label: "Multi-step strategies",                         phase: P6, areas: [34, 22], section: "reference/34-probabilistic-forecasting/index.md#multi-step-strategies"}
   - {id: P11_RECONCILIATION,      label: "Hierarchical and temporal reconciliation",      phase: P11, areas: [22, 34], section: "reference/22-forecasting-practice/index.md#hierarchical-and-temporal-reconciliation"}
   - {id: P11_COMBINATION,         label: "Forecast combination and model averaging",      phase: P11, areas: [22, 12], section: "reference/22-forecasting-practice/index.md#forecast-combination-and-model-averaging"}
@@ -259,6 +261,8 @@ nodes:
   - {id: P11_RISK_MEASURES,       label: "Risk measures and their backtests",             phase: P11, areas: [10], section: "reference/10-volatility/index.md#risk-measures-and-their-backtests"}
   - {id: P11_SCENARIOS, label: "Stress testing and scenario design", phase: P11, areas: [25, 10], section: "reference/25-simulation/index.md#stress-testing-and-scenario-design"}
   - {id: P11_INTERPRETABILITY,    label: "Interpretability",                              phase: P11, areas: [18], section: "reference/18-machine-learning/index.md#interpretability"}
+  - {id: P11_SPECTRAL_BANDS, label: "Confidence bands for spectral estimates", phase: P11, areas: [13], section: "reference/13-spectral-analysis/index.md#confidence-bands-for-spectral-estimates"}
+  - {id: P11_BREAK_DATE_CI, label: "Break-date confidence intervals", phase: P11, areas: [30], section: "reference/30-structural-change/index.md#break-date-confidence-intervals"}
   # ---- foundation sections referenced from P11
   - {id: F_CONDITIONAL_EXPECTATION, label: "Conditional expectation as the optimal forecast", phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#conditional-expectation-as-the-optimal-forecast"}
   - {id: F_PROJECTION,              label: "Projection theorem and best linear prediction",   phase: F, areas: [1], section: "00-foundations/stochastic-processes.md#projection-theorem-and-best-linear-prediction"}
@@ -278,6 +282,8 @@ nodes:
   - {id: P12_SPC,                    label: "Statistical process control",        phase: P12, areas: [30, 23], section: "reference/30-structural-change/index.md#statistical-process-control"}
   - {id: P12_ONLINE_UPDATING,        label: "Online updating",                    phase: P12, areas: [23], section: "reference/23-online-adaptive/index.md#online-updating"}
   - {id: P12_RETRAINING,             label: "Retraining policy",                  phase: P12, areas: [23], section: "01-workflow/p12-deployment-monitoring.md#retraining-policy"}
+  - {id: P12_RETRAIN_RECENT, label: "Retrain on a recent window or re-specify", phase: P12, areas: [23, 30], section: "reference/23-online-adaptive/index.md#retrain-on-a-recent-window-or-re-specify"}
+  - {id: P12_REUSE, label: "Reuse a stored model", phase: P12, areas: [23], section: "reference/23-online-adaptive/index.md#reuse-a-stored-model"}
   # ---- P0 purpose leaves: FC (sections in reference chapters)
   - {id: P0_FC_BASELINES, label: "Baselines for comparison", phase: P0, areas: [22], section: "reference/22-forecasting-practice/index.md#baselines-for-comparison"}
   - {id: P0_FC_EPIDEMIC,  label: "Epidemic nowcasting",                    phase: P0, areas: [26, 22], section: "reference/26-applied-domains/index.md#epidemic-nowcasting"}

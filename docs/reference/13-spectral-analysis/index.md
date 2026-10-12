@@ -151,3 +151,8 @@ The discrete Fourier transform and periodogram, spectral estimators, leakage, fi
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P10_SIGNAL_EVALUATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Confidence bands for spectral estimates
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_SPECTRAL_BANDS`). Write this section following the content rules in `.claude/rules/writing.md`.

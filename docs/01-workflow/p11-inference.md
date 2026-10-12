@@ -2,7 +2,7 @@
 
 **Question this phase answers:** What does the model say, for this purpose?
 
-Coefficient and restriction tests, HAC inference, cointegration and causality inference, structural identification and impulse responses, counterfactuals, forecasting outputs, nowcasting, risk measures and their backtests, scenario simulation, and interpretability.
+P11 issues and interprets the output of the candidate selected in P10. A forecaster issues, for the live origin, the same product P10 scored: the point forecast of the P0 functional, intervals and quantiles, back-transformation and re-seasonalisation to the target scale, combination, judgmental adjustment, and reconciliation of the adjusted forecasts, because aggregation constraints are linear on the target scale and an adjustment after reconciliation breaks coherence. Causal and structural inference accounts for the specification search that produced the model. Structure, events and other outputs are interpreted with their uncertainty: confidence bands for spectra, confidence intervals for break dates.
 
 ## Sub-diagram
 
@@ -11,35 +11,26 @@ Coefficient and restriction tests, HAC inference, cointegration and causality in
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P11_IN(["Validated model and purpose flag"]) --> P11_PURPOSE{"Purpose flag?"}
-    P11_PURPOSE -->|"The future"| P11_POINT_FORECASTS["Point forecasts and horizons"]
+    P11_IN(["Selected candidate and purpose flag from P10"]) --> P11_PURPOSE{"Purpose flag?"}
+    P11_PURPOSE -->|"The future"| P11_POINT_FORECASTS["Point forecasts and horizons<br/>the P0 functional, issued for the live origin"]
     P11_PURPOSE -->|"Causes"| P11_TO_PART_2(["Continue in part 2"])
     P11_PURPOSE -->|"Structure in the series or events"| P11_TO_PART_4(["Continue in part 4"])
     P11_PURPOSE -->|"Other outputs"| P11_TO_PART_5(["Continue in part 5"])
-    P11_POINT_FORECASTS --> P11_INTERVALS["Prediction intervals<br/>analytical, bootstrap, conformal"]
+    P11_POINT_FORECASTS --> P11_INTERVALS["Prediction intervals<br/>analytical, bootstrap, conformal with adaptive variants for dependent data"]
     P11_INTERVALS --> P11_DENSITY_QUANTILE["Density and quantile forecasts"]
-    P11_DENSITY_QUANTILE --> P11_RISK{"Risk measures needed?"}
-    P11_RISK -->|"Yes"| P11_RISK_MEASURES[["Risk measures and their backtests"]]
-    P11_RISK -->|"No"| P11_HIERARCHY
-    P11_RISK_MEASURES --> P11_HIERARCHY{"Hierarchy flag?"}
+    P11_DENSITY_QUANTILE --> P11_BACK_TRANSFORM["Back-transformation and re-seasonalisation<br/>bias adjustment when the functional is the mean"]
+    P11_BACK_TRANSFORM --> P11_COMBINATION["Forecast combination and model averaging<br/>weights from earlier origins"]
+    P11_COMBINATION --> P11_JUDGMENTAL["Judgmental adjustment<br/>tracked by forecast value added"]
+    P11_JUDGMENTAL --> P11_HIERARCHY{"Hierarchy flag?"}
     P11_HIERARCHY -->|"Yes"| P11_RECONCILIATION["Hierarchical and temporal reconciliation<br/>bottom-up, top-down, MinT"]
-    P11_HIERARCHY -->|"No"| P11_COMBINATION
-    P11_RECONCILIATION --> P11_COMBINATION["Forecast combination and model averaging"]
-    P11_COMBINATION --> P11_JUDGMENTAL["Judgmental adjustment"]
-    P11_JUDGMENTAL --> P11_BLACK_BOX{"Black-box model?"}
-    P11_BLACK_BOX -->|"Yes"| P11_INTERPRETABILITY[["Interpretability"]]
-    P11_BLACK_BOX -->|"No"| P11_MIXED
-    P11_INTERPRETABILITY --> P11_MIXED{"Mixed-frequency flag?"}
-    P11_MIXED -->|"Yes"| P11_NOWCASTING["Nowcasting<br/>bridge equations, factor models"]
-    P11_MIXED -->|"No"| P10
-    P11_NOWCASTING --> P10[["P10: Out-of-sample evaluation and selection"]]
+    P11_HIERARCHY -->|"No"| P11_FC_TO_PART_6
+    P11_RECONCILIATION --> P11_FC_TO_PART_6(["Continue in part 6"])
     F_CONDITIONAL_EXPECTATION[["Conditional expectation as the optimal forecast"]] -.- P11_POINT_FORECASTS
     F_PROJECTION[["Projection theorem and best linear prediction"]] -.- P11_INTERVALS
-    P6_MIXED_FREQUENCY[["Mixed-frequency models"]] -.- P11_NOWCASTING
-    class P11_IN,P11_TO_PART_2,P11_TO_PART_4,P11_TO_PART_5 terminator
-    class P11_PURPOSE,P11_RISK,P11_HIERARCHY,P11_BLACK_BOX,P11_MIXED decision
-    class P11_POINT_FORECASTS,P11_INTERVALS,P11_DENSITY_QUANTILE,P11_RECONCILIATION,P11_COMBINATION,P11_JUDGMENTAL,P11_NOWCASTING process
-    class P11_RISK_MEASURES,P11_INTERPRETABILITY,P10,F_CONDITIONAL_EXPECTATION,F_PROJECTION,P6_MIXED_FREQUENCY ref
+    class P11_IN,P11_TO_PART_2,P11_TO_PART_4,P11_TO_PART_5,P11_FC_TO_PART_6 terminator
+    class P11_PURPOSE,P11_HIERARCHY decision
+    class P11_POINT_FORECASTS,P11_INTERVALS,P11_DENSITY_QUANTILE,P11_BACK_TRANSFORM,P11_COMBINATION,P11_JUDGMENTAL,P11_RECONCILIATION process
+    class F_CONDITIONAL_EXPECTATION,F_PROJECTION ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -55,16 +46,19 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P11_PART_2_IN(["From part 1: causes"]) --> P11_COEFFICIENT_TESTS["Coefficient and restriction tests<br/>t, F, likelihood ratio, Wald, Lagrange multiplier"]
-    P11_COEFFICIENT_TESTS --> P11_HAC["HAC inference<br/>Newey-West, bandwidth choice"]
-    P11_HAC --> P11_SYSTEM{"Multivariate flag?"}
+    P11_PART_2_IN(["From part 1: causes"]) --> P11_POST_SELECTION["Inference after a specification search<br/>pre-specification, sample splitting, bootstrap of the whole procedure"]
+    P11_POST_SELECTION --> P11_COEFFICIENT_TESTS["Coefficient and restriction tests<br/>t, F, likelihood ratio, Wald, Lagrange multiplier"]
+    P11_COEFFICIENT_TESTS --> P11_ERRORS_Q{"Error process modelled?"}
+    P11_ERRORS_Q -->|"No"| P11_HAC["HAC inference<br/>Newey-West, bandwidth choice"]
+    P11_ERRORS_Q -->|"Yes"| P8_QMLE[["Quasi-maximum likelihood and sandwich standard errors"]]
+    P11_HAC & P8_QMLE --> P11_SYSTEM{"Multivariate flag?"}
     P11_SYSTEM -->|"Yes"| P11_TO_PART_3(["Continue in part 3"])
     P11_SYSTEM -->|"No"| P11_COUNTERFACTUALS["Counterfactual designs<br/>interrupted time series, difference-in-differences, synthetic control, CausalImpact"]
-    P11_COUNTERFACTUALS --> P10[["P10: Out-of-sample evaluation and selection"]]
-    class P11_PART_2_IN,P11_TO_PART_3 terminator
-    class P11_SYSTEM decision
-    class P11_COEFFICIENT_TESTS,P11_HAC,P11_COUNTERFACTUALS process
-    class P10 ref
+    P11_COUNTERFACTUALS --> P11_PART_2_OUT(["Continue in part 6"])
+    class P11_PART_2_IN,P11_TO_PART_3,P11_PART_2_OUT terminator
+    class P11_ERRORS_Q,P11_SYSTEM decision
+    class P11_POST_SELECTION,P11_COEFFICIENT_TESTS,P11_HAC,P11_COUNTERFACTUALS process
+    class P8_QMLE ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -81,18 +75,17 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P11_PART_3_IN(["From part 2: several series"]) --> P11_CAUSAL_Q{"Causal question?"}
-    P11_CAUSAL_Q -->|"Long-run relations"| P11_COINTEGRATION["Cointegration inference<br/>Engle-Granger, Johansen, ARDL bounds"]
-    P11_CAUSAL_Q -->|"Predictive causality"| P11_GRANGER["Granger, Sims and Toda-Yamamoto causality"]
+    P11_CAUSAL_Q -->|"Long-run relations"| P11_COINTEGRATION["Cointegration inference<br/>restrictions on alpha and beta, weak exogeneity; rank r from P3"]
+    P11_CAUSAL_Q -->|"Predictive causality"| P11_GRANGER["Granger, Sims and Toda-Yamamoto causality<br/>Toda-Yamamoto on the levels VAR with d_max from P3"]
     P11_CAUSAL_Q -->|"Nonlinear dependence"| P11_NONLINEAR_CAUSALITY["Nonlinear causal discovery<br/>transfer entropy, convergent cross mapping, PCMCI"]
     P11_CAUSAL_Q -->|"Structural shocks"| P11_SVAR_IDENTIFICATION["SVAR identification<br/>Cholesky, sign restrictions, long-run, external instruments"]
     P11_CAUSAL_Q -->|"Dynamic effects"| P11_LOCAL_PROJECTIONS["Local projections"]
     P11_SVAR_IDENTIFICATION --> P11_IRF_FEVD["Impulse responses and variance decompositions"]
-    P11_COINTEGRATION & P11_GRANGER & P11_NONLINEAR_CAUSALITY --> P10
-    P11_IRF_FEVD & P11_LOCAL_PROJECTIONS --> P10[["P10: Out-of-sample evaluation and selection"]]
-    class P11_PART_3_IN terminator
+    P11_COINTEGRATION & P11_GRANGER & P11_NONLINEAR_CAUSALITY --> P11_PART_3_OUT
+    P11_IRF_FEVD & P11_LOCAL_PROJECTIONS --> P11_PART_3_OUT(["Continue in part 6"])
+    class P11_PART_3_IN,P11_PART_3_OUT terminator
     class P11_CAUSAL_Q decision
     class P11_COINTEGRATION,P11_GRANGER,P11_NONLINEAR_CAUSALITY,P11_SVAR_IDENTIFICATION,P11_LOCAL_PROJECTIONS,P11_IRF_FEVD process
-    class P10 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -113,13 +106,16 @@ graph TD
     P11_PURPOSE_4 -->|"Events"| P11_EVENTS{"Which events?"}
     P11_STRUCTURE -->|"Signal versus noise"| P0_SE_SNR[["Evaluate the signal-to-noise ratio"]]
     P11_STRUCTURE -->|"Components"| P0_DC_COMPONENT_ANALYSIS[["Analyse and interpret the components"]]
-    P11_STRUCTURE -->|"Frequencies"| P0_SP_PEAK_SIGNIFICANCE[["Peak significance"]]
-    P11_EVENTS -->|"Changes"| P0_CP_TYPE[["Classify the change"]]
+    P11_STRUCTURE -->|"Frequencies"| P11_SPECTRAL_BANDS["Confidence bands for spectral estimates"]
+    P11_SPECTRAL_BANDS --> P0_SP_PEAK_SIGNIFICANCE[["Peak significance"]]
+    P11_EVENTS -->|"Changes"| P11_BREAK_DATE_CI["Break-date confidence intervals"]
+    P11_BREAK_DATE_CI --> P0_CP_TYPE[["Classify the change"]]
     P11_EVENTS -->|"Anomalies or regimes"| P0_AN_THRESHOLD[["Set thresholds by the cost of errors"]]
-    P0_SE_SNR & P0_DC_COMPONENT_ANALYSIS & P0_SP_PEAK_SIGNIFICANCE & P0_CP_TYPE & P0_AN_THRESHOLD --> P10[["P10: Out-of-sample evaluation and selection"]]
-    class P11_PART_4_IN terminator
+    P0_SE_SNR & P0_DC_COMPONENT_ANALYSIS & P0_SP_PEAK_SIGNIFICANCE & P0_CP_TYPE & P0_AN_THRESHOLD --> P11_PART_4_OUT(["Continue in part 6"])
+    class P11_PART_4_IN,P11_PART_4_OUT terminator
     class P11_PURPOSE_4,P11_STRUCTURE,P11_EVENTS decision
-    class P0_SE_SNR,P0_DC_COMPONENT_ANALYSIS,P0_SP_PEAK_SIGNIFICANCE,P0_CP_TYPE,P0_AN_THRESHOLD,P10 ref
+    class P11_SPECTRAL_BANDS,P11_BREAK_DATE_CI process
+    class P0_SE_SNR,P0_DC_COMPONENT_ANALYSIS,P0_SP_PEAK_SIGNIFICANCE,P0_CP_TYPE,P0_AN_THRESHOLD ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -136,16 +132,46 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P11_PART_5_IN(["From part 1: other outputs"]) --> P11_OUTPUTS{"Which output?"}
-    P11_OUTPUTS -->|"Features and labels"| P11_INTERPRETABILITY["Interpretability<br/>SHAP, attention"]
+    P11_OUTPUTS -->|"Features and labels"| P11_FEATURES_TO_PART_6(["Interpretability in part 6"])
     P11_OUTPUTS -->|"A system model"| P0_SI_TRANSFER_FUNCTION[["Estimate the frequency response"]]
     P11_OUTPUTS -->|"Simulated paths"| P11_SCENARIOS["Stress testing and scenario design"]
     P0_SI_TRANSFER_FUNCTION --> P0_SI_STABILITY[["Poles, zeros and stability"]]
-    P11_SCENARIOS --> P11_RISK_MEASURES["Risk measures and their backtests<br/>VaR, expected shortfall, Kupiec, Christoffersen"]
-    P11_INTERPRETABILITY & P0_SI_STABILITY & P11_RISK_MEASURES --> P10[["P10: Out-of-sample evaluation and selection"]]
-    class P11_PART_5_IN terminator
+    P11_SCENARIOS --> P11_RISK_TO_PART_6(["Risk measures in part 6"])
+    P0_SI_STABILITY --> P11_PART_5_OUT(["Continue in part 6"])
+    class P11_PART_5_IN,P11_FEATURES_TO_PART_6,P11_RISK_TO_PART_6,P11_PART_5_OUT terminator
     class P11_OUTPUTS decision
-    class P11_INTERPRETABILITY,P11_SCENARIOS,P11_RISK_MEASURES process
-    class P0_SI_TRANSFER_FUNCTION,P0_SI_STABILITY,P10 ref
+    class P11_SCENARIOS process
+    class P0_SI_TRANSFER_FUNCTION,P0_SI_STABILITY ref
+    classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
+    classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
+    classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
+    classDef data fill:#FFF4E0,stroke:#C9A55E,color:#1A1A1A;
+    classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+    classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
+    classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+    classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
+```
+
+**Part 6: risk measures, interpretability and nowcasting.**
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}}}%%
+graph TD
+    P11_PART_6_IN(["From parts 1 to 5"]) --> P11_RISK{"Risk measures needed?"}
+    P11_RISK -->|"Yes"| P11_RISK_MEASURES["Risk measures and their backtests<br/>VaR, expected shortfall, Kupiec, Christoffersen"]
+    P11_RISK -->|"No"| P11_BLACK_BOX
+    P11_RISK_MEASURES --> P11_BLACK_BOX{"Black-box model?"}
+    P11_BLACK_BOX -->|"Yes"| P11_INTERPRETABILITY["Interpretability<br/>SHAP, attention"]
+    P11_BLACK_BOX -->|"No"| P11_MIXED
+    P11_INTERPRETABILITY --> P11_MIXED{"Mixed-frequency flag?"}
+    P11_MIXED -->|"Yes"| P11_NOWCASTING["Nowcasting<br/>bridge equations, factor models"]
+    P11_MIXED -->|"No"| P12
+    P11_NOWCASTING --> P12[["P12: Deployment and monitoring"]]
+    P6_MIXED_FREQUENCY[["Mixed-frequency models"]] -.- P11_NOWCASTING
+    class P11_PART_6_IN terminator
+    class P11_RISK,P11_BLACK_BOX,P11_MIXED decision
+    class P11_RISK_MEASURES,P11_INTERPRETABILITY,P11_NOWCASTING process
+    class P12,P6_MIXED_FREQUENCY ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
