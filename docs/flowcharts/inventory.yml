@@ -89,18 +89,20 @@ nodes:
   - {id: F_TIME_RESCALING,     label: "Time-rescaling theorem",                          phase: F, areas: [1, 17], section: "00-foundations/stochastic-processes.md#time-rescaling-theorem"}
   # ---- P1 procedural leaves (live in the phase page)
   - {id: P1_INSPECT_SAMPLING,   label: "Inspect sampling rate and resolution",     phase: P1, areas: [31], section: "01-workflow/p01-data.md#inspect-sampling-rate-and-resolution"}
+  - {id: P1_VALUE_TYPE, label: "Determine the value type", phase: P1, areas: [31, 16], section: "01-workflow/p01-data.md#determine-the-value-type"}
   - {id: P1_ALIGN_TIMESTAMPS,   label: "Align timestamps",                         phase: P1, areas: [31], section: "01-workflow/p01-data.md#align-timestamps"}
   - {id: P1_DEDUPLICATE,        label: "Remove duplicate and out-of-order stamps", phase: P1, areas: [31], section: "01-workflow/p01-data.md#remove-duplicate-and-out-of-order-stamps"}
   - {id: P1_RESAMPLE,           label: "Resample and anti-alias",                  phase: P1, areas: [31, 13], section: "01-workflow/p01-data.md#resample-and-anti-alias"}
   - {id: P1_MISSING_IMPUTE,     label: "Impute missing values",                    phase: P1, areas: [31, 11], section: "01-workflow/p01-data.md#impute-missing-values"}
   - {id: P1_MISSING_SEGMENT,    label: "Segment around long gaps",                 phase: P1, areas: [31], section: "01-workflow/p01-data.md#segment-around-long-gaps"}
-  - {id: P1_OUTLIER_TAXONOMY,   label: "Classify outliers",                        phase: P1, areas: [31, 24], section: "01-workflow/p01-data.md#classify-outliers"}
-  - {id: P1_ROBUST_FILTER,      label: "Robust filtering",                         phase: P1, areas: [24, 31], section: "01-workflow/p01-data.md#robust-filtering"}
+  - {id: P4_ROBUST_PREFILTER, label: "Robust prefiltering", phase: P4, areas: [24, 31], section: "01-workflow/p04-transformations.md#robust-prefiltering"}
   - {id: P1_UNITS_METADATA,     label: "Check units and metadata",                 phase: P1, areas: [31], section: "01-workflow/p01-data.md#check-units-and-metadata"}
   - {id: P1_CUMULATIVE_TO_FLOW, label: "Convert cumulative series to flows",       phase: P1, areas: [31], section: "01-workflow/p01-data.md#convert-cumulative-series-to-flows"}
   - {id: P1_CALENDAR_EFFECTS,   label: "Mark calendar effects",                    phase: P1, areas: [29, 31], section: "01-workflow/p01-data.md#mark-calendar-effects"}
   - {id: P1_DISAGGREGATION,     label: "Temporal disaggregation and benchmarking", phase: P1, areas: [31], section: "01-workflow/p01-data.md#temporal-disaggregation-and-benchmarking"}
   - {id: P1_VINTAGES,           label: "Track revisions and real-time vintages",   phase: P1, areas: [31], section: "01-workflow/p01-data.md#track-revisions-and-real-time-vintages"}
+  - {id: P1_REPORTING_DELAY, label: "Correct reporting delays and right truncation", phase: P1, areas: [22, 26, 31], section: "01-workflow/p01-data.md#correct-reporting-delays-and-right-truncation"}
+  - {id: P1_SCREEN, label: "Screen data errors and mark candidate outliers", phase: P1, areas: [31, 19, 24], section: "01-workflow/p01-data.md#screen-data-errors-and-mark-candidate-outliers"}
   # ---- P3 procedural leaves (live in the phase page)
   - {id: P3_PLOT, label: "Plot the series", phase: P3, areas: [2], section: "01-workflow/p03-exploratory-diagnostics.md#plot-the-series"}
   - {id: P3_DISTRIBUTION,           label: "Test the distribution",                     phase: P3, areas: [5, 2], section: "01-workflow/p03-exploratory-diagnostics.md#test-the-distribution"}
@@ -127,16 +129,18 @@ nodes:
   - {id: P4_LOG_BOXCOX,            label: "Variance-stabilising transforms",        phase: P4, areas: [2], section: "01-workflow/p04-transformations.md#variance-stabilising-transforms"}
   - {id: P4_DIFFERENCE,            label: "Regular differencing",                   phase: P4, areas: [2], section: "01-workflow/p04-transformations.md#regular-differencing"}
   - {id: P4_OVERDIFFERENCING,      label: "Check for over-differencing",            phase: P4, areas: [2], section: "01-workflow/p04-transformations.md#check-for-over-differencing"}
-  - {id: P4_FRACTIONAL_DIFFERENCE, label: "Fractional differencing",                phase: P4, areas: [7], section: "01-workflow/p04-transformations.md#fractional-differencing"}
+  - {id: P6_FRACTIONAL_DIFFERENCE, label: "Fractional differencing for learners", phase: P6, areas: [7, 18], section: "reference/18-machine-learning/index.md#fractional-differencing-for-learners"}
   - {id: P4_DETREND,               label: "Detrending by regression on time",       phase: P4, areas: [2, 28], section: "01-workflow/p04-transformations.md#detrending-by-regression-on-time"}
+  - {id: P4_PREWHITEN, label: "Prewhiten and recolour", phase: P4, areas: [13], section: "01-workflow/p04-transformations.md#prewhiten-and-recolour"}
+  - {id: P4_FEATURES, label: "Calendar features and per-series scaling", phase: P4, areas: [18, 22], section: "01-workflow/p04-transformations.md#calendar-features-and-per-series-scaling"}
   - {id: P4_SEASONAL_DIFFERENCE,   label: "Seasonal differencing",                  phase: P4, areas: [29], section: "01-workflow/p04-transformations.md#seasonal-differencing"}
   - {id: P4_SEASONAL_ADJUSTMENT,   label: "Seasonal adjustment",                    phase: P4, areas: [29, 3], section: "01-workflow/p04-transformations.md#seasonal-adjustment"}
   - {id: P4_MULTIPLE_SEASONALITY,  label: "Multiple seasonality",                   phase: P4, areas: [29], section: "01-workflow/p04-transformations.md#multiple-seasonality"}
-  - {id: P4_BREAK_HANDLING,        label: "Handle structural breaks",               phase: P4, areas: [30], section: "01-workflow/p04-transformations.md#handle-structural-breaks"}
+  - {id: P4_BREAK_HANDLING,        label: "Handle breaks and explosive episodes",               phase: P4, areas: [30], section: "01-workflow/p04-transformations.md#handle-breaks-and-explosive-episodes"}
   - {id: P4_FILTER_DECOMPOSITION,  label: "Filter-based decomposition",             phase: P4, areas: [13, 3], section: "01-workflow/p04-transformations.md#filter-based-decomposition"}
   - {id: P4_MODEL_DECOMPOSITION,   label: "Model-based decomposition",              phase: P4, areas: [11, 3], section: "01-workflow/p04-transformations.md#model-based-decomposition"}
   - {id: P4_SSA,                   label: "Singular spectrum analysis",             phase: P4, areas: [13], section: "01-workflow/p04-transformations.md#singular-spectrum-analysis"}
-  - {id: P4_RETEST,                label: "Retest stationarity after transforming", phase: P4, areas: [5], section: "01-workflow/p04-transformations.md#retest-stationarity-after-transforming"}
+  - {id: P4_RETEST,                label: "Retest stationarity around the model's deterministic terms", phase: P4, areas: [5], section: "01-workflow/p04-transformations.md#retest-stationarity-around-the-models-deterministic-terms"}
   # ---- P6 model-family leaves (live in reference chapters)
   - {id: P6_AR_MA_ARMA,         label: "AR, MA and ARMA",                                phase: P6, areas: [3], section: "reference/03-classical/index.md#ar-ma-and-arma"}
   - {id: P6_ARIMA_SARIMA,       label: "ARIMA and SARIMA",                               phase: P6, areas: [3], section: "reference/03-classical/index.md#arima-and-sarima"}

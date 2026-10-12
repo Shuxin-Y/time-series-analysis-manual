@@ -21,7 +21,7 @@ graph TD
     P0_CP_KIND -->|"Mean or variance: segment"| P4[["P4: Transformations"]]
     P0_CP_KIND -->|"Regime: fit a switching model"| P6[["P6: Conditional-mean model class"]]
     P7_MS_GARCH[["Markov-switching GARCH and segmented variance"]] -.- P0_CP_KIND
-    P4 --> P4_BREAK_HANDLING[["Handle structural breaks"]]
+    P4 --> P4_BREAK_HANDLING[["Handle breaks and explosive episodes"]]
     P6 --> P6_MARKOV_SWITCHING[["Markov-switching models"]]
     P4_BREAK_HANDLING & P6_MARKOV_SWITCHING --> P10[["P10: Out-of-sample evaluation and selection"]]
     P10 --> P10_CHANGE_POINT_METRICS[["Change-point metrics"]]

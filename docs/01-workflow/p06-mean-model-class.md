@@ -144,7 +144,7 @@ graph TD
     P6_PART_5_IN(["From part 4: exogenous flag"]) --> P6_EXOG_FORM{"Exogenous form?"}
     P6_EXOG_FORM -->|"Inputs in the ARMA recursion"| P6_ARIMAX["ARIMAX and SARIMAX"]
     P6_EXOG_FORM -->|"Distributed lags"| P6_DYNAMIC_REGRESSION["Distributed-lag and ADL models"]
-    P6_EXOG_FORM -->|"Transfer function or intervention"| P6_TRANSFER_FUNCTION["Transfer-function and intervention models"]
+    P6_EXOG_FORM -->|"Transfer function or intervention"| P6_TRANSFER_FUNCTION["Transfer-function and intervention models<br/>Chen-Liu outlier types: additive, innovation, level shift, temporary change"]
     P6_ARIMAX & P6_DYNAMIC_REGRESSION & P6_TRANSFER_FUNCTION --> P7[["P7: Error-process specification"]]
     class P6_ARIMAX,P6_DYNAMIC_REGRESSION,P6_TRANSFER_FUNCTION escalate
     class P6_PART_5_IN terminator
@@ -244,7 +244,10 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P6_PART_9_IN(["From part 4: learn from data"]) --> P6_ML_FAMILY{"Model family?"}
+    P6_PART_9_IN(["From part 4: learn from data"]) --> P6_FD_Q{"Fractional remainder flag?"}
+    P6_FD_Q -->|"Yes"| P6_FRACTIONAL_DIFFERENCE["Fractional differencing for learners<br/>d estimated inside each training window"]
+    P6_FD_Q -->|"No"| P6_ML_FAMILY
+    P6_FRACTIONAL_DIFFERENCE --> P6_ML_FAMILY{"Model family?"}
     P6_ML_FAMILY -->|"Classical ML"| P6_ML_CLASSICAL{"Learner?"}
     P6_ML_FAMILY -->|"Neural sequence models"| P6_TO_PART_10(["Continue in part 10"])
     P6_ML_FAMILY -->|"Pretrained or generative"| P6_ML_PRETRAINED{"Approach?"}
@@ -258,7 +261,8 @@ graph TD
     P6_FOUNDATION_MODELS & P6_GENERATIVE & P6_HYBRID --> P7[["P7: Error-process specification"]]
     class P6_HYBRID,P6_TREE_ENSEMBLES,P6_GAUSSIAN_PROCESS,P6_RESERVOIR,P6_FOUNDATION_MODELS,P6_GENERATIVE escalate
     class P6_PART_9_IN,P6_TO_PART_10 terminator
-    class P6_ML_FAMILY,P6_ML_CLASSICAL,P6_ML_PRETRAINED decision
+    class P6_ML_FAMILY,P6_ML_CLASSICAL,P6_ML_PRETRAINED,P6_FD_Q decision
+    class P6_FRACTIONAL_DIFFERENCE process
     class P7 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;

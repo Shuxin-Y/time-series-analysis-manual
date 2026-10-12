@@ -14,8 +14,9 @@ graph TD
     P0_SE_NOISE_Q -->|"Impulsive"| P1[["P1: Data acquisition and cleaning"]]
     P0_SE_NOISE_Q -->|"Non-stationary: state-space model"| P6[["P6: Conditional-mean model class"]]
     P6 --> P8[["P8: Estimation"]]
-    P1 --> P1_ROBUST_FILTER[["Robust filtering"]]
-    P1_ROBUST_FILTER --> P5[["P5: Representation selection"]]
+    P1 --> P4[["P4: Transformations"]]
+    P4 --> P4_ROBUST_PREFILTER[["Robust prefiltering"]]
+    P4_ROBUST_PREFILTER --> P5[["P5: Representation selection"]]
     P5 --> P0_SE_TRANSFORM{"Noise colour?"}
     P0_SE_TRANSFORM -->|"White: filter"| P5_FD_FILTERS[["FIR and IIR filter design"]]
     P0_SE_TRANSFORM -->|"1/f: wavelet thresholding"| P5_TF_DWT[["Discrete and maximal-overlap wavelet transforms"]]
@@ -28,7 +29,7 @@ graph TD
     class P0_SE_IN terminator
     class P0_SE_NOISE_Q,P0_SE_TRANSFORM,P0_SE_OK decision
     class P0_SE_NOISE_TYPE,P0_SE_WIENER,P0_SE_WAVELET_DENOISING,P0_SE_SNR process
-    class P1,P6,P8,P1_ROBUST_FILTER,P5,P5_FD_FILTERS,P5_TF_DWT,P8_KALMAN,P10 ref
+    class P1,P4,P6,P8,P4_ROBUST_PREFILTER,P5,P5_FD_FILTERS,P5_TF_DWT,P8_KALMAN,P10 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

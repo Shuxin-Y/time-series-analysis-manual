@@ -2,6 +2,11 @@
 
 Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutional, transformer and state-space sequence networks, neural forecasters, foundation, generative and hybrid models, global models, empirical-loss training, time-aware tuning and interpretability.
 
+## Fractional differencing for learners
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_FRACTIONAL_DIFFERENCE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Tree ensembles on lag features
 
 !!! note "Section pending"
