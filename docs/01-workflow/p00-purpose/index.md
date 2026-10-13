@@ -154,10 +154,10 @@ Emphasised phases are the phases after P0 whose leaves the purpose's sub-chart r
 | [4. Change-point detection](04-change-point-detection.md) | P3, P6, P10, P11 | Dependence-aware detection; Calibrate the threshold; Offline segmentation |
 | [5. Anomaly and regime detection](05-anomaly-regime-detection.md) | P4, P6, P10, P12 | Statistical outlier scores; Matrix profile and discord discovery; Set thresholds by the cost of errors |
 | [6. Decomposition](06-decomposition.md) | P3, P4, P5, P6 | Analyse and interpret the components; Decomposition diagnostics; Revision stability of real-time decompositions |
-| [7. Feature extraction, classification and clustering](07-feature-extraction-classification.md) | P8, P10, P11 | Time-domain features; Shapelets and ROCKET; Tabular learners on feature vectors |
+| [7. Feature extraction, classification and clustering](07-feature-extraction-classification.md) | P10, P11 | Time-domain features; Shapelets and ROCKET; Tabular learners on feature vectors |
 | [8. Spectral analysis](08-spectral-analysis.md) | P5, P11 | Interpret the spectral shape; Peak significance; Cross-spectrum, coherence and phase |
 | [9. System identification](09-system-identification.md) | P6 | Closed-loop identification; Nonparametric analysis of the system; Poles, zeros and stability |
-| [10. Simulation and scenario generation](10-simulation.md) | P6, P8, P11 | Monte Carlo simulation from a fitted model; Check distribution and dependence matching; Train on synthetic, test on real |
+| [10. Simulation and scenario generation](10-simulation.md) | P6, P11 | Monte Carlo simulation from a fitted model; Check distribution and dependence matching; Train on synthetic, test on real |
 
 ## Specify the forecasting task
 

@@ -97,9 +97,9 @@ A test has four components:
 
 A test is judged by two probabilities. Its **size** is the probability of rejecting \(H_0\) when \(H_0\) is true; the significance level \(\alpha\) is the size the analyst sets. Its **power** at a given alternative is the probability of rejecting \(H_0\) when that alternative is true. Power grows with the sample size and with the distance between the alternative and \(H_0\).
 
-The **p-value** is the probability, computed under \(H_0\), of a test statistic at least as extreme as the one observed. It is not the probability that \(H_0\) is true. Rejecting when the p-value is below \(\alpha\) gives a test of size \(\alpha\).
+The **p-value** is the probability, computed under \(H_0\), of a test statistic at least as extreme as the one observed. It is computed under \(H_0\), so it gives no probability that \(H_0\) is true; that probability needs a prior. Rejecting when the p-value is below \(\alpha\) gives a test of size \(\alpha\).
 
-Non-rejection is not evidence for \(H_0\). A test with low power often fails to reject a false null hypothesis, so "fail to reject" means that the data are compatible with \(H_0\), not that \(H_0\) holds.
+A non-rejection means that the data are compatible with \(H_0\). A test with low power often fails to reject a false null hypothesis, so the evidence a non-rejection carries for \(H_0\) is as weak as the test's power.
 
 For example, in \(y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \epsilon_t\) the t-statistic for \(H_0: \beta_j = 0\) is
 

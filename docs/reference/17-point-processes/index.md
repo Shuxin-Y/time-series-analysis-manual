@@ -1,6 +1,6 @@
 # 17. Point Processes
 
-The B2 branch: Poisson, renewal and Cox processes, Hawkes, marked and neural point processes, survival and hazard models, and intensity misspecification. Durations live in area 14 and degradation models in area 26. The branch chart is an index over the spine: clustering of events can come from self-excitation or from a random intensity, so every candidate intensity model is fitted and the candidates are compared in P10, and every model is checked after estimation.
+The B2 branch: Poisson, renewal and Cox processes, Hawkes, marked and neural point processes, survival and hazard models, and intensity misspecification. Durations live in area 14 and degradation models in area 26. The branch chart is an index over the spine: clustering of events can come from self-excitation or from a random intensity, so every candidate intensity model is fitted and the candidates are compared in P10, and every model is checked after estimation. The page also hosts: fit every candidate intensity, check the degradation increments.
 
 ## Branch sub-diagram
 

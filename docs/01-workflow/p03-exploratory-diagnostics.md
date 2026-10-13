@@ -2,7 +2,7 @@
 
 **Question this phase answers:** What structure is present?
 
-Valid diagnostics depend on the value type, the sampling and the cross-sectional structure: unit-root and ACF theory assumes a regularly sampled continuous series, so other types use their branch diagnostics. For a continuous series the scale is chosen first and every later test runs on it. Seasonal unit roots are tested at all frequencies together, explosive episodes are dated before the integration verdict, ADF-type and KPSS results are read together, breaks are tested with methods valid under either integration order, and the memory parameter d is estimated on the levels. The integration flag is the single source of d: agreeing tests propose an integer order k, and the estimate of d confirms it or replaces it.
+Valid diagnostics depend on the value type, the sampling and the cross-sectional structure: unit-root and ACF theory assumes a regularly sampled continuous series, so other types use their branch diagnostics. For a continuous series the scale is chosen first and every later test runs on it. Seasonal unit roots are tested at all frequencies together, explosive episodes are dated before the integration verdict, ADF-type and KPSS results are read together, breaks are tested with methods valid under either integration order, and the memory parameter d is estimated on the levels. The integration flag carries d: agreeing tests propose an integer order k, the estimate of d confirms it or replaces it, and P4 updates the flag when its over-differencing check revises the order.
 
 ## Sub-diagram
 

@@ -1,6 +1,6 @@
 # 19. Classification, Clustering and Anomaly Detection
 
-Time-series features and representations, distance measures, shapelets, deep classifiers, clustering and augmentation; anomaly scores and detectors with cost-based thresholds; classification, anomaly and change-point metrics; and cluster-then-local modelling. Change-point algorithms live in area 30.
+Time-series features and representations, distance measures, shapelets, deep classifiers, clustering and augmentation; anomaly scores and detectors with cost-based thresholds; classification, anomaly and change-point metrics; and cluster-then-local modelling. Change-point algorithms live in area 30. The page also hosts: tabular learners on feature vectors, grouped and temporal splits, synthetic injection and expert review, cluster validation.
 
 ## Classification and anomaly metrics
 

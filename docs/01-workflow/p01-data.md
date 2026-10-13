@@ -2,7 +2,7 @@
 
 **Question this phase answers:** What is measured, and is the series fit to analyse, without deciding anything the purpose decides?
 
-The value type comes first because it decides which cleaning steps are valid: interpolation produces non-integers for counts, event times have nothing to impute, and stock and flow series aggregate differently. The phase then aligns and checks the record, corrects reporting delays on the raw scale, screens data errors, handles missing data and its imputation, and marks candidate outliers without replacing them: whether an outlier is removed, modelled or studied depends on the purpose, and that decision is taken in P4 and P6.
+The value type comes first because it decides which cleaning steps are valid: interpolation produces non-integers for counts, event times have nothing to impute, and stock and flow series aggregate differently. The phase then aligns and checks the record, corrects reporting delays on the raw scale, screens data errors and marks candidate outliers without replacing them, and then handles missing data and its imputation. Whether an outlier is removed, modelled or studied depends on the purpose, and that decision is taken in P4 and P6.
 
 ## Sub-diagram
 

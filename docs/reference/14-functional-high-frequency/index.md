@@ -1,6 +1,6 @@
 # 14. Functional and High-Frequency
 
-The B4 branch (series as curves, basis smoothing, sparse curves, curve registration, functional principal components, functional regression) and autoregressive conditional durations. Ultra-high-frequency (tick) data is irregularly sampled (B3, area 15) and summarised by realised measures (area 10); survival models live in area 17.
+The B4 branch (series as curves, basis smoothing, sparse curves, curve registration, functional principal components, functional regression) and autoregressive conditional durations. Ultra-high-frequency (tick) data is irregularly sampled (B3, area 15) and summarised by realised measures (area 10); survival models live in area 17. The page also hosts: sparse curves by pooled covariance estimation.
 
 ## Branch sub-diagram
 

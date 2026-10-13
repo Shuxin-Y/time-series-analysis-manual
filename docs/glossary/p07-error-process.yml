@@ -1,8 +1,8 @@
-# Glossary: P9: In-sample diagnostics
+# Glossary: P7: Error-process specification
 
 terms:
 
-  - term: "Ljung-Box Test"
+  - term: "Ljung–Box test"
     definition: "A portmanteau test of the null hypothesis that a series, usually a set of residuals, has no autocorrelation up to lag h. Its chi-squared null distribution is asymptotic and derived for i.i.d. noise; under conditional heteroskedasticity it over-rejects, and robust versions or standardised residuals are used."
     mathematical: |
       Test statistic for $n$ observations and $h$ lags:
@@ -19,4 +19,4 @@ terms:
       - 1970: Box and Pierce introduce the Q-test
       - 1978: Ljung and Box improve the test statistic for small samples
     depends_on: ["ACF", "i.i.d"]
-    reference: "01-workflow/p09-in-sample-diagnostics.md#p9-in-sample-diagnostics"
+    reference: "01-workflow/p07-error-process.md#test-residual-autocorrelation"

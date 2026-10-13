@@ -54,7 +54,7 @@ Each phase comes where it does because of what the earlier phases supply.
 | P3 after P2 | Valid diagnostics depend on the value type, the sampling and the cross-sectional structure; unit-root and ACF theory assumes a regularly sampled continuous series. |
 | P4 after P3 | Transforms are chosen from diagnosed structure. |
 | P5 after P4 | A model family is a family of processes written in one representation, and the representation decides which families are candidates. |
-| P6 after P5 | The class is chosen for the series at the scale and integration order at which it will be modelled. Structure the class does not represent (variance scaling, integration when the class is stationary, deterministic terms, breaks) is removed or turned into regressors first; structure the class represents (integration in ARIMA or ARFIMA, cointegration in a VECM) is left to the class. |
+| P6 after P5 | The class is chosen for the series at the scale and integration order at which it will be modelled. Structure the class does not represent (variance scaling, integration when the class works on differences, breaks) is removed first; deterministic trend, seasonal and calendar terms become regressors of the class; structure the class represents (integration carried by an ARIMA-type model, exponential smoothing, a structural model or a VECM) is left to the class. |
 | P7 after P6 | Error tests are valid on residuals of a mean model, from a preliminary fit of the P6 class. |
 | P8 after P7 | The estimator is chosen for the complete joint model; the preliminary fit ignored the error process and is not the estimate. |
 | P9 after P8 | Diagnostics apply to the jointly estimated model. |

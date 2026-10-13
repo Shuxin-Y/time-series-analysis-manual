@@ -1,6 +1,6 @@
 # 25. Simulation and Computational Methods
 
-Simulation-based inference, Monte Carlo and resampled path simulation, synthetic data, scenario simulation and stress testing, and distribution matching. EM lives in area 4, variational inference in area 12 and bootstrap inference in area 6.
+Simulation-based inference, Monte Carlo and resampled path simulation, synthetic data, scenario simulation and stress testing, and distribution matching. EM lives in area 4, variational inference in area 12 and bootstrap inference in area 6. The page also hosts: train on synthetic, test on real.
 
 ## Simulation-based inference
 

@@ -61,7 +61,7 @@ When \(\mathbf{X}\) has full column rank ([Assumption 0](#assumption-0) below) �
 
 (Read: beta-hat equals X-transpose-X-inverse times X-transpose-y.)
 
-The finite-sample properties of OLS rest on a set of assumptions collectively known as the Gauss-Markov conditions. OLS is **BLUE** — the Best Linear Unbiased Estimator — when these assumptions hold; they are sufficient, not necessary (OLS also coincides with GLS for some error covariance matrices that violate them; Zyskind 1967). Assumptions 1–4 constitute the **Gauss-Markov assumptions**; under these, the model is called the **Classical Regression Model** (CRM). Adding Assumption 5 (normality) yields the **Classical Normal Regression Model** (CNRM). Preceding all five is **Assumption 0** (the rank condition), which determines whether the OLS estimator exists at all — a separate tier from A1–A5, treated below.
+The finite-sample properties of OLS rest on a set of assumptions collectively known as the Gauss–Markov conditions. OLS is **BLUE** — the Best Linear Unbiased Estimator — when these assumptions hold; they are sufficient, not necessary (OLS also coincides with GLS for some error covariance matrices that violate them; Zyskind 1967). Assumptions 1–4 constitute the **Gauss–Markov assumptions**; under these, the model is called the **Classical Regression Model** (CRM). Adding Assumption 5 (normality) yields the **Classical Normal Regression Model** (CNRM). Preceding all five is **Assumption 0** (the rank condition), which determines whether the OLS estimator exists at all — a separate tier from A1–A5, treated below.
 
 The matrix calculus derivation of \(\hat{\boldsymbol{\beta}}\), the fundamental decomposition, and the conditions under which t-statistics are valid are developed in full in [Appendix A](../appendices/A-ols-derivation.md).
 
@@ -95,7 +95,7 @@ The design matrix \(\mathbf{X}\) has full column rank: no regressor is an exact 
 
 #### Existence vs quality
 
-Assumption 0 differs from A1–A5 in kind. The five Gauss-Markov assumptions concern the *quality* of the estimator — bias, efficiency, valid inference. Assumption 0 concerns whether the estimator *exists at all*. If A0 fails, \(\mathbf{X}^T\mathbf{X}\) is singular, the inverse does not exist, and OLS produces no estimate. There is no notion of "biased" or "inefficient" because there is no number to begin with.
+Assumption 0 differs from A1–A5 in kind. The five Gauss–Markov assumptions concern the *quality* of the estimator — bias, efficiency, valid inference. Assumption 0 concerns whether the estimator *exists at all*. If A0 fails, \(\mathbf{X}^T\mathbf{X}\) is singular, the inverse does not exist, and OLS produces no estimate. There is no notion of "biased" or "inefficient" because there is no number to begin with.
 
 This distinction also affects how problems are detected. A failure of A0 is a structural failure of the design matrix and surfaces at computation time — software returns a singular-matrix error or silently drops a redundant column. Failures of A2, A3 and A5, and omitted structure that leaves a pattern in the residuals, surface after estimation by examining residuals. Correlation between the errors and the included regressors (simultaneity) leaves no trace in the OLS residuals, because \(\mathbf{X}^T\hat{\boldsymbol{\epsilon}} = \mathbf{0}\) by construction; detecting it needs instruments (the Durbin–Wu–Hausman test) or theory.
 
@@ -105,7 +105,7 @@ Two cases are commonly conflated under the label "multicollinearity":
 
 - **Perfect multicollinearity** — exact linear dependence among regressors. Violates A0. OLS cannot be computed. The textbook example is the **dummy variable trap**: including dummies for all categories alongside an intercept makes the dummy columns sum to the intercept column.
 
-- **Imperfect (high) multicollinearity** — strong but not exact correlation among regressors. **No assumption is violated.** The estimator \(\hat{\boldsymbol{\beta}}\) remains BLUE under the Gauss-Markov conditions. The only consequence is that \(\text{Var}(\hat{\boldsymbol{\beta}})\) is inflated, producing wide confidence intervals and coefficients that swing under small data perturbations. Diagnose with the variance inflation factor (VIF); remedy by dropping redundant regressors, combining them, or using regularized methods such as ridge regression (Hoerl and Kennard 1970).
+- **Imperfect (high) multicollinearity** — strong but not exact correlation among regressors. **No assumption is violated.** The estimator \(\hat{\boldsymbol{\beta}}\) remains BLUE under the Gauss–Markov conditions. The only consequence is that \(\text{Var}(\hat{\boldsymbol{\beta}})\) is inflated, producing wide confidence intervals and coefficients that swing under small data perturbations. Diagnose with the variance inflation factor (VIF); remedy by dropping redundant regressors, combining them, or using regularized methods such as ridge regression (Hoerl and Kennard 1970).
 
 Imperfect multicollinearity is a **modelling nuisance, not an assumption violation**. It changes nothing about the validity of the OLS framework; it only affects the precision of individual coefficient estimates.
 
@@ -229,6 +229,8 @@ Here:
 
 \[\mathbf{I}_3 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}\]
 
+(Read: the three-by-three identity matrix has ones on the diagonal and zeros elsewhere.)
+
 - \(\boldsymbol{\Omega}\) is a \(T \times T\) **symmetric positive-definite matrix**. Symmetric means the matrix equals its own transpose (\(\boldsymbol{\Omega} = \boldsymbol{\Omega}^T\)), which reflects the fact that \(\text{Cov}(\epsilon_t, \epsilon_s) = \text{Cov}(\epsilon_s, \epsilon_t)\). Positive-definite ensures all variances are strictly positive and the matrix is invertible. The diagonal entries encode heteroskedasticity (time-varying variance); the off-diagonal entries encode serial correlation.
 
 For concreteness, take \(T = 3\) errors following a stationary AR(1) process \(\epsilon_t = \rho \epsilon_{t-1} + u_t\) with white-noise innovations \(u_t\) of variance \(\sigma_u^2\). Then \(\sigma^2\) in the decomposition \(\mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}^T] = \sigma^2 \boldsymbol{\Omega}\) is the **marginal (stationary) variance** of \(\epsilon_t\),
@@ -240,6 +242,8 @@ For concreteness, take \(T = 3\) errors following a stationary AR(1) process \(\
 and \(\boldsymbol{\Omega}\) is the resulting **autocorrelation matrix**, with ones on the diagonal and \(\rho^{|t-s|}\) off-diagonal:
 
 \[\boldsymbol{\Omega} = \begin{pmatrix} 1 & \rho & \rho^2 \\ \rho & 1 & \rho \\ \rho^2 & \rho & 1 \end{pmatrix}\]
+
+(Read: Omega has ones on the diagonal and rho to the power of the distance from the diagonal elsewhere.)
 
 When \(\rho = 0\), \(\boldsymbol{\Omega}\) collapses to \(\mathbf{I}\), recovering Assumption 3.
 
@@ -285,7 +289,7 @@ In time series, **strict exogeneity is violated by construction** whenever a lag
 
 Here \(\mathbf{x}_t = y_{t-1}\), so for a sample of \(T\) observations the design matrix consists of \(y_0, y_1, \ldots, y_{T-1}\). The condition \(\mathbb{E}[\epsilon_t \mid y_0, y_1, \ldots, y_{T-1}] = 0\) fails because \(\epsilon_t\) affects \(y_t\), and \(y_t\) itself enters the design matrix as the regressor at time \(t+1\) (i.e., \(y_t = \mathbf{x}_{t+1}\)). Therefore \(\text{Cov}(\mathbf{x}_{t+1}, \epsilon_t) = \text{Cov}(y_t, \epsilon_t) \neq 0\), and strict exogeneity fails.
 
-The predetermined-regressor condition \(\mathbb{E}[\epsilon_t \mid y_{t-1}, y_{t-2}, \ldots] = 0\) holds when \(\epsilon_t\) is a martingale difference sequence with respect to the past of \(y\) (for example, i.i.d.). Uncorrelatedness alone is weaker: it gives \(\mathbb{E}[y_{t-1}\epsilon_t] = 0\), because \(y_{t-1}\) is linear in past errors, which suffices for consistency but not for the usual standard errors. Critically, although strict exogeneity fails for AR(1), OLS in this model with \(|\beta| < 1\) and martingale-difference errors is **biased in finite samples but consistent**: \(\hat{\beta} \xrightarrow{p} \beta\) as \(T \to \infty\). This is the classical Hurwicz (1950) bias result — the bias is of order \(1/T\) and vanishes asymptotically. Time-series econometrics therefore **replaces strict exogeneity with predetermined regressors** and relies on this combination together with large-sample (\(T \rightarrow \infty\)) asymptotics, rather than finite-sample Gauss-Markov results (Hamilton 1994, chap. 8).
+The predetermined-regressor condition \(\mathbb{E}[\epsilon_t \mid y_{t-1}, y_{t-2}, \ldots] = 0\) holds when \(\epsilon_t\) is a martingale difference sequence with respect to the past of \(y\) (for example, i.i.d.). Uncorrelatedness alone is weaker: it gives \(\mathbb{E}[y_{t-1}\epsilon_t] = 0\), because \(y_{t-1}\) is linear in past errors, which suffices for consistency but not for the usual standard errors. Critically, although strict exogeneity fails for AR(1), OLS in this model with \(|\beta| < 1\) and martingale-difference errors is **biased in finite samples but consistent**: \(\hat{\beta} \xrightarrow{p} \beta\) as \(T \to \infty\). This is the classical Hurwicz (1950) bias result — the bias is of order \(1/T\) and vanishes asymptotically. Time-series econometrics therefore **replaces strict exogeneity with predetermined regressors** and relies on this combination together with large-sample (\(T \rightarrow \infty\)) asymptotics, rather than finite-sample Gauss–Markov results (Hamilton 1994, chap. 8).
 
 A more severe violation arises from **simultaneity** — when \(y_t\) and \(\mathbf{x}_t\) jointly determine each other, as in the simultaneous determination of supply and price in a market equilibrium model. Unlike the AR(1) case, where bias vanishes asymptotically, OLS under simultaneity is **biased *and* inconsistent**: the bias does not shrink with sample size, and consistent estimation requires instrumental variables or system methods (Hamilton 1994, chap. 9).
 

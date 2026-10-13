@@ -26,7 +26,7 @@ Three situations admit a linear regression model — possibly with an inference 
 
 ## The Core Question: Independence of the Errors
 
-The question is stated on the errors, not on \(y\). After conditioning on the regressors, are the errors
+The question is stated on the errors. After conditioning on the regressors, are the errors
 
 \[\epsilon_t = y_t - \mathbb{E}[y_t \mid \mathbf{x}_t]\]
 
@@ -36,7 +36,7 @@ i.i.d., or a martingale difference sequence with constant conditional variance, 
 
 A persistent \(y\) does not answer the question. With a persistent regressor \(x_t\) and i.i.d. errors, \(y_t = \beta x_t + \epsilon_t\) is autocorrelated, yet every Gauss–Markov condition holds. The checks therefore run on the residuals of a regression on the features:
 
-- The residual ACF and the Ljung–Box test check **uncorrelatedness**. A flat residual ACF establishes uncorrelatedness only.
+- The residual ACF and the Ljung–Box test check **uncorrelatedness** ([white noise, martingale difference, independence](stochastic-processes.md#white-noise-martingale-difference-independence)).
 - The squared-residual ACF and the ARCH-LM test check one form of **dependence beyond correlation**. Errors with GARCH volatility have a flat ACF and dependent squares.
 
 When the residuals show dependence, the question becomes along which dimension the dependence runs:
@@ -57,7 +57,7 @@ The decision distills into a sequence: fit a linear regression with the engineer
 %% audit: skip
 graph TD
     START(["Time-stamped data"]) --> FIT["Fit a linear regression on the features by OLS<br/>calendar terms, trend, regime indicators"]
-    FIT --> DIAG["Residual ACF and Ljung-Box"]
+    FIT --> DIAG["Residual ACF and Ljung–Box"]
     DIAG --> UNCORR{"Residuals uncorrelated?"}
     UNCORR -->|"Yes"| SQACF{"Squared residuals autocorrelated?"}
     UNCORR -->|"No"| GOAL{"Goal?"}
@@ -95,24 +95,24 @@ The flowchart implies an allocation of work. Feature engineering absorbs the exo
 
 ## What "Time Series Analysis" Means in This Flowchart
 
-Escalating from a linear regression model with i.i.d. errors to a time series specification does not mean fitting a separate model on the OLS residuals. It means **replacing the model**. The canonical form is **regression with ARMA errors**:
+Escalating from a linear regression model with i.i.d. errors to a time series specification means **replacing the model**. The canonical form is **regression with ARMA errors**:
 
 \[y_t = \mathbf{x}_t^T \boldsymbol{\beta} + u_t, \qquad u_t \text{ follows an ARMA process.}\]
 
 (Read: y at time t equals a linear combination of features x-sub-t plus an error u-sub-t that follows an autoregressive moving-average process.)
 
-Here \(u_t\) is a *theoretical* error term — what remains in \(y_t\) after the features are accounted for — not the observed residual from a prior OLS fit. \(\boldsymbol{\beta}\) and the ARMA parameters are estimated together by **maximum likelihood (MLE)** on the original \(y_t\) data, not in sequence. **ARMA** (autoregressive moving-average) is a class of models in which \(u_t\) depends on its own past values and on past random shocks. In this form \(\boldsymbol{\beta}\) is the marginal effect of \(\mathbf{x}_t\) on \(\mathbb{E}[y_t \mid \mathbf{x}_t]\).
+Here \(u_t\) is a *theoretical* error term: what remains in \(y_t\) after the features are accounted for. \(\boldsymbol{\beta}\) and the ARMA parameters are estimated jointly by **maximum likelihood (MLE)** on the original \(y_t\) data. **ARMA** (autoregressive moving-average) is a class of models in which \(u_t\) depends on its own past values and on past random shocks. In this form \(\boldsymbol{\beta}\) is the marginal effect of \(\mathbf{x}_t\) on \(\mathbb{E}[y_t \mid \mathbf{x}_t]\).
 
 **ARIMAX** is a different model. It places the regressors inside the ARMA recursion, \(\phi(B)\, y_t = \mathbf{x}_t^T \boldsymbol{\beta} + \theta(B)\, \epsilon_t\), so \(\boldsymbol{\beta}\) is the impact of \(\mathbf{x}_t\) on \(y_t\) and the long-run effect is \(\boldsymbol{\beta} / \phi(1)\) (Hyndman 2010). Reading ARIMAX coefficients as marginal effects confuses the two.
 
-The OLS fit served only as a diagnostic step. The question it answered was whether the regression left uncorrelated residuals with uncorrelated squares. When the answer is no, that model is replaced, and the replacement is estimated on the original \(y_t\). The estimator changes because the model changed — not the other way around.
+The OLS fit served only as a diagnostic step. The question it answered was whether the regression left uncorrelated residuals with uncorrelated squares. When the answer is no, that model is replaced, and the replacement is estimated on the original \(y_t\). The estimator changes because the model changed.
 
 **Cochrane–Orcutt (1949)** is the classical estimator for a regression with AR(1) errors. It estimates the AR coefficient \(\rho\) from the OLS residuals, quasi-differences the data (\(y_t - \hat{\rho} y_{t-1}\) and \(\mathbf{x}_t - \hat{\rho} \mathbf{x}_{t-1}\)), re-estimates \(\boldsymbol{\beta}\) by OLS on the transformed data, and iterates. That is feasible generalised least squares. With strictly exogenous regressors it is asymptotically equivalent to GLS and to Gaussian MLE (Hamilton 1994, ch. 8); its finite-sample loss is the dropped first observation, which Prais and Winsten (1954) restore. With a lagged dependent variable among the regressors and autocorrelated errors, the first-stage OLS is inconsistent and the iteration can converge to an inconsistent solution (Betancourt and Kelejian 1981). Joint MLE covers ARMA errors of any order and remains valid with lagged dependent variables, which is why the workflow uses it.
 
-**Regression with ARMA errors is the canonical, not the only, escalation.** Two other escalations start from the same baseline:
+**Regression with ARMA errors is the canonical escalation.** Two other escalations start from the same baseline:
 
 - **GARCH** addresses dependence in the conditional **variance** — volatility clustering. The mean model is retained, a GARCH variance equation is added, and the joint specification is estimated by MLE or Gaussian quasi-MLE.
-- **HAC standard errors** address mild mean autocorrelation when inference, not forecasting, is the goal. Neither the model nor the point estimator changes; only the variance estimator used for standard errors is swapped.
+- **HAC standard errors** address mild mean autocorrelation when inference is the goal. The model and the point estimator stay; the variance estimator used for standard errors is swapped.
 
 Beyond these, the time series literature contains many specialised model families, each targeting a kind of dependence the flowchart does not resolve directly:
 

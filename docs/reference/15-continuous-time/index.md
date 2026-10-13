@@ -1,6 +1,6 @@
 # 15. Continuous-Time Models
 
-The B3 branch (informative sampling times, sampling-pattern diagnostics, the Ornstein-Uhlenbeck process, CARMA, fractional processes in continuous time, SDE discretisation, Kalman filtering on an irregular grid, likelihood inference for diffusions) and jump diffusion. Brownian motion and Levy processes are a Part 0 foundation. The branch chart is an index over the spine for a series that keeps its irregular times: the process type is chosen first, its exact discretisation over each interval defines the Kalman filter, and the filter gives the prediction-error likelihood.
+The B3 branch (informative sampling times, sampling-pattern diagnostics, the Ornstein-Uhlenbeck process, CARMA, fractional processes in continuous time, SDE discretisation, Kalman filtering on an irregular grid, likelihood inference for diffusions) and jump diffusion. Brownian motion and Levy processes are a Part 0 foundation. The branch chart is an index over the spine for a series that keeps its irregular times: the process type is chosen first, its exact discretisation over each interval defines the Kalman filter, and the filter gives the prediction-error likelihood. The page also hosts: joint model of the observation times, sampling-pattern and trend diagnostics.
 
 ## Branch sub-diagram
 

@@ -1,6 +1,6 @@
 # 13. Spectral Analysis
 
-The discrete Fourier transform and periodogram, spectral estimators, leakage, filter design, cross-spectra, time-frequency transforms and mode decompositions, the analytic signal and phase synchronisation, and the signal-extraction steps (noise characterisation, Wiener filtering, wavelet denoising, signal-to-noise evaluation). Machine-vibration analysis lives in area 26.
+The discrete Fourier transform and periodogram, spectral estimators, leakage, filter design, cross-spectra, time-frequency transforms and mode decompositions, the analytic signal and phase synchronisation, and the signal-extraction steps (noise characterisation, Wiener filtering, wavelet denoising, signal-to-noise evaluation). Machine-vibration analysis lives in area 26. The page also hosts: Wigner-Ville and Cohen-class distributions, locally stationary spectral estimation, significance and the cone of influence, multiresolution analysis, wavelet variance and wavelet estimation of d, signal-extraction evaluation, confidence bands for spectral estimates.
 
 ## Characterise the noise
 

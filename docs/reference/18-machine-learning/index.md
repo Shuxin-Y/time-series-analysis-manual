@@ -1,6 +1,6 @@
 # 18. Machine Learning and Deep Learning
 
-Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutional, transformer and state-space sequence networks, neural forecasters, foundation, generative and hybrid models, global models, empirical-loss training, time-aware tuning and interpretability.
+Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutional, transformer and state-space sequence networks, neural forecasters, foundation, generative and hybrid models, global models, empirical-loss training, time-aware tuning and interpretability. The page also hosts: fractional differencing for learners, pooled linear autoregression, validation loss and pooled residual diagnostics.
 
 ## Fractional differencing for learners
 

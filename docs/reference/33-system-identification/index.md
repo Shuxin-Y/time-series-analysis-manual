@@ -1,6 +1,6 @@
 # 33. System Identification and Dynamical Systems
 
-ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input design, model structure, order selection, frequency response, poles and zeros, and validation; Takens embedding and dynamic mode decomposition. Box-Jenkins transfer-function models live in area 3.
+ARX and ARMAX, subspace, Hammerstein-Wiener and sparse identification; input design, model structure, order selection, frequency response, poles and zeros, and validation; Takens embedding and dynamic mode decomposition. Box-Jenkins transfer-function models live in area 3. The page also hosts: output-error models, closed-loop identification, nonparametric analysis of the system, chaos indicators with surrogate data.
 
 ## ARX and ARMAX input-output models
 

@@ -97,7 +97,7 @@ The levels nest: i.i.d. \((0, \sigma^2)\) ⊂ stationary MDS with finite varianc
 - ARCH errors are an MDS and not independent: their mean is unpredictable, and their squares are autocorrelated.
 - \(\epsilon_t = \eta_t + \eta_{t-1}\eta_{t-2}\) with \(\eta_t\) i.i.d. \(\mathcal{N}(0, 1)\) is white noise and not an MDS: its autocovariances at every lag \(k \ge 1\) are zero, and its conditional mean given past \(\eta\) values is \(\eta_{t-1}\eta_{t-2} \neq 0\).
 
-The residual ACF and the Ljung–Box test check white noise, and their usual null distributions are derived for i.i.d. noise; under ARCH they over-reject. A flat ACF therefore establishes uncorrelatedness only, and the squared-residual checks of [P7](../01-workflow/p07-error-process.md) look for dependence beyond it.
+The residual ACF and the Ljung–Box test check white noise: a flat ACF establishes uncorrelatedness only, and the squared-residual checks of [P7](../01-workflow/p07-error-process.md) look for dependence beyond it.
 
 ## Ergodicity and mixing
 
@@ -113,7 +113,7 @@ A process is **mixing** when the dependence between its past and its distant fut
 
 where the supremum runs over events \(A\) determined by \((\ldots, y_{t-1}, y_t)\) and events \(B\) determined by \((y_{t+k}, y_{t+k+1}, \ldots)\). The process is strong mixing when \(\alpha(k) \to 0\) as \(k \to \infty\).
 
-Independence implies mixing (\(\alpha(k) = 0\) for \(k \ge 1\)), and for a strictly stationary process mixing implies ergodicity. The law of large numbers needs ergodicity alone, with no rate. A central limit theorem needs more: mixing coefficients that decay fast enough, or a martingale-difference structure ([central limit theorem](asymptotics.md#central-limit-theorem)).
+Independence implies mixing (\(\alpha(k) = 0\) for \(k \ge 1\)), and for a strictly stationary process mixing implies ergodicity. Which of the two the limit theorems need is stated in [Asymptotics for Dependent Data](asymptotics.md).
 
 ## Wold decomposition
 

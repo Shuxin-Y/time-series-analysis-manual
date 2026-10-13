@@ -46,7 +46,7 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P7_PART_2_IN(["From part 1: continuous"]) --> P7_MEAN_TESTS["Test residual autocorrelation<br/>Ljung-Box, heteroskedasticity-robust portmanteau, Breusch-Godfrey with a lagged dependent variable; multivariate portmanteau and LM"]
+    P7_PART_2_IN(["From part 1: continuous"]) --> P7_MEAN_TESTS["Test residual autocorrelation<br/>Ljung–Box, heteroskedasticity-robust portmanteau, Breusch-Godfrey with a lagged dependent variable; multivariate portmanteau and LM"]
     P7_MEAN_TESTS --> P7_MEAN_DEP{"Mean dependence?"}
     P7_MEAN_DEP -->|"None"| P7_TO_PART_3
     P7_MEAN_DEP -->|"Short memory, regression flag"| P7_ARMA_ERRORS["Regression with ARMA errors<br/>beta is a marginal effect"]
@@ -181,7 +181,7 @@ graph TD
 | Step | Question | Tests | Branches |
 |---|---|---|---|
 | 0 | Model kind and value type? | Overdispersion tests for counts; time-rescaling KS test for event times | Loss minimisation: output distribution or quantile heads. Likelihood or Bayesian: preliminary fit, then the value type: continuous or compositional to step 1; counts to Poisson or negative-binomial innovations; event times to intensity misspecification; categorical series and curves to their branch model |
-| 1 | Mean dependence left? | Ljung-Box, heteroskedasticity-robust portmanteau, Breusch-Godfrey with a lagged dependent variable; multivariate portmanteau and LM | None: step 2. Short memory with the regression flag: ARMA errors. Slow decay with the regression flag: ARFIMA errors. Dynamic family still dependent: back to P6. Unit root in the residuals: spurious regression; difference every series in P4 |
+| 1 | Mean dependence left? | Ljung–Box, heteroskedasticity-robust portmanteau, Breusch-Godfrey with a lagged dependent variable; multivariate portmanteau and LM | None: step 2. Short memory with the regression flag: ARMA errors. Slow decay with the regression flag: ARFIMA errors. Dynamic family still dependent: back to P6. Unit root in the residuals: spurious regression; difference every series in P4 |
 | 2 | Variance regimes? | kappa-2 ICSS; Hansen, Garcia and Carrasco-Hu-Ploberger tests for Markov switching | Present: MS-GARCH or segmented variance. None: step 3 |
 | 3 | Second-moment dependence? | ARCH-LM, McLeod-Li, squared-residual ACF; multivariate ARCH-LM | None: step 4. Present: GARCH; EGARCH / GJR / TGARCH; FIGARCH or IGARCH, reachable only after step 2 ruled out regimes; GARCH-in-mean; stochastic volatility; HAR-RV / Realized GARCH with intraday data. Then step 1 again on standardised residuals |
 | 4 | Distribution of standardised innovations? | Jarque-Bera, QQ, Hill tail index; multivariate normality | Gaussian; Student-t / GED or QMLE; skewed-t; EVT; jumps |
@@ -193,7 +193,7 @@ Terminals name **model → estimator → inference**; for example, regression + 
 
 | Branch | Stochastic-process concept | Chain link |
 |---|---|---|
-| White noise terminal | White noise, martingale difference, independence | Ljung-Box tests only uncorrelatedness and cannot detect ARCH, because ARCH is a martingale difference but not independent |
+| White noise terminal | White noise, martingale difference, independence | Ljung–Box tests uncorrelatedness only; ARCH errors are a martingale difference with dependent squares |
 | ARMA errors | Wold decomposition | Any purely non-deterministic covariance-stationary process is MA(∞) in its white-noise linear innovations; ARMA is a rational approximation of that MA(∞) |
 | ARFIMA errors | Long memory, hyperbolic decay | Why no finite-order ARMA reproduces it |
 | GARCH | Weak stationarity α + β < 1; strict stationarity E[log(α z² + β)] < 0 | IGARCH is strictly stationary with infinite unconditional variance |
