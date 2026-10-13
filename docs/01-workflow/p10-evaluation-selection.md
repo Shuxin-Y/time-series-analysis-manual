@@ -2,7 +2,7 @@
 
 **Question this phase answers:** Which candidate predicts or detects best on data it has not seen?
 
-P10 is an as-of-origin simulation. At each origin, every data-dependent step of P1, P4 and P8 (imputation, the variance transform, d, decomposition, seasonal adjustment, features and scaling, tuning) is refitted on the data before the origin, because a step fitted on the full sample leaks the future into the evaluation. Data enter as they stood at the origin (vintages, right-truncated counts when the reporting-delay flag is set), covariates that are external forecasts enter as issued, and the refit cadence and window type match the retraining policy of P12. A forecaster scores the complete product it will issue, on the target scale against raw actuals, with the P0 baselines in the comparison set. The selected candidate's accuracy is reported on data the selection never saw.
+P10 is an as-of-origin simulation for forecasting and detection. At each origin, every data-dependent choice of P1 to P9 is refitted on the data before the origin (imputation, clustering, break dates and the integration, seasonal and cointegration verdicts, the variance transform, d, decomposition, seasonal adjustment, features and scaling, model orders, the error specification, tuning and information-criterion selection), because a choice fitted on the full sample leaks the future into the evaluation. The final hold-out reserved in P0 is touched by no phase before P10. Data enter as they stood at the origin (vintages, right-truncated counts when the reporting-delay flag is set), covariates that are external forecasts enter as issued, and the refit cadence and window type match the retraining policy of P12. A forecaster scores the complete product it will issue, on the target scale against raw actuals, with the P0 baselines in the comparison set. The selected candidate's accuracy is reported on data the selection never saw.
 
 ## Sub-diagram
 
@@ -11,13 +11,15 @@ P10 is an as-of-origin simulation. At each origin, every data-dependent step of 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P10_IN(["Candidates from P9, or outputs of routes that fit no model"]) --> P10_ROLLING_ORIGIN["Rolling-origin backtesting<br/>as of each origin: refit the P1, P4 and P8 steps on earlier data; vintages; covariate forecasts as issued"]
-    P10_ROLLING_ORIGIN --> P10_PURPOSE{"Purpose flag?"}
-    P10_PURPOSE -->|"Forecasting"| P10_TO_PART_2(["Continue in part 2"])
-    P10_PURPOSE -->|"Detection or collections"| P10_TO_PART_3(["Continue in part 3"])
+    P10_IN(["Candidates from P9, or outputs of routes that fit no model"]) --> P10_PURPOSE{"Purpose flag?"}
+    P10_PURPOSE -->|"Forecasting or detection"| P10_ROLLING_ORIGIN["Rolling-origin backtesting<br/>as of each origin: refit every data-dependent choice of P1 to P9 on earlier data; vintages; covariate forecasts as issued"]
+    P10_PURPOSE -->|"Collections"| P10_COLLECTIONS_TO_PART_3(["Continue in part 3"])
     P10_PURPOSE -->|"Other purposes"| P10_TO_PART_4(["Continue in part 4"])
-    class P10_IN,P10_TO_PART_2,P10_TO_PART_3,P10_TO_PART_4 terminator
-    class P10_PURPOSE decision
+    P10_ROLLING_ORIGIN --> P10_TIME_PURPOSE{"Forecasting or detection?"}
+    P10_TIME_PURPOSE -->|"Forecasting"| P10_TO_PART_2(["Continue in part 2"])
+    P10_TIME_PURPOSE -->|"Detection"| P10_TO_PART_3(["Continue in part 3"])
+    class P10_IN,P10_TO_PART_2,P10_TO_PART_3,P10_COLLECTIONS_TO_PART_3,P10_TO_PART_4 terminator
+    class P10_PURPOSE,P10_TIME_PURPOSE decision
     class P10_ROLLING_ORIGIN process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -115,15 +117,17 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P10_PART_5_IN(["From parts 2 to 4"]) --> P10_SELECT{"Outcome?"}
-    P10_SELECT -->|"Select a candidate or a baseline"| P10_FINAL_HOLDOUT["Final hold-out or nested rolling origin<br/>reports the selected candidate's accuracy"]
+    P10_SELECT -->|"Select a candidate or a baseline"| P10_FINAL_HOLDOUT["Final hold-out or nested rolling origin<br/>on the data reserved in P0; reports the selected candidate's accuracy"]
     P10_SELECT -->|"Inference-only purpose: checks passed"| P10_OUT
-    P10_SELECT -.->|"Add a candidate"| P6[["P6: Conditional-mean model class"]]
-    P10_SELECT -.->|"No candidate acceptable"| P6
+    P10_SELECT -->|"Add a candidate, or none acceptable"| P10_REVISE{"What is revised?"}
+    P10_REVISE -.->|"A model"| P6[["P6: Conditional-mean model class"]]
+    P10_REVISE -.->|"A method that fits no model"| P0[["P0: Purpose and evaluation plan<br/>the method part of the purpose chart"]]
+    P10_REVISE -.->|"Causal identification"| P0_CA_IDENTIFICATION[["Identification strategy and exogeneity"]]
     P10_FINAL_HOLDOUT --> P10_OUT(["To P11 Inference and interpretation"])
     class P10_PART_5_IN,P10_OUT terminator
-    class P10_SELECT decision
+    class P10_SELECT,P10_REVISE decision
     class P10_FINAL_HOLDOUT process
-    class P6 ref
+    class P6,P0,P0_CA_IDENTIFICATION ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

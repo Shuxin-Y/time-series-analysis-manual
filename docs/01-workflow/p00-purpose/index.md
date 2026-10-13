@@ -1,3 +1,8 @@
+## Reserve the final hold-out
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_HOLDOUT`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 # P0: Purpose and evaluation plan
 
 **Question this phase answers:** What is the question, how will the answer be judged, and what must the data keep?
@@ -87,10 +92,12 @@ graph TD
     P0_LABELS -->|"Many: supervised learning"| P0_FEATURES[["Purpose 7: Feature extraction, classification and clustering"]]
     P0_LABELS -->|"Few or none"| P0_DETECTION_FLAG["Set flag: labels"]
     P0_SPLIT_UNIT --> P0_SPLIT_FLAG["Set flag: split unit"]
-    P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_PART_3_OUT
+    P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
+    P0_HOLDOUT --> P0_HOLDOUT_FLAG["Set flag: hold-out"]
+    P0_HOLDOUT_FLAG --> P0_PART_3_OUT
     class P0_PART_3_IN,P0_PART_3_OUT terminator
     class P0_PLAN,P0_LABELS decision
-    class P0_FORECAST_TASK,P0_DETECTION_TASK,P0_ESTIMAND,P0_SPLIT_UNIT,P0_FC_BASELINES,P0_COVARIATES,P0_FORECAST_FLAG,P0_COVARIATE_FLAG,P0_DETECTION_FLAG,P0_SPLIT_FLAG process
+    class P0_FORECAST_TASK,P0_DETECTION_TASK,P0_ESTIMAND,P0_SPLIT_UNIT,P0_FC_BASELINES,P0_COVARIATES,P0_FORECAST_FLAG,P0_COVARIATE_FLAG,P0_DETECTION_FLAG,P0_SPLIT_FLAG,P0_HOLDOUT,P0_HOLDOUT_FLAG process
     class P0_FEATURES ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;

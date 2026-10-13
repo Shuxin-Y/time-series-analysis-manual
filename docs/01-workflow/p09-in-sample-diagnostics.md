@@ -22,21 +22,21 @@ graph TD
     P9_TYPE -->|"Counts"| P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
     P9_TYPE -->|"Event times"| P7_RESCALING[["Time-rescaling check of event-time residuals"]]
     P7_MEAN_TESTS --> P9_AC{"Autocorrelation left?"}
-    P9_AC -.->|"Yes: mean misspecified"| P6[["P6: Conditional-mean model class"]]
+    P9_AC -->|"Yes: mean misspecified"| P9_PART_1_FAIL(["A check failed: continue in part 4"])
     P9_AC -->|"No"| P7_VAR_TESTS[["Test conditional heteroskedasticity<br/>Li-Mak correction on standardised residuals"]]
     P7_VAR_TESTS --> P9_ARCH{"ARCH left?"}
-    P9_ARCH -.->|"Yes"| P7[["P7: Error-process specification"]]
+    P9_ARCH -->|"Yes"| P9_PART_1_FAIL
     P9_ARCH -->|"No"| P9_TO_PART_2(["Continue in part 2"])
     P7_COUNT_TESTS --> P9_COUNT{"Dispersion misspecified?"}
-    P9_COUNT -.->|"Yes"| P7
+    P9_COUNT -->|"Yes"| P9_PART_1_FAIL
     P9_COUNT -->|"No"| P9_COUNTS_TO_PART_3
     P7_RESCALING --> P9_INTENSITY{"Intensity misspecified?"}
-    P9_INTENSITY -.->|"Yes"| P7
+    P9_INTENSITY -->|"Yes"| P9_PART_1_FAIL
     P9_INTENSITY -->|"No"| P9_COUNTS_TO_PART_3(["Continue in part 3"])
-    class P9_IN,P9_LEARNER_TO_PART_4,P9_TO_PART_2,P9_COUNTS_TO_PART_3 terminator
+    class P9_IN,P9_LEARNER_TO_PART_4,P9_TO_PART_2,P9_COUNTS_TO_PART_3,P9_PART_1_FAIL terminator
     class P9_KIND,P9_TYPE,P9_AC,P9_ARCH,P9_COUNT,P9_INTENSITY decision
     class P9_LEARNER_DIAGNOSTICS process
-    class P7_MEAN_TESTS,P7_COUNT_TESTS,P7_RESCALING,P6,P7_VAR_TESTS,P7 ref
+    class P7_MEAN_TESTS,P7_COUNT_TESTS,P7_RESCALING,P7_VAR_TESTS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -56,24 +56,24 @@ graph TD
     P9_QMLE_Q -->|"Yes: no law assumed, sandwich standard errors"| P7_REGIME_TESTS
     P9_QMLE_Q -->|"No"| P9_DIST_FIT["Test the assumed innovation distribution<br/>PIT against the fitted law; parametric bootstrap or Bai's test"]
     P9_DIST_FIT --> P9_DIST{"Fitted law rejected?"}
-    P9_DIST -.->|"Yes"| P7[["P7: Error-process specification"]]
+    P9_DIST -->|"Yes"| P9_PART_2_FAIL(["A check failed: continue in part 4"])
     P9_DIST -->|"No"| P7_REGIME_TESTS[["Test for variance regimes"]]
     P7_REGIME_TESTS --> P9_REGIME{"Regimes left?"}
-    P9_REGIME -.->|"Yes"| P7
+    P9_REGIME -->|"Yes"| P9_PART_2_FAIL
     P9_REGIME -->|"No"| P9_MULTI{"Multivariate flag?"}
     P9_MULTI -->|"Yes"| P7_CORR_TESTS[["Test innovation correlation structure"]]
     P9_MULTI -->|"No"| P9_RESIDUAL_NONLINEARITY
     P7_CORR_TESTS --> P9_CORR{"Correlation misspecified?"}
-    P9_CORR -.->|"Yes"| P7
+    P9_CORR -->|"Yes"| P9_PART_2_FAIL
     P9_CORR -->|"No"| P9_RESIDUAL_NONLINEARITY["Remaining nonlinearity<br/>BDS with bootstrap critical values"]
     P9_RESIDUAL_NONLINEARITY --> P9_NONLINEAR{"Nonlinearity left?"}
-    P9_NONLINEAR -.->|"Yes, from variance asymmetry"| P7
-    P9_NONLINEAR -.->|"Yes, in the mean"| P6[["P6: Conditional-mean model class"]]
+    P9_NONLINEAR -->|"Yes, from variance asymmetry"| P9_PART_2_FAIL
+    P9_NONLINEAR -->|"Yes, in the mean"| P9_PART_2_FAIL
     P9_NONLINEAR -->|"No"| P9_TO_PART_3(["Continue in part 3"])
-    class P9_PART_2_IN,P9_TO_PART_3 terminator
+    class P9_PART_2_IN,P9_TO_PART_3,P9_PART_2_FAIL terminator
     class P9_QMLE_Q,P9_DIST,P9_REGIME,P9_MULTI,P9_CORR,P9_NONLINEAR decision
     class P9_DIST_FIT,P9_RESIDUAL_NONLINEARITY process
-    class P7,P7_REGIME_TESTS,P7_CORR_TESTS,P6 ref
+    class P7_REGIME_TESTS,P7_CORR_TESTS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -94,26 +94,25 @@ graph TD
     P9_BAYESIAN_Q -->|"No"| P9_VOLATILITY_Q
     P9_POSTERIOR_PREDICTIVE --> P9_PPC_VERDICT{"Replicated data match?"}
     P9_PPC_VERDICT -->|"Yes"| P9_VOLATILITY_Q{"Variance model?"}
-    P9_PPC_VERDICT -.->|"No: revise the model or priors"| P6[["P6: Conditional-mean model class"]]
+    P9_PPC_VERDICT -->|"No: revise the model or priors"| P9_PART_3_FAIL(["A check failed: continue in part 4"])
     P9_VOLATILITY_Q -->|"Yes"| P9_VOLATILITY_DIAGNOSTICS["Volatility model diagnostics<br/>standardised residuals, sign-bias test, news impact curve"]
     P9_VOLATILITY_Q -->|"No"| P9_STABILITY
     P9_VOLATILITY_DIAGNOSTICS --> P9_STABILITY["Parameter-stability tests<br/>recursive estimates, CUSUM, CUSUMSQ, Nyblom, Hansen, Andrews sup-F; VAR stability"]
     P9_STABILITY --> P9_STABLE{"Parameters stable?"}
-    P9_STABLE -.->|"No: breaks"| P4_BREAK_HANDLING[["Handle breaks and explosive episodes"]]
-    P9_STABLE -.->|"No: drifting or switching"| P6
+    P9_STABLE -->|"No: breaks"| P9_PART_3_FAIL
+    P9_STABLE -->|"No: drifting or switching"| P9_PART_3_FAIL
     P9_STABLE -->|"Yes"| P9_ROOTS["Roots, invertibility and parameter redundancy<br/>MA root near -1, AR root near 1, cancelling roots, companion eigenvalues"]
     P9_ROOTS --> P9_ROOTS_OK{"Roots and orders adequate?"}
-    P9_ROOTS_OK -.->|"No: integration order or transform"| P3[["P3: Exploratory diagnostics"]]
-    P9_ROOTS_OK -.->|"No: redundant parameters"| P6
+    P9_ROOTS_OK -->|"No: integration order or transform"| P9_PART_3_FAIL
+    P9_ROOTS_OK -->|"No: redundant parameters"| P9_PART_3_FAIL
     P9_ROOTS_OK -->|"Yes"| P9_INFORMATION_CRITERIA["Information criteria<br/>within one model class, one transform and one differencing order"]
     P9_INFORMATION_CRITERIA --> P9_INFERENCE_NEEDED{"Finite-sample inference?"}
     P9_INFERENCE_NEEDED -->|"Yes"| P9_BOOTSTRAP["Bootstrap inference<br/>block, stationary, sieve"]
     P9_INFERENCE_NEEDED -->|"No"| P9_TO_PART_4
     P9_BOOTSTRAP --> P9_TO_PART_4(["Continue in part 4"])
-    class P9_PART_3_IN,P9_TO_PART_4 terminator
+    class P9_PART_3_IN,P9_TO_PART_4,P9_PART_3_FAIL terminator
     class P9_BAYESIAN_Q,P9_PPC_VERDICT,P9_VOLATILITY_Q,P9_STABLE,P9_ROOTS_OK,P9_INFERENCE_NEEDED decision
     class P9_POSTERIOR_PREDICTIVE,P9_VOLATILITY_DIAGNOSTICS,P9_STABILITY,P9_ROOTS,P9_INFORMATION_CRITERIA,P9_BOOTSTRAP process
-    class P6,P4_BREAK_HANDLING,P3 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -129,17 +128,17 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P9_PART_4_IN(["From parts 1 and 3"]) --> P9_PASS{"All diagnostics pass?"}
-    P9_PASS -->|"Yes"| P9_OUT(["To P10 Out-of-sample evaluation and selection"])
-    P9_PASS -->|"No"| P9_GATE{"Purpose flag?"}
+    P9_PART_4_IN(["From parts 1 and 3: every check passed"]) --> P9_OUT(["To P10 Out-of-sample evaluation and selection"])
+    P9_PART_4_FAIL_IN(["From parts 1 to 3: a check failed"]) --> P9_GATE{"Purpose flag?"}
     P9_GATE -->|"Forecasting, detection, collections: keep as candidate"| P9_OUT
     P9_GATE -->|"Inference, model-based extraction, decomposition or spectra, simulation"| P9_WHERE{"Which part is misspecified?"}
-    P9_WHERE -.->|"Mean"| P6[["P6: Conditional-mean model class"]]
+    P9_WHERE -.->|"Mean, drifting or switching parameters"| P6[["P6: Conditional-mean model class"]]
     P9_WHERE -.->|"Innovations"| P7[["P7: Error-process specification"]]
     P9_WHERE -.->|"Integration order or transform"| P3[["P3: Exploratory diagnostics"]]
-    class P9_PART_4_IN,P9_OUT terminator
-    class P9_PASS,P9_GATE,P9_WHERE decision
-    class P6,P7,P3 ref
+    P9_WHERE -.->|"Breaks"| P4_BREAK_HANDLING[["Handle breaks and explosive episodes"]]
+    class P9_PART_4_IN,P9_PART_4_FAIL_IN,P9_OUT terminator
+    class P9_GATE,P9_WHERE decision
+    class P6,P7,P3,P4_BREAK_HANDLING ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

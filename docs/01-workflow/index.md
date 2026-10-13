@@ -24,6 +24,8 @@ graph TD
     P9 -.->|"Mean misspecified"| P6
     P9 -.->|"Innovations misspecified"| P7
     P10 -.->|"Add a candidate, or none acceptable"| P6
+    P10 -.->|"No model fitted: revise the method"| P0
+    P9 -.->|"Breaks"| P4
     P12 -.->|"Data fault"| P1
     P12 -.->|"Structural change"| P6
     P12 -.->|"Gradual drift"| P8

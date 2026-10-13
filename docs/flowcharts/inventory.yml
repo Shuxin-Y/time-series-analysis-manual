@@ -39,6 +39,7 @@ nodes:
   - {id: P0_DETECTION_TASK, label: "Specify the detection task", phase: P0, areas: [19, 30], section: "01-workflow/p00-purpose/index.md#specify-the-detection-task"}
   - {id: P0_ESTIMAND, label: "Specify the estimand", phase: P0, areas: [21, 33], section: "01-workflow/p00-purpose/index.md#specify-the-estimand"}
   - {id: P0_SPLIT_UNIT, label: "Choose the split unit", phase: P0, areas: [19, 18], section: "01-workflow/p00-purpose/index.md#choose-the-split-unit"}
+  - {id: P0_HOLDOUT, label: "Reserve the final hold-out", phase: P0, areas: [6, 22], section: "01-workflow/p00-purpose/index.md#reserve-the-final-hold-out"}
   - {id: P0_COVARIATES, label: "Covariates and their availability", phase: P0, areas: [27, 22], section: "01-workflow/p00-purpose/index.md#covariates-and-their-availability"}
   # ---- P5 representations
   - {id: P5_TIME_DOMAIN,      label: "Representation 1: Time domain",        phase: P5, areas: [3, 9],  section: "01-workflow/p05-representation/01-time-domain.md#representation-1-time-domain"}
