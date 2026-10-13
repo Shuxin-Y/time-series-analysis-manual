@@ -30,12 +30,11 @@ graph TD
     B6_ESTIMATOR -->|"Cross-sectional dependence"| B6_CCE["Common correlated effects estimators"]
     B6_ESTIMATOR -->|"Neither"| P9
     B6_PANEL_COINTEGRATION & B6_CCE --> P9[["P9: In-sample diagnostics"]]
-    P9 --> P11[["P11: Inference and interpretation"]]
-    P11 --> B6_OUT(["Continue on the spine at P12"])
+    P9 --> B6_OUT(["Continue on the spine at P10"])
     class B6_OUT terminator
     class B6_CD,B6_VERDICT,B6_DYNAMIC,B6_HETERO,B6_ESTIMATOR decision
     class B6,B6_CROSS_SECTION_DEPENDENCE,B6_PANEL_UNIT_ROOT,B6_CD_FLAG,B6_SECOND_GENERATION,B6_COINT_FLAG,B6_STATIC_PANEL,B6_DYNAMIC_PANEL,B6_HETEROGENEOUS,B6_PANEL_COINTEGRATION,B6_CCE process
-    class P3,P4,P6,P8,P9,P11 ref
+    class P3,P4,P6,P8,P9 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
