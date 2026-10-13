@@ -3,6 +3,27 @@
 terms:
 
   - term: "Law of large numbers"
-    definition: "A sample average converges to the corresponding expectation as the sample grows. For dependent data the result needs stationarity and ergodicity (or mixing) in place of independence."
-    foundation: true
+    definition: "A sample average converges to the corresponding expectation as the sample grows. For a strictly stationary and ergodic process with a finite first absolute moment the sample mean converges almost surely to the expectation (the ergodic theorem); no rate at which dependence dies out is needed. Heterogeneous processes have versions under mixing and moment conditions."
+    derivation: |
+      1. Stationarity makes every $y_t$ share the expectation $\mathbb{E}[y_1]$, so there is one target for the average to converge to.
+      2. Ergodicity rules out events that persist forever with intermediate probability; without it the average converges to a random variable, the conditional expectation given the shift-invariant events (Birkhoff 1931).
+      3. A finite first absolute moment makes the expectation exist.
+      4. No mixing rate is used: a long-memory process with $0 < d < 1/2$ is ergodic and obeys the law, although its average converges more slowly than $1/\sqrt{T}$.
+    depends_on: ["Stationarity", "Ergodicity", "Mixing"]
     reference: "00-foundations/asymptotics.md#law-of-large-numbers"
+
+  - term: "Long-run variance"
+    definition: "The limit of T times the variance of the sample mean of a weakly stationary process: the sum of all its autocovariances, equal to 2 pi times the spectral density at frequency zero. It replaces the variance in the central limit theorem for dependent data and is what HAC standard errors estimate."
+    mathematical: |
+      $$\omega^2 = \lim_{T \to \infty} T\, \text{Var}(\bar{y}_T) = \sum_{k=-\infty}^{\infty} \gamma(k) = 2\pi f(0).$$
+    depends_on: ["Stationarity"]
+    reference: "00-foundations/asymptotics.md#central-limit-theorem"
+
+  - term: "Central limit theorem"
+    definition: "The standardised sample mean converges in distribution to a normal law. For dependent data the variance in the limit is the long-run variance, and the theorem needs, beyond stationarity and ergodicity, either a martingale-difference structure with finite variance, or mixing coefficients that decay fast enough together with moments beyond the second."
+    derivation: |
+      1. For a stationary ergodic martingale difference sequence with finite variance $\sigma^2$, $\sqrt{T}\,\bar{\epsilon}_T$ converges to $\mathcal{N}(0, \sigma^2)$ (Billingsley 1961; Ibragimov 1963): the martingale-difference property removes the cross terms that dependence would add to the variance.
+      2. For a stationary strong-mixing process with $\mathbb{E}|y_t|^r < \infty$ for some $r > 2$ and $\sum_k \alpha(k)^{1-2/r} < \infty$, $\sqrt{T}(\bar{y}_T - \mu)$ converges to $\mathcal{N}(0, \omega^2)$ (Ibragimov 1962): the summability makes the autocovariances summable, so the long-run variance is finite.
+      3. Without a rate the conclusion can fail: long memory makes the autocovariances non-summable, the long-run variance infinite, and the normalisation $\sqrt{T}$ wrong.
+    depends_on: ["Stationarity", "Ergodicity", "Martingale difference sequence", "Mixing", "Long-run variance"]
+    reference: "00-foundations/asymptotics.md#central-limit-theorem"

@@ -30,14 +30,14 @@ The manual has three axes. Read Foundations first; follow the Workflow when you 
 ### Foundations
 
 - **[The logic of statistical analysis](00-foundations/logic-of-statistical-analysis.md)**: model class, estimator, test
-- **[Do you need time series analysis?](00-foundations/do-you-need-time-series-analysis.md)**: the gateway flowchart from OLS to richer models
+- **[Stochastic processes](00-foundations/stochastic-processes.md)**: stationarity, white noise, martingale differences and independence, ergodicity — the roots of every error-process choice
+- **[Asymptotics for dependent data](00-foundations/asymptotics.md)**: the law of large numbers, the central limit theorem, consistency
 - **[OLS assumptions and how time series violates them](00-foundations/ols-assumptions.md)**
-- **[Stochastic processes](00-foundations/stochastic-processes.md)**: the roots of every error-process choice
-- **[Asymptotics for dependent data](00-foundations/asymptotics.md)**
+- **[Do you need time series analysis?](00-foundations/do-you-need-time-series-analysis.md)**: the gateway flowchart, which uses all of the above
 
 ### Workflow
 
-The [general flowchart](01-workflow/index.md) runs through twelve phases, P0 to P11, from raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p02-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
+The [general flowchart](01-workflow/index.md) runs through thirteen phases, P0 to P12, from the question and the raw data to a deployed model. Two of its phases are decision indexes: [Purpose](01-workflow/p00-purpose/index.md) (ten analytical goals) and [Representation](01-workflow/p05-representation/index.md) (six mathematical representations). The [error-process phase](01-workflow/p07-error-process.md) is where stochastic-process theory meets residual modelling.
 
 ### Reference
 
@@ -60,10 +60,10 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
 === "Have Specific Goals"
 
-    - Forecasting → [Purpose-Based Workflow](01-workflow/p02-purpose/01-forecasting.md)
-    - Causal Analysis → [Purpose-Based Workflow](01-workflow/p02-purpose/02-causal-inference.md)
-    - Anomaly Detection → [Purpose-Based Workflow](01-workflow/p02-purpose/05-anomaly-regime-detection.md)
-    - Feature Engineering → [Purpose-Based Workflow](01-workflow/p02-purpose/07-feature-extraction-classification.md)
+    - Forecasting → [Purpose-Based Workflow](01-workflow/p00-purpose/01-forecasting.md)
+    - Causal Analysis → [Purpose-Based Workflow](01-workflow/p00-purpose/02-causal-inference.md)
+    - Anomaly Detection → [Purpose-Based Workflow](01-workflow/p00-purpose/05-anomaly-regime-detection.md)
+    - Feature Engineering → [Purpose-Based Workflow](01-workflow/p00-purpose/07-feature-extraction-classification.md)
 
 === "Know Your Domain"
 
@@ -88,16 +88,17 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "4. Estimation"
 
-        MOM, OLS, MLE (exact/conditional), QMLE, GMM, Bayesian estimation (MCMC, Gibbs, Metropolis-Hastings), Yule-Walker equations, Whittle likelihood.
+        MOM, OLS, MLE (exact/conditional), QMLE, GMM, Bayesian estimation (MCMC, Gibbs, Metropolis–Hastings), Yule–Walker equations, Whittle likelihood.
 
     === "5. Hypothesis Testing"
 
-        - **Unit Root:** ADF, KPSS, PP, DF-GLS, Zivot-Andrews (with structural breaks)
-        - **Cointegration:** Engle-Granger, Johansen, ARDL bounds
-        - **Causality:** Granger, Sims, Toda-Yamamoto
-        - **Structural Breaks:** Chow test, CUSUM, Bai-Perron
-        - **Serial Correlation:** Breusch-Godfrey, Ljung-Box, Durbin-Watson, White test
-        - **Normality:** Jarque-Bera
+        - **Unit Root:** ADF, KPSS, PP, DF-GLS, Zivot–Andrews (with structural breaks)
+        - **Cointegration:** Engle–Granger, Johansen, ARDL bounds
+        - **Causality:** Granger, Sims, Toda–Yamamoto
+        - **Structural Breaks:** Chow test, CUSUM, Bai–Perron
+        - **Serial Correlation:** Breusch–Godfrey, Ljung–Box, Durbin–Watson
+        - **Heteroskedasticity:** White test, ARCH-LM
+        - **Normality:** Jarque–Bera
         - **Bootstrap:** block, sieve
 
     === "6. Model Selection"
@@ -106,7 +107,7 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
         - **Cross-validation:** walk-forward, rolling
         - **Residual diagnostics:** ACF/PACF, Q-stats
         - **Forecast evaluation:** MAE, RMSE, MAPE, MASE
-        - **Forecast comparison:** Diebold-Mariano test, reality check, model confidence sets (Hansen)
+        - **Forecast comparison:** Diebold–Mariano test, reality check, model confidence sets (Hansen)
 
     === "25. Simulation"
 
@@ -114,7 +115,7 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "27. Regression with TS Data"
 
-        OLS under temporal dependence, HAC inference (Newey-West, bandwidth choice), feasible GLS (Cochrane-Orcutt, Prais-Winsten), dynamic regression, distributed lags, trending regressors, spurious regression.
+        OLS under temporal dependence, HAC inference (Newey–West, bandwidth choice), feasible GLS (Cochrane–Orcutt, Prais–Winsten), dynamic regression, distributed lags, trending regressors, spurious regression.
 
     === "28. Nonstationarity Theory"
 
@@ -171,15 +172,15 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "29. Seasonality & Calendar"
 
-        Seasonal unit roots (HEGY, Canova-Hansen, OCSB), seasonal adjustment (X-13, SEATS, STL as methodology), periodic autoregression (PAR), multiple seasonality (MSTL, TBATS, Fourier terms), calendar and holiday effects, cyclostationary processes.
+        Seasonal unit roots (HEGY, Canova–Hansen, OCSB), seasonal adjustment (X-13, SEATS, STL as methodology), periodic autoregression (PAR), multiple seasonality (MSTL, TBATS, Fourier terms), calendar and holiday effects, cyclostationary processes.
 
     === "30. Structural Change & TVP"
 
-        Break tests, time-varying parameter models, rolling and recursive estimation, forecasting under breaks (Pesaran-Timmermann), statistical process control (Shewhart, EWMA, CUSUM charts).
+        Break tests, time-varying parameter models, rolling and recursive estimation, forecasting under breaks (Pesaran–Timmermann), statistical process control (Shewhart, EWMA, CUSUM charts).
 
     === "32. Panel Time Series"
 
-        Panel unit roots and cointegration, dynamic panel GMM (Arellano-Bond), heterogeneous panels (mean group, pooled mean group), cross-sectional dependence (CD test, CCE), large-N large-T asymptotics.
+        Panel unit roots and cointegration, dynamic panel GMM (Arellano–Bond), heterogeneous panels (mean group, pooled mean group), cross-sectional dependence (CD test, CCE), large-N large-T asymptotics.
 
 === "Specialized Models"
 
@@ -193,7 +194,7 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "15. Continuous-Time"
 
-        OU process, Ito diffusions, geometric Brownian motion, CARMA, Levy-driven processes, jump-diffusion models, numerical methods for SDEs (Euler-Maruyama, Milstein), likelihood inference for diffusions, signature methods (rough path theory).
+        OU process, Ito diffusions, geometric Brownian motion, CARMA, Levy-driven processes, jump-diffusion models, numerical methods for SDEs (Euler–Maruyama, Milstein), likelihood inference for diffusions, signature methods (rough path theory).
 
     === "16. Count & Categorical"
 
@@ -207,7 +208,7 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "33. System ID & Dynamical Systems"
 
-        ARX, ARMAX and Box-Jenkins transfer functions from the control perspective, subspace methods (N4SID), Hammerstein-Wiener, Takens embedding and phase-space reconstruction, dynamic mode decomposition, Koopman operators, SINDy.
+        ARX, ARMAX and Box–Jenkins transfer functions from the control perspective, subspace methods (N4SID), Hammerstein–Wiener, Takens embedding and phase-space reconstruction, dynamic mode decomposition, Koopman operators, SINDy.
 
 === "Representations & Signals"
 
@@ -217,7 +218,7 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "14. Functional & HF"
 
-        Functional time series (Ramsay-Silverman framework), intraday seasonality modeling, irregularly spaced time series, Duration models (ACD), order book modelling, UHF data, survival analysis and reliability (Cox PH, hazard functions, censored time series).
+        Functional time series (Ramsay–Silverman framework), intraday seasonality modeling, irregularly spaced time series, Duration models (ACD), order book modelling, UHF data, survival analysis and reliability (Cox PH, hazard functions, censored time series).
 
     === "19. Classification & Anomaly"
 
@@ -286,11 +287,11 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
         - **Privacy-preserving methods:** federated learning for sequential data, differential privacy
         - **Ethics and fairness:** accountability in forecasting, bias in temporal predictions
 
-        Explicit sub-domains: condition monitoring and reliability (vibration analysis, degradation processes, remaining useful life), environmental trend methods (Mann-Kendall, Sen slope), epidemiology (Rt estimation, SIR fitting).
+        Explicit sub-domains: condition monitoring and reliability (vibration analysis, degradation processes, remaining useful life), environmental trend methods (Mann–Kendall, Sen slope), epidemiology (Rt estimation, SIR fitting).
 
     === "31. Data Preparation"
 
-        Imputation (interpolation, Kalman-smoother and multiple imputation), irregular sampling, the outlier taxonomy (AO, IO, LS, TC), temporal disaggregation and benchmarking (Chow-Lin, Denton), data revisions and real-time vintages, calendar alignment.
+        Imputation (interpolation, Kalman-smoother and multiple imputation), irregular sampling, the outlier taxonomy (AO, IO, LS, TC), temporal disaggregation and benchmarking (Chow–Lin, Denton), data revisions and real-time vintages, calendar alignment.
 
     === "34. Probabilistic Forecasting"
 
@@ -339,8 +340,8 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[CLT]: Central Limit Theorem
 
 <!-- 2. Time Series Fundamentals -->
-*[ADF]: Augmented Dickey-Fuller test
-*[KPSS]: Kwiatkowski-Phillips-Schmidt-Shin test
+*[ADF]: Augmented Dickey–Fuller test
+*[KPSS]: Kwiatkowski–Phillips–Schmidt–Shin test
 *[ACF]: Autocorrelation Function
 *[PACF]: Partial Autocorrelation Function
 
@@ -355,7 +356,7 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 <!-- 3. Core Classical Models — Exponential Smoothing -->
 *[SES]: Simple Exponential Smoothing
 *[DES]: Double Exponential Smoothing (Holt's Linear Trend)
-*[TES]: Triple Exponential Smoothing (Holt-Winters)
+*[TES]: Triple Exponential Smoothing (Holt–Winters)
 *[ETS]: Error, Trend, Seasonality framework
 <!-- 3. Core Classical Models — Regression -->
 *[DLM]: Distributed Lag Model
@@ -376,8 +377,8 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[Whittle likelihood]: frequency domain estimation
 
 <!-- 5. Inference and Hypothesis Testing — Unit Root -->
-*[PP]: Phillips-Perron test
-*[DF-GLS]: Dickey-Fuller Generalized Least Squares
+*[PP]: Phillips–Perron test
+*[DF-GLS]: Dickey–Fuller Generalized Least Squares
 <!-- 5. Inference and Hypothesis Testing — Cointegration -->
 *[ARDL]: Autoregressive Distributed Lag
 <!-- 5. Inference and Hypothesis Testing — Structural Breaks -->
@@ -386,7 +387,7 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 <!-- 6. Model Selection and Validation -->
 *[AIC]: Akaike Information Criterion
 *[BIC]: Bayesian Information Criterion
-*[HQIC]: Hannan-Quinn Information Criterion
+*[HQIC]: Hannan–Quinn Information Criterion
 *[MAE]: Mean Absolute Error
 *[RMSE]: Root Mean Squared Error
 *[MAPE]: Mean Absolute Percentage Error
@@ -406,7 +407,7 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[LSTAR]: Logistic STAR
 *[ESTAR]: Exponential STAR
 <!-- 8. Nonlinear Models — Chaos -->
-*[BDS]: Brock-Dechert-Scheinkman test
+*[BDS]: Brock–Dechert–Scheinkman test
 
 <!-- 9. Multivariate and High-Dimensional -->
 *[VAR]: Vector Autoregression
@@ -428,7 +429,7 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[TGARCH]: Threshold GARCH
 <!-- 10. Volatility and Financial Econometrics — Multivariate GARCH -->
 *[DCC]: Dynamic Conditional Correlation
-*[BEKK]: Baba-Engle-Kraft-Kroner model
+*[BEKK]: Baba–Engle–Kraft–Kroner model
 *[CCC]: Constant Conditional Correlation
 <!-- 10. Volatility and Financial Econometrics — Other -->
 *[SV]: Stochastic Volatility
@@ -445,7 +446,7 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[UKF]: Unscented Kalman Filter
 *[SMC]: Sequential Monte Carlo
 *[HMM]: Hidden Markov Model
-*[DLM]: Dynamic Linear Model (West-Harrison)
+*[DLM]: Dynamic Linear Model (West–Harrison)
 *[BSTS]: Bayesian Structural Time Series
 
 <!-- 12. Bayesian Time Series -->
@@ -459,11 +460,11 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[DFT]: Discrete Fourier Transform
 *[DWT]: Discrete Wavelet Transform
 *[MODWT]: Maximal Overlap Discrete Wavelet Transform
-*[HHT]: Hilbert-Huang Transform
+*[HHT]: Hilbert–Huang Transform
 *[EMD]: Empirical Mode Decomposition
-*[HP]: Hodrick-Prescott filter
-*[BK]: Baxter-King filter
-*[CF]: Christiano-Fitzgerald filter
+*[HP]: Hodrick–Prescott filter
+*[BK]: Baxter–King filter
+*[CF]: Christiano–Fitzgerald filter
 
 <!-- 14. Functional and High-Frequency Time Series -->
 *[ACD]: Autoregressive Conditional Duration
@@ -471,7 +472,7 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[Cox PH]: Cox Proportional Hazards model
 
 <!-- 15. Continuous-Time Models and SDEs -->
-*[OU]: Ornstein-Uhlenbeck process
+*[OU]: Ornstein–Uhlenbeck process
 *[CARMA]: Continuous-time Autoregressive Moving Average
 *[SDE]: Stochastic Differential Equation
 
@@ -536,8 +537,8 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 
 <!-- 27–34. Areas added in the flowchart framework -->
 *[HAC]: Heteroskedasticity-and-Autocorrelation-Consistent
-*[PSY]: Phillips-Shi-Yu bubble test
-*[HEGY]: Hylleberg-Engle-Granger-Yoo seasonal unit root test
+*[PSY]: Phillips–Shi–Yu bubble test
+*[HEGY]: Hylleberg–Engle–Granger–Yoo seasonal unit root test
 *[CCE]: Common Correlated Effects
 *[MinT]: Minimum Trace reconciliation
 *[PIT]: Probability Integral Transform

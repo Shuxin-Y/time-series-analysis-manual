@@ -1,11 +1,11 @@
 # 26. Applied Domains
 
-Epidemic nowcasting, machine-vibration analysis, and degradation processes with remaining useful life. The domains this area serves are condition monitoring and reliability, biomedical signals, epidemiology, economics and finance, energy, environmental monitoring and IoT; their methods are the leaves named on the purpose and representation pages.
+Reproduction number and SIR fitting, machine-vibration analysis, and degradation processes with remaining useful life. The domains this area serves are condition monitoring and reliability, biomedical signals, epidemiology, economics and finance, energy, environmental monitoring and IoT; their methods are the leaves named on the purpose and representation pages.
 
-## Epidemic nowcasting
+## Reproduction number and SIR fitting
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_FC_EPIDEMIC`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_FC_EPIDEMIC`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Machine-vibration analysis
 

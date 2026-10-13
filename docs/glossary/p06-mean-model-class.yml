@@ -13,8 +13,11 @@ terms:
       - $d$ = degree of differencing
       - $q$ = MA order
       - $B$ = backshift operator: $By_t = y_{t-1}$
+
+      The roots of the AR polynomial lie outside the unit circle, so that $(1-B)^d y_t$ is stationary, and the roots of the MA polynomial lie outside (or, for non-invertible models, on) the unit circle, with no roots in common.
     historical: |
       - 1927: Yule introduces autoregressive processes
       - 1937: Slutsky introduces moving average processes
       - 1970: Box and Jenkins publish the comprehensive ARIMA methodology
+    depends_on: ["Differencing", "Wold decomposition"]
     reference: "01-workflow/p06-mean-model-class.md#p6-conditional-mean-model-class"

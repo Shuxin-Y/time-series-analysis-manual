@@ -1,6 +1,16 @@
 # 18. Machine Learning and Deep Learning
 
-Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutional, transformer and state-space sequence networks, neural forecasters, foundation, generative and hybrid models, global models, empirical-loss training, time-aware tuning and interpretability.
+Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutional, transformer and state-space sequence networks, neural forecasters, foundation, generative and hybrid models, global models, empirical-loss training, time-aware tuning and interpretability. The page also hosts: fractional differencing for learners, pooled linear autoregression, validation loss and pooled residual diagnostics.
+
+## Fractional differencing for learners
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_FRACTIONAL_DIFFERENCE`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Pooled linear autoregression
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_POOLED_AR`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Tree ensembles on lag features
 
@@ -72,7 +82,12 @@ Tree ensembles, Gaussian processes, reservoir computing, recurrent, convolutiona
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P8_HYPERPARAMETERS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
+## Validation loss and pooled residual diagnostics
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P9_LEARNER_DIAGNOSTICS`). Write this section following the content rules in `.claude/rules/writing.md`.
+
 ## Interpretability
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_INTERPRETABILITY`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_INTERPRETABILITY`). Write this section following the content rules in `.claude/rules/writing.md`.

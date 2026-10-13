@@ -37,8 +37,8 @@ TERM_HOME_DIRS = tuple(f"{d}/" for d in SECTION_DIRS) + (FOUNDATION_DIR,)
 STRUCTURAL_H2 = frozenset({
     "Sub-diagram", "Branch sub-diagram", "Phase guide", "Question order", "Part 0 hooks", "Relation to P9",
     "Routing variables", "Branches", "Quick navigation", "Purpose selector", "Representation selector",
-    "Master diagram", "How to read the diagrams", "Sub-chart", "P10 inference for this purpose",
-    "P11 metrics for this purpose", "References",
+    "Master diagram", "Why this order", "How to read the diagrams", "Sub-chart", "P11 inference for this purpose",
+    "P10 metrics for this purpose", "P12 monitoring for this purpose", "References",
 })
 GLOSSARY_DIR = "glossary"
 GLOSSARY_INDEX_NAME = "index.yml"
@@ -64,11 +64,20 @@ class Node:
     label: str
 
 
+@dataclass(frozen=True)
+class Edge:
+    source: str
+    target: str
+    label: str  # edge text without quotes; empty when the edge has none
+    dotted: bool  # a dotted pointer, not a route
+
+
 @dataclass
 class Diagram:
     where: str
     nodes: dict[str, Node] = field(default_factory=dict)  # ids with a quoted, allowed shape
     used_ids: set[str] = field(default_factory=set)  # every id written in a node position
+    edges: list[Edge] = field(default_factory=list)
     classes: dict[str, set[str]] = field(default_factory=dict)
     clusters: set[str] = field(default_factory=set)  # subgraph ids; never nodes
     problems: list[str] = field(default_factory=list)  # syntax the audit rejects
@@ -105,35 +114,51 @@ def label_first_line(label: str) -> str:
     return BR_RE.split(label, 1)[0].strip()
 
 
-def _parse_node(piece: str, labels: list[str], d: Diagram) -> None:
+def _parse_node(piece: str, labels: list[str], d: Diagram) -> str | None:
+    """Record the node written in `piece` and return its id (None when the piece is unreadable)."""
     m = TOKEN_RE.match(piece)
     if not m:
         d.problems.append(f"cannot read node expression {piece!r}")
-        return
+        return None
     nid, rest = m.group(1), m.group(2).strip()
     if not NODE_ID_RE.match(nid):
         d.problems.append(f"node id {nid!r} is not SCREAMING_SNAKE_CASE")
     d.used_ids.add(nid)
     if not rest:
-        return
+        return nid
     if ":::" in rest:
         d.problems.append(f"node {nid} uses inline :::class; assign classes with class statements")
-        return
+        return nid
     opener = next((o for o in MERMAID_OPENERS if rest.startswith(o)), None)
     if opener is None:
         d.problems.append(f"cannot read node expression {piece!r}")
-        return
+        return nid
     if opener not in SHAPES:
         d.problems.append(f"node {nid} uses shape {opener!r}, which the notation does not allow")
-        return
+        return nid
     label = re.fullmatch(r"\x00(\d+)\x00" + re.escape(CLOSERS[opener]), rest[len(opener):])
     if not label:
-        return  # unquoted label: not a definition; reported as used without a shaped definition
+        return nid  # unquoted label: not a definition; reported as used without a shaped definition
     shape = SHAPES[opener]
     previous = d.nodes.get(nid)
     if previous and previous.shape != shape:
         d.problems.append(f"node {nid} is drawn as {previous.shape} and as {shape}; Mermaid renders the last")
     d.nodes[nid] = Node(nid, shape, labels[int(label.group(1))][1:-1])
+    return nid
+
+
+def _text_edge_as_pipe(m: re.Match) -> str:
+    """`A -- yes --> B` becomes `A -->|yes| B`, keeping the text and whether the arrow is dotted."""
+    head, *text, _ = m.group(0).split()
+    return f" {'-.->' if head.startswith('-.') else '-->'}|{' '.join(text)}| "
+
+
+def _edge_label(arrow: str, labels: list[str]) -> str:
+    text = re.search(r"\|([^|]*)\|", arrow)
+    if not text:
+        return ""
+    quoted = re.fullmatch(r"\s*\x00(\d+)\x00\s*", text.group(1))
+    return labels[int(quoted.group(1))][1:-1] if quoted else text.group(1).strip()
 
 
 def parse_diagram(source: str, where: str) -> Diagram:
@@ -164,11 +189,14 @@ def parse_diagram(source: str, where: str) -> Diagram:
             labels.append(m.group(0))
             return f"\x00{len(labels) - 1}\x00"
 
-        masked = TEXT_EDGE_RE.sub(" --> ", QUOTED_RE.sub(mask, line))
-        for part in EDGE_RE.split(masked):
-            for piece in part.split("&"):
-                if piece.strip():
-                    _parse_node(piece.strip(), labels, d)
+        masked = TEXT_EDGE_RE.sub(_text_edge_as_pipe, QUOTED_RE.sub(mask, line))
+        ids = [[nid for piece in part.split("&") if piece.strip()
+                for nid in [_parse_node(piece.strip(), labels, d)] if nid]
+               for part in EDGE_RE.split(masked)]
+        for (sources, targets), arrow in zip(zip(ids, ids[1:]), EDGE_RE.findall(masked)):
+            dotted = "." in arrow.split("|", 1)[0]
+            label = _edge_label(arrow, labels)
+            d.edges.extend(Edge(s, t, label, dotted) for s in sources for t in targets)
     return d
 
 
@@ -362,10 +390,12 @@ def split_section(section: str) -> tuple[str, str]:
     return file, anchor
 REQUIRED_ROW_KEYS = ("id", "label", "phase", "areas", "section")
 MASTER_PHASE = "MASTER"
-MASTER_PAGE = "01-workflow/index.md"  # owner page of the master boxes P0-P11
-# P2 and P5 are chapters: their sub-chart pages own purpose- and representation-specific leaves (spec 7.1, 7.2).
-DIRECTORY_OWNED_PHASES = ("P2", "P5")
-MASTER_IDS = frozenset(f"P{i}" for i in range(12))
+MASTER_PAGE = "01-workflow/index.md"  # owner page of the master boxes P0-P12
+# P0 and P5 are chapters: their sub-chart pages own purpose- and representation-specific leaves (spec 7.1, 7.2).
+DIRECTORY_OWNED_PHASES = ("P0", "P5")
+PHASE_COUNT = 13  # P0 purpose ... P12 deployment
+MASTER_IDS = frozenset(f"P{i}" for i in range(PHASE_COUNT))
+MASTER_SPAN = f"P0-P{PHASE_COUNT - 1}"
 BRANCH_IDS = frozenset(f"B{i}" for i in range(1, 8))
 PHASES = MASTER_IDS | BRANCH_IDS | {MASTER_PHASE, FOUNDATION_PHASE}
 AREAS = range(1, 35)
@@ -412,13 +442,13 @@ def row_problem(raw: object) -> str | None:
     if not isinstance(raw["label"], str) or not raw["label"].strip():
         return "label must be a non-empty string"
     if phase not in PHASES:
-        return f"phase {phase!r} must be one of P0-P11, B1-B7, {MASTER_PHASE} or {FOUNDATION_PHASE}"
+        return f"phase {phase!r} must be one of {MASTER_SPAN}, B1-B7, {MASTER_PHASE} or {FOUNDATION_PHASE}"
     if not isinstance(areas, list) or not all(type(a) is int and a in AREAS for a in areas):
         return f"areas {areas!r} must be a list of area numbers 1-34"
     if not isinstance(raw["section"], str) or not SECTION_RE.match(raw["section"]):
         return f"section {raw['section']!r} must look like {SECTION_FORMAT}"
     if (rid in MASTER_IDS) != (phase == MASTER_PHASE):
-        return f"phase {MASTER_PHASE} is for the master boxes P0-P11 and only them (id {rid}, phase {phase})"
+        return f"phase {MASTER_PHASE} is for the master boxes {MASTER_SPAN} and only them (id {rid}, phase {phase})"
     if rid in BRANCH_IDS:
         return None if phase == rid else f"branch entry {rid} must have phase {rid}"
     if phase == MASTER_PHASE:
@@ -540,7 +570,7 @@ def check_refs(diagrams: list[Diagram], rows: list[Row]) -> list[Finding]:
 
 
 def owner_pages(rows: list[Row]) -> dict[str, str]:
-    """Phase -> its owner: the page of the phase box (P0-P11) or branch entry (B1-B7), or for
+    """Phase -> its owner: the page of the phase box (P0-P12) or branch entry (B1-B7), or for
     DIRECTORY_OWNED_PHASES the directory of that page (a value ending in "/")."""
     owners = {MASTER_PHASE: MASTER_PAGE}
     for r in rows:

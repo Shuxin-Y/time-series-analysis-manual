@@ -1,6 +1,6 @@
 # 27. Regression with Time-Series Data
 
-Regression with ARMA errors, distributed-lag and ADL models, and HAC inference. OLS under temporal dependence and feasible GLS live in area 4, and the spurious-regression check in P3.
+Regression with ARMA errors, distributed-lag and ADL models, and HAC inference. OLS under temporal dependence and feasible GLS live in area 4, and the spurious-regression check in P3. The page also hosts: deterministic regressors.
 
 ## Regression with ARMA errors
 
@@ -15,4 +15,9 @@ Regression with ARMA errors, distributed-lag and ADL models, and HAC inference. 
 ## HAC inference
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_HAC`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_HAC`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Deterministic regressors
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P6_DETERMINISTIC`). Write this section following the content rules in `.claude/rules/writing.md`.

@@ -1,5 +1,7 @@
 # Flowchart Framework Plan B: Remaining Sub-Diagrams
 
+> Historical record (2026-10-12): the spine this plan drew was renumbered and redesigned purpose-first by `planning/2026-10-12-purpose-first-spine-design.md`. Phase ids and flow descriptions below use the old numbering (P0 data, P1 data-type gate, P2 purpose, P10 inference, P11 validation and deployment) and are not regenerated.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Draw every sub-diagram the skeleton left pending (P0, P3, P4, P6, P8, P9, P10, P11; the ten purpose sub-charts; the six representation sub-charts; branches B1 to B7), register every leaf in the inventory, scaffold its pending section, and make the audit prove that all 34 areas have at least one leaf (spec acceptance criterion 3).

@@ -9,7 +9,9 @@
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P5_FD_IN(["Transformed series from P4"]) --> P5_FD_PERIODIC{"Periodic patterns?"}
+    P5_FD_IN(["Transformed series from P4"]) --> P5_FD_GRID{"Sampling flag?"}
+    P5_FD_GRID -->|"Irregular, kept"| P5_FD_LOMB_SCARGLE["Lomb-Scargle periodogram<br/>window function, false-alarm probability, red-noise background"]
+    P5_FD_GRID -->|"Regular, resampled or mixed"| P5_FD_PERIODIC{"Periodic patterns?"}
     P5_FD_PERIODIC -->|"Yes"| P5_FD_DFT["Discrete Fourier transform and the periodogram"]
     P5_FD_PERIODIC -->|"No"| P5_FD_BANDS{"Separate frequency bands?"}
     P5_FD_BANDS -->|"Yes"| P5_FD_DFT
@@ -23,15 +25,15 @@ graph TD
     P5_FD_ESTIMATOR -->|"Averaging"| P5_FD_SMOOTHED["Smoothed spectral estimates<br/>Welch, Bartlett"]
     P5_FD_ESTIMATOR -->|"Tapers"| P5_FD_MULTITAPER["Multitaper spectral estimation"]
     P5_FD_ESTIMATOR -->|"Model-based"| P5_FD_PARAMETRIC["Parametric spectra<br/>AR and ARMA spectral estimates"]
-    P5_FD_ESTIMATOR -->|"Irregular grid"| P5_FD_LOMB_SCARGLE["Lomb-Scargle periodogram<br/>irregular sampling"]
-    P5_FD_SMOOTHED & P5_FD_MULTITAPER & P5_FD_PARAMETRIC & P5_FD_LOMB_SCARGLE --> P2_SP_SPECTRAL_SHAPE[["Interpret the spectral shape"]]
-    P2_SP_SPECTRAL_SHAPE --> P2_SP_HARMONIC_REGRESSION[["Harmonic regression from detected frequencies"]]
-    P2_SP_SPECTRAL_SHAPE --> P6_ARFIMA[["ARFIMA"]]
-    P2_SP_SPECTRAL_SHAPE & P2_SP_HARMONIC_REGRESSION & P6_ARFIMA --> P6[["P6: Conditional-mean model class"]]
+    P5_FD_SMOOTHED & P5_FD_MULTITAPER & P5_FD_PARAMETRIC & P5_FD_LOMB_SCARGLE --> P0_SP_SPECTRAL_SHAPE[["Interpret the spectral shape"]]
+    P0_SP_SPECTRAL_SHAPE --> P0_SP_PEAK_SIGNIFICANCE[["Peak significance"]]
+    P0_SP_PEAK_SIGNIFICANCE --> P0_SP_HARMONIC_REGRESSION[["Harmonic regression from detected frequencies"]]
+    P0_SP_SPECTRAL_SHAPE --> P6_ARFIMA[["ARFIMA"]]
+    P0_SP_HARMONIC_REGRESSION & P6_ARFIMA --> P6[["P6: Conditional-mean model class"]]
     class P5_FD_IN,P5_FD_TO_PART_2 terminator
-    class P5_FD_PERIODIC,P5_FD_BANDS,P5_FD_SPECTRAL,P5_FD_TASK,P5_FD_ESTIMATOR decision
+    class P5_FD_GRID,P5_FD_PERIODIC,P5_FD_BANDS,P5_FD_SPECTRAL,P5_FD_TASK,P5_FD_ESTIMATOR decision
     class P5_FD_DFT,P5_FD_LEAKAGE,P5_FD_SMOOTHED,P5_FD_MULTITAPER,P5_FD_PARAMETRIC,P5_FD_LOMB_SCARGLE process
-    class P5,P2_SP_SPECTRAL_SHAPE,P2_SP_HARMONIC_REGRESSION,P6_ARFIMA,P6 ref
+    class P5,P0_SP_SPECTRAL_SHAPE,P0_SP_PEAK_SIGNIFICANCE,P0_SP_HARMONIC_REGRESSION,P6_ARFIMA,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -48,7 +50,7 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P5_FD_PART_2_IN(["From part 1"]) --> P5_FD_TASK_2{"Task?"}
-    P5_FD_TASK_2 -->|"Filter"| P5_FD_FILTERS["FIR and IIR filter design<br/>low-pass, high-pass, band-pass, notch; zero-phase"]
+    P5_FD_TASK_2 -->|"Filter"| P5_FD_FILTERS["FIR and IIR filter design<br/>low-pass, high-pass, band-pass, notch; causal in real time, zero-phase offline"]
     P5_FD_TASK_2 -->|"Vibration"| P5_FD_ENVELOPE["Machine-vibration analysis<br/>envelope analysis, cepstrum, order tracking, spectral kurtosis"]
     P5_FD_FILTERS & P5_FD_ENVELOPE --> P6[["P6: Conditional-mean model class"]]
     class P5_FD_PART_2_IN terminator

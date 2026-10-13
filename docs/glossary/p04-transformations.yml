@@ -3,7 +3,7 @@
 terms:
 
   - term: "Differencing"
-    definition: "A transformation that removes trends by computing the change between consecutive observations."
+    definition: "A transformation that removes a stochastic trend (a unit root) by computing the change between consecutive observations. Applied to a series with a deterministic linear trend it over-differences, leaving a non-invertible moving-average unit root."
     mathematical: |
       **First difference:**
       $$\Delta y_t = y_t - y_{t-1}$$
@@ -16,5 +16,6 @@ terms:
       where $s$ is the seasonal period (e.g., $s=12$ for monthly data)
     historical: |
       - 1970: Box and Jenkins formalise differencing within the ARIMA methodology
-      - 1976: Granger and Newbold demonstrate spurious regression from non-stationary series
+      - 1974: Granger and Newbold demonstrate spurious regression between independent nonstationary series
+    depends_on: ["Integrated process"]
     reference: "01-workflow/p04-transformations.md#p4-transformations"

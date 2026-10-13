@@ -2,55 +2,117 @@
 
 terms:
 
-  - term: "Stationarity"
-    definition: "A time series is stationary if its statistical properties do not change over time."
-    mathematical: |
-      **Weak (covariance) stationarity** requires:
-      - Constant mean: $E[y_t] = \mu$ for all $t$
-      - Constant variance: $\text{Var}(y_t) = \sigma^2$ for all $t$
-      - Autocovariance depends only on lag: $\gamma_k = \text{Cov}(y_t, y_{t-k})$
-
-      **Strict stationarity**: The joint distribution $(y_{t_1}, \ldots, y_{t_n})$ is identical to $(y_{t_1+h}, \ldots, y_{t_n+h})$ for any $h$.
-    historical: |
-      - 1927: Yule introduces autoregressive processes
-      - 1938: Wold decomposition theorem established
-      - 1970: Box-Jenkins methodology formalises stationarity requirements
-    foundation: true
-    reference: "00-foundations/stochastic-processes.md#stochastic-processes"
-
-  - term: "White Noise"
-    definition: "A sequence of uncorrelated random variables with zero mean and constant variance."
-    mathematical: |
-      A process $\\{\varepsilon_t\\}$ is white noise if:
-      - $E[\varepsilon_t] = 0$ for all $t$
-      - $\text{Var}(\varepsilon_t) = \sigma^2$ for all $t$
-      - $\text{Cov}(\varepsilon_t, \varepsilon_s) = 0$ for $t \neq s$
-
-      **Strong white noise** additionally requires independence: $\varepsilon_t \perp \varepsilon_s$ for $t \neq s$
-
-      **Gaussian white noise**: $\varepsilon_t \sim N(0, \sigma^2)$ i.i.d.
-    historical: |
-      - 1938: Wold decomposition theorem establishes white noise as the irreducible innovation component
-      - 1970: Box and Jenkins formalise residual white noise as the diagnostic criterion for model adequacy
-    foundation: true
-    reference: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"
-
   - term: "Probability density"
-    definition: "Probability per unit volume. For a continuous variable the probability of any exact value is zero; the density is the limit of the probability of a small neighbourhood divided by its volume."
+    definition: "Probability per unit volume. A random vector has a density when its distribution is absolutely continuous; at almost every point the density is the limit of the probability of a small ball divided by the ball's volume. A count has a probability mass function, which is a density with respect to counting measure."
     foundation: true
     reference: "00-foundations/stochastic-processes.md#probability-density"
 
   - term: "Independence"
-    definition: "Random variables are independent when their joint distribution equals the product of their marginal distributions. Independence implies uncorrelatedness; the converse fails."
+    definition: "Random variables are independent when their joint distribution equals the product of their marginal distributions. With finite second moments, independence implies uncorrelatedness; the converse fails in general and holds for jointly Gaussian variables."
     foundation: true
     reference: "00-foundations/stochastic-processes.md#independence"
 
+  - term: "Chain rule of probability"
+    definition: "Any joint density factorises into conditional densities taken in order: p(y_1, ..., y_T) = p(y_1) times the product over t of p(y_t | y_{t-1}, ..., y_1). The identity needs no independence; independence is the case where each conditional density equals the marginal."
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#chain-rule-of-probability"
+
+  - term: "Conditional expectation"
+    definition: "The forecast of a random variable that is a function of the available information alone and matches the variable on average over every event in that information. Under squared-error loss it is the best forecast; other losses select other functionals (median, quantile, the predictive distribution)."
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#conditional-expectation-as-the-optimal-forecast"
+
   - term: "Kolmogorov extension theorem"
-    definition: "A consistent family of finite-dimensional joint distributions determines a unique probability law for the whole stochastic process. This is what makes it legitimate to define a model class as a family of distributions for the entire sequence."
+    definition: "A consistent family of finite-dimensional distributions determines exactly one probability law for the whole stochastic process: the law exists and is unique on the product sigma-field of sequences. Statements about the whole process (stationarity, ergodic theorems, limits as T grows) need it; the likelihood of T observations does not."
     foundation: true
     reference: "00-foundations/stochastic-processes.md#kolmogorov-extension-theorem"
 
+  - term: "Stationarity"
+    definition: "A process is strictly stationary when shifting time leaves all its finite-dimensional distributions unchanged, and weakly stationary when it has finite second moments, a constant mean and an autocovariance that depends only on the lag."
+    mathematical: |
+      **Strict stationarity:** for every $n$, all times $t_1, \ldots, t_n$ and every shift $h$, the vectors $(y_{t_1}, \ldots, y_{t_n})$ and $(y_{t_1+h}, \ldots, y_{t_n+h})$ have the same distribution.
+
+      **Weak (covariance) stationarity:** $\mathbb{E}[y_t^2] < \infty$, $\mathbb{E}[y_t] = \mu$ for all $t$, and $\text{Cov}(y_t, y_{t-k}) = \gamma(k)$ depends on $k$ and not on $t$.
+
+      **Relations:** strict stationarity with finite second moments implies weak stationarity; weak stationarity implies strict stationarity for Gaussian processes; a strictly stationary process with infinite variance (IGARCH) is not weakly stationary.
+    historical: |
+      - 1927: Yule introduces autoregressive processes
+      - 1934: Khinchin defines stationary processes in the strict and the covariance sense
+      - 1938: Wold proves the decomposition of covariance-stationary processes
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#strict-and-weak-stationarity"
+
+  - term: "White Noise"
+    definition: "A sequence of uncorrelated random variables with zero mean and constant variance. It is the weakest of three levels of unpredictable noise: i.i.d. noise is a stationary martingale difference sequence with finite variance, which in turn is white noise."
+    mathematical: |
+      A process $\{\varepsilon_t\}$ is white noise, $\text{WN}(0, \sigma^2)$, if
+      - $\mathbb{E}[\varepsilon_t] = 0$ for all $t$,
+      - $\text{Var}(\varepsilon_t) = \sigma^2$ for all $t$,
+      - $\text{Cov}(\varepsilon_t, \varepsilon_s) = 0$ for $t \neq s$.
+
+      **Strong white noise** is i.i.d. $(0, \sigma^2)$: independent and identically distributed with mean 0 and variance $\sigma^2$. **Gaussian white noise** is white noise with jointly Gaussian values; it is i.i.d. $\mathcal{N}(0, \sigma^2)$.
+    historical: |
+      - 1938: Wold decomposition theorem establishes white noise as the innovation of a covariance-stationary process
+      - 1970: Box and Jenkins formalise residual white noise as the diagnostic criterion for model adequacy
+    foundation: true
+    reference: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"
+
+  - term: "i.i.d"
+    definition: "A sequence of random variables is independent and identically distributed (i.i.d.) when the variables are mutually independent and all share one common distribution. It is the strongest of the three levels of unpredictable noise and the baseline error assumption of the classical linear regression model."
+    mathematical: |
+      Random variables $X_1, X_2, \ldots, X_T$ are i.i.d. if both conditions hold:
+
+      1. **Independence** — the joint distribution factorises into the marginals,
+      $$P(X_1 \le x_1, \ldots, X_T \le x_T) = \prod_{t=1}^{T} P(X_t \le x_t).$$
+
+      2. **Identical distribution** — every $X_t$ has the same distribution function $F$.
+
+      In regression notation $\epsilon_t \sim \text{i.i.d.}(0, \sigma^2)$ means the errors are independent and share one distribution, whose mean is 0 and variance is $\sigma^2$; $\epsilon_t \sim \text{i.i.d.}\ \mathcal{N}(0, \sigma^2)$ fixes that distribution as normal.
+    historical: |
+      - 1713: Jakob Bernoulli's *Ars Conjectandi* (posthumous) introduces Bernoulli trials, the first formal i.i.d. construction
+      - 1933: Kolmogorov's *Foundations of the Theory of Probability* axiomatises probability and gives independence its modern measure-theoretic definition
+      - 1946: Cramér's *Mathematical Methods of Statistics* establishes "independent and identically distributed" as standard terminology
+    depends_on: ["Independence"]
+    reference: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"
+
+  - term: "Martingale difference sequence"
+    definition: "A sequence whose conditional mean given its past is zero: no forecast built from the past, linear or not, beats zero in mean. It sits between i.i.d. noise and white noise; ARCH errors are a martingale difference sequence and are not independent."
+    mathematical: |
+      $\{\epsilon_t\}$ is a martingale difference sequence with respect to the information $\mathcal{F}_{t-1}$ if $\mathbb{E}|\epsilon_t| < \infty$ and
+      $$\mathbb{E}[\epsilon_t \mid \mathcal{F}_{t-1}] = 0.$$
+    depends_on: ["Conditional expectation"]
+    reference: "00-foundations/stochastic-processes.md#white-noise-martingale-difference-independence"
+
+  - term: "Ergodicity"
+    definition: "A strictly stationary process is ergodic when every event that the time shift leaves unchanged has probability 0 or 1. Ergodicity makes time averages over one realisation converge to expectations."
+    depends_on: ["Stationarity"]
+    reference: "00-foundations/stochastic-processes.md#ergodicity-and-mixing"
+
+  - term: "Mixing"
+    definition: "A process is mixing when the dependence between its past and its distant future vanishes as the gap grows. The strong-mixing coefficient alpha(k) measures the largest departure from independence between events separated by k periods; independence implies mixing, and a stationary mixing process is ergodic."
+    depends_on: ["Independence"]
+    reference: "00-foundations/stochastic-processes.md#ergodicity-and-mixing"
+
+  - term: "Wold decomposition"
+    definition: "Every weakly stationary process with mean zero is an infinite moving average of its one-step linear forecast errors, which are white noise, plus a linearly deterministic part uncorrelated with them."
+    mathematical: |
+      $$y_t = \sum_{j=0}^{\infty} \psi_j\, \epsilon_{t-j} + V_t, \qquad \psi_0 = 1, \quad \sum_j \psi_j^2 < \infty,$$
+      with $\epsilon_t = y_t - P(y_t \mid y_{t-1}, y_{t-2}, \ldots)$ the error of the best linear forecast and $V_t$ linearly deterministic.
+    derivation: |
+      1. The best linear forecast of $y_t$ from its past exists and is unique, because a weakly stationary process has finite second moments and the past spans a closed linear space (the projection theorem).
+      2. The forecast errors $\epsilon_t$ are uncorrelated with every past value and hence with every past forecast error, so they are white noise; nothing beyond second moments is used, so they need not be independent.
+      3. Projecting $y_t$ on the errors $\epsilon_t, \epsilon_{t-1}, \ldots$ gives the moving-average part; what remains is predictable from the infinitely remote past and is the deterministic part $V_t$.
+    historical: |
+      - 1938: Wold proves the decomposition in his doctoral thesis
+    depends_on: ["Stationarity", "White Noise"]
+    reference: "00-foundations/stochastic-processes.md#wold-decomposition"
+
+  - term: "Integrated process"
+    definition: "A process is I(0) when it is stationary with a positive long-run variance, and integrated of order d, I(d), when its d-th difference, after its deterministic part is removed, is I(0). A random walk is I(1); its shocks have permanent effects and its variance grows with time. A trend-stationary series is I(0) around its trend, so differencing it over-differences."
+    depends_on: ["Stationarity"]
+    reference: "00-foundations/stochastic-processes.md#random-walks-and-unit-root-asymptotics"
+
   - term: "KL divergence"
-    definition: "The Kullback-Leibler divergence from a true distribution to a model distribution is the expected log-ratio of their densities under the truth. It is non-negative and zero only when the two coincide."
+    definition: "The Kullback-Leibler divergence from a true distribution to a model distribution is the expected log-ratio of their densities under the truth. It is non-negative, zero only when the two coincide, and not symmetric."
     foundation: true
     reference: "00-foundations/stochastic-processes.md#kl-divergence"

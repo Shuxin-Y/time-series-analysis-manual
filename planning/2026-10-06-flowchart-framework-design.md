@@ -3,6 +3,7 @@
 Date: 2026-10-06
 Status: approved in conversation; amended 2026-10-07 after the review of the skeleton PR (sections 10.1, 10.2, 10.4, 10.5, 11 state the rules the audit enforces)
 Supersedes: the "Flowcharts" and "structure" sections of `book_plan.md`
+Superseded in part (2026-10-12): the phase list and numbering (sections 4, 5, 6.3, 7, 8 and the phase examples in 10), the purpose-chart structure (7.1) and the flag set are replaced by `planning/2026-10-12-purpose-first-spine-design.md`, which defines the thirteen phases P0 (purpose and evaluation plan) to P12 (deployment and monitoring). Old phase ids in this document map as P2 → P0, P0 → P1, P1 → P2, P10 → P11, and P11 → P10 (evaluation) or P12 (deployment); P3 to P9 are unchanged. The content rules of section 9 and the conventions of section 10 remain in force, as restated in `.claude/rules/writing.md`.
 
 ## 1. Purpose
 

@@ -80,4 +80,4 @@ The GARCH family, stochastic volatility, realised measures, innovation distribut
 ## Risk measures and their backtests
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_RISK_MEASURES`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_RISK_MEASURES`). Write this section following the content rules in `.claude/rules/writing.md`.

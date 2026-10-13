@@ -5,10 +5,43 @@ terms:
   - term: "Joint density"
     definition: "The probability per unit volume of the whole sample (y_1, ..., y_T) regarded as one point in R^T."
     derivation: |
-      1. The T observations form one point in $\mathbb{R}^T$. The joint density $p(y_1, \ldots, y_T; \theta)$ is the probability per unit volume near that point. A density is used because a continuous variable takes any exact value with probability zero; only "falls in a small neighbourhood" has positive probability, and dividing by the neighbourhood's volume gives the density. The volume factor does not depend on $\theta$, so it does not move the argmax.
-      2. The object must be joint because the information about $\theta$ sits in the relations between observations. In AR(1), $\phi$ appears only in the conditional distribution of $y_t$ given $y_{t-1}$; the marginal $\mathcal{N}(0, \sigma^2/(1-\phi^2))$ confounds $\phi$ with $\sigma$. Using marginals alone discards the part being estimated.
-      3. A process has a joint distribution to speak of because of the Kolmogorov extension theorem: a consistent family of finite-dimensional joint distributions determines the law of the whole process. This is also what makes the model-class definition "a family of distributions indexed by parameters" legitimate.
-      4. Density and likelihood are one function read two ways. Fix $\theta$ and vary $y$: a density, integrating to one over $y$. Fix the observed $y$ and vary $\theta$: a likelihood, which does not integrate to one over $\theta$, so it is not a probability distribution of $\theta$. Adding a prior makes it one; that is the link to Bayesian estimation.
-      5. "Highest data density" means "most reasonable $\theta$" because $\frac{1}{T}\log L(\theta) \to \mathbb{E}[\log p(y; \theta)]$, and maximising that minimises $\mathrm{KL}(\text{truth} \,\|\, p_\theta)$. MLE picks the model closest to the truth in KL divergence, even when the model class is wrong (the QMLE pseudo-true value).
-    depends_on: ["Probability density", "Independence", "Kolmogorov extension theorem", "KL divergence", "Law of large numbers"]
+      1. The T observations form one point in $\mathbb{R}^T$. Their joint density $p(y_1, \ldots, y_T; \theta)$ is the probability per unit volume near that point, which exists when the distribution of the sample is absolutely continuous (a count model uses the mass function instead). A continuous variable takes any exact value with probability zero; only "falls in a small neighbourhood" has positive probability, and dividing by the neighbourhood's volume gives the density.
+      2. For dependent data the object must be joint, because the information about $\theta$ can sit in the relations between observations. In a Gaussian AR(1) with $|\phi| < 1$, each marginal is $\mathcal{N}(0, \sigma^2/(1-\phi^2))$: it contains $\phi$, but it fixes only the ratio $\sigma^2/(1-\phi^2)$ and never the sign of $\phi$, so $\phi$ is not identified from marginals. For i.i.d. data the joint density is the product of the marginals and the marginal carries all the information.
+    depends_on: ["Probability density"]
     reference: "reference/04-estimation/maximum-likelihood.md#joint-density"
+
+  - term: "Likelihood"
+    definition: "The joint density of the observed sample read as a function of the parameters. It is not a probability distribution over the parameters; by the chain rule its logarithm is a sum of one-step conditional log-densities."
+    derivation: |
+      1. Density and likelihood are one function read two ways: with $\theta$ fixed and $y$ varying it is a density and integrates to one over $y$; with the observed $y$ fixed and $\theta$ varying it is the likelihood, which need not integrate to one over $\theta$.
+      2. Multiplying by a prior and normalising turns it into a posterior distribution of $\theta$, which is the link to Bayesian estimation.
+      3. The chain rule of probability writes the joint density as a product of conditional densities, so $\log L(\theta) = \log p(y_1; \theta) + \sum_{t \ge 2} \log p(y_t \mid y_{t-1}, \ldots, y_1; \theta)$; no independence is used.
+    depends_on: ["Joint density", "Chain rule of probability"]
+    reference: "reference/04-estimation/maximum-likelihood.md#likelihood"
+
+  - term: "Maximum likelihood"
+    definition: "The estimator that maximises the likelihood of the observed sample over the parameter space. For time series it is consistent when the process is stationary and ergodic, the parameter is identified and the average log-likelihood converges uniformly; under misspecification it converges to the pseudo-true value."
+    derivation: |
+      1. By the prediction-error decomposition, $\frac{1}{T}\log L(\theta) = \frac{1}{T}\sum_t \log p(y_t \mid y_{t-1}, \ldots, y_1; \theta)$, an average of one-step conditional log-densities.
+      2. Under stationarity and ergodicity the law of large numbers gives, for each $\theta$, convergence to $\ell(\theta) = \mathbb{E}[\log p(y_t \mid y_{t-1}, y_{t-2}, \ldots; \theta)]$; the effect of the initial conditions vanishes in the average. The limit is the expected conditional log-density, not the expected marginal log-density, which would lose the parameters that only the dependence reveals.
+      3. $\ell(\theta_0) - \ell(\theta)$ is an expected KL divergence between the true and the model's conditional densities, so it is non-negative and $\theta_0$ maximises $\ell$ when the model is correct.
+      4. Identification makes $\theta_0$ the unique maximiser.
+      5. Pointwise convergence does not move the argmax; a uniform law of large numbers over a compact parameter space (or a concave log-likelihood) carries convergence of the objective to convergence of its maximiser (Wald 1949; Newey and McFadden 1994, Theorem 2.1).
+      6. When the model is wrong, steps 2 and 5 still hold and $\hat{\theta}$ converges to the pseudo-true value, the minimiser of the expected KL divergence (White 1982).
+    depends_on: ["Likelihood", "Prediction-error decomposition", "Law of large numbers", "KL divergence", "Identification", "Uniform law of large numbers", "Pseudo-true value"]
+    reference: "reference/04-estimation/maximum-likelihood.md#maximum-likelihood-estimator"
+
+  - term: "Identification"
+    definition: "A parameter is identified when distinct parameter values imply distinct distributions of the data. For time series the condition is stated on the conditional densities of y_t given its past; without it no amount of data selects the true value."
+    depends_on: ["Joint density"]
+    reference: "reference/04-estimation/maximum-likelihood.md#identification"
+
+  - term: "Uniform law of large numbers"
+    definition: "A law of large numbers that holds uniformly over the parameter space: the largest gap between the sample objective and its limit converges to zero. It holds for stationary ergodic data under compactness, continuity and a dominance condition, and it is what makes the maximiser of a sample objective converge."
+    depends_on: ["Law of large numbers"]
+    reference: "reference/04-estimation/maximum-likelihood.md#uniform-law-of-large-numbers"
+
+  - term: "Pseudo-true value"
+    definition: "The parameter value of a misspecified model that maximises the expected conditional log-density under the true process, equivalently the one closest to the truth in expected KL divergence. Maximum likelihood converges to it when the model is wrong."
+    depends_on: ["KL divergence", "Likelihood", "Ergodicity"]
+    reference: "reference/04-estimation/maximum-likelihood.md#pseudo-true-value"

@@ -1,0 +1,22 @@
+# Glossary: P7: Error-process specification
+
+terms:
+
+  - term: "Ljung–Box test"
+    definition: "A portmanteau test of the null hypothesis that a series, usually a set of residuals, has no autocorrelation up to lag h. Its chi-squared null distribution is asymptotic and derived for i.i.d. noise; under conditional heteroskedasticity it over-rejects, and robust versions or standardised residuals are used."
+    mathematical: |
+      Test statistic for $n$ observations and $h$ lags:
+      $$Q = n(n+2) \sum_{k=1}^h \frac{\hat{\rho}_k^2}{n-k}$$
+
+      Under $H_0$ and i.i.d. noise, $Q$ is approximately $\chi^2(h)$ for an observed series. For the residuals of a fitted ARMA($a$, $b$) model the degrees of freedom are $h - a - b$, an approximation that needs $h$ large; residuals of a regression get no such adjustment.
+
+      **Hypotheses:**
+      - $H_0$: no autocorrelation up to lag $h$
+      - $H_1$: autocorrelation at some lag up to $h$
+
+      Reject $H_0$ when the p-value is below the significance level. Under GARCH errors the test over-rejects; it is then run on standardised residuals or replaced by a heteroskedasticity-robust portmanteau test (Lobato, Nankervis and Savin 2001; Francq, Roy and Zakoïan 2005).
+    historical: |
+      - 1970: Box and Pierce introduce the Q-test
+      - 1978: Ljung and Box improve the test statistic for small samples
+    depends_on: ["ACF", "i.i.d"]
+    reference: "01-workflow/p07-error-process.md#test-residual-autocorrelation"

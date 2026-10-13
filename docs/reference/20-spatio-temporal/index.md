@@ -7,20 +7,26 @@ The B5 branch: spatial autocorrelation, spatial panel VAR and spatial error and 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B5["B5 Spatial and network"] --> B5_SPATIAL_AUTOCORRELATION["Spatial autocorrelation<br/>Moran's I"]
-    B5_SPATIAL_AUTOCORRELATION --> B5_INDEX{"Index?"}
+    B5["B5 Spatial and network"] --> P3[["P3: Exploratory diagnostics"]]
+    P3 --> B5_SPATIAL_AUTOCORRELATION["Spatial autocorrelation<br/>Moran's I"]
+    B5_SPATIAL_AUTOCORRELATION --> P6[["P6: Conditional-mean model class"]]
+    P6 --> B5_INDEX{"Index?"}
     B5_INDEX -->|"Regions or panels"| B5_SPATIAL_PANEL_VAR["Spatial panel VAR and spatial error and lag models"]
     B5_INDEX -->|"Continuous space"| B5_KRIGING["Spatio-temporal kriging and Gaussian processes"]
     B5_INDEX -->|"Graph"| B5_GRAPH_MODEL{"Graph-indexed model?"}
+    B5_INDEX -->|"Events in space"| B5_ST_POINT_PROCESS["Spatio-temporal point processes"]
     B5_GRAPH_MODEL -->|"Spectral filtering"| B5_GRAPH_SIGNAL["Graph signal processing"]
     B5_GRAPH_MODEL -->|"Neural"| B5_STGNN["Spatio-temporal graph neural networks"]
     B5_GRAPH_MODEL -->|"Autoregression"| B5_NETWORK_AR["Network autoregression"]
-    B5_INDEX -->|"Events in space"| B5_ST_POINT_PROCESS["Spatio-temporal point processes"]
-    B5_SPATIAL_PANEL_VAR & B5_KRIGING & B5_GRAPH_SIGNAL & B5_STGNN --> P8
-    B5_NETWORK_AR & B5_ST_POINT_PROCESS --> P8[["P8: Estimation"]]
+    B5_SPATIAL_PANEL_VAR & B5_KRIGING & B5_GRAPH_SIGNAL & B5_STGNN & B5_NETWORK_AR & B5_ST_POINT_PROCESS --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P8[["P8: Estimation"]]
+    class P6_KIND_FLAG ref
+    P8 --> P9[["P9: In-sample diagnostics"]]
+    P9 --> B5_OUT(["Continue on the spine at P10"])
+    class B5_OUT terminator
     class B5_INDEX,B5_GRAPH_MODEL decision
     class B5,B5_SPATIAL_AUTOCORRELATION,B5_SPATIAL_PANEL_VAR,B5_KRIGING,B5_GRAPH_SIGNAL,B5_STGNN,B5_NETWORK_AR,B5_ST_POINT_PROCESS process
-    class P8 ref
+    class P3,P6,P8,P9 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

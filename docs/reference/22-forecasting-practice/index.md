@@ -1,6 +1,6 @@
 # 22. Forecasting Theory and Practice
 
-Baselines, the Theta method, point forecasts and horizons, mixed-frequency models and nowcasting, reconciliation, combination, judgmental adjustment, and the global-or-local and hierarchy choices for many series. Probabilistic forecasts live in area 34.
+Baselines, the Theta method, point forecasts and horizons, mixed-frequency models and nowcasting, reconciliation, combination, judgmental adjustment, and the global-or-local and hierarchy choices for many series. Probabilistic forecasts live in area 34. The page also hosts: baselines for comparison, back-transformation and re-seasonalisation.
 
 ## Theta method
 
@@ -15,32 +15,32 @@ Baselines, the Theta method, point forecasts and horizons, mixed-frequency model
 ## Point forecasts and horizons
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_POINT_FORECASTS`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_POINT_FORECASTS`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Hierarchical and temporal reconciliation
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_RECONCILIATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_RECONCILIATION`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Forecast combination and model averaging
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_COMBINATION`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_COMBINATION`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Judgmental adjustment
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_JUDGMENTAL`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_JUDGMENTAL`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Nowcasting
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P10_NOWCASTING`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P11_NOWCASTING`). Write this section following the content rules in `.claude/rules/writing.md`.
 
-## Naive and seasonal-naive baselines
+## Baselines for comparison
 
 !!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P2_FC_BASELINES`). Write this section following the content rules in `.claude/rules/writing.md`.
+    To-do item created from the flowchart inventory (node `P0_FC_BASELINES`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Pooling strategies for many series
 
@@ -51,3 +51,8 @@ Baselines, the Theta method, point forecasts and horizons, mixed-frequency model
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B7_HIERARCHY`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Back-transformation and re-seasonalisation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P11_BACK_TRANSFORM`). Write this section following the content rules in `.claude/rules/writing.md`.

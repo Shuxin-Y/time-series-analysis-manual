@@ -36,7 +36,7 @@ venv/bin/python scripts/scaffold_stubs.py --dry-run  # pending sections the inve
 | Axis | Location | Role |
 |---|---|---|
 | Part 0 Foundations | `docs/00-foundations/` | Roots of every derivation chain: statistical-analysis logic, OLS assumptions, stochastic processes, asymptotics |
-| Workflow | `docs/01-workflow/` | The general flowchart: master diagram plus one chapter per phase P0–P11; `p02-purpose/` (10 purposes) and `p05-representation/` (6 representations) are decision indexes |
+| Workflow | `docs/01-workflow/` | The general flowchart: master diagram plus one chapter per phase P0–P12; `p00-purpose/` (10 purposes) and `p05-representation/` (6 representations) are decision indexes |
 | Reference | `docs/reference/NN-slug/` | One chapter group per area (34) |
 
 ### Node = content unit

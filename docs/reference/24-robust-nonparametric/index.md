@@ -1,6 +1,6 @@
 # 24. Robust and Nonparametric Methods
 
-Robust estimation, and quantile regression and quantile autoregression. Robust filtering lives in P0, nonparametric trend tests in P3 and nonparametric regression in area 8.
+Robust estimation, and quantile regression and quantile autoregression. Robust prefiltering lives in P4, nonparametric trend tests in P3 and nonparametric regression in area 8.
 
 ## Robust estimation
 
