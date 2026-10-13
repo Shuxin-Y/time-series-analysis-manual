@@ -2,7 +2,7 @@
 
 **Question this phase answers:** What does the model say, for this purpose?
 
-P11 issues and interprets the output of the candidate selected in P10. A forecaster issues, for the live origin, the same product P10 scored: the point forecast of the P0 functional, intervals and quantiles, back-transformation and re-seasonalisation to the target scale, combination, judgmental adjustment, and reconciliation of the adjusted forecasts, because aggregation constraints are linear on the target scale and an adjustment after reconciliation breaks coherence. Causal and structural inference accounts for the specification search that produced the model. Structure, events and other outputs are interpreted with their uncertainty: confidence bands for spectra, confidence intervals for break dates.
+P11 issues and interprets the output of the candidate selected in P10. A forecaster issues, for the live origin, the same product P10 scored, built on sample paths or predictive distributions: back-transformation and re-seasonalisation to the target scale, combination, judgmental adjustment and reconciliation act on the paths, and intervals and quantiles are derived last. The order follows from two facts: aggregation constraints are linear on the target scale, and quantiles are not additive, so intervals computed before combination and reconciliation would surround a different centre. Causal and structural inference accounts for the specification search that produced the model. Structure, events and other outputs are interpreted with their uncertainty: confidence bands for spectra, confidence intervals for break dates.
 
 ## Sub-diagram
 
@@ -12,19 +12,19 @@ P11 issues and interprets the output of the candidate selected in P10. A forecas
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P11_IN(["Selected candidate and purpose flag from P10"]) --> P11_PURPOSE{"Purpose flag?"}
-    P11_PURPOSE -->|"The future"| P11_POINT_FORECASTS["Point forecasts and horizons<br/>the P0 functional, issued for the live origin"]
+    P11_PURPOSE -->|"The future"| P11_POINT_FORECASTS["Point forecasts and horizons<br/>the P0 functional with sample paths or a predictive distribution, for the live origin"]
     P11_PURPOSE -->|"Causes"| P11_TO_PART_2(["Continue in part 2"])
     P11_PURPOSE -->|"Structure in the series or events"| P11_TO_PART_4(["Continue in part 4"])
     P11_PURPOSE -->|"Other outputs"| P11_TO_PART_5(["Continue in part 5"])
-    P11_POINT_FORECASTS --> P11_INTERVALS["Prediction intervals<br/>analytical, bootstrap, conformal with adaptive variants for dependent data"]
-    P11_INTERVALS --> P11_DENSITY_QUANTILE["Density and quantile forecasts"]
-    P11_DENSITY_QUANTILE --> P11_BACK_TRANSFORM["Back-transformation and re-seasonalisation<br/>bias adjustment when the functional is the mean"]
-    P11_BACK_TRANSFORM --> P11_COMBINATION["Forecast combination and model averaging<br/>weights from earlier origins"]
+    P11_POINT_FORECASTS --> P11_BACK_TRANSFORM["Back-transformation and re-seasonalisation<br/>of the paths; bias adjustment when the functional is the mean"]
+    P11_BACK_TRANSFORM --> P11_COMBINATION["Forecast combination and model averaging<br/>of the paths or distributions; weights from earlier origins"]
     P11_COMBINATION --> P11_JUDGMENTAL["Judgmental adjustment<br/>tracked by forecast value added"]
     P11_JUDGMENTAL --> P11_HIERARCHY{"Hierarchy flag?"}
-    P11_HIERARCHY -->|"Yes"| P11_RECONCILIATION["Hierarchical and temporal reconciliation<br/>bottom-up, top-down, MinT"]
-    P11_HIERARCHY -->|"No"| P11_FC_TO_PART_6
-    P11_RECONCILIATION --> P11_FC_TO_PART_6(["Continue in part 6"])
+    P11_HIERARCHY -->|"Yes"| P11_RECONCILIATION["Hierarchical and temporal reconciliation<br/>bottom-up, top-down, MinT; the paths are reconciled, quantiles are not added"]
+    P11_HIERARCHY -->|"No"| P11_INTERVALS
+    P11_RECONCILIATION --> P11_INTERVALS["Prediction intervals<br/>from the final paths, or conformal on the final product's errors"]
+    P11_INTERVALS --> P11_DENSITY_QUANTILE["Density and quantile forecasts"]
+    P11_DENSITY_QUANTILE --> P11_FC_TO_PART_6(["Continue in part 6"])
     F_CONDITIONAL_EXPECTATION[["Conditional expectation as the optimal forecast"]] -.- P11_POINT_FORECASTS
     F_PROJECTION[["Projection theorem and best linear prediction"]] -.- P11_INTERVALS
     class P11_IN,P11_TO_PART_2,P11_TO_PART_4,P11_TO_PART_5,P11_FC_TO_PART_6 terminator

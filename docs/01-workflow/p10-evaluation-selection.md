@@ -37,7 +37,7 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P10_PART_2_IN(["From part 1: forecasting"]) --> P0_FC_BASELINES[["Baselines for comparison"]]
-    P0_FC_BASELINES --> P10_FORECAST_PRODUCT["Complete forecast product per origin<br/>point functional, intervals and quantiles, back-transformation, combination, reconciliation"]
+    P0_FC_BASELINES --> P10_FORECAST_PRODUCT["Complete forecast product per origin<br/>point functional and paths, back-transformation, combination, reconciliation, then intervals and quantiles"]
     P10_FORECAST_PRODUCT --> P10_POINT_METRICS["Point-forecast metrics<br/>MAE, RMSE, MASE, RMSSE; MAPE only for strictly positive data"]
     P10_POINT_METRICS --> P10_PROBABILISTIC_METRICS["Probabilistic metrics<br/>CRPS, pinball loss, log score, interval score; PIT and coverage"]
     P10_PROBABILISTIC_METRICS --> P10_FORECAST_COMPARISON["Forecast comparison tests<br/>Diebold-Mariano, Clark-West, reality check, model confidence set"]

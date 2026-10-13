@@ -82,13 +82,13 @@ graph TD
     P10_FORECAST_COMPARISON --> P10_FINAL_HOLDOUT[["Final hold-out or nested rolling origin"]]
     P10_FINAL_HOLDOUT --> P11[["P11: Inference and interpretation"]]
     P11 --> P11_POINT_FORECASTS[["Point forecasts and horizons"]]
-    P11_POINT_FORECASTS --> P11_INTERVALS[["Prediction intervals"]]
-    P11_INTERVALS --> P11_BACK_TRANSFORM[["Back-transformation and re-seasonalisation"]]
+    P11_POINT_FORECASTS --> P11_BACK_TRANSFORM[["Back-transformation and re-seasonalisation"]]
     P11_BACK_TRANSFORM --> P11_COMBINATION[["Forecast combination and model averaging"]]
     P11_COMBINATION --> P11_JUDGMENTAL[["Judgmental adjustment"]]
     P11_JUDGMENTAL -->|"Hierarchy flag"| P11_RECONCILIATION[["Hierarchical and temporal reconciliation"]]
-    P11_JUDGMENTAL -->|"No hierarchy"| P0_FC_DOMAIN
-    P11_RECONCILIATION --> P0_FC_DOMAIN{"Epidemic counts?"}
+    P11_JUDGMENTAL -->|"No hierarchy"| P11_INTERVALS
+    P11_RECONCILIATION --> P11_INTERVALS[["Prediction intervals"]]
+    P11_INTERVALS --> P0_FC_DOMAIN{"Epidemic counts?"}
     P0_FC_DOMAIN -->|"Yes"| P0_FC_EPIDEMIC["Reproduction number and SIR fitting<br/>from the delay-corrected counts of P1"]
     P0_FC_DOMAIN -->|"No"| P12
     P0_FC_EPIDEMIC --> P12[["P12: Deployment and monitoring"]]
@@ -112,4 +112,4 @@ graph TD
 
 ## P11 inference for this purpose
 
-[Point forecasts and horizons](../../reference/22-forecasting-practice/index.md#point-forecasts-and-horizons), [Prediction intervals](../../reference/34-probabilistic-forecasting/index.md#prediction-intervals), [Back-transformation and re-seasonalisation](../../reference/22-forecasting-practice/index.md#back-transformation-and-re-seasonalisation), [Forecast combination and model averaging](../../reference/22-forecasting-practice/index.md#forecast-combination-and-model-averaging), [Judgmental adjustment](../../reference/22-forecasting-practice/index.md#judgmental-adjustment), [Hierarchical and temporal reconciliation](../../reference/22-forecasting-practice/index.md#hierarchical-and-temporal-reconciliation), [Reproduction number and SIR fitting](../../reference/26-applied-domains/index.md#reproduction-number-and-sir-fitting).
+[Point forecasts and horizons](../../reference/22-forecasting-practice/index.md#point-forecasts-and-horizons), [Back-transformation and re-seasonalisation](../../reference/22-forecasting-practice/index.md#back-transformation-and-re-seasonalisation), [Forecast combination and model averaging](../../reference/22-forecasting-practice/index.md#forecast-combination-and-model-averaging), [Judgmental adjustment](../../reference/22-forecasting-practice/index.md#judgmental-adjustment), [Hierarchical and temporal reconciliation](../../reference/22-forecasting-practice/index.md#hierarchical-and-temporal-reconciliation), [Prediction intervals](../../reference/34-probabilistic-forecasting/index.md#prediction-intervals), [Reproduction number and SIR fitting](../../reference/26-applied-domains/index.md#reproduction-number-and-sir-fitting).
