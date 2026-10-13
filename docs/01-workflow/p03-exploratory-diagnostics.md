@@ -62,7 +62,7 @@ graph TD
     P3_EXPLOSIVE_VERDICT -->|"Yes"| P3_EXPLOSIVE_FLAG["Set flag: explosive episode; later tests exclude it"]
     P3_EXPLOSIVE_VERDICT -->|"No"| P3_TREND_TYPE
     P3_EXPLOSIVE_FLAG --> P3_TREND_TYPE["Trend-stationary or difference-stationary<br/>deterministic terms chosen with the tests; sequential procedure"]
-    P3_TREND_TYPE --> P3_UNIT_ROOT["Unit-root tests<br/>ADF, KPSS, PP, DF-GLS; outlier dummies; highest order first"]
+    P3_TREND_TYPE --> P3_UNIT_ROOT["Unit-root tests<br/>ADF, KPSS, PP, DF-GLS; outlier dummies; highest order first; on the seasonally filtered series when the seasonal filter is set"]
     P3_UNIT_ROOT --> P3_UR_VERDICT{"ADF-type and KPSS agree?"}
     P3_UR_VERDICT -->|"Agree: they propose k"| P3_BREAK_SUSPECTED{"Break suspected?"}
     P3_UR_VERDICT -->|"Conflict"| P3_STRUCTURAL_BREAKS
@@ -98,12 +98,15 @@ graph TD
     P3_LONG_MEMORY --> P3_LM_BREAKS{"Break flag set?"}
     P3_LM_BREAKS -->|"Yes"| P3_LM_VS_BREAKS["Long memory or breaks<br/>Qu test, Shimotsu sample splitting"]
     P3_LM_BREAKS -->|"No"| P3_ORDER_FLAG
-    P3_LM_VS_BREAKS --> P3_ORDER_FLAG["Set flag: integration order k and fractional remainder"]
-    P3_ORDER_FLAG --> P3_NONPARAMETRIC_TREND["Nonparametric trend tests<br/>Mann-Kendall with prewhitening, Sen slope"]
-    P3_NONPARAMETRIC_TREND --> P3_TREND_TS{"Deterministic trend?"}
-    P3_TREND_TS -->|"Yes"| P3_TREND_FLAG["Set flag: deterministic trend"]
-    P3_TREND_TS -->|"No"| P3_ACF_PACF
-    P3_TREND_FLAG --> P3_ACF_PACF["Read the ACF and PACF<br/>at the integration order; bands for i.i.d. noise, robust bands otherwise"]
+    P3_LM_VS_BREAKS --> P3_ORDER_FLAG["Set flag: integration order k and fractional remainder<br/>k from agreeing tests, or the integer nearest the estimate of d on conflict"]
+    P3_ORDER_FLAG --> P3_TREND_TS{"Trend in the integration verdict?"}
+    P3_TREND_TS -->|"k = 0: trend in the levels?"| P3_NONPARAMETRIC_TREND["Nonparametric trend tests<br/>Mann-Kendall with prewhitening, Sen slope; valid at k = 0"]
+    P3_TREND_TS -->|"k at least 1 with a drift"| P3_DRIFT_FLAG["Set flag: drift"]
+    P3_TREND_TS -->|"None"| P3_ACF_PACF
+    P3_NONPARAMETRIC_TREND --> P3_TREND_SIG{"Trend significant?"}
+    P3_TREND_SIG -->|"Yes"| P3_TREND_FLAG["Set flag: deterministic trend"]
+    P3_TREND_SIG -->|"No"| P3_ACF_PACF
+    P3_TREND_FLAG & P3_DRIFT_FLAG --> P3_ACF_PACF["Read the ACF and PACF<br/>at the integration order; bands for i.i.d. noise, robust bands otherwise"]
     P3_ACF_PACF --> P3_VARIANCE_RATIO["Variance-ratio test<br/>Lo-MacKinlay, on the increments"]
     P3_VARIANCE_RATIO --> P3_NONLINEARITY["Nonlinearity tests<br/>BDS, Terasvirta, Tsay, Keenan on residuals of a linear AR; robust versions"]
     P3_NONLINEARITY --> P3_NONLINEAR{"Nonlinear mean?"}
@@ -111,8 +114,8 @@ graph TD
     P3_NONLINEAR -->|"No, or variance only: tested in P7"| P3_TO_PART_4(["Continue in part 4"])
     P3_NONLINEAR_FLAG --> P3_TO_PART_4
     class P3_PART_3_IN,P3_TO_PART_4 terminator
-    class P3_LM_BREAKS,P3_TREND_TS,P3_NONLINEAR decision
-    class P3_LONG_MEMORY,P3_LM_VS_BREAKS,P3_ORDER_FLAG,P3_NONPARAMETRIC_TREND,P3_TREND_FLAG,P3_ACF_PACF,P3_VARIANCE_RATIO,P3_NONLINEARITY,P3_NONLINEAR_FLAG process
+    class P3_LM_BREAKS,P3_TREND_TS,P3_TREND_SIG,P3_NONLINEAR decision
+    class P3_LONG_MEMORY,P3_LM_VS_BREAKS,P3_ORDER_FLAG,P3_NONPARAMETRIC_TREND,P3_TREND_FLAG,P3_DRIFT_FLAG,P3_ACF_PACF,P3_VARIANCE_RATIO,P3_NONLINEARITY,P3_NONLINEAR_FLAG process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -132,15 +135,17 @@ graph TD
     P3_MULTI -->|"No"| P3_OUT(["To P4 Transformations"])
     P3_MULTI -->|"Yes"| P3_SERIES_ORDERS["Integration order of every series<br/>the target and each covariate, as in parts 2 and 3"]
     P3_SERIES_ORDERS --> P3_CROSS_CORRELATION["Cross-correlation and lead-lag<br/>after prewhitening the input"]
-    P3_CROSS_CORRELATION --> P3_COINTEGRATION_PRECHECK["Cointegration tests<br/>Johansen, Engle-Granger, ARDL bounds; break-robust when breaks are flagged"]
+    P3_CROSS_CORRELATION --> P3_ORDERS{"Orders of the series?"}
+    P3_ORDERS -->|"All I(0): levels"| P3_OUT
+    P3_ORDERS -->|"Some I(1) or I(2)"| P3_COINTEGRATION_PRECHECK["Cointegration tests<br/>Johansen on the integrated series, Engle-Granger, ARDL bounds; I(2) analysis when a series is I(2); break-robust when breaks are flagged"]
     P3_COINTEGRATION_PRECHECK --> P3_COINT_VERDICT{"Cointegrated?"}
-    P3_COINT_VERDICT -->|"Yes: rank r at least 1"| P3_COINT_FLAG["Set flag: cointegrated, rank r"]
-    P3_COINT_VERDICT -->|"Mixed I(0) and I(1)"| P3_MIXED_FLAG["Set flag: mixed integration orders"]
-    P3_COINT_VERDICT -->|"No: all I(1), rank 0"| P3_OUT
-    P3_COINT_FLAG & P3_MIXED_FLAG --> P3_OUT
+    P3_COINT_VERDICT -->|"Rank r at least 1"| P3_COINT_FLAG["Set flag: cointegrated, rank r"]
+    P3_COINT_VERDICT -->|"Rank 0, some series I(0)"| P3_MIXED_FLAG["Set flag: mixed integration orders"]
+    P3_COINT_VERDICT -->|"Rank 0, all integrated"| P3_NO_COINT_FLAG["Set flag: no cointegration"]
+    P3_COINT_FLAG & P3_MIXED_FLAG & P3_NO_COINT_FLAG --> P3_OUT
     class P3_PART_4_IN,P3_OUT terminator
-    class P3_MULTI,P3_COINT_VERDICT decision
-    class P3_SERIES_ORDERS,P3_CROSS_CORRELATION,P3_COINTEGRATION_PRECHECK,P3_COINT_FLAG,P3_MIXED_FLAG process
+    class P3_MULTI,P3_ORDERS,P3_COINT_VERDICT decision
+    class P3_SERIES_ORDERS,P3_CROSS_CORRELATION,P3_COINTEGRATION_PRECHECK,P3_COINT_FLAG,P3_MIXED_FLAG,P3_NO_COINT_FLAG process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

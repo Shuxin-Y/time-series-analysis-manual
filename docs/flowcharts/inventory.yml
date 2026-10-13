@@ -137,6 +137,7 @@ nodes:
   - {id: P6_FRACTIONAL_DIFFERENCE, label: "Fractional differencing for learners", phase: P6, areas: [7, 18], section: "reference/18-machine-learning/index.md#fractional-differencing-for-learners"}
   - {id: P4_DETREND,               label: "Detrending by regression on time",       phase: P4, areas: [2, 28], section: "01-workflow/p04-transformations.md#detrending-by-regression-on-time"}
   - {id: P4_PREWHITEN, label: "Prewhiten and recolour", phase: P4, areas: [13], section: "01-workflow/p04-transformations.md#prewhiten-and-recolour"}
+  - {id: P4_INTEGRATED_LEVELS, label: "Integrated series kept in levels", phase: P4, areas: [2, 30, 13], section: "01-workflow/p04-transformations.md#integrated-series-kept-in-levels"}
   - {id: P4_FEATURES, label: "Calendar features and per-series scaling", phase: P4, areas: [18, 22], section: "01-workflow/p04-transformations.md#calendar-features-and-per-series-scaling"}
   - {id: P4_SEASONAL_DIFFERENCE,   label: "Seasonal differencing",                  phase: P4, areas: [29], section: "01-workflow/p04-transformations.md#seasonal-differencing"}
   - {id: P4_SEASONAL_ADJUSTMENT,   label: "Seasonal adjustment",                    phase: P4, areas: [29, 3], section: "01-workflow/p04-transformations.md#seasonal-adjustment"}

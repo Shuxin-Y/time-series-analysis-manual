@@ -112,8 +112,8 @@ graph TD
     P6_LINEAR_FAMILY -->|"Smoothing"| P6_SMOOTHING{"Smoothing method?"}
     P6_LINEAR_FAMILY -->|"Periodic"| P6_PERIODIC_AR["Periodic autoregression"]
     P6_LINEAR_FAMILY -->|"Intermittent"| P6_INTERMITTENT["Intermittent demand<br/>Croston, TSB"]
-    P6_SMOOTHING -->|"State-space ETS"| P6_ETS["Exponential smoothing and ETS"]
-    P6_SMOOTHING -->|"Theta decomposition"| P6_THETA["Theta method"]
+    P6_SMOOTHING -->|"State-space ETS"| P6_ETS["Exponential smoothing and ETS<br/>on the levels"]
+    P6_SMOOTHING -->|"Theta decomposition"| P6_THETA["Theta method<br/>on the levels"]
     P6_AR_MA_ARMA --> P6_ARIMA_SARIMA["ARIMA and SARIMA<br/>ARMA after P4 differencing or ARIMA on the levels, not both"]
     P6_ARFIMA & P6_ARIMA_SARIMA & P6_ETS --> P6_PART_4_OUT
     P6_THETA & P6_PERIODIC_AR & P6_INTERMITTENT --> P6_PART_4_OUT(["Continue in part 10"])
@@ -165,9 +165,9 @@ graph TD
     P6_PART_6_IN(["From part 4"]) --> P6_STRUCTURED{"Structure?"}
     P6_STRUCTURED -->|"Time-varying coefficients"| P6_TVP_REGRESSION["Time-varying parameter regression"]
     P6_STRUCTURED -->|"Latent components"| P6_LATENT_MODEL{"Latent model?"}
-    P6_LATENT_MODEL -->|"Components"| P6_STRUCTURAL_TS["Structural time-series models<br/>local level, local linear trend, seasonal, cycle"]
+    P6_LATENT_MODEL -->|"Components"| P6_STRUCTURAL_TS["Structural time-series models<br/>on the levels: local level, local linear trend, seasonal, cycle"]
     P6_LATENT_MODEL -->|"General linear Gaussian"| P6_DLM["Dynamic linear models<br/>linear Gaussian state space; ARIMA as a special case"]
-    P6_LATENT_MODEL -->|"Bayesian, many candidate regressors"| P6_BSTS["Bayesian structural time series<br/>spike-and-slab regressor selection"]
+    P6_LATENT_MODEL -->|"Bayesian, many candidate regressors"| P6_BSTS["Bayesian structural time series<br/>on the levels; spike-and-slab regressor selection"]
     P6_TVP_REGRESSION & P6_STRUCTURAL_TS & P6_DLM & P6_BSTS --> P6_PART_6_OUT(["Continue in part 10"])
     class P6_TVP_REGRESSION,P6_STRUCTURAL_TS,P6_DLM,P6_BSTS escalate
     class P6_PART_6_IN,P6_PART_6_OUT terminator
@@ -286,8 +286,8 @@ graph TD
     P6_REGRESSION_FLAG & P6_ARIMAX & P6_DYNAMIC_REGRESSION --> P6_INTERVENTION_Q{"Intervention-terms flag?"}
     P6_INTERVENTION_Q -->|"Yes: candidate-outlier mask"| P6_TRANSFER_FUNCTION
     P6_INTERVENTION_Q -->|"No"| P6_DETERMINISTIC_Q
-    P6_TRANSFER_FUNCTION --> P6_DETERMINISTIC_Q{"Trend, seasonality or calendar flags?"}
-    P6_DETERMINISTIC_Q -->|"Yes"| P6_DETERMINISTIC["Deterministic regressors<br/>trend, seasonal dummies or Fourier terms, calendar and holiday effects"]
+    P6_TRANSFER_FUNCTION --> P6_DETERMINISTIC_Q{"Trend, drift, seasonality or calendar flags?"}
+    P6_DETERMINISTIC_Q -->|"Yes"| P6_DETERMINISTIC["Deterministic regressors<br/>trend, a drift constant in the differenced model, seasonal dummies or Fourier terms, calendar and holiday effects"]
     P6_DETERMINISTIC_Q -->|"No"| P6_PRIOR_Q
     P6_DETERMINISTIC --> P6_PRIOR_Q{"Prior specified?"}
     P6_PRIOR_Q -->|"Yes: Bayesian family or Bayesian estimation"| P6_PRIOR_FLAG["Set flag: prior specified"]

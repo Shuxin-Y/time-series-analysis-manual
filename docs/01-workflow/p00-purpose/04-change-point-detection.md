@@ -15,6 +15,7 @@ graph TD
     P3 --> P3_STRUCTURAL_BREAKS[["Structural-break tests"]]
     P3_STRUCTURAL_BREAKS --> P4[["P4: Transformations"]]
     P4 --> P0_CP_PROPERTY{"Which property changes?"}
+    P4_INTEGRATED_LEVELS[["Integrated series kept in levels"]] -.- P4
     P0_CP_PROPERTY -->|"Mean, variance or distribution"| P0_CP_SERIAL{"Serial dependence within segments?"}
     P0_CP_PROPERTY -->|"A recurring regime"| P6[["P6: Conditional-mean model class"]]
     P0_CP_SERIAL -->|"Yes"| P0_CP_DEPENDENT["Dependence-aware detection<br/>AR-aware costs, long-run variance scaling, prewhitened residuals"]
@@ -29,7 +30,7 @@ graph TD
     class P0_CP_IN,P0_CP_TO_PART_2,P0_CP_REGIME_TO_PART_3 terminator
     class P0_CP_PROPERTY,P0_CP_SERIAL decision
     class P0_CP_DEPENDENT process
-    class P0_DETECTION_TASK,P1,P3,P3_STRUCTURAL_BREAKS,P4,P6,P6_MARKOV_SWITCHING,P7,P8,P9,P7_MS_GARCH ref
+    class P0_DETECTION_TASK,P1,P3,P3_STRUCTURAL_BREAKS,P4,P6,P6_MARKOV_SWITCHING,P7,P8,P9,P7_MS_GARCH,P4_INTEGRATED_LEVELS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

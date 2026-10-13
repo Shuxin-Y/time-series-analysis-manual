@@ -14,6 +14,7 @@ graph TD
     P3 --> P0_SE_NOISE_TYPE["Characterise the noise<br/>white, coloured, 1/f, impulsive, non-stationary"]
     P0_SE_NOISE_TYPE --> P4[["P4: Transformations"]]
     P4 --> P0_SE_IMPULSIVE{"Impulsive noise?"}
+    P4_INTEGRATED_LEVELS[["Integrated series kept in levels"]] -.- P4
     P0_SE_IMPULSIVE -->|"Yes"| P4_ROBUST_PREFILTER[["Robust prefiltering"]]
     P0_SE_IMPULSIVE -->|"No"| P5
     P4_ROBUST_PREFILTER --> P5[["P5: Representation selection"]]
@@ -31,7 +32,7 @@ graph TD
     class P0_SE_IN,P0_SE_TO_PART_2 terminator
     class P0_SE_IMPULSIVE,P0_SE_STRUCTURE,P0_SE_COLOUR decision
     class P0_SE_NOISE_TYPE,P0_SE_WIENER,P0_SE_WAVELET_DENOISING process
-    class P1,P3,P4,P4_ROBUST_PREFILTER,P5,P5_TF_DWT,P6,P5_FD_FILTERS,P8,P8_KALMAN,P9 ref
+    class P1,P3,P4,P4_ROBUST_PREFILTER,P5,P5_TF_DWT,P6,P5_FD_FILTERS,P8,P8_KALMAN,P9,P4_INTEGRATED_LEVELS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

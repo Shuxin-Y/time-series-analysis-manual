@@ -51,7 +51,7 @@ graph TD
     P7_MEAN_DEP -->|"Short memory, regression flag"| P7_ARMA_ERRORS["Regression with ARMA errors<br/>beta is a marginal effect"]
     P7_MEAN_DEP -->|"Slow decay, regression flag"| P7_ARFIMA_ERRORS["Regression with ARFIMA errors"]
     P7_MEAN_DEP -.->|"Dynamic family: raise the order"| P6[["P6: Conditional-mean model class"]]
-    P7_MEAN_DEP -.->|"Unit root: spurious regression"| P3[["P3: Exploratory diagnostics"]]
+    P7_MEAN_DEP -.->|"Unit root: spurious regression, difference every series"| P4[["P4: Transformations"]]
     P7_ARMA_ERRORS & P7_ARFIMA_ERRORS --> P7_TO_PART_3(["Continue in part 3"])
     F_WHITE_NOISE[["White noise, martingale difference, independence"]] -.- P7_MEAN_DEP
     F_WOLD[["Wold decomposition"]] -.- P7_ARMA_ERRORS
@@ -60,7 +60,7 @@ graph TD
     class P7_MEAN_DEP decision
     class P7_MEAN_TESTS process
     class P7_ARMA_ERRORS,P7_ARFIMA_ERRORS escalate
-    class P6,P3,F_WHITE_NOISE,F_WOLD,F_LONG_MEMORY ref
+    class P6,P4,F_WHITE_NOISE,F_WOLD,F_LONG_MEMORY ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -180,7 +180,7 @@ graph TD
 | Step | Question | Tests | Branches |
 |---|---|---|---|
 | 0 | Model kind? | None | Loss minimisation: output distribution or quantile heads. Likelihood or Bayesian: preliminary fit, then step 1 |
-| 1 | Mean dependence left? | Ljung-Box, heteroskedasticity-robust portmanteau, Breusch-Godfrey with a lagged dependent variable; multivariate portmanteau and LM | None: step 2. Short memory with the regression flag: ARMA errors. Slow decay with the regression flag: ARFIMA errors. Dynamic family still dependent: back to P6. Unit root in the residuals: spurious regression, back to P3 |
+| 1 | Mean dependence left? | Ljung-Box, heteroskedasticity-robust portmanteau, Breusch-Godfrey with a lagged dependent variable; multivariate portmanteau and LM | None: step 2. Short memory with the regression flag: ARMA errors. Slow decay with the regression flag: ARFIMA errors. Dynamic family still dependent: back to P6. Unit root in the residuals: spurious regression; difference every series in P4 |
 | 2 | Variance regimes? | kappa-2 ICSS; Hansen, Garcia and Carrasco-Hu-Ploberger tests for Markov switching | Present: MS-GARCH or segmented variance. None: step 3 |
 | 3 | Second-moment dependence? | ARCH-LM, McLeod-Li, squared-residual ACF; multivariate ARCH-LM | None: step 4. Present: GARCH; EGARCH / GJR / TGARCH; FIGARCH or IGARCH, reachable only after step 2 ruled out regimes; GARCH-in-mean; stochastic volatility; HAR-RV / Realized GARCH with intraday data. Then step 1 again on standardised residuals |
 | 4 | Distribution of standardised innovations? | Jarque-Bera, QQ, Hill tail index; multivariate normality | Gaussian; Student-t / GED or QMLE; skewed-t; EVT; jumps |
