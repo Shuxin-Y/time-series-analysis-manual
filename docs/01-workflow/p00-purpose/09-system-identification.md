@@ -16,13 +16,13 @@ graph TD
     P0_SI_FEEDBACK -->|"Yes"| P0_SI_CLOSED_LOOP["Closed-loop identification<br/>direct PEM with a noise model, indirect or joint input-output, closed-loop subspace"]
     P0_SI_FEEDBACK -->|"No"| P3
     P0_SI_CLOSED_LOOP --> P3[["P3: Exploratory diagnostics"]]
-    P3 --> P0_SI_NONPARAMETRIC["Nonparametric analysis of the system<br/>smoothed empirical transfer-function estimate, coherence, impulse response and delay"]
+    P3 --> P0_SI_NONPARAMETRIC["Nonparametric analysis of the system<br/>open loop: smoothed empirical transfer-function estimate; under feedback: spectral ratio against the reference signal; coherence, impulse response, delay"]
     P0_SI_NONPARAMETRIC --> P0_SI_MODEL_STRUCTURE["Choose the model structure<br/>polynomial, state space, block-oriented"]
     P0_SI_MODEL_STRUCTURE --> P6[["P6: Conditional-mean model class"]]
     P6 --> P0_SI_STRUCTURE_Q{"Structure?"}
     P0_SI_STRUCTURE_Q -->|"Noise shares the system poles"| P6_ARX_ARMAX[["ARX and ARMAX input-output models"]]
     P0_SI_STRUCTURE_Q -->|"Independent noise model"| P6_TRANSFER_FUNCTION[["Transfer-function and intervention models"]]
-    P0_SI_STRUCTURE_Q -->|"No noise model"| P6_OUTPUT_ERROR[["Output-error models"]]
+    P0_SI_STRUCTURE_Q -->|"No noise model, open loop only"| P6_OUTPUT_ERROR[["Output-error models"]]
     P0_SI_STRUCTURE_Q -->|"State space"| P6_SUBSPACE[["Subspace identification"]]
     P0_SI_STRUCTURE_Q -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER[["Hammerstein-Wiener models"]]
     P6_ARX_ARMAX & P6_TRANSFER_FUNCTION & P6_OUTPUT_ERROR & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER --> P0_SI_TO_PART_2(["Continue in part 2"])

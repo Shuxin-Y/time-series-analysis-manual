@@ -218,7 +218,7 @@ graph TD
     P6_IO_STRUCTURE -->|"Block-oriented"| P6_HAMMERSTEIN_WIENER["Hammerstein-Wiener models"]
     P6_IO_STRUCTURE -->|"Sparse nonlinear"| P6_SINDY["Sparse identification of nonlinear dynamics"]
     P6_IO_STRUCTURE -->|"Independent noise model"| P6_TRANSFER_FUNCTION[["Transfer-function and intervention models"]]
-    P6_IO_STRUCTURE -->|"No noise model"| P6_OUTPUT_ERROR["Output-error models"]
+    P6_IO_STRUCTURE -->|"No noise model, open loop only"| P6_OUTPUT_ERROR["Output-error models<br/>biased under feedback"]
     P6_ARX_ARMAX & P6_OUTPUT_ERROR & P6_SUBSPACE & P6_HAMMERSTEIN_WIENER & P6_SINDY & P6_TRANSFER_FUNCTION --> P6_PART_8_OUT(["Continue in part 11"])
     class P6_ARX_ARMAX,P6_OUTPUT_ERROR,P6_SUBSPACE,P6_HAMMERSTEIN_WIENER,P6_SINDY escalate
     class P6_PART_8_IN,P6_PART_8_OUT terminator
