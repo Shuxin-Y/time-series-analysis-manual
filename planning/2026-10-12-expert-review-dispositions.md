@@ -179,3 +179,40 @@ Every finding of the four reports (econometrics E, forecasting and machine learn
 | T-42 | (minor) P3 runs ARCH-LM on levels and unit-root tests on the untransformed scale | `01-workflow/p03-exploratory-diagnostics.md` | 834fde3 |
 | T-43 | (minor) HAC is unconditional on the causal route after the error process has been modelled | `01-workflow/p11-inference.md` | 83cde51 |
 | T-44 | (minor) Wold decomposition stated without the deterministic part and with unqualified innovations | `00-foundations/stochastic-processes.md` | 8c3a0b2 |
+
+## Self-review after the fixes
+
+Review agents checked the fixes against the routes a reader walks: three rounds, a verification of round 3, and a last verification of its fixes. Each round's findings were fixed at the class they belong to.
+
+| Class | Defect class | Commits |
+|---|---|---|
+| C1 | Value type, sampling and structure were not read at every phase that branches on them | 4db176b, bb6f569, 947b622 |
+| C2 | Failed checks and no-model routes had dotted loops instead of gates | 0b020fb |
+| C3 | P4 ignored which unit roots the model class carries; keep-levels routes; over-differencing | 11d0d1f, bb6f569, 947b622, 1c4784e |
+| C4 | Sampling and structure flags: setters, names and readers | 4db176b, bb6f569, 947b622 |
+| C5 | Purpose-7 edges skipped the purpose flag | b12ca44 |
+| C6 | B6 returned to the spine too early | 6739614 |
+| C7 | Evaluation leakage: hold-out, refits per origin, one-sided features, thresholds | 0b020fb, bb6f569, 947b622, 1c4784e |
+| C8 | Order of the forecast product | 230e4ad |
+| C9 | Statistical statements in theory pages and glossary | 9eddaef |
+| C10 | Closed-loop system identification | 62698b1 |
+| C11 | Single source, placement of purpose leaves, labels and spelling | fd94a99, 2aeb8f5, bb6f569, 947b622, 1c4784e |
+| C12 | Acceptance routes and the flag contract as a committed test | 25e294b, 2cf7d40, 4fbfdbd, 0297ba6, 1c4784e |
+
+Rejected with evidence: the frequency-domain chart keeps its sampling gate, because it is the entry for readers who open that chart directly; forward refs on the P5 index and state-space charts are allowed, because the order rule binds purpose charts; redirects cannot carry anchors, because mkdocs-redirects maps pages.
+
+### Open after the last verification
+
+The last verification (of 1c4784e) found the findings below. They are not fixed on this branch: three fix rounds in a row each introduced the next round's major in the seasonal-integration routes, so the encoding of seasonal integration in the flags is left to a design decision.
+
+| Severity | Where | Finding |
+|---|---|---|
+| major | `01-workflow/p04-transformations.md`, P4_CLASS "All" answer; `01-workflow/p06-mean-model-class.md`, SARIMA leaf | The integration order k counts every zero-frequency root and the seasonal filter holds the seasonal factors S(B) only. A SARIMA reader with D = 1 must take d = k − 1; nothing says so, and d = k over-differences (airline series: k = 2 gives (1 − B)³S(B)). |
+| minor | `01-workflow/p04-transformations.md`, over-differencing check | On the "regular only" route the check runs on S(B)y, which is still integrated at frequency zero; its exits are written for a fully differenced series. |
+| minor | `01-workflow/p04-transformations.md` part 6; purpose 4 part 2 | With seasonal unit roots, the purpose-4 detectors (PELT, binary segmentation, CUSUM, BOCPD, E-divisive) still run on a series that keeps them; only the state-space route removes them. |
+| minor | `01-workflow/p00-purpose/index.md`, P0_PLAN "Synthetic training data" | The purpose flag has no value for the use of simulated paths; that use is first chosen in P11, so the answer at P0 is not a flag value, and P0_SM_TSTR is not a contract reader of the hold-out flag. |
+| nit | `01-workflow/p04-transformations.md` | Irregular, kept series are told seasonality enters "as Fourier terms"; no node on the B3 route adds them. |
+| nit | `01-workflow/p04-transformations.md`, P4_DECOMP | The decomposition question does not read the sampling flag; grid-based methods stay open to irregular, kept series. |
+| nit | `01-workflow/p03-exploratory-diagnostics.md`, P3_SAMPLING | "Irregular" overlaps "Regular, resampled or mixed" for a series resampled in B3. |
+| nit | `01-workflow/p07-error-process.md`, question-order table | Step 0 still names the value "continuous or compositional". |
+| nit | `01-workflow/p10-evaluation-selection.md`, anomaly threshold | Without labels, a cost-based threshold depends on an assumed anomaly rate; the injected rate stands in for it. |
