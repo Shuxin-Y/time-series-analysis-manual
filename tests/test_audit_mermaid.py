@@ -58,7 +58,7 @@ def test_parse_diagram_records_edges_with_labels_fan_in_and_dotted_pointers():
 
 def test_parse_diagram_keeps_the_text_and_kind_of_split_arrows():
     d = audit.parse_diagram('graph TD\n    A["a"] -- yes --> B["b"]\n    B -. maybe .-> C["c"]\n', "x.md:1")
-    assert [(e.source, e.target, e.dotted) for e in d.edges] == [("A", "B", False), ("B", "C", True)]
+    assert [(e.source, e.target, e.label, e.dotted) for e in d.edges] == [("A", "B", "yes", False), ("B", "C", "maybe", True)]
 
 
 def test_parse_diagram_reads_class_statements():

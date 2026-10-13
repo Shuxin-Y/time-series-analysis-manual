@@ -147,6 +147,12 @@ def _parse_node(piece: str, labels: list[str], d: Diagram) -> str | None:
     return nid
 
 
+def _text_edge_as_pipe(m: re.Match) -> str:
+    """`A -- yes --> B` becomes `A -->|yes| B`, keeping the text and whether the arrow is dotted."""
+    head, *text, _ = m.group(0).split()
+    return f" {'-.->' if head.startswith('-.') else '-->'}|{' '.join(text)}| "
+
+
 def _edge_label(arrow: str, labels: list[str]) -> str:
     text = re.search(r"\|([^|]*)\|", arrow)
     if not text:
@@ -183,8 +189,7 @@ def parse_diagram(source: str, where: str) -> Diagram:
             labels.append(m.group(0))
             return f"\x00{len(labels) - 1}\x00"
 
-        masked = TEXT_EDGE_RE.sub(lambda m: " -.-> " if m.group(0).lstrip().startswith("-.") else " --> ",
-                                  QUOTED_RE.sub(mask, line))
+        masked = TEXT_EDGE_RE.sub(_text_edge_as_pipe, QUOTED_RE.sub(mask, line))
         ids = [[nid for piece in part.split("&") if piece.strip()
                 for nid in [_parse_node(piece.strip(), labels, d)] if nid]
                for part in EDGE_RE.split(masked)]

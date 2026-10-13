@@ -1,5 +1,7 @@
 """Acceptance routes of the purpose-first spine (design spec section 8) and the flag contract (section 3), walked on
 the charts as the Markdown sources draw them."""
+import re
+
 import pytest
 
 import audit_flowcharts as audit
@@ -19,10 +21,10 @@ def g() -> Graph:
 
 
 def test_purpose_5_keeps_the_anomalies_through_p1_and_p4(g):
-    assert g.ordered(["P0_KEEP_ANOMALIES_FLAG", "P1_SCREEN", "P4_OUTLIERS"], pages=SPINE)
+    assert g.ordered(["P0_KEEP_ANOMALIES_FLAG", "P1_SCREEN", "P4_OUTLIER_GATE"], pages=SPINE)
     assert g.label_has("P1_SCREEN", "mark candidate outliers")
-    assert g.edge("P4_OUTLIERS", "P4_TO_PART_2", "Kept as the target")
-    # Robust prefiltering replaces values; no spine route reaches it around the purpose-aware gate.
+    assert g.edge("P4_OUTLIER_GATE", "P4_TO_PART_2", "Keep anomalies")
+    # Robust prefiltering replaces values; no spine route reaches it around the gate that reads the purpose flags.
     assert not g.reach("P1_IN", "P4_ROBUST_PREFILTER", pages=SPINE, avoid={"P4_OUTLIER_GATE"})
 
 
@@ -34,10 +36,11 @@ def test_purpose_8_reaches_the_periodogram_with_its_periodic_content(g):
 
 
 def test_purpose_6_decomposes_levels(g):
-    assert not g.reach("P4_IN", "P4_DIFFERENCE", pages=P4_PAGE, avoid={"P4_DECOMP"})
+    assert g.edge("P4_KEEP_LEVELS", "P4_DECOMP", "components")
     assert g.reach("P4_DECOMP", "P4_FILTER_DECOMPOSITION", pages=P4_PAGE)
-    assert g.edge("P4_KEEP_LEVELS", "P4_COMPONENTS_TO_PART_4", "components")
-    assert not g.reach("P4_COMPONENTS_TO_PART_4", "P4_DIFFERENCE", pages=P4_PAGE)
+    assert not g.reach("P4_DECOMP", "P4_DIFFERENCE", pages=P4_PAGE)
+    # Only components readers are offered a decomposition; the others adjust seasonality once, in part 3.
+    assert not g.reach("P4_IN", "P4_DECOMP", pages=P4_PAGE, avoid={"P4_KEEP_LEVELS"})
 
 
 def test_purpose_3_in_real_time_reaches_a_causal_filter_or_the_kalman_filter(g):
@@ -95,6 +98,43 @@ def test_a_purpose_without_a_mean_model_skips_p7_to_p9(g):
     assert g.reach("P6_NO_MODEL", "P10_IN", pages=SPINE, avoid={"P7", "P8", "P9"})
 
 
+def test_a_failed_in_sample_check_always_passes_the_purpose_gate(g):
+    for fail in ("P9_PART_1_FAIL", "P9_PART_2_FAIL", "P9_PART_3_FAIL"):
+        assert not g.reach(fail, "P10_IN", pages=SPINE, avoid={"P9_GATE"}), fail
+
+
+def test_clustering_readers_reach_cluster_validation_and_never_classification_metrics_unasked(g):
+    assert g.edge("P10_COLLECTION_TASK", "P10_CLUSTER_VALIDATION", "Clustering")
+    for di in g.appears["P10_GROUPED_SPLITS"]:
+        page = [re.escape(g.page(di)) + "$"]
+        assert not g.reach("P10_GROUPED_SPLITS", "P10_CLASSIFICATION_METRICS", pages=page,
+                           avoid={"P10_COLLECTION_TASK"}), g.page(di)
+    assert g.reach("P0_FE_CLUSTER_IN", "P10_CLUSTER_VALIDATION", pages=[r"01-workflow/p00-purpose/07-"])
+
+
+def test_differencing_and_seasonal_filters_wait_for_the_model_class(g):
+    for step in ("P4_DIFFERENCE", "P4_SEASONAL_DIFFERENCE"):
+        assert not g.reach("P4_INTEGRATION", step, pages=P4_PAGE, avoid={"P4_CLASS"}), step
+    assert g.label_has("P4_TREND_FLAG", "the regular difference is undone")
+
+
+def test_compositions_reach_p4_as_log_ratios_with_an_integration_verdict(g):
+    assert g.reach("B1_COMPOSITIONAL", "P3_SAMPLING", pages=COUNTS)
+    assert not g.reach("B1_COMPOSITIONAL", "P4_IN", pages=COUNTS, avoid={"P3_ORDER_FLAG"})
+
+
+def test_irregular_kept_series_leave_the_regular_grid_families_at_p6(g):
+    assert g.edge("P6_SAMPLING", "B3", "Irregular, kept")
+    assert not g.reach("P6_VALUE_TYPE", "P6_PANEL_Q", pages=SPINE, avoid={"P6_SAMPLING"})
+
+
+def test_the_final_hold_out_is_reserved_and_used_only_by_purposes_that_select_on_it(g):
+    assert g.edge("P0_HOLDOUT_GATE", "P0_PART_3_OUT", "causes, offline detection")
+    assert not g.reach("P0_COVARIATE_FLAG", "P0_HOLDOUT", pages=PURPOSE_INDEX, avoid={"P0_HOLDOUT_GATE"})
+    assert g.edge("P10_SELECT", "P10_FINAL_HOLDOUT", "forecasting, online detection, collections")
+    assert g.edge("P10_PURPOSE", "P10_COLLECTIONS_TO_PART_3", "Offline detection")
+
+
 # Flag contract: every flag a chart sets is read later. Each reader is named with the words in its label or answers
 # that show the read, so a reader that stops asking breaks the contract here.
 FLAG_READERS = {
@@ -102,17 +142,17 @@ FLAG_READERS = {
                         "P11_PURPOSE": "Purpose flag?"},
     "P0_REAL_TIME_FLAG": {"P1_MISSING_IMPUTE": "one-sided in real time", "P5_FD_FILTERS": "causal in real time",
                           "P8_KALMAN": "filter in real time"},
-    "P0_KEEP_ANOMALIES_FLAG": {"P4_OUTLIERS": "Kept as the target"},
-    "P0_KEEP_LEVELS_FLAG": {"P4_OUTLIER_GATE": "Keep-levels flag?", "P4_KEEP_LEVELS": "Keep-levels flag?"},
-    "P0_FORECAST_FLAG": {"P0_FC_BASELINES": "Baselines for comparison", "P11_POINT_FORECASTS": "the P0 functional"},
+    "P0_KEEP_ANOMALIES_FLAG": {"P4_OUTLIER_GATE": "Keep anomalies"},
+    "P0_KEEP_LEVELS_FLAG": {"P4_OUTLIER_GATE": "Keep levels", "P4_KEEP_LEVELS": "Keep-levels flag?"},
+    "P0_FORECAST_FLAG": {"P10_ROLLING_ORIGIN": "at the P0 horizons", "P11_POINT_FORECASTS": "the P0 functional"},
     "P0_DETECTION_FLAG": {"P10_LABELS": "Labels flag?"},
     "P0_SPLIT_FLAG": {"P10_GROUPED_SPLITS": "split unit from P0"},
     "P0_COVARIATE_FLAG": {"P3_MULTI": "Covariates or multivariate flag?", "P6_COVARIATE_Q": "Covariates flag?"},
-    "P0_HOLDOUT_FLAG": {"P10_FINAL_HOLDOUT": "reserved in P0"},
+    "P0_HOLDOUT_FLAG": {"P10_FINAL_HOLDOUT": "reserved in P0", "P0_SI_VALIDATION": "held-out input-output data"},
     "P1_VALUE_TYPE_FLAG": {nid: "Value-type flag?" for nid in
                            ("P2_VALUE_TYPE", "P3_TYPE", "P4_TYPE", "P6_VALUE_TYPE", "P7_TYPE", "P8_TYPE", "P9_TYPE")},
     "P1_IRREGULAR_FLAG": {"P2_SAMPLING": "Irregular", "P3_SAMPLING": "Irregular, kept", "P4_GRID": "Irregular, kept",
-                          "P5_GRID": "Irregular, kept"},
+                          "P5_GRID": "Irregular, kept", "P6_SAMPLING": "Irregular, kept"},
     "P1_RESAMPLED_FLAG": {"P2_SAMPLING": "resampled", "P3_SAMPLING": "resampled", "P4_GRID": "resampled"},
     "P1_CALENDAR_FLAG": {"P6_DETERMINISTIC_Q": "calendar flags?"},
     "P1_DELAY_FLAG": {"P0_FC_EPIDEMIC": "delay-corrected counts of P1"},
@@ -122,7 +162,10 @@ FLAG_READERS = {
     "P2_MULTIVARIATE_FLAG": {"P3_MULTI": "multivariate flag?", "P7_MULTI": "Multivariate flag?",
                              "P9_MULTI": "Multivariate flag?", "P11_SYSTEM": "Multivariate flag?"},
     "B1_MULTIVARIATE_FLAG": {"P7_MULTI": "Multivariate flag?", "P9_MULTI": "Multivariate flag?"},
-    "B3_KEPT_FLAG": {"P3_SAMPLING": "Irregular, kept", "P4_GRID": "Irregular, kept", "P5_GRID": "Irregular, kept"},
+    "B3_KEPT_FLAG": {"P3_SAMPLING": "Irregular, kept", "P4_GRID": "Irregular, kept", "P5_GRID": "Irregular, kept",
+                     "P6_SAMPLING": "Irregular, kept"},
+    "P2_STRUCTURE_FLAG": {"P3_STRUCTURE": "Structure flag?", "P6_PANEL_Q": "Structure flag?",
+                          "P6_STRUCTURE_Q": "Structure flag?"},
     "B6_CD_FLAG": {"B6_ESTIMATOR": "Cross-sectional dependence"},
     "B6_COINT_FLAG": {"B6_ESTIMATOR": "Panel cointegration"},
     "B7_HIERARCHY_FLAG": {"P11_HIERARCHY": "Hierarchy flag?"},
@@ -133,7 +176,7 @@ FLAG_READERS = {
     "P3_VARIANCE_FLAG": {"P4_VARIANCE": "Variance flag?"},
     "P3_ORDER_FLAG": {"P4_INTEGRATION": "Integration flag?", "P4_SPECTRAL_ORDER": "Integration flag?",
                       "P4_LEVELS_ORDER": "Integration flag?"},
-    "P3_SEASONAL_FILTER_FLAG": {"P4_INTEGRATION": "Seasonal filter only"},
+    "P3_SEASONAL_FILTER_FLAG": {"P4_INTEGRATION": "or a seasonal filter"},
     "P3_TREND_FLAG": {"P6_DETERMINISTIC_Q": "Trend"},
     "P3_DRIFT_FLAG": {"P6_DETERMINISTIC_Q": "drift"},
     "P3_DET_SEASON_FLAG": {"P6_DETERMINISTIC_Q": "seasonality"},
@@ -153,6 +196,21 @@ FLAG_READERS = {
     "P6_REGRESSION_FLAG": {"P7_MEAN_DEP": "regression flag"},
 }
 BRANCH_PHASE = 2  # a branch chart's flags are set where P2 hands the reader to it
+# Variables every reader of their diamonds has: no spine route reaches such a reader without passing a setter.
+ALWAYS_SET = {
+    "purpose": ({"P0_PURPOSE_FLAG"}, ("P6_NO_MODEL", "P9_GATE", "P10_PURPOSE", "P11_PURPOSE")),
+    "value type": ({"P1_VALUE_TYPE_FLAG"}, ("P2_VALUE_TYPE", "P3_TYPE", "P4_TYPE", "P6_VALUE_TYPE", "P7_TYPE",
+                                           "P8_TYPE", "P9_TYPE")),
+    "structure": ({"P2_STRUCTURE_FLAG"}, ("P3_STRUCTURE", "P6_PANEL_Q", "P6_STRUCTURE_Q")),
+    "integration order": ({"P3_ORDER_FLAG"}, ("P4_INTEGRATION",)),
+    "model kind": ({"P6_KIND_FLAG"}, ("P7_KIND", "P8_KIND_Q", "P9_KIND")),
+}
+
+
+def _scope(g, *nids):
+    """The spine, plus the branch pages that draw the given nodes."""
+    pages = {g.page(di) for nid in nids for di in g.appears[nid]}
+    return SPINE + [re.escape(p) + "$" for p in sorted(pages)]
 
 
 def test_every_flag_a_chart_sets_has_a_contract(g):
@@ -167,5 +225,12 @@ def test_each_flag_is_read_after_it_is_set(g, flag):
         assert reader in g.appears, f"{flag}: reader {reader} is drawn nowhere"
         assert g.label_has(reader, words) or any(words in a for a in g.answers(reader)), \
             f"{flag}: {reader} no longer shows {words!r}"
-        assert g.reach(flag, reader), f"{flag}: no route to {reader}"
+        assert g.reach(flag, reader, pages=_scope(g, flag, reader)), f"{flag}: no route to {reader}"
         assert max(g.spine_phases(reader), default=BRANCH_PHASE) >= set_at, f"{flag}: {reader} sits before P{set_at}"
+
+
+@pytest.mark.parametrize("variable", sorted(ALWAYS_SET))
+def test_no_spine_route_reads_a_variable_before_it_is_set(g, variable):
+    setters, readers = ALWAYS_SET[variable]
+    for reader in readers:
+        assert not g.reach("P0_IN", reader, pages=SPINE, avoid=setters), f"{reader} is reached with no {variable} set"

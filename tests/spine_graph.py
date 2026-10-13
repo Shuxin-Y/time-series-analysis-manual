@@ -114,28 +114,34 @@ class Graph:
                         self.moves[(nid, di)].update(phase_entries[int(phase.group(1))])
                     part = TO_PART.search(label)
                     if part and not label.startswith("From") and int(part.group(1)) <= len(dis):
-                        target = dis[int(part.group(1)) - 1]
-                        entries = self._entries(target)
-                        own = [(n, t) for n, t in entries
-                               if k in part_numbers(audit.label_first_line(self.diagrams[t][1].nodes[n].label))]
-                        self.moves[(nid, di)].update(own or entries)
+                        self.moves[(nid, di)].update(self._part_entries(d, label, k, dis[int(part.group(1)) - 1]))
 
-    def reach(self, src: str, dst: str, pages: list[str] | None = None, avoid: set[str] = frozenset()) -> bool:
-        """Whether a reader at `src` can arrive at `dst` reading only the diagrams on `pages` (regexes; None = every
-        page) and never passing a node in `avoid`."""
-        for nid in (src, dst):
-            if nid not in self.appears:
-                raise KeyError(f"unknown chart node {nid}")
+    def _part_entries(self, d: audit.Diagram, label: str, k: int, target: int) -> list[tuple[str, int]]:
+        """Entries of part `target` that a "... in part n" terminator of part k opens: those naming part k, and among
+        them those sharing the terminator's qualifier ("A check failed: continue in part 4" opens "From parts 1 to 3:
+        a check failed"); an unqualified terminator opens the entries no qualified sibling claims."""
+        entries = self._entries(target)
+        text = {e: audit.label_first_line(self.diagrams[e[1]][1].nodes[e[0]].label).lower() for e in entries}
+        own = [e for e in entries if k in part_numbers(text[e])] or entries
+        qualifier = label.split(": ", 1)[0].lower() if ": " in label else ""
+        if qualifier:
+            return [e for e in own if qualifier in text[e]] or own
+        siblings = {audit.label_first_line(n.label).split(": ", 1)[0].lower() for n in d.nodes.values()
+                    if n.shape == "terminator" and ": " in n.label and TO_PART.search(audit.label_first_line(n.label))}
+        return [e for e in own if not any(q in text[e] for q in siblings)] or own
 
+    def _walk(self, start: set[tuple[str, int]], dst: str, pages: list[str] | None,
+              avoid: set[str]) -> set[tuple[str, int]]:
+        """Every copy of `dst` a reader standing at the `start` states can arrive at."""
         def allowed(di: int) -> bool:
             return pages is None or any(re.match(p, self.page(di)) for p in pages)
 
-        start = [(src, di) for di in self.appears[src] if allowed(di)]
-        seen, queue = set(start), deque(start)
+        start = {s for s in start if allowed(s[1])}
+        seen, queue, found = set(start), deque(start), set()
         while queue:
             u, di = queue.popleft()
             if u == dst:
-                return True
+                found.add((u, di))
             nxt = set(self.moves[(u, di)])
             if BOX.match(u):
                 nxt.update((u, dj) for dj in self.appears[u] if self.page(dj) != self.page(di))
@@ -143,10 +149,28 @@ class Graph:
                 if (v, dj) not in seen and v not in avoid and allowed(dj):
                     seen.add((v, dj))
                     queue.append((v, dj))
-        return False
+        return found
 
-    def ordered(self, route: list[str], **scope) -> bool:
-        return all(self.reach(a, b, **scope) for a, b in zip(route, route[1:]))
+    def _start(self, src: str) -> set[tuple[str, int]]:
+        if src not in self.appears:
+            raise KeyError(f"unknown chart node {src}")
+        return {(src, di) for di in self.appears[src]}
+
+    def reach(self, src: str, dst: str, pages: list[str] | None = None, avoid: set[str] = frozenset()) -> bool:
+        """Whether a reader at `src` can arrive at `dst` reading only the diagrams on `pages` (regexes; None = every
+        page) and never passing a node in `avoid`."""
+        self._start(dst)
+        return bool(self._walk(self._start(src), dst, pages, set(avoid)))
+
+    def ordered(self, route: list[str], pages: list[str] | None = None, avoid: set[str] = frozenset()) -> bool:
+        """Whether one reader walks the route in order: each leg starts where the previous leg arrived."""
+        states = self._start(route[0])
+        for nid in route[1:]:
+            self._start(nid)
+            states = self._walk(states, nid, pages, set(avoid))
+            if not states:
+                return False
+        return True
 
     def edge(self, a: str, b: str, text: str) -> bool:
         return any(text in label for label in self.edge_labels.get((a, b), ()))
