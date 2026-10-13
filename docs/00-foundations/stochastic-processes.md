@@ -137,7 +137,7 @@ A **random walk** adds white noise to its own previous value:
 
 Its variance \(\text{Var}(y_t \mid y_0) = t\sigma^2\) grows with \(t\), so it is not stationary; every shock has a permanent effect. With a drift, \(y_t = \mu + y_{t-1} + \epsilon_t\) adds the deterministic trend \(\mu t\) to the stochastic trend \(\sum_{s \le t} \epsilon_s\).
 
-A process is **integrated of order \(d\)**, written I(\(d\)), when it must be differenced \(d\) times to become stationary: \(\Delta^d y_t\) is stationary and \(\Delta^{d-1} y_t\) is not, where \(\Delta y_t = y_t - y_{t-1}\). A random walk is I(1). An autoregression has a **unit root** when its autoregressive polynomial has a root at \(z = 1\); with a single unit root and all other roots outside the unit circle, it is I(1). A trend-stationary series, \(y_t = \alpha + \delta t + u_t\) with stationary \(u_t\), is the alternative that shocks do not persist; differencing it over-differences.
+A process is **I(0)** when it is stationary with a positive long-run variance (its Wold weights do not sum to zero). An **integrated process** of order \(d\), written I(\(d\)), is one whose \(d\)-th difference, after its deterministic part is removed, is I(0), where \(\Delta y_t = y_t - y_{t-1}\) (Johansen 1995, ch. 3). A random walk is I(1). An autoregression has a **unit root** when its autoregressive polynomial has a root at \(z = 1\); with a single unit root and all other roots outside the unit circle, it is I(1). A trend-stationary series, \(y_t = \alpha + \delta t + u_t\) with I(0) \(u_t\), is I(0) around a deterministic trend, and shocks do not persist; differencing it leaves \(\Delta u_t\), whose long-run variance is zero, which is why differencing it over-differences.
 
 Estimators of a unit root have non-standard limits: the least-squares estimate of the autoregressive coefficient converges at rate \(T\) instead of \(\sqrt{T}\), and the Dickey–Fuller statistics converge to functionals of Brownian motion whose distributions depend on the deterministic terms in the test regression ([nonstationarity theory](../reference/28-nonstationarity-theory/index.md)). The deterministic terms (constant, or constant and trend) are therefore chosen with the test, not after it.
 
@@ -216,4 +216,5 @@ It is non-negative and equals zero only when \(f = g\) almost everywhere (Gibbs'
 
 - Billingsley, P. 1995. *Probability and Measure*. 3rd ed. New York: Wiley.
 - Gneiting, T. 2011. "Making and Evaluating Point Forecasts." *Journal of the American Statistical Association* 106 (494): 746–762.
+- Johansen, S. 1995. *Likelihood-Based Inference in Cointegrated Vector Autoregressive Models*. Oxford: Oxford University Press.
 - Wold, H. 1938. *A Study in the Analysis of Stationary Time Series*. Uppsala: Almqvist and Wiksell.

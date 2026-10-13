@@ -88,7 +88,7 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P10_PART_4_IN(["From part 1"]) --> P10_OUTPUTS{"Purpose?"}
-    P10_OUTPUTS -->|"Signal extraction"| P10_SIGNAL_EVALUATION["Signal-extraction evaluation<br/>synthetic signal in real noise; SURE, GCV"]
+    P10_OUTPUTS -->|"Signal extraction"| P10_SIGNAL_EVALUATION["Signal-extraction evaluation<br/>synthetic signal; level-wise SURE"]
     P10_OUTPUTS -->|"Simulation"| P0_SM_DISTRIBUTION_MATCH[["Check distribution and dependence matching"]]
     P10_OUTPUTS -->|"System identification"| P0_SI_VALIDATION[["Validate on held-out input-output data"]]
     P10_OUTPUTS -->|"Inference only"| P10_INFERENCE_ONLY{"What is inferred?"}

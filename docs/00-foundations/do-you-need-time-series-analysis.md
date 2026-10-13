@@ -32,7 +32,7 @@ The question is stated on the errors, not on \(y\). After conditioning on the re
 
 (Read: epsilon-sub-t equals y-sub-t minus the conditional expectation of y-sub-t given x-sub-t.)
 
-i.i.d., or at least a martingale difference sequence, \(\mathbb{E}[\epsilon_t \mid \epsilon_{t-1}, \epsilon_{t-2}, \ldots] = 0\)? When they are, the temporal labels carry no statistical information beyond their role as identifiers, and the data can be treated as cross-sectional.
+i.i.d., or a martingale difference sequence with constant conditional variance, \(\mathbb{E}[\epsilon_t \mid \epsilon_{t-1}, \epsilon_{t-2}, \ldots] = 0\)? When they are, the temporal labels carry no statistical information beyond their role as identifiers, and the data can be treated as cross-sectional.
 
 A persistent \(y\) does not answer the question. With a persistent regressor \(x_t\) and i.i.d. errors, \(y_t = \beta x_t + \epsilon_t\) is autocorrelated, yet every Gauss–Markov condition holds. The checks therefore run on the residuals of a regression on the features:
 

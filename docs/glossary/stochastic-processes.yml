@@ -108,7 +108,7 @@ terms:
     reference: "00-foundations/stochastic-processes.md#wold-decomposition"
 
   - term: "Integrated process"
-    definition: "A process is integrated of order d, I(d), when it must be differenced d times to become stationary. A random walk is I(1); its shocks have permanent effects and its variance grows with time."
+    definition: "A process is I(0) when it is stationary with a positive long-run variance, and integrated of order d, I(d), when its d-th difference, after its deterministic part is removed, is I(0). A random walk is I(1); its shocks have permanent effects and its variance grows with time. A trend-stationary series is I(0) around its trend, so differencing it over-differences."
     depends_on: ["Stationarity"]
     reference: "00-foundations/stochastic-processes.md#random-walks-and-unit-root-asymptotics"
 

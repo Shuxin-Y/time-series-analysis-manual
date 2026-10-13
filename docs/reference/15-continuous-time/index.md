@@ -46,7 +46,8 @@ graph TD
     B3_PART_2_IN(["From part 1"]) --> P6[["P6: Conditional-mean model class"]]
     P6 --> B3_PROCESS{"Process type?"}
     B3_PROCESS -->|"Mean-reverting Gaussian"| B3_OU["Ornstein-Uhlenbeck process and exact discretisation"]
-    B3_PROCESS -->|"Higher-order linear"| B3_CARMA["CARMA processes"]
+    B3_PROCESS -->|"Higher-order linear"| B3_CARMA["CARMA processes<br/>integrated CARMA and Brownian motion with drift when not mean-reverting"]
+    B3_PROCESS -->|"Not mean-reverting"| B3_CARMA
     B3_PROCESS -->|"Long memory"| B3_FBM["Fractional processes in continuous time<br/>fBm, fractional OU, CARFIMA at the observed times"]
     B3_PROCESS -->|"Nonlinear diffusion"| B3_SDE["Diffusions and SDE discretisation<br/>Euler-Maruyama, Milstein"]
     B3_OU & B3_CARMA & B3_FBM & B3_SDE --> P7[["P7: Error-process specification"]]

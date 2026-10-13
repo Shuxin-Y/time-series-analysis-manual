@@ -102,7 +102,7 @@ graph TD
     P8_LIKELIHOOD -->|"Closed form"| P8_MLE["Maximum likelihood, exact and conditional<br/>joint ML of the regression and its ARMA errors"]
     P8_LIKELIHOOD -->|"Misspecified distribution"| P8_QMLE["Quasi-maximum likelihood and sandwich standard errors"]
     P8_LIKELIHOOD -->|"Spectral: large n or semiparametric d"| P8_WHITTLE["Whittle and local Whittle estimation"]
-    P8_LIKELIHOOD -->|"Nonstationary fractional d"| P8_CSS["Conditional sum of squares<br/>consistent for any d"]
+    P8_LIKELIHOOD -->|"Nonstationary fractional d"| P8_CSS["Conditional sum of squares<br/>consistent for d in a compact set"]
     P8_LIKELIHOOD -->|"Intractable"| P8_SIMULATION_INFERENCE["Simulation-based inference<br/>ABC, indirect inference"]
     P8_MLE & P8_QMLE & P8_WHITTLE & P8_CSS & P8_SIMULATION_INFERENCE --> P8_PART_4_OUT(["Convergence in part 6"])
     F_LLN[["Law of large numbers"]] -.- P8_MLE

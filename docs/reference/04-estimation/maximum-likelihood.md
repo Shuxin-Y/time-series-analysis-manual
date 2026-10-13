@@ -48,7 +48,7 @@ A parameter is **identified** when distinct parameter values imply distinct dist
 
 - The AR(1) parameter is not identified from the marginal distribution alone (see [joint density](#joint-density)).
 - An ARMA model with a common factor in its autoregressive and moving-average polynomials is not identified: the cancelling roots can take any value.
-- An MA(1) with coefficient $\theta$ and one with $1/\theta$ have the same autocovariances; restricting to invertible models, $|\theta| < 1$, identifies the Gaussian likelihood.
+- An MA(1) with coefficient $\theta$ and innovation variance $\sigma^2$, and one with $1/\theta$ and $\theta^2\sigma^2$, have the same autocovariances; restricting to invertible models, $|\theta| < 1$, identifies the Gaussian likelihood.
 
 ## Uniform law of large numbers
 
@@ -74,4 +74,5 @@ which minimises the expected KL divergence from the true conditional density to 
 
 - Bollerslev, T., and J. M. Wooldridge. 1992. "Quasi-Maximum Likelihood Estimation and Inference in Dynamic Models with Time-Varying Covariances." *Econometric Reviews* 11 (2): 143–172.
 - Newey, W. K., and D. McFadden. 1994. "Large Sample Estimation and Hypothesis Testing." In *Handbook of Econometrics*, vol. 4, edited by R. F. Engle and D. McFadden, 2111–2245. Amsterdam: North-Holland.
+- Wald, A. 1949. "Note on the Consistency of the Maximum Likelihood Estimate." *Annals of Mathematical Statistics* 20 (4): 595–601.
 - White, H. 1982. "Maximum Likelihood Estimation of Misspecified Models." *Econometrica* 50 (1): 1–25.

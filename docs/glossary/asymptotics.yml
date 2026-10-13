@@ -20,7 +20,7 @@ terms:
     reference: "00-foundations/asymptotics.md#central-limit-theorem"
 
   - term: "Central limit theorem"
-    definition: "The standardised sample mean converges in distribution to a normal law. For dependent data the variance in the limit is the long-run variance, and the theorem needs, beyond stationarity and ergodicity, either a martingale-difference structure or mixing coefficients that decay fast enough, together with moments beyond the second."
+    definition: "The standardised sample mean converges in distribution to a normal law. For dependent data the variance in the limit is the long-run variance, and the theorem needs, beyond stationarity and ergodicity, either a martingale-difference structure with finite variance, or mixing coefficients that decay fast enough together with moments beyond the second."
     derivation: |
       1. For a stationary ergodic martingale difference sequence with finite variance $\sigma^2$, $\sqrt{T}\,\bar{\epsilon}_T$ converges to $\mathcal{N}(0, \sigma^2)$ (Billingsley 1961; Ibragimov 1963): the martingale-difference property removes the cross terms that dependence would add to the variance.
       2. For a stationary strong-mixing process with $\mathbb{E}|y_t|^r < \infty$ for some $r > 2$ and $\sum_k \alpha(k)^{1-2/r} < \infty$, $\sqrt{T}(\bar{y}_T - \mu)$ converges to $\mathcal{N}(0, \omega^2)$ (Ibragimov 1962): the summability makes the autocovariances summable, so the long-run variance is finite.

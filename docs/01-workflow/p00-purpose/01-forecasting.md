@@ -44,7 +44,7 @@ graph TD
     P0_FC_FAMILY -->|"Statistical, one series"| P0_FC_STATISTICAL{"Which?"}
     P0_FC_FAMILY -->|"Intermittent"| P6_INTERMITTENT[["Intermittent demand"]]
     P0_FC_FAMILY -->|"Learner, local or global"| P6_GLOBAL_MODELS[["Global models across many series"]]
-    P0_FC_FAMILY -->|"Co-forecast"| P6_VAR[["VAR"]]
+    P0_FC_FAMILY -->|"Co-forecast"| P6_VAR[["VAR<br/>a VECM when the cointegration flag is set"]]
     P0_FC_STATISTICAL -->|"ARIMA"| P6_ARIMA_SARIMA[["ARIMA and SARIMA"]]
     P0_FC_STATISTICAL -->|"Smoothing"| P6_ETS[["Exponential smoothing and ETS"]]
     P0_FC_STATISTICAL -->|"Theta"| P6_THETA[["Theta method"]]

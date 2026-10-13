@@ -53,7 +53,7 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P9_PART_2_IN(["From part 1"]) --> P9_QMLE_Q{"Estimated by QMLE?"}
-    P9_QMLE_Q -->|"Yes: no law assumed, sandwich standard errors"| P7_REGIME_TESTS
+    P9_QMLE_Q -->|"Yes: sandwich errors; empirical residual quantiles for intervals"| P7_REGIME_TESTS
     P9_QMLE_Q -->|"No"| P9_DIST_FIT["Test the assumed innovation distribution<br/>PIT against the fitted law; parametric bootstrap or Bai's test"]
     P9_DIST_FIT --> P9_DIST{"Fitted law rejected?"}
     P9_DIST -->|"Yes"| P9_PART_2_FAIL(["A check failed: continue in part 4"])
@@ -101,7 +101,7 @@ graph TD
     P9_STABILITY --> P9_STABLE{"Parameters stable?"}
     P9_STABLE -->|"No: breaks"| P9_PART_3_FAIL
     P9_STABLE -->|"No: drifting or switching"| P9_PART_3_FAIL
-    P9_STABLE -->|"Yes"| P9_ROOTS["Roots, invertibility and parameter redundancy<br/>MA root near -1, AR root near 1, cancelling roots, companion eigenvalues"]
+    P9_STABLE -->|"Yes"| P9_ROOTS["Roots, invertibility and parameter redundancy<br/>MA coefficient near -1 (an MA root near 1), AR root near 1, cancelling roots, companion eigenvalues"]
     P9_ROOTS --> P9_ROOTS_OK{"Roots and orders adequate?"}
     P9_ROOTS_OK -->|"No: integration order or transform"| P9_PART_3_FAIL
     P9_ROOTS_OK -->|"No: redundant parameters"| P9_PART_3_FAIL
