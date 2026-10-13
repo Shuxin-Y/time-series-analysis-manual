@@ -12,12 +12,12 @@ P10 is an as-of-origin simulation for forecasting and detection. At each origin,
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P10_IN(["Candidates from P9, or outputs of routes that fit no model"]) --> P10_PURPOSE{"Purpose flag?"}
-    P10_PURPOSE -->|"Forecasting or detection"| P10_ROLLING_ORIGIN["Rolling-origin backtesting<br/>as of each origin: refit every data-dependent choice of P1 to P9 on earlier data; vintages; covariate forecasts as issued"]
-    P10_PURPOSE -->|"Collections"| P10_COLLECTIONS_TO_PART_3(["Continue in part 3"])
+    P10_PURPOSE -->|"Forecasting or online detection"| P10_ROLLING_ORIGIN["Rolling-origin backtesting<br/>at the P0 horizons, as of each origin: refit every data-dependent choice of P1 to P9 on earlier data; vintages; covariate forecasts as issued"]
+    P10_PURPOSE -->|"Offline detection, collections"| P10_COLLECTIONS_TO_PART_3(["Continue in part 3"])
     P10_PURPOSE -->|"Other purposes"| P10_TO_PART_4(["Continue in part 4"])
     P10_ROLLING_ORIGIN --> P10_TIME_PURPOSE{"Forecasting or detection?"}
     P10_TIME_PURPOSE -->|"Forecasting"| P10_TO_PART_2(["Continue in part 2"])
-    P10_TIME_PURPOSE -->|"Detection"| P10_TO_PART_3(["Continue in part 3"])
+    P10_TIME_PURPOSE -->|"Online detection"| P10_TO_PART_3(["Continue in part 3"])
     class P10_IN,P10_TO_PART_2,P10_TO_PART_3,P10_COLLECTIONS_TO_PART_3,P10_TO_PART_4 terminator
     class P10_PURPOSE,P10_TIME_PURPOSE decision
     class P10_ROLLING_ORIGIN process
@@ -120,8 +120,8 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P10_PART_5_IN(["From parts 2 to 4"]) --> P10_SELECT{"Outcome?"}
-    P10_SELECT -->|"Select a candidate or a baseline"| P10_FINAL_HOLDOUT["Final hold-out or nested rolling origin<br/>on the data reserved in P0; reports the selected candidate's accuracy"]
-    P10_SELECT -->|"Inference-only purpose: checks passed"| P10_OUT
+    P10_SELECT -->|"Select: forecasting, online detection, collections"| P10_FINAL_HOLDOUT["Final hold-out or nested rolling origin<br/>on the data reserved in P0; reports the selected candidate's accuracy"]
+    P10_SELECT -->|"Checks passed: other purposes"| P10_OUT
     P10_SELECT -->|"Add a candidate, or none acceptable"| P10_REVISE{"What is revised?"}
     P10_REVISE -.->|"A model"| P6[["P6: Conditional-mean model class"]]
     P10_REVISE -.->|"A method that fits no model"| P0[["P0: Purpose and evaluation plan<br/>the method part of the purpose chart"]]

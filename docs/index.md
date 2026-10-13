@@ -96,7 +96,7 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
         - **Cointegration:** Engle-Granger, Johansen, ARDL bounds
         - **Causality:** Granger, Sims, Toda-Yamamoto
         - **Structural Breaks:** Chow test, CUSUM, Bai-Perron
-        - **Serial Correlation:** Breusch-Godfrey, Ljung-Box, Durbin-Watson
+        - **Serial Correlation:** Breusch–Godfrey, Ljung–Box, Durbin–Watson
         - **Heteroskedasticity:** White test, ARCH-LM
         - **Normality:** Jarque-Bera
         - **Bootstrap:** block, sieve

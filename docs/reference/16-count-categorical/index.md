@@ -10,17 +10,16 @@ The B1 branch: count diagnostics, INAR, Poisson and negative-binomial autoregres
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     B1["B1 Counts and categorical"] --> P3[["P3: Exploratory diagnostics"]]
-    P3 --> B1_COUNT_EDA["Count-data diagnostics<br/>zeros, dispersion, trend, seasonality, covariates"]
-    B1_COUNT_EDA --> B1_VALUE{"Value type?"}
-    B1_VALUE -->|"Compositional"| P4[["P4: Transformations"]]
-    B1_VALUE -->|"Counts or categorical"| B1_TO_PART_2(["Continue in part 2"])
-    P4 --> B1_COMPOSITIONAL["Compositional series<br/>log-ratio transforms, then the multivariate spine"]
+    P3 --> B1_VALUE{"Value type?"}
+    B1_VALUE -->|"Counts or categorical"| B1_COUNT_EDA["Count-data diagnostics<br/>zeros, dispersion, trend, seasonality, covariates"]
+    B1_VALUE -->|"Compositional"| B1_COMPOSITIONAL["Compositional series<br/>log-ratio transforms; every later test runs on the log-ratios"]
+    B1_COUNT_EDA --> B1_TO_PART_2(["Continue in part 2"])
     B1_COMPOSITIONAL --> B1_MULTIVARIATE_FLAG["Set flag: multivariate"]
-    B1_MULTIVARIATE_FLAG --> P5[["P5: Representation selection"]]
-    class B1_TO_PART_2 terminator
+    B1_MULTIVARIATE_FLAG --> B1_COMPOSITIONAL_OUT(["Continue on the spine at P3, as log-ratios"])
+    class B1_TO_PART_2,B1_COMPOSITIONAL_OUT terminator
     class B1_VALUE decision
     class B1,B1_COUNT_EDA,B1_COMPOSITIONAL,B1_MULTIVARIATE_FLAG process
-    class P3,P4,P5 ref
+    class P3 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

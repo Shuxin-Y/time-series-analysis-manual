@@ -12,14 +12,14 @@ Valid diagnostics depend on the value type, the sampling and the cross-sectional
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P3_IN(["Series and flags from P2"]) --> P3_TYPE{"Value-type flag?"}
-    P3_TYPE -->|"Counts, categories, compositions"| B1_COUNT_EDA[["Count-data diagnostics"]]
-    P3_TYPE -->|"Event times"| B2_EVENT_EDA[["Event-time diagnostics"]]
-    P3_TYPE -->|"Curves"| B4_CURVES[["Series as curves"]]
-    P3_TYPE -->|"Continuous"| P3_SAMPLING{"Sampling flag?"}
-    P3_SAMPLING -->|"Irregular, kept"| B3_DIAGNOSTICS[["Sampling-pattern and trend diagnostics"]]
+    P3_TYPE -->|"Counts, categories, raw compositions"| B1[["B1 Counts and categorical<br/>its P3 part: count diagnostics, or the log-ratio"]]
+    P3_TYPE -->|"Event times"| B2[["B2 Event times<br/>its P3 part: event-time diagnostics"]]
+    P3_TYPE -->|"Curves"| B4[["B4 Functional<br/>its first part: series as curves"]]
+    P3_TYPE -->|"Continuous, or log-ratios"| P3_SAMPLING{"Sampling flag?"}
+    P3_SAMPLING -->|"Irregular, kept"| B3[["B3 Irregular sampling and continuous time<br/>its P3 part: sampling-pattern and trend diagnostics"]]
     P3_SAMPLING -->|"Regular, resampled or mixed"| P3_STRUCTURE{"Structure flag?"}
-    P3_STRUCTURE -->|"Wide panel"| B6_CROSS_SECTION_DEPENDENCE[["Cross-sectional dependence test"]]
-    P3_STRUCTURE -->|"Spatial or network"| B5_SPATIAL_AUTOCORRELATION[["Spatial autocorrelation"]]
+    P3_STRUCTURE -->|"Wide panel"| B6[["B6 Wide panel<br/>its P3 part: cross-sectional dependence test"]]
+    P3_STRUCTURE -->|"Spatial or network"| B5[["B5 Spatial and network<br/>its P3 part: spatial autocorrelation"]]
     P3_STRUCTURE -->|"Single, few related or many similar"| P3_PLOT["Plot the series"]
     P3_PLOT --> P3_DISTRIBUTION["Describe the distribution<br/>skewness, tail index; no tests on the raw series"]
     P3_DISTRIBUTION --> P3_VARIANCE_STABILITY["Check level-dependent variance<br/>range-mean plot, Box-Cox profile, Guerrero lambda"]
@@ -31,7 +31,7 @@ graph TD
     class P3_IN,P3_TO_PART_2 terminator
     class P3_TYPE,P3_SAMPLING,P3_STRUCTURE,P3_HETERO decision
     class P3_PLOT,P3_DISTRIBUTION,P3_VARIANCE_STABILITY,P3_VARIANCE_FLAG process
-    class B1_COUNT_EDA,B2_EVENT_EDA,B4_CURVES,B3_DIAGNOSTICS,B6_CROSS_SECTION_DEPENDENCE,B5_SPATIAL_AUTOCORRELATION,F_ERGODICITY ref
+    class B1,B2,B4,B3,B6,B5,F_ERGODICITY ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

@@ -99,13 +99,15 @@ graph TD
     P8_HYPERPARAMETERS[["Time-aware hyperparameter tuning"]] -.- P0_FE_AUGMENTATION
     P0_FE_CLUSTER_IN(["From part 2: clustering"]) --> P10
     P10 --> P10_GROUPED_SPLITS[["Grouped and temporal splits"]]
-    P10_GROUPED_SPLITS --> P10_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
-    P10_CLASSIFICATION_METRICS --> P11[["P11: Inference and interpretation"]]
+    P10_GROUPED_SPLITS --> P10_COLLECTION_TASK[["Task?"]]
+    P10_COLLECTION_TASK -->|"Supervised"| P10_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
+    P10_COLLECTION_TASK -->|"Clustering"| P10_CLUSTER_VALIDATION[["Cluster validation"]]
+    P10_CLASSIFICATION_METRICS & P10_CLUSTER_VALIDATION --> P11[["P11: Inference and interpretation"]]
     P11 --> P11_INTERPRETABILITY[["Interpretability"]]
     P11_INTERPRETABILITY --> P12[["P12: Deployment and monitoring"]]
     class P0_FE_PART_4_IN,P0_FE_CLUSTER_IN terminator
     class P0_FE_AUGMENTATION process
-    class P8_HYPERPARAMETERS,P10,P10_GROUPED_SPLITS,P10_CLASSIFICATION_METRICS,P11,P11_INTERPRETABILITY,P12 ref
+    class P8_HYPERPARAMETERS,P10,P10_GROUPED_SPLITS,P10_COLLECTION_TASK,P10_CLASSIFICATION_METRICS,P10_CLUSTER_VALIDATION,P11,P11_INTERPRETABILITY,P12 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

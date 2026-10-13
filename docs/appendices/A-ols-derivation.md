@@ -101,7 +101,7 @@ Here \(\bigl[(\mathbf{X}^T\mathbf{X})^{-1}\bigr]_{kk}\) denotes the \(k\)-th dia
 
 ---
 
-## A.4 The Gauss-Markov Theorem
+## A.4 The Gauss–Markov Theorem
 
 *To be expanded.*
 

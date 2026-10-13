@@ -2,7 +2,7 @@
 
 **Question this phase answers:** Which families are candidates for the mean?
 
-P6 reads the value type and the structure first: counts and categories, event times, curves, wide panels and spatial or network data continue in the P6 part of their branch chart, and a deliverable that is no conditional-mean model goes to its purpose chart (part 12) and then to P10. For continuous and compositional series P6 reads the pooling, mixed-frequency and structure flags to choose a route, then the family on that route: linear, long memory, smoothing, periodic and intermittent for one series; VAR, VECM and ADL for a few related series; factor, shrinkage and graphical models for many variables; nonlinear, time-varying and latent-component, input-output, and learner families. Covariates, intervention terms and deterministic regressors are read after the family, because every family can carry them. The first question has answer No when the deliverable is a component, a filtered signal, a spectrum, a classifier, a detector, a segmentation or a resampled path; state-space smoothing, regime switching and residual-based detection fit a model, so their answer is Yes. P6 can emit several candidates (for example a local ETS and a global gradient-boosting model); each passes P7 to P9 and meets the P0 baselines in P10.
+P6 reads the value type, the sampling and the structure first: counts and categories, event times, curves, irregularly sampled series kept irregular, wide panels and spatial or network data continue in their branch chart. A deliverable that is no conditional-mean model leaves at part 12: components, signals and spectra go to P10, and detection, labels, clusters and resampled paths go to the method part of their purpose chart first. For continuous and compositional series P6 reads the pooling, mixed-frequency and structure flags to choose a route, then the family on that route: linear, long memory, smoothing, periodic and intermittent for one series; VAR, VECM and ADL for a few related series; factor, shrinkage and graphical models for many variables; nonlinear, time-varying and latent-component, input-output, and learner families. Covariates, intervention terms and deterministic regressors are read after the family, because every family can carry them. The first question has answer No when the deliverable is a component, a filtered signal, a spectrum, a classifier, a detector, a segmentation or a resampled path; state-space smoothing, regime switching and residual-based detection fit a model, so their answer is Yes. P6 can emit several candidates (for example a local ETS and a global gradient-boosting model); each passes P7 to P9 and meets the P0 baselines in P10.
 
 ## Sub-diagram
 
@@ -16,14 +16,16 @@ graph TD
     P6_MODEL_NEEDED -->|"Yes"| P6_VALUE_TYPE{"Value-type flag?"}
     P6_VALUE_TYPE -->|"Counts or categorical"| B1[["B1 Counts and categorical<br/>its P6 part: count and categorical families"]]
     P6_VALUE_TYPE -->|"Event times"| B2[["B2 Event times<br/>its P6 part: intensity families"]]
-    P6_VALUE_TYPE -->|"Curves"| B4[["B4 Functional<br/>its P6 part: functional families"]]
-    P6_VALUE_TYPE -->|"Continuous or compositional"| P6_PANEL_Q{"Structure flag?"}
+    P6_VALUE_TYPE -->|"Curves"| B4[["B4 Functional<br/>family chosen in its P5 part; back on the spine at P7"]]
+    P6_VALUE_TYPE -->|"Continuous or compositional"| P6_SAMPLING{"Sampling flag?"}
+    P6_SAMPLING -->|"Irregular, kept"| B3[["B3 Irregular sampling and continuous time<br/>its P6 part: continuous-time models"]]
+    P6_SAMPLING -->|"Regular, resampled or mixed"| P6_PANEL_Q{"Structure flag?"}
     P6_PANEL_Q -->|"Wide panel"| B6[["B6 Wide panel<br/>its P6 part: panel families"]]
     P6_PANEL_Q -->|"Spatial or network"| B5[["B5 Spatial and network<br/>its P6 part: spatio-temporal families"]]
     P6_PANEL_Q -->|"Single, few related or many similar"| P6_TO_PART_2(["Continue in part 2"])
     class P6_IN,P6_TO_PART_12,P6_TO_PART_2 terminator
-    class P6_MODEL_NEEDED,P6_VALUE_TYPE,P6_PANEL_Q decision
-    class B1,B2,B4,B6,B5 ref
+    class P6_MODEL_NEEDED,P6_VALUE_TYPE,P6_SAMPLING,P6_PANEL_Q decision
+    class B1,B2,B4,B3,B6,B5 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

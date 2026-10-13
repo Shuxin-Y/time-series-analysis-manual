@@ -16,7 +16,7 @@ graph TD
     P11_PURPOSE -->|"Causes"| P11_TO_PART_2(["Continue in part 2"])
     P11_PURPOSE -->|"Structure in the series or events"| P11_TO_PART_4(["Continue in part 4"])
     P11_PURPOSE -->|"Other outputs"| P11_TO_PART_5(["Continue in part 5"])
-    P11_POINT_FORECASTS --> P11_BACK_TRANSFORM["Back-transformation and re-seasonalisation<br/>of the paths; bias adjustment when the functional is the mean"]
+    P11_POINT_FORECASTS --> P11_BACK_TRANSFORM["Back-transformation and re-seasonalisation<br/>of the paths; a point forecast back-transformed alone needs a bias adjustment for the mean"]
     P11_BACK_TRANSFORM --> P11_COMBINATION["Forecast combination and model averaging<br/>of the paths or distributions; weights from earlier origins"]
     P11_COMBINATION --> P11_JUDGMENTAL["Judgmental adjustment<br/>tracked by forecast value added"]
     P11_JUDGMENTAL --> P11_HIERARCHY{"Hierarchy flag?"}

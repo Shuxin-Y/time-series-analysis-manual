@@ -1,8 +1,3 @@
-## Reserve the final hold-out
-
-!!! note "Section pending"
-    To-do item created from the flowchart inventory (node `P0_HOLDOUT`). Write this section following the content rules in `.claude/rules/writing.md`.
-
 # P0: Purpose and evaluation plan
 
 **Question this phase answers:** What is the question, how will the answer be judged, and what must the data keep?
@@ -94,11 +89,13 @@ graph TD
     P0_PURPOSE_FLAG --> P0_SPLIT_UNIT
     P0_LABELS -->|"Few or none"| P0_DETECTION_FLAG["Set flag: labels"]
     P0_SPLIT_UNIT --> P0_SPLIT_FLAG["Set flag: split unit"]
-    P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
+    P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_HOLDOUT_GATE{"Selection on held-out data?"}
+    P0_HOLDOUT_GATE -->|"Yes: forecasts, online detection, collections, system models"| P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
+    P0_HOLDOUT_GATE -->|"No: causes, offline detection"| P0_PART_3_OUT
     P0_HOLDOUT --> P0_HOLDOUT_FLAG["Set flag: hold-out"]
     P0_HOLDOUT_FLAG --> P0_PART_3_OUT
     class P0_PART_3_IN,P0_PART_3_OUT terminator
-    class P0_PLAN,P0_LABELS decision
+    class P0_PLAN,P0_LABELS,P0_HOLDOUT_GATE decision
     class P0_FORECAST_TASK,P0_DETECTION_TASK,P0_ESTIMAND,P0_SPLIT_UNIT,P0_FC_BASELINES,P0_COVARIATES,P0_FORECAST_FLAG,P0_COVARIATE_FLAG,P0_DETECTION_FLAG,P0_SPLIT_FLAG,P0_HOLDOUT,P0_HOLDOUT_FLAG process
     class P0_FEATURES,P0_PURPOSE_FLAG ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
@@ -123,8 +120,8 @@ graph TD
     P0_KEEP_LEVELS -->|"Yes: signal, changes, components, frequencies"| P0_KEEP_LEVELS_FLAG["Set flag: keep levels"]
     P0_KEEP_LEVELS -->|"No"| P0_TIMING{"Output used in real time?"}
     P0_KEEP_LEVELS_FLAG --> P0_TIMING
-    P0_TIMING -->|"Yes, or forecast or learner features"| P0_REAL_TIME_FLAG["Set flag: timing, real time"]
-    P0_TIMING -->|"No: offline"| P1[["P1: Data acquisition and cleaning"]]
+    P0_TIMING -->|"Yes: live output, online detection, learner features"| P0_REAL_TIME_FLAG["Set flag: timing, real time"]
+    P0_TIMING -->|"No: offline, or a statistical forecast refitted per origin"| P1[["P1: Data acquisition and cleaning"]]
     P0_REAL_TIME_FLAG --> P1
     class P0_PART_4_IN terminator
     class P0_KEEP_ANOMALIES,P0_KEEP_LEVELS,P0_TIMING decision
@@ -183,3 +180,8 @@ Emphasised phases are the phases after P0 whose leaves the purpose's sub-chart r
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P0_COVARIATES`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Reserve the final hold-out
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P0_HOLDOUT`). Write this section following the content rules in `.claude/rules/writing.md`.

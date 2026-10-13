@@ -14,6 +14,8 @@ graph TD
     B3_AGGREGATE_Q -.->|"Yes"| P1_RESAMPLE
     B3_AGGREGATE_Q -->|"No: the times are the data"| B2[["B2 Event times"]]
     B3_VALUES -->|"Continuous"| B3_INFORMATIVE{"Sampling times informative?"}
+    B3_VALUES -->|"Compositional"| B1_COMPOSITIONAL[["Compositional series"]]
+    B1_COMPOSITIONAL --> B3_INFORMATIVE
     B3_INFORMATIVE -->|"Yes: times depend on the process"| B3_JOINT_SAMPLING["Joint model of the observation times<br/>marked point process, inverse-intensity weighting"]
     B3_INFORMATIVE -->|"No"| B3_ROUTE{"Resample to a regular grid?"}
     B3_JOINT_SAMPLING --> B3_ROUTE
@@ -27,7 +29,7 @@ graph TD
     class B3_TO_PART_2 terminator
     class B3_VALUES,B3_AGGREGATE_Q,B3_INFORMATIVE,B3_ROUTE decision
     class B3,B3_JOINT_SAMPLING,B3_DIAGNOSTICS,B3_KEPT_FLAG process
-    class P1_RESAMPLE,B2,P3,P5,P5_FD_LOMB_SCARGLE ref
+    class P1_RESAMPLE,B2,P3,P5,P5_FD_LOMB_SCARGLE,B1_COMPOSITIONAL ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -46,18 +48,18 @@ graph TD
     B3_PART_2_IN(["From part 1"]) --> P6[["P6: Conditional-mean model class"]]
     P6 --> B3_PROCESS{"Process type?"}
     B3_PROCESS -->|"Mean-reverting Gaussian"| B3_OU["Ornstein-Uhlenbeck process and exact discretisation"]
-    B3_PROCESS -->|"Higher-order linear"| B3_CARMA["CARMA processes<br/>integrated CARMA and Brownian motion with drift when not mean-reverting"]
-    B3_PROCESS -->|"Not mean-reverting"| B3_CARMA
+    B3_PROCESS -->|"Higher-order linear, or not mean-reverting"| B3_CARMA["CARMA processes<br/>integrated CARMA, Brownian motion with drift"]
     B3_PROCESS -->|"Long memory"| B3_FBM["Fractional processes in continuous time<br/>fBm, fractional OU, CARFIMA at the observed times"]
     B3_PROCESS -->|"Nonlinear diffusion"| B3_SDE["Diffusions and SDE discretisation<br/>Euler-Maruyama, Milstein"]
-    B3_OU & B3_CARMA & B3_FBM & B3_SDE --> P7[["P7: Error-process specification"]]
+    B3_PROCESS -->|"Smooth function of time"| P6_GAUSSIAN_PROCESS[["Gaussian-process regression"]]
+    B3_OU & B3_CARMA & B3_FBM & B3_SDE & P6_GAUSSIAN_PROCESS --> P7[["P7: Error-process specification"]]
     P7 --> B3_JUMPS{"Jumps in a diffusion?"}
     B3_JUMPS -->|"Yes"| P7_JUMPS[["Jump diffusion"]]
     B3_JUMPS -->|"No"| P8
     P7_JUMPS --> P8[["P8: Estimation"]]
     P8 --> B3_ESTIMATOR{"Model?"}
     B3_ESTIMATOR -->|"OU or CARMA"| B3_IRREGULAR_KALMAN["Kalman filtering on an irregular grid<br/>transition from the exact discretisation over each interval"]
-    B3_ESTIMATOR -->|"Fractional: exact Gaussian likelihood at the observed times"| P9
+    B3_ESTIMATOR -->|"Fractional or GP: exact likelihood<br/>at the observed times"| P9
     B3_ESTIMATOR -->|"Nonlinear diffusion"| B3_SDE_INFERENCE["Likelihood inference for diffusions<br/>Euler pseudo-likelihood and its bias, Ait-Sahalia expansions, simulated likelihood, MCMC"]
     B3_IRREGULAR_KALMAN & B3_SDE_INFERENCE --> P9[["P9: In-sample diagnostics"]]
     P9 --> B3_OUT(["Continue on the spine at P10"])

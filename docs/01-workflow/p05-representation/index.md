@@ -17,13 +17,12 @@ graph TD
     P5_GRID -->|"Regular, resampled or mixed"| P5_TO_PART_2(["Continue in part 2"])
     P5_GRID -->|"Irregular, kept"| P5_IRREGULAR{"What is represented on the irregular times?"}
     P5_IRREGULAR -->|"Spectrum"| P5_FD_LOMB_SCARGLE[["Lomb-Scargle periodogram"]]
-    P5_IRREGULAR -->|"Latent continuous-time process"| B3[["B3 Irregular sampling and continuous time"]]
+    P5_IRREGULAR -->|"Latent continuous-time process, or a smooth function of time"| B3[["B3 Irregular sampling and continuous time<br/>its P6 part: continuous-time models, Gaussian-process regression"]]
     P5_IRREGULAR -->|"Sparse curves"| P5_FN_PACE[["Sparse curves by pooled covariance estimation"]]
-    P5_IRREGULAR -->|"A smooth function of time"| P6_GAUSSIAN_PROCESS[["Gaussian-process regression"]]
-    P5_FD_LOMB_SCARGLE & P5_FN_PACE & P6_GAUSSIAN_PROCESS --> P6[["P6: Conditional-mean model class"]]
+    P5_FD_LOMB_SCARGLE & P5_FN_PACE --> P6[["P6: Conditional-mean model class"]]
     class P5_IN,P5_TO_PART_2 terminator
     class P5_GRID,P5_IRREGULAR decision
-    class P5_FD_LOMB_SCARGLE,B3,P5_FN_PACE,P6_GAUSSIAN_PROCESS,P6 ref
+    class P5_FD_LOMB_SCARGLE,B3,P5_FN_PACE,P6 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
