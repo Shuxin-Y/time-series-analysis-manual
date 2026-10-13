@@ -7,8 +7,9 @@ followed. Besides the arrows, a reader moves between diagrams in four ways:
   part the reader comes from, when any do);
 - a phase box Pn, or a "To Pn" / "Continue on the spine at Pn" terminator, opens the entries of phase n's page;
 - a "Representation k: ..." box opens the entries of that representation page;
-- a phase box or a branch box drawn on another page lets the reader continue on that page's chart from the same
-  box (a count reader leaves the P2 chart at the P3 box and goes on in the B1 chart, which draws P3 too).
+- a branch box (B1 to B7) that ends the reader's path in its diagram opens that branch's chart at its own box (the
+  P3 chart sends a count reader to the B1 box, and the reader goes on in the B1 chart); a branch box with an arrow
+  onward, as on the P2 chart, only marks the series type.
 
 A leaf ref sends the reader to read that leaf's section and back; it never moves the reader to another chart. Two
 parts of one page connect only through their terminators.
@@ -19,7 +20,7 @@ from collections import defaultdict, deque
 import audit_flowcharts as audit
 
 PHASE_BOX = re.compile(r"^P(\d+)$")
-BOX = re.compile(r"^(?:P\d+|B\d)$")
+BRANCH_BOX = re.compile(r"^B\d$")
 TO_PHASE = re.compile(r"^(?:To|Continue on the spine at) P(\d+)\b")
 TO_PART = re.compile(r"\bin part (\d+)$")
 REPRESENTATION = re.compile(r"^Representation (\d):")
@@ -121,8 +122,9 @@ class Graph:
         them those sharing the terminator's qualifier ("A check failed: continue in part 4" opens "From parts 1 to 3:
         a check failed"); an unqualified terminator opens the entries no qualified sibling claims."""
         entries = self._entries(target)
-        text = {e: audit.label_first_line(self.diagrams[e[1]][1].nodes[e[0]].label).lower() for e in entries}
-        own = [e for e in entries if k in part_numbers(text[e])] or entries
+        first = {e: audit.label_first_line(self.diagrams[e[1]][1].nodes[e[0]].label) for e in entries}
+        text = {e: first[e].lower() for e in entries}
+        own = [e for e in entries if k in part_numbers(first[e])] or entries
         qualifier = label.split(": ", 1)[0].lower() if ": " in label else ""
         if qualifier:
             return [e for e in own if qualifier in text[e]] or own
@@ -143,7 +145,7 @@ class Graph:
             if u == dst:
                 found.add((u, di))
             nxt = set(self.moves[(u, di)])
-            if BOX.match(u):
+            if BRANCH_BOX.match(u) and not self.moves[(u, di)]:
                 nxt.update((u, dj) for dj in self.appears[u] if self.page(dj) != self.page(di))
             for v, dj in nxt:
                 if (v, dj) not in seen and v not in avoid and allowed(dj):

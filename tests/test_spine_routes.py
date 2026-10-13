@@ -13,6 +13,9 @@ SIGNAL_EXTRACTION = [r"01-workflow/p00-purpose/03-signal-extraction\.md$"]
 P4_PAGE = [r"01-workflow/p04-transformations\.md$"]
 P11_PAGE = [r"01-workflow/p11-inference\.md$"]
 COUNTS = SPINE + [r"reference/16-count-categorical/index\.md$"]
+BRANCHES = [r"reference/(14|15|16|17|20|32)-[^/]+/index\.md$"]
+CONTINUOUS_TIME = SPINE + [r"reference/15-continuous-time/index\.md$"]
+FEATURES = [r"01-workflow/p00-purpose/07-feature-extraction-classification\.md$"]
 
 
 @pytest.fixture(scope="module")
@@ -128,11 +131,51 @@ def test_irregular_kept_series_leave_the_regular_grid_families_at_p6(g):
     assert not g.reach("P6_VALUE_TYPE", "P6_PANEL_Q", pages=SPINE, avoid={"P6_SAMPLING"})
 
 
+def _listed(g, a, b, prefix):
+    (label,) = [x for x in g.edge_labels[(a, b)] if x.startswith(prefix)]
+    return {p.strip() for p in label[len(prefix):].replace(" and ", ", ").split(",")}
+
+
 def test_the_final_hold_out_is_reserved_and_used_only_by_purposes_that_select_on_it(g):
     assert g.edge("P0_HOLDOUT_GATE", "P0_PART_3_OUT", "causes, offline detection")
     assert not g.reach("P0_COVARIATE_FLAG", "P0_HOLDOUT", pages=PURPOSE_INDEX, avoid={"P0_HOLDOUT_GATE"})
-    assert g.edge("P10_SELECT", "P10_FINAL_HOLDOUT", "forecasting, online detection, collections")
+    reserved = _listed(g, "P0_HOLDOUT_GATE", "P0_HOLDOUT", "Yes: ")
+    selected = _listed(g, "P10_SELECT", "P10_FINAL_HOLDOUT", "Select: ")
+    # system identification validates on the reserved data in P10 part 4 and does not select on it again
+    assert g.edge("P10_OUTPUTS", "P0_SI_VALIDATION", "System identification")
+    assert reserved == selected | {"system identification"}
     assert g.edge("P10_PURPOSE", "P10_COLLECTIONS_TO_PART_3", "Offline detection")
+
+
+def test_part_entries_open_only_for_the_part_they_name(g):
+    assert not g.reach("P0_FE_PART_3_OUT", "P0_FE_CLUSTER_IN", pages=FEATURES)
+    assert g.reach("P0_FE_PART_3_OUT", "P0_FE_PART_4_IN", pages=FEATURES)
+
+
+def test_seasonal_unit_roots_are_kept_only_by_classes_that_carry_them(g):
+    assert g.edge("P4_CLASS", "P4_SEASON", "SARIMA, ETS, structural")
+    assert g.edge("P4_CLASS", "P4_CARRIED_SEASONAL", "Regular only")
+    assert g.edge("P4_CARRIED_SEASONAL", "P4_SEASONAL_DIFFERENCE", "Yes")
+
+
+def test_change_point_and_signal_readers_keep_seasonality_out_of_their_target(g):
+    assert g.ordered(["P4_PART_6_IN", "P4_LEVELS_SEASON", "P4_LEVELS_SEASONALITY", "P4_LEVELS_ORDER"], pages=P4_PAGE)
+    assert not g.reach("P4_PART_6_IN", "P4_LEVELS_ORDER", pages=P4_PAGE, avoid={"P4_LEVELS_SEASON"})
+
+
+def test_anomaly_thresholds_are_tuned_in_p10_before_selection(g):
+    assert g.ordered(["P10_EVENTS", "P0_AN_THRESHOLD", "P10_LABELS", "P10_SELECT", "P10_FINAL_HOLDOUT"], pages=SPINE)
+    assert {g.page(di) for di in g.appears["P0_AN_THRESHOLD"]} == {
+        "01-workflow/p10-evaluation-selection.md", "01-workflow/p00-purpose/05-anomaly-regime-detection.md"}
+
+
+def test_irregular_kept_series_pass_p4_without_claiming_a_regular_grid(g):
+    assert g.reach("B3_KEPT_FLAG", "P4_GRID", pages=CONTINUOUS_TIME, avoid={"P3_STRUCTURE"})
+
+
+def test_structure_values_read_in_p6_are_values_p2_sets(g):
+    assert g.edge("P2_STRUCTURE", "P2_MULTIVARIATE_FLAG", "Many related variables")
+    assert g.edge("P6_STRUCTURE_Q", "P6_TO_PART_4", "Many related variables")
 
 
 # Flag contract: every flag a chart sets is read later. Each reader is named with the words in its label or answers
@@ -162,6 +205,7 @@ FLAG_READERS = {
     "P2_MULTIVARIATE_FLAG": {"P3_MULTI": "multivariate flag?", "P7_MULTI": "Multivariate flag?",
                              "P9_MULTI": "Multivariate flag?", "P11_SYSTEM": "Multivariate flag?"},
     "B1_MULTIVARIATE_FLAG": {"P7_MULTI": "Multivariate flag?", "P9_MULTI": "Multivariate flag?"},
+    "B1_LOGRATIO_FLAG": {"P3_TYPE": "log-ratios", "P4_TYPE": "log-ratios"},
     "B3_KEPT_FLAG": {"P3_SAMPLING": "Irregular, kept", "P4_GRID": "Irregular, kept", "P5_GRID": "Irregular, kept",
                      "P6_SAMPLING": "Irregular, kept"},
     "P2_STRUCTURE_FLAG": {"P3_STRUCTURE": "Structure flag?", "P6_PANEL_Q": "Structure flag?",
@@ -176,11 +220,12 @@ FLAG_READERS = {
     "P3_VARIANCE_FLAG": {"P4_VARIANCE": "Variance flag?"},
     "P3_ORDER_FLAG": {"P4_INTEGRATION": "Integration flag?", "P4_SPECTRAL_ORDER": "Integration flag?",
                       "P4_LEVELS_ORDER": "Integration flag?"},
-    "P3_SEASONAL_FILTER_FLAG": {"P4_INTEGRATION": "or a seasonal filter"},
+    "P3_SEASONAL_FILTER_FLAG": {"P4_INTEGRATION": "or a seasonal filter", "P4_CARRIED_SEASONAL": "Seasonal filter flag?",
+                                "P4_LEVELS_SEASON": "Seasonal flags?"},
     "P3_TREND_FLAG": {"P6_DETERMINISTIC_Q": "Trend"},
     "P3_DRIFT_FLAG": {"P6_DETERMINISTIC_Q": "drift"},
-    "P3_DET_SEASON_FLAG": {"P6_DETERMINISTIC_Q": "seasonality"},
-    "P3_MULTI_SEASON_FLAG": {"P4_SEASON": "Multiple seasonality"},
+    "P3_DET_SEASON_FLAG": {"P6_DETERMINISTIC_Q": "seasonality", "P4_LEVELS_SEASON": "Seasonal flags?"},
+    "P3_MULTI_SEASON_FLAG": {"P4_SEASON": "Multiple seasonality", "P4_LEVELS_SEASON": "Seasonal flags?"},
     "P3_BREAK_FLAG": {"P3_LM_BREAKS": "Break flag set?", "P4_BREAKS": "Break or explosive flag?"},
     "P3_EXPLOSIVE_FLAG": {"P4_BREAKS": "Break or explosive flag?"},
     "P3_NONLINEAR_FLAG": {"P6_DEPENDENCE": "Nonlinear flag"},
@@ -196,14 +241,17 @@ FLAG_READERS = {
     "P6_REGRESSION_FLAG": {"P7_MEAN_DEP": "regression flag"},
 }
 BRANCH_PHASE = 2  # a branch chart's flags are set where P2 hands the reader to it
-# Variables every reader of their diamonds has: no spine route reaches such a reader without passing a setter.
+# Variables every reader of their diamonds has: no route on the spine or a branch chart reaches such a reader
+# without passing a setter. The walker keeps no state, so it may give an answer the reader's own flags rule out; the
+# third entry lists flags whose readers answer an earlier gate with a value that never leads to the reader (an
+# irregular, kept series answers "Irregular, kept" at the P4 sampling gate and never meets the integration question).
 ALWAYS_SET = {
-    "purpose": ({"P0_PURPOSE_FLAG"}, ("P6_NO_MODEL", "P9_GATE", "P10_PURPOSE", "P11_PURPOSE")),
+    "purpose": ({"P0_PURPOSE_FLAG"}, ("P6_NO_MODEL", "P9_GATE", "P10_PURPOSE", "P11_PURPOSE"), set()),
     "value type": ({"P1_VALUE_TYPE_FLAG"}, ("P2_VALUE_TYPE", "P3_TYPE", "P4_TYPE", "P6_VALUE_TYPE", "P7_TYPE",
-                                           "P8_TYPE", "P9_TYPE")),
-    "structure": ({"P2_STRUCTURE_FLAG"}, ("P3_STRUCTURE", "P6_PANEL_Q", "P6_STRUCTURE_Q")),
-    "integration order": ({"P3_ORDER_FLAG"}, ("P4_INTEGRATION",)),
-    "model kind": ({"P6_KIND_FLAG"}, ("P7_KIND", "P8_KIND_Q", "P9_KIND")),
+                                           "P8_TYPE", "P9_TYPE"), set()),
+    "structure": ({"P2_STRUCTURE_FLAG"}, ("P3_STRUCTURE", "P6_PANEL_Q", "P6_STRUCTURE_Q"), set()),
+    "integration order": ({"P3_ORDER_FLAG"}, ("P4_INTEGRATION",), {"B3_KEPT_FLAG"}),
+    "model kind": ({"P6_KIND_FLAG"}, ("P7_KIND", "P8_KIND_Q", "P9_KIND"), set()),
 }
 
 
@@ -230,7 +278,9 @@ def test_each_flag_is_read_after_it_is_set(g, flag):
 
 
 @pytest.mark.parametrize("variable", sorted(ALWAYS_SET))
-def test_no_spine_route_reads_a_variable_before_it_is_set(g, variable):
-    setters, readers = ALWAYS_SET[variable]
+def test_no_route_reads_a_variable_before_it_is_set(g, variable):
+    setters, readers, ruled_out = ALWAYS_SET[variable]
     for reader in readers:
-        assert not g.reach("P0_IN", reader, pages=SPINE, avoid=setters), f"{reader} is reached with no {variable} set"
+        assert g.reach("P0_IN", reader, pages=SPINE + BRANCHES), f"{reader} is not reached at all"
+        assert not g.reach("P0_IN", reader, pages=SPINE + BRANCHES, avoid=setters | ruled_out), \
+            f"{reader} is reached with no {variable} set"
