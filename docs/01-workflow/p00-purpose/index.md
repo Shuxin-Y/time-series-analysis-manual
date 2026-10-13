@@ -26,7 +26,7 @@ graph TD
     P0_STRUCTURE -->|"Signal versus noise"| P0_SIGNAL["Purpose 3: Signal extraction and denoising"]
     P0_STRUCTURE -->|"Components"| P0_DECOMPOSITION["Purpose 6: Decomposition"]
     P0_STRUCTURE -->|"Frequencies"| P0_SPECTRAL["Purpose 8: Spectral analysis"]
-    P0_FORECASTING & P0_CAUSAL & P0_SIGNAL & P0_DECOMPOSITION & P0_SPECTRAL --> P0_PURPOSE_FLAG["Set flag: purpose"]
+    P0_FORECASTING & P0_CAUSAL & P0_SIGNAL & P0_DECOMPOSITION & P0_SPECTRAL & P0_FEATURES --> P0_PURPOSE_FLAG["Set flag: purpose"]
     P0_PURPOSE_FLAG --> P0_TO_PART_3(["Continue in part 3"])
     B2_SURVIVAL[["Survival and hazard models"]] -.- P0_FEATURES
     class P0_IN,P0_TO_PART_2,P0_TO_PART_3 terminator
@@ -90,6 +90,8 @@ graph TD
     P0_COVARIATES --> P0_COVARIATE_FLAG["Set flag: covariates"]
     P0_DETECTION_TASK --> P0_LABELS{"Labels available?"}
     P0_LABELS -->|"Many: supervised learning"| P0_FEATURES[["Purpose 7: Feature extraction, classification and clustering"]]
+    P0_FEATURES --> P0_PURPOSE_FLAG[["Set flag: purpose"]]
+    P0_PURPOSE_FLAG --> P0_SPLIT_UNIT
     P0_LABELS -->|"Few or none"| P0_DETECTION_FLAG["Set flag: labels"]
     P0_SPLIT_UNIT --> P0_SPLIT_FLAG["Set flag: split unit"]
     P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
@@ -98,7 +100,7 @@ graph TD
     class P0_PART_3_IN,P0_PART_3_OUT terminator
     class P0_PLAN,P0_LABELS decision
     class P0_FORECAST_TASK,P0_DETECTION_TASK,P0_ESTIMAND,P0_SPLIT_UNIT,P0_FC_BASELINES,P0_COVARIATES,P0_FORECAST_FLAG,P0_COVARIATE_FLAG,P0_DETECTION_FLAG,P0_SPLIT_FLAG,P0_HOLDOUT,P0_HOLDOUT_FLAG process
-    class P0_FEATURES ref
+    class P0_FEATURES,P0_PURPOSE_FLAG ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
