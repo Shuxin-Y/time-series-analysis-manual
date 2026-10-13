@@ -15,7 +15,7 @@ graph TD
     B6_CD_FLAG --> B6_SECOND_GENERATION["Second-generation panel unit-root tests<br/>CIPS, PANIC"]
     B6_PANEL_UNIT_ROOT & B6_SECOND_GENERATION --> B6_VERDICT{"Panel verdict?"}
     B6_VERDICT -->|"Unit roots, cointegrated"| B6_COINT_FLAG["Set flag: panel cointegration"]
-    B6_VERDICT -->|"Unit roots, not cointegrated"| P3_ORDER_FLAG[["Set flag: integration order k and fractional remainder<br/>k from the panel verdict"]]
+    B6_VERDICT -->|"Unit roots, not cointegrated"| P3_ORDER_FLAG[["Set flag: integration order k and fractional remainder<br/>k = 1 for every unit from the panel verdict; no fractional remainder"]]
     P3_ORDER_FLAG --> P4[["P4: Transformations"]]
     B6_VERDICT -->|"Stationary"| P6
     B6_COINT_FLAG & P4 --> P6[["P6: Conditional-mean model class"]]

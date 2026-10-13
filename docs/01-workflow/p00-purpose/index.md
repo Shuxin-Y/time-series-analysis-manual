@@ -77,6 +77,7 @@ graph TD
     P0_PLAN -->|"Change points, anomalies"| P0_DETECTION_TASK["Specify the detection task<br/>online or offline, delay, false alarms"]
     P0_PLAN -->|"Causes, system model"| P0_ESTIMAND["Specify the estimand<br/>effect, its horizon, or system property"]
     P0_PLAN -->|"Features, labels, clusters"| P0_SPLIT_UNIT["Choose the split unit<br/>unit, time, or both"]
+    P0_PLAN -->|"Synthetic training data"| P0_HOLDOUT_GATE
     P0_PLAN -->|"Other purposes"| P0_PART_3_OUT(["Continue in part 4"])
     P0_FORECAST_TASK --> P0_FC_BASELINES["Baselines for comparison<br/>naive, seasonal naive, Theta; Croston once P1 finds intermittent counts"]
     P0_FC_BASELINES --> P0_FORECAST_FLAG["Set flag: forecast task and baselines"]
@@ -90,7 +91,7 @@ graph TD
     P0_LABELS -->|"Few or none"| P0_DETECTION_FLAG["Set flag: labels"]
     P0_SPLIT_UNIT --> P0_SPLIT_FLAG["Set flag: split unit"]
     P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_HOLDOUT_GATE{"Candidates compared, accuracy reported on unseen data?"}
-    P0_HOLDOUT_GATE -->|"Yes: forecasting, online detection, collections, system identification"| P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
+    P0_HOLDOUT_GATE -->|"Yes: forecasting, online detection, collections, system identification, synthetic training data"| P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
     P0_HOLDOUT_GATE -->|"No: causes, offline detection"| P0_PART_3_OUT
     P0_HOLDOUT --> P0_HOLDOUT_FLAG["Set flag: hold-out"]
     P0_HOLDOUT_FLAG --> P0_PART_3_OUT

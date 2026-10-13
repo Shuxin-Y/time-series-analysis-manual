@@ -17,7 +17,7 @@ graph TD
     P6_VALUE_TYPE -->|"Counts or categorical"| B1[["B1 Counts and categorical<br/>its P6 part: count and categorical families"]]
     P6_VALUE_TYPE -->|"Event times"| B2[["B2 Event times<br/>its P6 part: intensity families"]]
     P6_VALUE_TYPE -->|"Curves"| B4[["B4 Functional<br/>family chosen in its P5 part; back on the spine at P7"]]
-    P6_VALUE_TYPE -->|"Continuous or compositional"| P6_SAMPLING{"Sampling flag?"}
+    P6_VALUE_TYPE -->|"Continuous, or log-ratios"| P6_SAMPLING{"Sampling flag?"}
     P6_SAMPLING -->|"Irregular, kept"| B3[["B3 Irregular sampling and continuous time<br/>its P6 part: continuous-time models"]]
     P6_SAMPLING -->|"Regular, resampled or mixed"| P6_PANEL_Q{"Structure flag?"}
     P6_PANEL_Q -->|"Wide panel"| B6[["B6 Wide panel<br/>its P6 part: panel families"]]

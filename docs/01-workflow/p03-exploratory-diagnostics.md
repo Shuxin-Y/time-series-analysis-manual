@@ -16,7 +16,7 @@ graph TD
     P3_TYPE -->|"Event times"| B2[["B2 Event times<br/>its P3 part: event-time diagnostics"]]
     P3_TYPE -->|"Curves"| B4[["B4 Functional<br/>its first part: series as curves"]]
     P3_TYPE -->|"Continuous, or log-ratios"| P3_SAMPLING{"Sampling flag?"}
-    P3_SAMPLING -->|"Irregular, kept"| B3[["B3 Irregular sampling and continuous time<br/>its P3 part: sampling-pattern and trend diagnostics"]]
+    P3_SAMPLING -->|"Irregular"| B3[["B3 Irregular sampling and continuous time<br/>its P3 part: sampling-pattern and trend diagnostics"]]
     P3_SAMPLING -->|"Regular, resampled or mixed"| P3_STRUCTURE{"Structure flag?"}
     P3_STRUCTURE -->|"Wide panel"| B6[["B6 Wide panel<br/>its P3 part: cross-sectional dependence test"]]
     P3_STRUCTURE -->|"Spatial or network"| B5[["B5 Spatial and network<br/>its P3 part: spatial autocorrelation"]]
@@ -53,7 +53,7 @@ graph TD
     P3_SEASONAL -->|"Multiple periods"| P3_MULTI_SEASON_FLAG["Set flag: multiple seasonality"]
     P3_SEASONAL -->|"No"| P3_EXPLOSIVE_Q
     P3_SEASONAL_UNIT_ROOT --> P3_SUR_VERDICT{"Seasonal unit roots?"}
-    P3_SUR_VERDICT -->|"Yes"| P3_SEASONAL_FILTER_FLAG["Set flag: seasonal filter; zero frequency from HEGY"]
+    P3_SUR_VERDICT -->|"Yes"| P3_SEASONAL_FILTER_FLAG["Set flag: seasonal filter, seasonal frequencies only<br/>the zero-frequency root from HEGY joins the integration order"]
     P3_SUR_VERDICT -->|"No"| P3_DET_SEASON_FLAG["Set flag: deterministic seasonality"]
     P3_SEASONAL_FILTER_FLAG & P3_DET_SEASON_FLAG & P3_MULTI_SEASON_FLAG --> P3_EXPLOSIVE_Q{"Explosive episode suspected?"}
     P3_EXPLOSIVE_Q -->|"Yes"| P3_EXPLOSIVE["Explosive-root and bubble tests<br/>right-tailed SADF and GSADF on the log scale; date stamping"]

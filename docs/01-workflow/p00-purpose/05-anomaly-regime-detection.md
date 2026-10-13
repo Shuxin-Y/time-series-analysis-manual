@@ -68,17 +68,18 @@ graph TD
     classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
 ```
 
-**Part 3: thresholds, evaluation and monitoring.**
+**Part 3: evaluation, thresholds and monitoring.**
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P0_AN_PART_3_IN(["From parts 1 and 2"]) --> P10[["P10: Out-of-sample evaluation and selection"]]
-    P10 --> P0_AN_THRESHOLD["Set thresholds by the cost of errors"]
-    P0_AN_THRESHOLD --> P0_AN_LABELS{"Labels flag?"}
-    P0_AN_LABELS -->|"Few"| P10_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
+    P10 --> P0_AN_LABELS{"Labels flag?"}
+    P0_AN_LABELS -->|"Few"| P0_AN_THRESHOLD["Set thresholds by the cost of errors"]
     P0_AN_LABELS -->|"None"| P10_UNLABELLED[["Synthetic injection and expert review"]]
-    P10_CLASSIFICATION_METRICS & P10_UNLABELLED --> P11[["P11: Inference and interpretation"]]
+    P10_UNLABELLED --> P0_AN_THRESHOLD
+    P0_AN_THRESHOLD --> P10_CLASSIFICATION_METRICS[["Classification and anomaly metrics"]]
+    P10_CLASSIFICATION_METRICS --> P11[["P11: Inference and interpretation"]]
     P11 --> P12[["P12: Deployment and monitoring"]]
     P12 --> P12_DRIFT_MONITORING[["Drift monitoring"]]
     class P0_AN_PART_3_IN terminator
@@ -101,7 +102,7 @@ graph TD
 
 ## P11 inference for this purpose
 
-The thresholds come from P10, set at each origin on earlier data, so the final hold-out scores the threshold that is deployed.
+The thresholds come from P10. For online detection they are set at each origin on earlier data, so the final hold-out scores the threshold that is deployed; offline, they are tuned in folds apart from the data that scores them.
 
 ## P12 monitoring for this purpose
 

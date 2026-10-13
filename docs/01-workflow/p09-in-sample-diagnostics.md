@@ -17,7 +17,7 @@ graph TD
     P9_KIND -->|"Loss minimisation"| P9_LEARNER_DIAGNOSTICS["Validation loss and pooled residual diagnostics<br/>from the P8 tuning windows"]
     P9_KIND -->|"Likelihood or Bayesian"| P9_TYPE{"Value-type flag?"}
     P9_LEARNER_DIAGNOSTICS --> P9_LEARNER_TO_PART_4(["Continue in part 4"])
-    P9_TYPE -->|"Continuous or compositional"| P7_MEAN_TESTS[["Test residual autocorrelation"]]
+    P9_TYPE -->|"Continuous, or log-ratios"| P7_MEAN_TESTS[["Test residual autocorrelation"]]
     P9_TYPE -->|"Categorical or curves"| P9_COUNTS_TO_PART_3
     P9_TYPE -->|"Counts"| P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
     P9_TYPE -->|"Event times"| P7_RESCALING[["Time-rescaling check of event-time residuals"]]

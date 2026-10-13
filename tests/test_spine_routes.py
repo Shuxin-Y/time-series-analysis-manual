@@ -133,7 +133,7 @@ def test_irregular_kept_series_leave_the_regular_grid_families_at_p6(g):
 
 def _listed(g, a, b, prefix):
     (label,) = [x for x in g.edge_labels[(a, b)] if x.startswith(prefix)]
-    return {p.strip() for p in label[len(prefix):].replace(" and ", ", ").split(",")}
+    return {p.strip() for p in label[len(prefix):].replace("<br/>", " ").replace(" and ", ", ").split(",")}
 
 
 def test_the_final_hold_out_is_reserved_and_used_only_by_purposes_that_select_on_it(g):
@@ -143,7 +143,10 @@ def test_the_final_hold_out_is_reserved_and_used_only_by_purposes_that_select_on
     selected = _listed(g, "P10_SELECT", "P10_FINAL_HOLDOUT", "Select: ")
     # system identification validates on the reserved data in P10 part 4 and does not select on it again
     assert g.edge("P10_OUTPUTS", "P0_SI_VALIDATION", "System identification")
-    assert reserved == selected | {"system identification"}
+    # synthetic training data is scored on real data the generator never saw
+    assert g.edge("P11_OUTPUTS", "P0_SM_TSTR", "Synthetic training data")
+    assert g.label_has("P0_SM_TSTR", "held out from the generator's fit")
+    assert reserved == selected | {"system identification", "synthetic training data"}
     assert g.edge("P10_PURPOSE", "P10_COLLECTIONS_TO_PART_3", "Offline detection")
 
 
@@ -153,18 +156,27 @@ def test_part_entries_open_only_for_the_part_they_name(g):
 
 
 def test_seasonal_unit_roots_are_kept_only_by_classes_that_carry_them(g):
-    assert g.edge("P4_CLASS", "P4_SEASON", "SARIMA, ETS, structural")
-    assert g.edge("P4_CLASS", "P4_CARRIED_SEASONAL", "Regular only")
-    assert g.edge("P4_CARRIED_SEASONAL", "P4_SEASONAL_DIFFERENCE", "Yes")
+    carries_all = _listed(g, "P4_CLASS", "P4_SEASON", "All: ")
+    carries_regular = _listed(g, "P4_CLASS", "P4_CARRIED_SEASONAL", "Regular only: ")
+    assert carries_all == {"SARIMA", "ETS", "structural"}
+    assert carries_regular == {"Theta", "VECM", "levels VAR", "ARDL to I(1)"}
+    # the regular-only classes keep 1 - B: their seasonal filter holds the seasonal-frequency factors alone
+    assert g.edge("P4_CARRIED_SEASONAL", "P4_SEASONAL_DIFFERENCE", "1 − B stays with the class")
+    assert g.label_has("P4_SEASONAL_DIFFERENCE", "1 − B is the regular step")
 
 
 def test_change_point_and_signal_readers_keep_seasonality_out_of_their_target(g):
     assert g.ordered(["P4_PART_6_IN", "P4_LEVELS_SEASON", "P4_LEVELS_SEASONALITY", "P4_LEVELS_ORDER"], pages=P4_PAGE)
     assert not g.reach("P4_PART_6_IN", "P4_LEVELS_ORDER", pages=P4_PAGE, avoid={"P4_LEVELS_SEASON"})
+    # deterministic terms cannot remove stochastic seasonality
+    assert g.label_has("P4_LEVELS_SEASONALITY", "seasonal unit roots: a stochastic seasonal component")
 
 
 def test_anomaly_thresholds_are_tuned_in_p10_before_selection(g):
-    assert g.ordered(["P10_EVENTS", "P0_AN_THRESHOLD", "P10_LABELS", "P10_SELECT", "P10_FINAL_HOLDOUT"], pages=SPINE)
+    assert g.ordered(["P10_EVENTS", "P10_LABELS", "P0_AN_THRESHOLD", "P10_CLASSIFICATION_METRICS", "P10_SELECT",
+                      "P10_FINAL_HOLDOUT"], pages=SPINE)
+    # with no labels, the miss rates the cost needs come from the injected anomalies
+    assert g.ordered(["P10_UNLABELLED", "P0_AN_THRESHOLD"], pages=SPINE)
     assert {g.page(di) for di in g.appears["P0_AN_THRESHOLD"]} == {
         "01-workflow/p10-evaluation-selection.md", "01-workflow/p00-purpose/05-anomaly-regime-detection.md"}
 
@@ -194,7 +206,7 @@ FLAG_READERS = {
     "P0_HOLDOUT_FLAG": {"P10_FINAL_HOLDOUT": "reserved in P0", "P0_SI_VALIDATION": "held-out input-output data"},
     "P1_VALUE_TYPE_FLAG": {nid: "Value-type flag?" for nid in
                            ("P2_VALUE_TYPE", "P3_TYPE", "P4_TYPE", "P6_VALUE_TYPE", "P7_TYPE", "P8_TYPE", "P9_TYPE")},
-    "P1_IRREGULAR_FLAG": {"P2_SAMPLING": "Irregular", "P3_SAMPLING": "Irregular, kept", "P4_GRID": "Irregular, kept",
+    "P1_IRREGULAR_FLAG": {"P2_SAMPLING": "Irregular", "P3_SAMPLING": "Irregular", "P4_GRID": "Irregular, kept",
                           "P5_GRID": "Irregular, kept", "P6_SAMPLING": "Irregular, kept"},
     "P1_RESAMPLED_FLAG": {"P2_SAMPLING": "resampled", "P3_SAMPLING": "resampled", "P4_GRID": "resampled"},
     "P1_CALENDAR_FLAG": {"P6_DETERMINISTIC_Q": "calendar flags?"},
@@ -206,8 +218,7 @@ FLAG_READERS = {
                              "P9_MULTI": "Multivariate flag?", "P11_SYSTEM": "Multivariate flag?"},
     "B1_MULTIVARIATE_FLAG": {"P7_MULTI": "Multivariate flag?", "P9_MULTI": "Multivariate flag?"},
     "B1_LOGRATIO_FLAG": {"P3_TYPE": "log-ratios", "P4_TYPE": "log-ratios"},
-    "B3_KEPT_FLAG": {"P3_SAMPLING": "Irregular, kept", "P4_GRID": "Irregular, kept", "P5_GRID": "Irregular, kept",
-                     "P6_SAMPLING": "Irregular, kept"},
+    "B3_KEPT_FLAG": {"P4_GRID": "Irregular, kept", "P5_GRID": "Irregular, kept", "P6_SAMPLING": "Irregular, kept"},
     "P2_STRUCTURE_FLAG": {"P3_STRUCTURE": "Structure flag?", "P6_PANEL_Q": "Structure flag?",
                           "P6_STRUCTURE_Q": "Structure flag?"},
     "B6_CD_FLAG": {"B6_ESTIMATOR": "Cross-sectional dependence"},

@@ -16,7 +16,7 @@ graph TD
     P8_PRIOR_Q -->|"No"| P8_KIND_Q{"Model-kind flag?"}
     P8_KIND_Q -->|"Loss minimisation"| P8_EMPIRICAL_LOSS["Empirical-loss minimisation<br/>training loss from the forecast task; gradient descent, boosting"]
     P8_KIND_Q -->|"Likelihood"| P8_TYPE{"Value-type flag?"}
-    P8_TYPE -->|"Continuous or compositional"| P8_OBSERVABLE{"All components observable?"}
+    P8_TYPE -->|"Continuous, or log-ratios"| P8_OBSERVABLE{"All components observable?"}
     P8_TYPE -->|"Counts, categories, events"| P8_TO_PART_4
     P8_TYPE -->|"Curves: basis coefficients"| P8_TO_PART_2
     P8_EMPIRICAL_LOSS --> P8_HYPERPARAMETERS["Time-aware hyperparameter tuning<br/>nested inside each training window"]

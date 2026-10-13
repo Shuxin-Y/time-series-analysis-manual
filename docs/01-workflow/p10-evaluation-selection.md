@@ -62,16 +62,17 @@ graph TD
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P10_PART_3_IN(["From part 1: detection or collections"]) --> P10_EVENTS{"What is evaluated?"}
-    P10_EVENTS -->|"Collections"| P10_GROUPED_SPLITS["Grouped and temporal splits<br/>split unit from P0; augmentation and tuning inside training folds; cluster stability"]
-    P10_EVENTS -->|"Anomalies or regimes"| P0_AN_THRESHOLD[["Set thresholds by the cost of errors<br/>at each origin, on earlier data"]]
-    P0_AN_THRESHOLD --> P10_LABELS{"Labels flag?"}
-    P10_EVENTS -->|"Change points"| P10_CHANGE_POINT_METRICS["Change-point metrics<br/>online: ARL0, detection delay; offline: F1 with margin, Hausdorff, Rand index"]
-    P10_LABELS -->|"Few"| P10_CLASSIFICATION_METRICS["Classification and anomaly metrics<br/>event-level and range-based precision and recall; delay; lead time"]
+    P10_EVENTS -->|"Collections"| P10_GROUPED_SPLITS["Grouped and temporal splits<br/>split unit from P0; augmentation and tuning<br/>inside training folds; cluster stability"]
+    P10_EVENTS -->|"Anomalies or regimes"| P10_LABELS{"Labels flag?"}
+    P10_EVENTS -->|"Change points"| P10_CHANGE_POINT_METRICS["Change-point metrics<br/>online: ARL0, detection delay<br/>offline: F1 with margin, Hausdorff, Rand index"]
+    P10_LABELS -->|"Few"| P0_AN_THRESHOLD[["Set thresholds by the cost of errors<br/>online: at each origin on earlier data<br/>offline: in folds apart from the scored data"]]
     P10_LABELS -->|"None"| P10_UNLABELLED["Synthetic injection and expert review<br/>injected anomalies; review of the top alarms"]
+    P10_UNLABELLED --> P0_AN_THRESHOLD
+    P0_AN_THRESHOLD --> P10_CLASSIFICATION_METRICS["Classification and anomaly metrics<br/>event-level and range-based precision and recall<br/>delay; lead time"]
     P10_GROUPED_SPLITS --> P10_COLLECTION_TASK{"Task?"}
     P10_COLLECTION_TASK -->|"Supervised"| P10_CLASSIFICATION_METRICS
     P10_COLLECTION_TASK -->|"Clustering"| P10_CLUSTER_VALIDATION["Cluster validation<br/>internal indices, stability under resampling"]
-    P10_CLASSIFICATION_METRICS & P10_UNLABELLED & P10_CHANGE_POINT_METRICS & P10_CLUSTER_VALIDATION --> P10_PART_3_OUT(["Continue in part 5"])
+    P10_CLASSIFICATION_METRICS & P10_CHANGE_POINT_METRICS & P10_CLUSTER_VALIDATION --> P10_PART_3_OUT(["Continue in part 5"])
     class P10_PART_3_IN,P10_PART_3_OUT terminator
     class P10_EVENTS,P10_LABELS,P10_COLLECTION_TASK decision
     class P0_AN_THRESHOLD ref
