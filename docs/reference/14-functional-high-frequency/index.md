@@ -16,7 +16,9 @@ graph TD
     B4_PHASE -->|"Yes"| B4_INTRADAY["Curve registration<br/>warping after smoothing; intraday seasonality as a domain case"]
     B4_PHASE -->|"No: timing carries information"| P6[["P6: Conditional-mean model class"]]
     B4_INTRADAY --> P6
-    P6 --> B4_OUT(["Continue on the spine at P7"])
+    P6 --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> B4_OUT(["Continue on the spine at P7"])
+    class P6_KIND_FLAG ref
     class B4_OUT terminator
     class B4_PHASE decision
     class B4,B4_CURVES,B4_INTRADAY process

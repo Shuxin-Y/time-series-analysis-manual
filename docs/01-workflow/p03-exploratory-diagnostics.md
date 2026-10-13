@@ -20,7 +20,7 @@ graph TD
     P3_SAMPLING -->|"Regular, resampled or mixed"| P3_STRUCTURE{"Structure flag?"}
     P3_STRUCTURE -->|"Wide panel"| B6[["B6 Wide panel<br/>its P3 part: cross-sectional dependence test"]]
     P3_STRUCTURE -->|"Spatial or network"| B5[["B5 Spatial and network<br/>its P3 part: spatial autocorrelation"]]
-    P3_STRUCTURE -->|"Single, few related or many similar"| P3_PLOT["Plot the series"]
+    P3_STRUCTURE -->|"Single, related or many similar"| P3_PLOT["Plot the series"]
     P3_PLOT --> P3_DISTRIBUTION["Describe the distribution<br/>skewness, tail index; no tests on the raw series"]
     P3_DISTRIBUTION --> P3_VARIANCE_STABILITY["Check level-dependent variance<br/>range-mean plot, Box-Cox profile, Guerrero lambda"]
     P3_VARIANCE_STABILITY --> P3_HETERO{"Variance grows with the level?"}

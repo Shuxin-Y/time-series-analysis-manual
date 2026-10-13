@@ -48,7 +48,7 @@ graph TD
     P0_SM_DISTRIBUTION_MATCH --> P11[["P11: Inference and interpretation"]]
     P11 --> P0_SM_USE{"Use of the simulated paths?"}
     P0_SM_USE -->|"Risk and stress testing"| P11_SCENARIOS[["Stress testing and scenario design"]]
-    P0_SM_USE -->|"Synthetic training data"| P0_SM_TSTR["Train on synthetic, test on real<br/>discriminative score, privacy check"]
+    P0_SM_USE -->|"Synthetic training data"| P0_SM_TSTR["Train on synthetic, test on real<br/>real test data held out from the generator's fit; discriminative score, privacy check"]
     P0_SM_USE -->|"Uncertainty propagation"| P11_INTERVALS[["Prediction intervals"]]
     P11_SCENARIOS --> P11_RISK_MEASURES[["Risk measures and their backtests"]]
     P11_RISK_MEASURES & P0_SM_TSTR & P11_INTERVALS --> P12[["P12: Deployment and monitoring"]]

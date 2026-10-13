@@ -14,11 +14,12 @@ graph TD
     B1_VALUE -->|"Counts or categorical"| B1_COUNT_EDA["Count-data diagnostics<br/>zeros, dispersion, trend, seasonality, covariates"]
     B1_VALUE -->|"Compositional"| B1_COMPOSITIONAL["Compositional series<br/>log-ratio transforms; every later test runs on the log-ratios"]
     B1_COUNT_EDA --> B1_TO_PART_2(["Continue in part 2"])
-    B1_COMPOSITIONAL --> B1_MULTIVARIATE_FLAG["Set flag: multivariate"]
+    B1_COMPOSITIONAL --> B1_LOGRATIO_FLAG["Update flag: value type, log-ratios"]
+    B1_LOGRATIO_FLAG --> B1_MULTIVARIATE_FLAG["Set flag: multivariate"]
     B1_MULTIVARIATE_FLAG --> B1_COMPOSITIONAL_OUT(["Continue on the spine at P3, as log-ratios"])
     class B1_TO_PART_2,B1_COMPOSITIONAL_OUT terminator
     class B1_VALUE decision
-    class B1,B1_COUNT_EDA,B1_COMPOSITIONAL,B1_MULTIVARIATE_FLAG process
+    class B1,B1_COUNT_EDA,B1_COMPOSITIONAL,B1_LOGRATIO_FLAG,B1_MULTIVARIATE_FLAG process
     class P3 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -89,7 +90,9 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    B1_PART_4_IN(["From parts 2 and 3"]) --> P7[["P7: Error-process specification"]]
+    B1_PART_4_IN(["From parts 2 and 3"]) --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P7[["P7: Error-process specification"]]
+    class P6_KIND_FLAG ref
     P7 --> P7_COUNT_TESTS[["Test overdispersion of count innovations"]]
     P7_COUNT_TESTS --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
@@ -114,7 +117,9 @@ graph TD
     B1_PART_5_IN(["From part 2"]) --> B1_CATEGORICAL_Q{"State count and covariates?"}
     B1_CATEGORICAL_Q -->|"Few states, no covariates"| B1_MARKOV_CHAIN["Markov chains for categorical series"]
     B1_CATEGORICAL_Q -->|"Covariates or ordered states"| B1_AR_LOGIT["Autoregressive logit, probit and multinomial series"]
-    B1_MARKOV_CHAIN & B1_AR_LOGIT --> P8[["P8: Estimation"]]
+    B1_MARKOV_CHAIN & B1_AR_LOGIT --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P8[["P8: Estimation"]]
+    class P6_KIND_FLAG ref
     P8 --> P9[["P9: In-sample diagnostics"]]
     P9 --> B1_PART_5_OUT(["Continue on the spine at P10"])
     F_MARKOV[["Markov chains"]] -.- B1_MARKOV_CHAIN

@@ -111,12 +111,12 @@ graph TD
     P11_STRUCTURE -->|"Components"| P0_DC_COMPONENT_ANALYSIS[["Analyse and interpret the components"]]
     P11_STRUCTURE -->|"Frequencies"| P11_SPECTRAL_BANDS["Confidence bands for spectral estimates"]
     P11_EVENTS -->|"Changes"| P11_BREAK_DATE_CI["Break-date confidence intervals"]
-    P11_EVENTS -->|"Anomalies or regimes"| P0_AN_THRESHOLD[["Set thresholds by the cost of errors"]]
-    P0_SE_SNR & P0_DC_COMPONENT_ANALYSIS & P11_SPECTRAL_BANDS & P11_BREAK_DATE_CI & P0_AN_THRESHOLD --> P11_PART_4_OUT(["Continue in part 6"])
+    P11_EVENTS -->|"Anomalies or regimes: the operating point from P10"| P11_PART_4_OUT
+    P0_SE_SNR & P0_DC_COMPONENT_ANALYSIS & P11_SPECTRAL_BANDS & P11_BREAK_DATE_CI --> P11_PART_4_OUT(["Continue in part 6"])
     class P11_PART_4_IN,P11_PART_4_OUT terminator
     class P11_PURPOSE_4,P11_STRUCTURE,P11_EVENTS decision
     class P11_SPECTRAL_BANDS,P11_BREAK_DATE_CI process
-    class P0_SE_SNR,P0_DC_COMPONENT_ANALYSIS,P0_AN_THRESHOLD ref
+    class P0_SE_SNR,P0_DC_COMPONENT_ANALYSIS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

@@ -15,7 +15,9 @@ graph TD
     B3_AGGREGATE_Q -->|"No: the times are the data"| B2[["B2 Event times"]]
     B3_VALUES -->|"Continuous"| B3_INFORMATIVE{"Sampling times informative?"}
     B3_VALUES -->|"Compositional"| B1_COMPOSITIONAL[["Compositional series"]]
-    B1_COMPOSITIONAL --> B3_INFORMATIVE
+    B1_COMPOSITIONAL --> B1_LOGRATIO_FLAG[["Update flag: value type, log-ratios"]]
+    B1_LOGRATIO_FLAG --> B1_MULTIVARIATE_FLAG[["Set flag: multivariate"]]
+    B1_MULTIVARIATE_FLAG --> B3_INFORMATIVE
     B3_INFORMATIVE -->|"Yes: times depend on the process"| B3_JOINT_SAMPLING["Joint model of the observation times<br/>marked point process, inverse-intensity weighting"]
     B3_INFORMATIVE -->|"No"| B3_ROUTE{"Resample to a regular grid?"}
     B3_JOINT_SAMPLING --> B3_ROUTE
@@ -23,13 +25,14 @@ graph TD
     B3_ROUTE -->|"No: keep the irregular times"| B3_KEPT_FLAG["Set flag: sampling irregular, kept"]
     B3_KEPT_FLAG --> P3[["P3: Exploratory diagnostics"]]
     P3 --> B3_DIAGNOSTICS["Sampling-pattern and trend diagnostics<br/>interval distribution, window function, variogram"]
-    B3_DIAGNOSTICS --> P5[["P5: Representation selection"]]
+    B3_DIAGNOSTICS --> P4[["P4: Transformations"]]
+    P4 --> P5[["P5: Representation selection"]]
     P5 --> P5_FD_LOMB_SCARGLE[["Lomb-Scargle periodogram<br/>exploratory; window function, false-alarm probability"]]
     P5_FD_LOMB_SCARGLE --> B3_TO_PART_2(["Continue in part 2"])
     class B3_TO_PART_2 terminator
     class B3_VALUES,B3_AGGREGATE_Q,B3_INFORMATIVE,B3_ROUTE decision
     class B3,B3_JOINT_SAMPLING,B3_DIAGNOSTICS,B3_KEPT_FLAG process
-    class P1_RESAMPLE,B2,P3,P5,P5_FD_LOMB_SCARGLE,B1_COMPOSITIONAL ref
+    class P1_RESAMPLE,B2,P3,P4,P5,P5_FD_LOMB_SCARGLE,B1_COMPOSITIONAL,B1_LOGRATIO_FLAG,B1_MULTIVARIATE_FLAG ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -52,7 +55,9 @@ graph TD
     B3_PROCESS -->|"Long memory"| B3_FBM["Fractional processes in continuous time<br/>fBm, fractional OU, CARFIMA at the observed times"]
     B3_PROCESS -->|"Nonlinear diffusion"| B3_SDE["Diffusions and SDE discretisation<br/>Euler-Maruyama, Milstein"]
     B3_PROCESS -->|"Smooth function of time"| P6_GAUSSIAN_PROCESS[["Gaussian-process regression"]]
-    B3_OU & B3_CARMA & B3_FBM & B3_SDE & P6_GAUSSIAN_PROCESS --> P7[["P7: Error-process specification"]]
+    B3_OU & B3_CARMA & B3_FBM & B3_SDE & P6_GAUSSIAN_PROCESS --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P7[["P7: Error-process specification"]]
+    class P6_KIND_FLAG ref
     P7 --> B3_JUMPS{"Jumps in a diffusion?"}
     B3_JUMPS -->|"Yes"| P7_JUMPS[["Jump diffusion"]]
     B3_JUMPS -->|"No"| P8

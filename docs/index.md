@@ -92,13 +92,13 @@ Thirty-four areas, listed under *Techniques This Book Covers* below, each with i
 
     === "5. Hypothesis Testing"
 
-        - **Unit Root:** ADF, KPSS, PP, DF-GLS, Zivot-Andrews (with structural breaks)
-        - **Cointegration:** Engle-Granger, Johansen, ARDL bounds
-        - **Causality:** Granger, Sims, Toda-Yamamoto
-        - **Structural Breaks:** Chow test, CUSUM, Bai-Perron
+        - **Unit Root:** ADF, KPSS, PP, DF-GLS, Zivot–Andrews (with structural breaks)
+        - **Cointegration:** Engle–Granger, Johansen, ARDL bounds
+        - **Causality:** Granger, Sims, Toda–Yamamoto
+        - **Structural Breaks:** Chow test, CUSUM, Bai–Perron
         - **Serial Correlation:** Breusch–Godfrey, Ljung–Box, Durbin–Watson
         - **Heteroskedasticity:** White test, ARCH-LM
-        - **Normality:** Jarque-Bera
+        - **Normality:** Jarque–Bera
         - **Bootstrap:** block, sieve
 
     === "6. Model Selection"
@@ -340,8 +340,8 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[CLT]: Central Limit Theorem
 
 <!-- 2. Time Series Fundamentals -->
-*[ADF]: Augmented Dickey-Fuller test
-*[KPSS]: Kwiatkowski-Phillips-Schmidt-Shin test
+*[ADF]: Augmented Dickey–Fuller test
+*[KPSS]: Kwiatkowski–Phillips–Schmidt–Shin test
 *[ACF]: Autocorrelation Function
 *[PACF]: Partial Autocorrelation Function
 
@@ -377,8 +377,8 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 *[Whittle likelihood]: frequency domain estimation
 
 <!-- 5. Inference and Hypothesis Testing — Unit Root -->
-*[PP]: Phillips-Perron test
-*[DF-GLS]: Dickey-Fuller Generalized Least Squares
+*[PP]: Phillips–Perron test
+*[DF-GLS]: Dickey–Fuller Generalized Least Squares
 <!-- 5. Inference and Hypothesis Testing — Cointegration -->
 *[ARDL]: Autoregressive Distributed Lag
 <!-- 5. Inference and Hypothesis Testing — Structural Breaks -->
@@ -538,7 +538,7 @@ The content of this book is licensed under the [Creative Commons Attribution-Non
 <!-- 27–34. Areas added in the flowchart framework -->
 *[HAC]: Heteroskedasticity-and-Autocorrelation-Consistent
 *[PSY]: Phillips-Shi-Yu bubble test
-*[HEGY]: Hylleberg-Engle-Granger-Yoo seasonal unit root test
+*[HEGY]: Hylleberg-Engle–Granger-Yoo seasonal unit root test
 *[CCE]: Common Correlated Effects
 *[MinT]: Minimum Trace reconciliation
 *[PIT]: Probability Integral Transform

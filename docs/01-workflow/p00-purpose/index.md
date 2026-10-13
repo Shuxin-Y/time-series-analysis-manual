@@ -89,8 +89,8 @@ graph TD
     P0_PURPOSE_FLAG --> P0_SPLIT_UNIT
     P0_LABELS -->|"Few or none"| P0_DETECTION_FLAG["Set flag: labels"]
     P0_SPLIT_UNIT --> P0_SPLIT_FLAG["Set flag: split unit"]
-    P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_HOLDOUT_GATE{"Selection on held-out data?"}
-    P0_HOLDOUT_GATE -->|"Yes: forecasts, online detection, collections, system models"| P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
+    P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_HOLDOUT_GATE{"Candidates compared, accuracy reported on unseen data?"}
+    P0_HOLDOUT_GATE -->|"Yes: forecasting, online detection, collections, system identification"| P0_HOLDOUT["Reserve the final hold-out<br/>the last stretch, or held-out units; touched by no phase before P10"]
     P0_HOLDOUT_GATE -->|"No: causes, offline detection"| P0_PART_3_OUT
     P0_HOLDOUT --> P0_HOLDOUT_FLAG["Set flag: hold-out"]
     P0_HOLDOUT_FLAG --> P0_PART_3_OUT
@@ -118,10 +118,10 @@ graph TD
     P0_KEEP_ANOMALIES -->|"No"| P0_KEEP_LEVELS{"Levels needed?"}
     P0_KEEP_ANOMALIES_FLAG --> P0_KEEP_LEVELS
     P0_KEEP_LEVELS -->|"Yes: signal, changes, components, frequencies"| P0_KEEP_LEVELS_FLAG["Set flag: keep levels"]
-    P0_KEEP_LEVELS -->|"No"| P0_TIMING{"Output used in real time?"}
+    P0_KEEP_LEVELS -->|"No"| P0_TIMING{"One-sided processing needed?"}
     P0_KEEP_LEVELS_FLAG --> P0_TIMING
-    P0_TIMING -->|"Yes: live output, online detection, learner features"| P0_REAL_TIME_FLAG["Set flag: timing, real time"]
-    P0_TIMING -->|"No: offline, or a statistical forecast refitted per origin"| P1[["P1: Data acquisition and cleaning"]]
+    P0_TIMING -->|"Yes: live filtering or detection, learner features"| P0_REAL_TIME_FLAG["Set flag: timing, real time"]
+    P0_TIMING -->|"No: offline output, or a statistical model refitted per origin"| P1[["P1: Data acquisition and cleaning"]]
     P0_REAL_TIME_FLAG --> P1
     class P0_PART_4_IN terminator
     class P0_KEEP_ANOMALIES,P0_KEEP_LEVELS,P0_TIMING decision

@@ -2,7 +2,7 @@
 
 **Question this phase answers:** What must change before modelling, given the purpose and the P3 flags?
 
-Structure the model class will not represent (variance scaling, integration when the class works on differences, breaks) is removed here. Structure the class represents is left for P6: integration carried by an ARIMA-type model, exponential smoothing, Theta, a structural model, a VECM, a VAR in levels or an ARDL, and the deterministic trend, seasonal and calendar regressors. Purposes that study levels keep them: decomposition works on the (log) level, spectral analysis prewhitens and recolours instead of differencing, and change-point detection and signal extraction read the integration flag on their own route instead of differencing; for them the outlier question runs only for signal extraction with impulsive noise, and readers whose target is the anomalies or changes keep them. Decomposition is asked only of readers who want components. Compositional series arrive as log-ratios from P3. Counts skip the continuous transforms, event times, categories and curves skip P4, and irregular series skip differencing.
+Structure the model class will not represent (variance scaling, integration when the class works on differences, breaks) is removed here. Structure the class represents is left for P6: integration carried by an ARIMA-type model, exponential smoothing, Theta, a structural model, a VECM, a VAR in levels or an ARDL, and the deterministic trend, seasonal and calendar regressors. Purposes that study levels keep them: decomposition works on the (log) level, spectral analysis prewhitens and recolours instead of differencing, and change-point detection and signal extraction read the integration flag on their own route instead of differencing; for them the outlier question runs only for signal extraction with impulsive noise, and readers whose target is the anomalies or changes keep them. Decomposition is asked only of readers who want components; readers who keep levels for changes or a signal keep seasonality that is not their target out of it in part 6. Differencing asks which unit roots the model class carries: the regular ones, the seasonal ones too, or none. Compositional series arrive as log-ratios from P3. Counts skip the continuous transforms, event times, categories and curves skip P4, and irregular series skip differencing.
 
 ## Sub-diagram
 
@@ -84,9 +84,12 @@ graph TD
     P4_PART_3_IN(["From part 2"]) --> P4_GRID{"Sampling flag?"}
     P4_GRID -->|"Irregular, kept"| P4_SEASON
     P4_GRID -->|"Regular, resampled or mixed"| P4_INTEGRATION{"Integration flag?"}
-    P4_INTEGRATION -->|"k at least 1, or a seasonal filter"| P4_CLASS{"Will the mean model carry it?"}
-    P4_CLASS -->|"No: ARMA, learners"| P4_DIFFERENCE["Regular differencing<br/>each series, covariates included, to its own order k<br/>none when k = 0"]
-    P4_CLASS -->|"Yes: ARIMA-type, ETS, Theta,<br/>structural, VECM, VAR or ARDL in levels"| P4_SEASON
+    P4_INTEGRATION -->|"k at least 1, or a seasonal filter"| P4_CLASS{"Unit roots the model carries?"}
+    P4_CLASS -->|"None: ARMA, learners"| P4_DIFFERENCE["Regular differencing<br/>each series, covariates included, to its own order k<br/>none when k = 0"]
+    P4_CLASS -->|"All: SARIMA, ETS, structural"| P4_SEASON
+    P4_CLASS -->|"Regular only: Theta, VECM,<br/>levels VAR, ARDL to I(1)"| P4_CARRIED_SEASONAL{"Seasonal filter flag?"}
+    P4_CARRIED_SEASONAL -->|"Yes"| P4_SEASONAL_DIFFERENCE
+    P4_CARRIED_SEASONAL -->|"No"| P4_SEASON
     P4_INTEGRATION -->|"k = 0, no seasonal filter"| P4_SEASON
     P4_DIFFERENCE --> P4_SEASONAL_FILTER{"Seasonal filter too?"}
     P4_SEASONAL_FILTER -->|"Yes"| P4_SEASONAL_DIFFERENCE["Seasonal differencing<br/>full or partial seasonal filter"]
@@ -94,8 +97,8 @@ graph TD
     P4_SEASONAL_DIFFERENCE --> P4_OVERDIFFERENCING["Check for over-differencing<br/>after the whole filter"]
     P4_OVERDIFFERENCING --> P4_DIFF_VERDICT{"After the filter?"}
     P4_DIFF_VERDICT -->|"Short memory"| P4_SEASON
-    P4_DIFF_VERDICT -->|"Trend-stationary"| P4_TREND_FLAG["Update flags: integration order reduced; deterministic trend<br/>the regular difference is undone"]
-    P4_DIFF_VERDICT -->|"Seasonal over-difference"| P4_SEASON_FLAG["Update flags: seasonal filter removed; deterministic seasonality"]
+    P4_DIFF_VERDICT -->|"Trend-stationary"| P4_TREND_FLAG["Update flags: k reduced, deterministic trend<br/>the regular difference is undone"]
+    P4_DIFF_VERDICT -->|"Seasonal over-difference"| P4_SEASON_FLAG["Update flags: no seasonal filter,<br/>deterministic seasonality"]
     P4_DIFF_VERDICT -->|"Antipersistent"| P4_FRACTIONAL_FLAG["Update flag: fractional remainder for P6"]
     P4_TREND_FLAG & P4_SEASON_FLAG & P4_FRACTIONAL_FLAG --> P4_SEASON{"Seasonal treatment?"}
     P4_SEASON -->|"None, or regressors in P6"| P4_PART_3_OUT(["Continue in part 4"])
@@ -103,7 +106,7 @@ graph TD
     P4_SEASON -->|"Multiple seasonality"| P4_MULTIPLE_SEASONALITY["Multiple seasonality<br/>MSTL, TBATS, Fourier terms"]
     P4_SEASONAL_ADJUSTMENT & P4_MULTIPLE_SEASONALITY --> P4_PART_3_OUT
     class P4_PART_3_IN,P4_PART_3_OUT terminator
-    class P4_GRID,P4_INTEGRATION,P4_CLASS,P4_SEASONAL_FILTER,P4_DIFF_VERDICT,P4_SEASON decision
+    class P4_GRID,P4_INTEGRATION,P4_CLASS,P4_CARRIED_SEASONAL,P4_SEASONAL_FILTER,P4_DIFF_VERDICT,P4_SEASON decision
     class P4_DIFFERENCE,P4_SEASONAL_DIFFERENCE,P4_OVERDIFFERENCING,P4_TREND_FLAG,P4_SEASON_FLAG,P4_FRACTIONAL_FLAG,P4_SEASONAL_ADJUSTMENT,P4_MULTIPLE_SEASONALITY process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -171,13 +174,16 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P4_PART_6_IN(["From part 2: keep levels, signal or changes"]) --> P4_LEVELS_ORDER{"Integration flag?"}
+    P4_PART_6_IN(["From part 2: keep levels, signal or changes"]) --> P4_LEVELS_SEASON{"Seasonal flags?"}
+    P4_LEVELS_SEASON -->|"Set, and seasonality is not the target"| P4_LEVELS_SEASONALITY["Seasonality on the levels routes<br/>changes: seasonal terms in the segmentation cost; signal: a seasonal component modelled with it"]
+    P4_LEVELS_SEASON -->|"Not set, or seasonality is the target"| P4_LEVELS_ORDER{"Integration flag?"}
+    P4_LEVELS_SEASONALITY --> P4_LEVELS_ORDER
     P4_LEVELS_ORDER -->|"k = 0, or none: irregular, kept"| P4_PART_6_OUT
     P4_LEVELS_ORDER -->|"k at least 1"| P4_INTEGRATED_LEVELS["Integrated series kept in levels<br/>signal: state-space or Wiener-Kolmogorov extraction, unit gain at frequency zero; changes: drift changes on the differences, or a stochastic-level model"]
     P4_INTEGRATED_LEVELS --> P4_PART_6_OUT(["Continue in part 4"])
     class P4_PART_6_IN,P4_PART_6_OUT terminator
-    class P4_LEVELS_ORDER decision
-    class P4_INTEGRATED_LEVELS process
+    class P4_LEVELS_SEASON,P4_LEVELS_ORDER decision
+    class P4_LEVELS_SEASONALITY,P4_INTEGRATED_LEVELS process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -269,6 +275,11 @@ Every two-sided step here (STL, X-13, centred Hampel windows) has a one-sided ve
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P4_PREWHITEN`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Seasonality on the levels routes
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P4_LEVELS_SEASONALITY`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Integrated series kept in levels
 

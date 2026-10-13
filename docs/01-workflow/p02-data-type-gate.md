@@ -23,6 +23,7 @@ graph TD
     B3 -.->|"Resample"| P1[["P1: Data acquisition and cleaning"]]
     P2_STRUCTURE -->|"Single"| P2_STRUCTURE_FLAG
     P2_STRUCTURE -->|"Few related"| P2_MULTIVARIATE_FLAG["Set flag: multivariate"]
+    P2_STRUCTURE -->|"Many related variables"| P2_MULTIVARIATE_FLAG
     P2_STRUCTURE -->|"Many similar"| B7["B7 Many similar series"]
     P2_STRUCTURE -->|"Wide panel"| B6[["B6 Wide panel"]]
     P2_STRUCTURE -->|"Spatial or network"| B5[["B5 Spatial and network"]]
@@ -49,7 +50,7 @@ graph TD
 |---|---|---|
 | Value type (set in P1) | continuous / counts / categorical or ordinal / compositional / curves / event times | Read by P3 to P9; counts are series with small values or frequent zeros, decided per series, and large counts are continuous; counts, categorical and compositional series use the B1 leaves, curves the B4 leaves, event times the B2 leaves |
 | Sampling | regular or irregular (set in P1), irregular resampled (set in P1 after B3), irregular kept (set in B3), mixed frequency (set here) | Asked for every type except event times and curves, whose sampling per curve P5 reads (dense or sparse); irregular series use the B3 leaves, which ask whether to resample; mixed frequency is read by P3 to P6 and P11 |
-| Cross-sectional structure (set here) | single / few related / many similar / wide panel / spatial or network | Asked for every series and read by P3 and P6; few related sets the multivariate flag; many similar uses B7; wide panel uses B6; spatial uses B5 |
+| Cross-sectional structure (set here) | single / few related / many related variables / many similar / wide panel / spatial or network | Asked for every series and read by P3 and P6; few related and many related variables set the multivariate flag; many similar uses B7; wide panel uses B6; spatial uses B5 |
 
 ## Branches
 

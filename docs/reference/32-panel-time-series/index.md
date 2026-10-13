@@ -15,7 +15,8 @@ graph TD
     B6_CD_FLAG --> B6_SECOND_GENERATION["Second-generation panel unit-root tests<br/>CIPS, PANIC"]
     B6_PANEL_UNIT_ROOT & B6_SECOND_GENERATION --> B6_VERDICT{"Panel verdict?"}
     B6_VERDICT -->|"Unit roots, cointegrated"| B6_COINT_FLAG["Set flag: panel cointegration"]
-    B6_VERDICT -->|"Unit roots, not cointegrated"| P4[["P4: Transformations"]]
+    B6_VERDICT -->|"Unit roots, not cointegrated"| P3_ORDER_FLAG[["Set flag: integration order k and fractional remainder<br/>k from the panel verdict"]]
+    P3_ORDER_FLAG --> P4[["P4: Transformations"]]
     B6_VERDICT -->|"Stationary"| P6
     B6_COINT_FLAG & P4 --> P6[["P6: Conditional-mean model class"]]
     P6 --> B6_DYNAMIC{"Lagged dependent variable?"}
@@ -23,8 +24,10 @@ graph TD
     B6_DYNAMIC -->|"Yes"| B6_DYNAMIC_PANEL["Dynamic panel GMM<br/>Arellano-Bond"]
     B6_STATIC_PANEL & B6_DYNAMIC_PANEL --> B6_HETERO{"Heterogeneous slopes?"}
     B6_HETERO -->|"Yes"| B6_HETEROGENEOUS["Heterogeneous panels<br/>mean group, pooled mean group"]
-    B6_HETERO -->|"No"| P8
-    B6_HETEROGENEOUS --> P8[["P8: Estimation"]]
+    B6_HETERO -->|"No"| P6_KIND_FLAG
+    B6_HETEROGENEOUS --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P8[["P8: Estimation"]]
+    class P6_KIND_FLAG ref
     P8 --> B6_ESTIMATOR{"Panel flags?"}
     B6_ESTIMATOR -->|"Panel cointegration"| B6_PANEL_COINTEGRATION["Panel cointegration estimators<br/>panel DOLS and FMOLS, pooled mean group"]
     B6_ESTIMATOR -->|"Cross-sectional dependence"| B6_CCE["Common correlated effects estimators"]
@@ -34,7 +37,7 @@ graph TD
     class B6_OUT terminator
     class B6_CD,B6_VERDICT,B6_DYNAMIC,B6_HETERO,B6_ESTIMATOR decision
     class B6,B6_CROSS_SECTION_DEPENDENCE,B6_PANEL_UNIT_ROOT,B6_CD_FLAG,B6_SECOND_GENERATION,B6_COINT_FLAG,B6_STATIC_PANEL,B6_DYNAMIC_PANEL,B6_HETEROGENEOUS,B6_PANEL_COINTEGRATION,B6_CCE process
-    class P3,P4,P6,P8,P9 ref
+    class P3,P4,P6,P8,P9,P3_ORDER_FLAG ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

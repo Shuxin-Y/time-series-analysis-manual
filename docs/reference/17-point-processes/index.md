@@ -21,7 +21,9 @@ graph TD
     B2_FIT_ALL --> B2_COX["Doubly stochastic (Cox) processes"]
     B2_FIT_ALL --> B2_HAWKES["Hawkes self-exciting processes<br/>with a time-varying baseline"]
     B2_FIT_ALL --> B2_NEURAL_PP["Neural point processes"]
-    B2_MARKED & B2_POISSON & B2_COX & B2_HAWKES & B2_NEURAL_PP --> P7[["P7: Error-process specification"]]
+    B2_MARKED & B2_POISSON & B2_COX & B2_HAWKES & B2_NEURAL_PP --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P7[["P7: Error-process specification"]]
+    class P6_KIND_FLAG ref
     P7 --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
     P9 --> P7_RESCALING[["Time-rescaling check of event-time residuals"]]
@@ -51,7 +53,9 @@ graph TD
     B2_QUESTION_2 -->|"Time to failure"| B2_FAILURE{"Data?"}
     B2_FAILURE -->|"Failure times"| B2_SURVIVAL["Survival and hazard models<br/>Cox proportional hazards"]
     B2_FAILURE -->|"Degradation signal"| B2_DEGRADATION["Degradation processes and remaining useful life<br/>Wiener and gamma processes"]
-    B2_ACD & B2_SURVIVAL & B2_DEGRADATION --> P7[["P7: Error-process specification"]]
+    B2_ACD & B2_SURVIVAL & B2_DEGRADATION --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P7[["P7: Error-process specification"]]
+    class P6_KIND_FLAG ref
     P7 --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
     P9 --> B2_CHECK{"Residual check?"}

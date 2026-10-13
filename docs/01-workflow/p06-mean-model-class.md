@@ -22,7 +22,7 @@ graph TD
     P6_SAMPLING -->|"Regular, resampled or mixed"| P6_PANEL_Q{"Structure flag?"}
     P6_PANEL_Q -->|"Wide panel"| B6[["B6 Wide panel<br/>its P6 part: panel families"]]
     P6_PANEL_Q -->|"Spatial or network"| B5[["B5 Spatial and network<br/>its P6 part: spatio-temporal families"]]
-    P6_PANEL_Q -->|"Single, few related or many similar"| P6_TO_PART_2(["Continue in part 2"])
+    P6_PANEL_Q -->|"Single, related or many similar"| P6_TO_PART_2(["Continue in part 2"])
     class P6_IN,P6_TO_PART_12,P6_TO_PART_2 terminator
     class P6_MODEL_NEEDED,P6_VALUE_TYPE,P6_SAMPLING,P6_PANEL_Q decision
     class B1,B2,B4,B3,B6,B5 ref
@@ -52,7 +52,7 @@ graph TD
     P6_MIXED_Q -->|"No"| P6_STRUCTURE_Q{"Structure flag?"}
     P6_STRUCTURE_Q -->|"Single, or many similar fitted one by one"| P6_TO_PART_5(["Continue in part 5"])
     P6_STRUCTURE_Q -->|"A few related"| P6_TO_PART_3(["Continue in part 3"])
-    P6_STRUCTURE_Q -->|"Many variables"| P6_TO_PART_4(["Continue in part 4"])
+    P6_STRUCTURE_Q -->|"Many related variables"| P6_TO_PART_4(["Continue in part 4"])
     P6_MIXED_FREQUENCY & P6_PARTIAL_POOLING --> P6_PART_2_OUT(["Continue in part 11"])
     class P6_GLOBAL_MODELS,P6_PARTIAL_POOLING,P6_MIXED_FREQUENCY escalate
     class P6_PART_2_IN,P6_TO_PART_9,P6_TO_PART_5,P6_TO_PART_3,P6_TO_PART_4,P6_PART_2_OUT terminator

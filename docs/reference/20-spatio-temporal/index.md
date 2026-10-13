@@ -18,7 +18,9 @@ graph TD
     B5_GRAPH_MODEL -->|"Spectral filtering"| B5_GRAPH_SIGNAL["Graph signal processing"]
     B5_GRAPH_MODEL -->|"Neural"| B5_STGNN["Spatio-temporal graph neural networks"]
     B5_GRAPH_MODEL -->|"Autoregression"| B5_NETWORK_AR["Network autoregression"]
-    B5_SPATIAL_PANEL_VAR & B5_KRIGING & B5_GRAPH_SIGNAL & B5_STGNN & B5_NETWORK_AR & B5_ST_POINT_PROCESS --> P8[["P8: Estimation"]]
+    B5_SPATIAL_PANEL_VAR & B5_KRIGING & B5_GRAPH_SIGNAL & B5_STGNN & B5_NETWORK_AR & B5_ST_POINT_PROCESS --> P6_KIND_FLAG[["Set flag: model kind"]]
+    P6_KIND_FLAG --> P8[["P8: Estimation"]]
+    class P6_KIND_FLAG ref
     P8 --> P9[["P9: In-sample diagnostics"]]
     P9 --> B5_OUT(["Continue on the spine at P10"])
     class B5_OUT terminator
