@@ -45,6 +45,22 @@ def test_parse_diagram_collects_used_ids_including_chains_and_dotted_links():
             "P7_OUT", "P7_DATA", "F_WOLD"} <= d.used_ids
 
 
+def test_parse_diagram_records_edges_with_labels_fan_in_and_dotted_pointers():
+    d = audit.parse_diagram(SAMPLE, "p07.md:10")
+    edges = {(e.source, e.target): e for e in d.edges}
+    assert edges[("P7_MEAN_DEP", "P7_ARMA_ERRORS")] == audit.Edge("P7_MEAN_DEP", "P7_ARMA_ERRORS", "Short memory", False)
+    assert edges[("P7_MEAN_DEP", "P6")].dotted and edges[("P7_MEAN_DEP", "P6")].label == "Already ARMA"
+    assert not edges[("P7_ARMA_ERRORS", "P7_MIXED_FREQ_FLAG")].dotted
+    assert ("P7_IN", "P7_MIXED_FREQ_FLAG") in edges
+    assert edges[("F_WOLD", "P7_ARMA_ERRORS")].dotted
+    assert len(d.edges) == 8
+
+
+def test_parse_diagram_keeps_the_text_and_kind_of_split_arrows():
+    d = audit.parse_diagram('graph TD\n    A["a"] -- yes --> B["b"]\n    B -. maybe .-> C["c"]\n', "x.md:1")
+    assert [(e.source, e.target, e.dotted) for e in d.edges] == [("A", "B", False), ("B", "C", True)]
+
+
 def test_parse_diagram_reads_class_statements():
     d = audit.parse_diagram(SAMPLE, "p07.md:10")
     assert d.classes["P6"] == {"ref"}

@@ -64,11 +64,20 @@ class Node:
     label: str
 
 
+@dataclass(frozen=True)
+class Edge:
+    source: str
+    target: str
+    label: str  # edge text without quotes; empty when the edge has none
+    dotted: bool  # a dotted pointer, not a route
+
+
 @dataclass
 class Diagram:
     where: str
     nodes: dict[str, Node] = field(default_factory=dict)  # ids with a quoted, allowed shape
     used_ids: set[str] = field(default_factory=set)  # every id written in a node position
+    edges: list[Edge] = field(default_factory=list)
     classes: dict[str, set[str]] = field(default_factory=dict)
     clusters: set[str] = field(default_factory=set)  # subgraph ids; never nodes
     problems: list[str] = field(default_factory=list)  # syntax the audit rejects
@@ -105,35 +114,45 @@ def label_first_line(label: str) -> str:
     return BR_RE.split(label, 1)[0].strip()
 
 
-def _parse_node(piece: str, labels: list[str], d: Diagram) -> None:
+def _parse_node(piece: str, labels: list[str], d: Diagram) -> str | None:
+    """Record the node written in `piece` and return its id (None when the piece is unreadable)."""
     m = TOKEN_RE.match(piece)
     if not m:
         d.problems.append(f"cannot read node expression {piece!r}")
-        return
+        return None
     nid, rest = m.group(1), m.group(2).strip()
     if not NODE_ID_RE.match(nid):
         d.problems.append(f"node id {nid!r} is not SCREAMING_SNAKE_CASE")
     d.used_ids.add(nid)
     if not rest:
-        return
+        return nid
     if ":::" in rest:
         d.problems.append(f"node {nid} uses inline :::class; assign classes with class statements")
-        return
+        return nid
     opener = next((o for o in MERMAID_OPENERS if rest.startswith(o)), None)
     if opener is None:
         d.problems.append(f"cannot read node expression {piece!r}")
-        return
+        return nid
     if opener not in SHAPES:
         d.problems.append(f"node {nid} uses shape {opener!r}, which the notation does not allow")
-        return
+        return nid
     label = re.fullmatch(r"\x00(\d+)\x00" + re.escape(CLOSERS[opener]), rest[len(opener):])
     if not label:
-        return  # unquoted label: not a definition; reported as used without a shaped definition
+        return nid  # unquoted label: not a definition; reported as used without a shaped definition
     shape = SHAPES[opener]
     previous = d.nodes.get(nid)
     if previous and previous.shape != shape:
         d.problems.append(f"node {nid} is drawn as {previous.shape} and as {shape}; Mermaid renders the last")
     d.nodes[nid] = Node(nid, shape, labels[int(label.group(1))][1:-1])
+    return nid
+
+
+def _edge_label(arrow: str, labels: list[str]) -> str:
+    text = re.search(r"\|([^|]*)\|", arrow)
+    if not text:
+        return ""
+    quoted = re.fullmatch(r"\s*\x00(\d+)\x00\s*", text.group(1))
+    return labels[int(quoted.group(1))][1:-1] if quoted else text.group(1).strip()
 
 
 def parse_diagram(source: str, where: str) -> Diagram:
@@ -164,11 +183,15 @@ def parse_diagram(source: str, where: str) -> Diagram:
             labels.append(m.group(0))
             return f"\x00{len(labels) - 1}\x00"
 
-        masked = TEXT_EDGE_RE.sub(" --> ", QUOTED_RE.sub(mask, line))
-        for part in EDGE_RE.split(masked):
-            for piece in part.split("&"):
-                if piece.strip():
-                    _parse_node(piece.strip(), labels, d)
+        masked = TEXT_EDGE_RE.sub(lambda m: " -.-> " if m.group(0).lstrip().startswith("-.") else " --> ",
+                                  QUOTED_RE.sub(mask, line))
+        ids = [[nid for piece in part.split("&") if piece.strip()
+                for nid in [_parse_node(piece.strip(), labels, d)] if nid]
+               for part in EDGE_RE.split(masked)]
+        for (sources, targets), arrow in zip(zip(ids, ids[1:]), EDGE_RE.findall(masked)):
+            dotted = "." in arrow.split("|", 1)[0]
+            label = _edge_label(arrow, labels)
+            d.edges.extend(Edge(s, t, label, dotted) for s in sources for t in targets)
     return d
 
 
