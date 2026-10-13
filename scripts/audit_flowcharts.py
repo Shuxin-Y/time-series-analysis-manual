@@ -365,7 +365,9 @@ MASTER_PHASE = "MASTER"
 MASTER_PAGE = "01-workflow/index.md"  # owner page of the master boxes P0-P12
 # P0 and P5 are chapters: their sub-chart pages own purpose- and representation-specific leaves (spec 7.1, 7.2).
 DIRECTORY_OWNED_PHASES = ("P0", "P5")
-MASTER_IDS = frozenset(f"P{i}" for i in range(13))
+PHASE_COUNT = 13  # P0 purpose ... P12 deployment
+MASTER_IDS = frozenset(f"P{i}" for i in range(PHASE_COUNT))
+MASTER_SPAN = f"P0-P{PHASE_COUNT - 1}"
 BRANCH_IDS = frozenset(f"B{i}" for i in range(1, 8))
 PHASES = MASTER_IDS | BRANCH_IDS | {MASTER_PHASE, FOUNDATION_PHASE}
 AREAS = range(1, 35)
@@ -412,13 +414,13 @@ def row_problem(raw: object) -> str | None:
     if not isinstance(raw["label"], str) or not raw["label"].strip():
         return "label must be a non-empty string"
     if phase not in PHASES:
-        return f"phase {phase!r} must be one of P0-P12, B1-B7, {MASTER_PHASE} or {FOUNDATION_PHASE}"
+        return f"phase {phase!r} must be one of {MASTER_SPAN}, B1-B7, {MASTER_PHASE} or {FOUNDATION_PHASE}"
     if not isinstance(areas, list) or not all(type(a) is int and a in AREAS for a in areas):
         return f"areas {areas!r} must be a list of area numbers 1-34"
     if not isinstance(raw["section"], str) or not SECTION_RE.match(raw["section"]):
         return f"section {raw['section']!r} must look like {SECTION_FORMAT}"
     if (rid in MASTER_IDS) != (phase == MASTER_PHASE):
-        return f"phase {MASTER_PHASE} is for the master boxes P0-P12 and only them (id {rid}, phase {phase})"
+        return f"phase {MASTER_PHASE} is for the master boxes {MASTER_SPAN} and only them (id {rid}, phase {phase})"
     if rid in BRANCH_IDS:
         return None if phase == rid else f"branch entry {rid} must have phase {rid}"
     if phase == MASTER_PHASE:
