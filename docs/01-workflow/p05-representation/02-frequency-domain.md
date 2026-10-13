@@ -11,7 +11,7 @@
 graph TD
     P5_FD_IN(["Transformed series from P4"]) --> P5_FD_GRID{"Sampling flag?"}
     P5_FD_GRID -->|"Irregular, kept"| P5_FD_LOMB_SCARGLE["Lomb-Scargle periodogram<br/>window function, false-alarm probability, red-noise background"]
-    P5_FD_GRID -->|"Regular or resampled"| P5_FD_PERIODIC{"Periodic patterns?"}
+    P5_FD_GRID -->|"Regular, resampled or mixed"| P5_FD_PERIODIC{"Periodic patterns?"}
     P5_FD_PERIODIC -->|"Yes"| P5_FD_DFT["Discrete Fourier transform and the periodogram"]
     P5_FD_PERIODIC -->|"No"| P5_FD_BANDS{"Separate frequency bands?"}
     P5_FD_BANDS -->|"Yes"| P5_FD_DFT

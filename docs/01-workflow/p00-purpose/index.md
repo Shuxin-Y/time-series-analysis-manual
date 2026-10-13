@@ -85,7 +85,7 @@ graph TD
     P0_COVARIATES --> P0_COVARIATE_FLAG["Set flag: covariates"]
     P0_DETECTION_TASK --> P0_LABELS{"Labels available?"}
     P0_LABELS -->|"Many: supervised learning"| P0_FEATURES[["Purpose 7: Feature extraction, classification and clustering"]]
-    P0_LABELS -->|"Few or none"| P0_DETECTION_FLAG["Set flag: labels and timing"]
+    P0_LABELS -->|"Few or none"| P0_DETECTION_FLAG["Set flag: labels"]
     P0_SPLIT_UNIT --> P0_SPLIT_FLAG["Set flag: split unit"]
     P0_COVARIATE_FLAG & P0_DETECTION_FLAG & P0_SPLIT_FLAG --> P0_PART_3_OUT
     class P0_PART_3_IN,P0_PART_3_OUT terminator
@@ -114,7 +114,7 @@ graph TD
     P0_KEEP_LEVELS -->|"Yes: signal, changes, components, frequencies"| P0_KEEP_LEVELS_FLAG["Set flag: keep levels"]
     P0_KEEP_LEVELS -->|"No"| P0_TIMING{"Output used in real time?"}
     P0_KEEP_LEVELS_FLAG --> P0_TIMING
-    P0_TIMING -->|"Yes, or forecast or learner features"| P0_REAL_TIME_FLAG["Set flag: real time"]
+    P0_TIMING -->|"Yes, or forecast or learner features"| P0_REAL_TIME_FLAG["Set flag: timing, real time"]
     P0_TIMING -->|"No: offline"| P1[["P1: Data acquisition and cleaning"]]
     P0_REAL_TIME_FLAG --> P1
     class P0_PART_4_IN terminator
@@ -131,7 +131,7 @@ graph TD
     classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
 ```
 
-Real time applies to live outputs, learner features and real-time detection. A forecaster's two-sided smoothing (STL, X-13, gap filling by a smoother) stays valid because P10 refits it inside each training window, where it sees only data before the origin.
+The timing flag is set here once. Real time applies to live outputs, learner features and real-time detection: every two-sided step on their route (STL, X-13, gap filling by a smoother, centred windows) is replaced by its one-sided version. A statistical forecasting model fitted to adjusted data may keep the two-sided adjustment, because [P10](../p10-evaluation-selection.md#rolling-origin-backtesting) refits it inside each training window, where it sees only data before the origin; a learner's features stay one-sided, because a centred window at time s contains the targets after s.
 
 ## Quick navigation
 

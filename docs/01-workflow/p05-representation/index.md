@@ -14,7 +14,7 @@ The sampling flag is read first, because the time-domain, time-frequency and Hil
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P5_IN(["Transformed series from P4"]) --> P5_GRID{"Sampling flag?"}
-    P5_GRID -->|"Regular or resampled"| P5_TO_PART_2(["Continue in part 2"])
+    P5_GRID -->|"Regular, resampled or mixed"| P5_TO_PART_2(["Continue in part 2"])
     P5_GRID -->|"Irregular, kept"| P5_IRREGULAR{"What is represented on the irregular times?"}
     P5_IRREGULAR -->|"Spectrum"| P5_FD_LOMB_SCARGLE[["Lomb-Scargle periodogram"]]
     P5_IRREGULAR -->|"Latent continuous-time process"| B3[["B3 Irregular sampling and continuous time"]]

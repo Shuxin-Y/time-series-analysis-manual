@@ -15,7 +15,10 @@ graph TD
     P8_PRIOR_Q -->|"Yes"| P8_TO_PART_6(["Continue in part 6"])
     P8_PRIOR_Q -->|"No"| P8_KIND_Q{"Model-kind flag?"}
     P8_KIND_Q -->|"Loss minimisation"| P8_EMPIRICAL_LOSS["Empirical-loss minimisation<br/>training loss from the forecast task; gradient descent, boosting"]
-    P8_KIND_Q -->|"Likelihood"| P8_OBSERVABLE{"All components observable?"}
+    P8_KIND_Q -->|"Likelihood"| P8_TYPE{"Value-type flag?"}
+    P8_TYPE -->|"Continuous or compositional"| P8_OBSERVABLE{"All components observable?"}
+    P8_TYPE -->|"Counts, categories, events"| P8_TO_PART_4
+    P8_TYPE -->|"Curves: basis coefficients"| P8_TO_PART_2
     P8_EMPIRICAL_LOSS --> P8_HYPERPARAMETERS["Time-aware hyperparameter tuning<br/>nested inside each training window"]
     P8_HYPERPARAMETERS --> P8_LOSS_TO_PART_6(["Convergence in part 6"])
     P8_OBSERVABLE -->|"No: latent states"| P8_TO_PART_5(["Continue in part 5"])
@@ -28,7 +31,7 @@ graph TD
     P8_FAMILY -->|"Likelihood"| P8_TO_PART_4(["Continue in part 4"])
     class P8_EMPIRICAL_LOSS,P8_HYPERPARAMETERS,P8_GMM escalate
     class P8_IN,P8_TO_PART_6,P8_LOSS_TO_PART_6,P8_TO_PART_5,P8_GMM_TO_PART_6,P8_TO_PART_2,P8_TO_PART_3,P8_TO_PART_4 terminator
-    class P8_PRIOR_Q,P8_KIND_Q,P8_OBSERVABLE,P8_ENDOGENOUS,P8_FAMILY decision
+    class P8_PRIOR_Q,P8_KIND_Q,P8_TYPE,P8_OBSERVABLE,P8_ENDOGENOUS,P8_FAMILY decision
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

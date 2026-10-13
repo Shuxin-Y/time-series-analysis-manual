@@ -16,8 +16,8 @@ graph TD
     P3_TYPE -->|"Event times"| B2_EVENT_EDA[["Event-time diagnostics"]]
     P3_TYPE -->|"Curves"| B4_CURVES[["Series as curves"]]
     P3_TYPE -->|"Continuous"| P3_SAMPLING{"Sampling flag?"}
-    P3_SAMPLING -->|"Irregular, not resampled"| B3_DIAGNOSTICS[["Sampling-pattern and trend diagnostics"]]
-    P3_SAMPLING -->|"Regular or resampled"| P3_STRUCTURE{"Structure flag?"}
+    P3_SAMPLING -->|"Irregular, kept"| B3_DIAGNOSTICS[["Sampling-pattern and trend diagnostics"]]
+    P3_SAMPLING -->|"Regular, resampled or mixed"| P3_STRUCTURE{"Structure flag?"}
     P3_STRUCTURE -->|"Wide panel"| B6_CROSS_SECTION_DEPENDENCE[["Cross-sectional dependence test"]]
     P3_STRUCTURE -->|"Spatial or network"| B5_SPATIAL_AUTOCORRELATION[["Spatial autocorrelation"]]
     P3_STRUCTURE -->|"Single, few related or many similar"| P3_PLOT["Plot the series"]

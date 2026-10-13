@@ -18,7 +18,8 @@ graph TD
     P7_KIND -->|"Likelihood or Bayesian"| P7_PRELIM_FIT["Preliminary fit of the P6 class<br/>OLS or conditional least squares; the class default otherwise"]
     P7_LEARNER_OUTPUT --> P7_LEARNER_TO_PART_5(["Continue in part 5"])
     P7_PRELIM_FIT --> P7_TYPE{"Value-type flag?"}
-    P7_TYPE -->|"Continuous"| P7_TO_PART_2(["Continue in part 2"])
+    P7_TYPE -->|"Continuous or compositional"| P7_TO_PART_2(["Continue in part 2"])
+    P7_TYPE -->|"Categorical or curves"| P7_COUNTS_TO_PART_5
     P7_TYPE -->|"Counts"| P7_COUNT_TESTS["Test overdispersion of count innovations"]
     P7_TYPE -->|"Event times"| P7_RESCALING["Time-rescaling check of event-time residuals"]
     P7_COUNT_TESTS --> P7_INGARCH["Count innovations: Poisson or negative binomial"]

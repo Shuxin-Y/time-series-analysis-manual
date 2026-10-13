@@ -14,11 +14,12 @@ graph TD
     P2_VALUE_TYPE -->|"Counts, categorical, compositional"| B1[["B1 Counts and categorical"]]
     P2_VALUE_TYPE -->|"Curves"| B4[["B4 Functional"]]
     P2_VALUE_TYPE -->|"Event times"| B2[["B2 Event times"]]
-    P2_SAMPLING -->|"Regular"| P2_STRUCTURE{"Cross-section?"}
+    P2_SAMPLING -->|"Regular or resampled"| P2_STRUCTURE{"Cross-section?"}
     P2_SAMPLING -->|"Irregular"| B3[["B3 Irregular sampling and continuous time"]]
     P2_SAMPLING -->|"Mixed frequency"| P2_MIXED_FREQ_FLAG["Set flag: mixed frequency"]
     P2_MIXED_FREQ_FLAG --> P2_STRUCTURE
-    B1 & B2 & B3 & B4 --> P2_STRUCTURE
+    B1 --> P2_SAMPLING
+    B2 & B3 & B4 --> P2_STRUCTURE
     B3 -.->|"Resample"| P1[["P1: Data acquisition and cleaning"]]
     P2_STRUCTURE -->|"Single"| P2_OUT
     P2_STRUCTURE -->|"Few related"| P2_MULTIVARIATE_FLAG["Set flag: multivariate"]
@@ -45,7 +46,7 @@ graph TD
 | Variable | Values | Effect |
 |---|---|---|
 | Value type (set in P1) | continuous / counts / categorical or ordinal / compositional / curves / event times | Read by P3 to P9; counts are series with small values or frequent zeros, decided per series, and large counts are continuous; counts, categorical and compositional series use the B1 leaves, curves the B4 leaves, event times the B2 leaves |
-| Sampling (set in P1) | regular / irregular / mixed frequency | Irregular series use the B3 leaves, which ask whether to resample; mixed frequency sets a flag read by P6 and P11 |
+| Sampling | regular or irregular (set in P1), irregular resampled (set in P1 after B3), irregular kept (set in B3), mixed frequency (set here) | Asked for every type except event times; irregular series use the B3 leaves, which ask whether to resample; mixed frequency is read by P3 to P6 and P11 |
 | Cross-sectional structure | single / few related / many similar / wide panel / spatial or network | Asked for every series; few related sets the multivariate flag; many similar uses B7; wide panel uses B6; spatial uses B5 |
 
 ## Branches

@@ -13,11 +13,11 @@ graph TD
     P1_VALUE_TYPE --> P1_VALUE_TYPE_FLAG["Set flag: value type"]
     P1_VALUE_TYPE_FLAG --> P1_INSPECT_SAMPLING["Inspect sampling rate and resolution<br/>signal bandwidth against Nyquist; anti-alias filter at acquisition"]
     P1_INSPECT_SAMPLING --> P1_ALIGN_TIMESTAMPS["Align timestamps<br/>time zones, daylight-saving transitions"]
-    P1_ALIGN_TIMESTAMPS --> P1_REGULAR{"Regular sampling?"}
-    P1_REGULAR -->|"No"| P1_IRREGULAR_FLAG["Set flag: irregular sampling"]
-    P1_REGULAR -->|"Yes"| P1_DEDUPLICATE
-    P1_IRREGULAR_FLAG --> P1_DEDUPLICATE["Remove duplicate and out-of-order stamps"]
-    P1_DEDUPLICATE --> P1_UNITS_METADATA["Check units and metadata"]
+    P1_ALIGN_TIMESTAMPS --> P1_DEDUPLICATE["Remove duplicate and out-of-order stamps"]
+    P1_DEDUPLICATE --> P1_REGULAR{"Regular sampling?"}
+    P1_REGULAR -->|"No"| P1_IRREGULAR_FLAG["Set flag: sampling irregular"]
+    P1_REGULAR -->|"Yes"| P1_UNITS_METADATA
+    P1_IRREGULAR_FLAG --> P1_UNITS_METADATA["Check units and metadata"]
     P1_UNITS_METADATA --> P1_CUMULATIVE{"Cumulative measure?"}
     P1_CUMULATIVE -->|"Yes"| P1_CUMULATIVE_TO_FLOW["Convert cumulative series to flows"]
     P1_CUMULATIVE -->|"No"| P1_CALENDAR
@@ -38,15 +38,17 @@ graph TD
     P1_HAS_MISSING -->|"None, or counts and events left missing"| P1_RESAMPLE_NOW
     P1_MISSING_IMPUTE --> P1_IMPUTED_FLAG["Set flag: imputed"]
     P1_IMPUTED_FLAG & P1_MISSING_SEGMENT --> P1_RESAMPLE_NOW{"Resample now?"}
-    P1_RESAMPLE_NOW -->|"Yes: purpose needs a coarser or regular grid"| P1_RESAMPLE["Resample and anti-alias<br/>sum flows, sample stocks; averaging adds MA terms"]
+    P1_RESAMPLE_NOW -->|"Yes: purpose needs a coarser grid"| P1_RESAMPLE["Resample and anti-alias<br/>sum flows, sample stocks; averaging adds MA terms"]
     P1_RESAMPLE_NOW -->|"No: keep the sampling"| P1_FREQUENCY
-    P1_RESAMPLE --> P1_FREQUENCY{"Frequency conversion?"}
+    P1_RESAMPLE_NOW -->|"Irregular: B3 decides"| P1_FREQUENCY
+    P1_RESAMPLE --> P1_RESAMPLED_FLAG["Set flag: sampling resampled"]
+    P1_RESAMPLED_FLAG --> P1_FREQUENCY{"Frequency conversion?"}
     P1_FREQUENCY -->|"Yes"| P1_DISAGGREGATION["Temporal disaggregation and benchmarking<br/>Chow-Lin, Denton"]
     P1_FREQUENCY -->|"No"| P2[["P2: Data-type gate"]]
     P1_DISAGGREGATION --> P2
     class P1_IN terminator
     class P1_REGULAR,P1_CUMULATIVE,P1_CALENDAR,P1_DELAY,P1_HAS_MISSING,P1_RESAMPLE_NOW,P1_FREQUENCY decision
-    class P1_VALUE_TYPE,P1_VALUE_TYPE_FLAG,P1_INSPECT_SAMPLING,P1_ALIGN_TIMESTAMPS,P1_IRREGULAR_FLAG,P1_DEDUPLICATE,P1_UNITS_METADATA,P1_CUMULATIVE_TO_FLOW,P1_CALENDAR_EFFECTS,P1_CALENDAR_FLAG,P1_REPORTING_DELAY,P1_DELAY_FLAG,P1_VINTAGES,P1_SCREEN,P1_OUTLIER_FLAG,P1_MISSING_IMPUTE,P1_MISSING_SEGMENT,P1_IMPUTED_FLAG,P1_RESAMPLE,P1_DISAGGREGATION process
+    class P1_VALUE_TYPE,P1_VALUE_TYPE_FLAG,P1_INSPECT_SAMPLING,P1_ALIGN_TIMESTAMPS,P1_IRREGULAR_FLAG,P1_DEDUPLICATE,P1_UNITS_METADATA,P1_CUMULATIVE_TO_FLOW,P1_CALENDAR_EFFECTS,P1_CALENDAR_FLAG,P1_REPORTING_DELAY,P1_DELAY_FLAG,P1_VINTAGES,P1_SCREEN,P1_OUTLIER_FLAG,P1_MISSING_IMPUTE,P1_MISSING_SEGMENT,P1_IMPUTED_FLAG,P1_RESAMPLE,P1_RESAMPLED_FLAG,P1_DISAGGREGATION process
     class P2 ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -58,7 +60,7 @@ graph TD
     classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
 ```
 
-A series counts as a count series when its values are small or often zero, decided per series; large counts, such as passenger numbers, are treated as continuous, so log transforms and ARIMA stay available. Two-sided steps (interpolation, the Kalman smoother) are used in their one-sided form when the real-time flag is set; a forecaster may keep them two-sided because P10 refits them inside each training window.
+A series counts as a count series when its values are small or often zero, decided per series; large counts, such as passenger numbers, are treated as continuous, so log transforms and ARIMA stay available. Two-sided steps follow the [timing flag](p00-purpose/index.md#purpose-selector) rule set in P0.
 
 ## Phase guide
 
