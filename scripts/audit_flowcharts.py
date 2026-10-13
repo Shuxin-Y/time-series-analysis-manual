@@ -38,7 +38,7 @@ STRUCTURAL_H2 = frozenset({
     "Sub-diagram", "Branch sub-diagram", "Phase guide", "Question order", "Part 0 hooks", "Relation to P9",
     "Routing variables", "Branches", "Quick navigation", "Purpose selector", "Representation selector",
     "Master diagram", "Why this order", "How to read the diagrams", "Sub-chart", "P11 inference for this purpose",
-    "P10 metrics for this purpose", "References",
+    "P10 metrics for this purpose", "P12 monitoring for this purpose", "References",
 })
 GLOSSARY_DIR = "glossary"
 GLOSSARY_INDEX_NAME = "index.yml"

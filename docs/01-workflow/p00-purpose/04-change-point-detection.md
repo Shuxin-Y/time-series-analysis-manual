@@ -100,4 +100,4 @@ graph TD
 
 ## P11 inference for this purpose
 
-[Classify the change](../../reference/30-structural-change/index.md#classify-the-change), [Break-date confidence intervals](../../reference/30-structural-change/index.md#break-date-confidence-intervals).
+[Break-date confidence intervals](../../reference/30-structural-change/index.md#break-date-confidence-intervals).

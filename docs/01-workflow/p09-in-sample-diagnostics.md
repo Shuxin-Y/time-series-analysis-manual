@@ -1,6 +1,6 @@
 # P9: In-sample diagnostics
 
-**Question this phase answers:** Does the fitted model hold up?
+**Question this phase answers:** Which specification errors does the fit show, and which variants go forward?
 
 P9 reads the model kind first: a learner is checked by its validation loss from the P8 tuning windows and by pooled residual diagnostics, because a loss-minimisation fit has no likelihood and per-series tests on thousands of residual series are a multiple-testing exercise. A likelihood or Bayesian fit re-runs the P7 tests on the complete model with the corrections that estimated parameters require (Li-Mak for squared standardised residuals, bootstrap critical values for BDS, probability integral transforms against the fitted law), then checks parameter stability, roots and parameter redundancy, and compares information criteria within one model class, one transform and one differencing order. Forecast comparison and encompassing belong to P10, because they need out-of-sample errors.
 
@@ -131,7 +131,7 @@ graph TD
     P9_PART_4_IN(["From parts 1 and 3: every check passed"]) --> P9_OUT(["To P10 Out-of-sample evaluation and selection"])
     P9_PART_4_FAIL_IN(["From parts 1 to 3: a check failed"]) --> P9_GATE{"Purpose flag?"}
     P9_GATE -->|"Forecasting, detection, collections: keep as candidate"| P9_OUT
-    P9_GATE -->|"Inference, model-based extraction, decomposition or spectra, simulation"| P9_WHERE{"Which part is misspecified?"}
+    P9_GATE -->|"Causes, system models, model-based extraction, decomposition or spectra, simulation"| P9_WHERE{"Which part is misspecified?"}
     P9_WHERE -.->|"Mean, drifting or switching parameters"| P6[["P6: Conditional-mean model class"]]
     P9_WHERE -.->|"Innovations"| P7[["P7: Error-process specification"]]
     P9_WHERE -.->|"Integration order or transform"| P3[["P3: Exploratory diagnostics"]]

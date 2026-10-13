@@ -34,30 +34,22 @@ graph TD
     classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
 ```
 
-**Part 2: candidate families, estimation and diagnostics.**
+**Part 2: candidate families.**
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P0_FC_PART_2_IN(["From part 1"]) --> P6[["P6: Conditional-mean model class"]]
     P6 --> P0_FC_FAMILY{"Model family?"}
-    P0_FC_FAMILY -->|"Statistical, one series"| P0_FC_STATISTICAL{"Which?"}
+    P0_FC_FAMILY -->|"Statistical"| P0_FC_TO_PART_3(["Continue in part 3"])
     P0_FC_FAMILY -->|"Intermittent"| P6_INTERMITTENT[["Intermittent demand"]]
-    P0_FC_FAMILY -->|"Learner, local or global"| P6_GLOBAL_MODELS[["Global models across many series"]]
-    P0_FC_FAMILY -->|"Co-forecast"| P6_VAR[["VAR<br/>a VECM when the cointegration flag is set"]]
-    P0_FC_STATISTICAL -->|"ARIMA"| P6_ARIMA_SARIMA[["ARIMA and SARIMA"]]
-    P0_FC_STATISTICAL -->|"Smoothing"| P6_ETS[["Exponential smoothing and ETS"]]
-    P0_FC_STATISTICAL -->|"Theta"| P6_THETA[["Theta method"]]
-    P0_FC_STATISTICAL -->|"Components"| P6_STRUCTURAL_TS[["Structural time-series models"]]
-    P6_ARIMA_SARIMA & P6_ETS & P6_THETA & P6_STRUCTURAL_TS --> P6_CANDIDATE_SET
-    P6_INTERMITTENT & P6_GLOBAL_MODELS & P6_VAR --> P6_CANDIDATE_SET[["Candidate set<br/>covariates read inside each family"]]
-    P6_CANDIDATE_SET --> P7[["P7: Error-process specification"]]
-    P7 --> P8[["P8: Estimation"]]
-    P8 --> P9[["P9: In-sample diagnostics"]]
-    P9 --> P0_FC_PART_2_OUT(["Continue in part 3"])
-    class P0_FC_PART_2_IN,P0_FC_PART_2_OUT terminator
-    class P0_FC_FAMILY,P0_FC_STATISTICAL decision
-    class P6,P6_INTERMITTENT,P6_GLOBAL_MODELS,P6_VAR,P6_ARIMA_SARIMA,P6_ETS,P6_THETA,P6_STRUCTURAL_TS,P6_CANDIDATE_SET,P7,P8,P9 ref
+    P0_FC_FAMILY -->|"Global learner"| P6_GLOBAL_MODELS[["Global models across many series"]]
+    P0_FC_FAMILY -->|"Local learner"| P6_TREE_ENSEMBLES[["Tree ensembles on lag features"]]
+    P0_FC_FAMILY -->|"Co-forecast"| P6_VAR[["VAR<br/>VECM if cointegrated"]]
+    P6_INTERMITTENT & P6_GLOBAL_MODELS & P6_TREE_ENSEMBLES & P6_VAR --> P0_FC_PART_2_OUT(["Continue in part 4"])
+    class P0_FC_PART_2_IN,P0_FC_TO_PART_3,P0_FC_PART_2_OUT terminator
+    class P0_FC_FAMILY decision
+    class P6,P6_INTERMITTENT,P6_GLOBAL_MODELS,P6_TREE_ENSEMBLES,P6_VAR ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -68,12 +60,58 @@ graph TD
     classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
 ```
 
-**Part 3: out-of-sample evaluation, the issued product and deployment.**
+**Part 3: statistical families for one series.**
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P0_FC_PART_3_IN(["From part 2"]) --> P10[["P10: Out-of-sample evaluation and selection"]]
+    P0_FC_PART_3_IN(["From part 2: statistical"]) --> P0_FC_STATISTICAL{"Which?"}
+    P0_FC_STATISTICAL -->|"ARIMA"| P6_ARIMA_SARIMA[["ARIMA and SARIMA"]]
+    P0_FC_STATISTICAL -->|"Smoothing"| P6_ETS[["Exponential smoothing and ETS"]]
+    P0_FC_STATISTICAL -->|"Theta"| P6_THETA[["Theta method"]]
+    P0_FC_STATISTICAL -->|"Components"| P6_STRUCTURAL_TS[["Structural time-series models"]]
+    P6_ARIMA_SARIMA & P6_ETS & P6_THETA & P6_STRUCTURAL_TS --> P0_FC_PART_3_OUT(["Continue in part 4"])
+    class P0_FC_PART_3_IN,P0_FC_PART_3_OUT terminator
+    class P0_FC_STATISTICAL decision
+    class P6_ARIMA_SARIMA,P6_ETS,P6_THETA,P6_STRUCTURAL_TS ref
+    classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
+    classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
+    classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
+    classDef data fill:#FFF4E0,stroke:#C9A55E,color:#1A1A1A;
+    classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+    classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
+    classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+    classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
+```
+
+**Part 4: the candidate set, estimation and diagnostics.**
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}}}%%
+graph TD
+    P0_FC_PART_4_IN(["From parts 2 and 3"]) --> P6_CANDIDATE_SET[["Candidate set<br/>covariates read inside each family"]]
+    P6_CANDIDATE_SET --> P7[["P7: Error-process specification"]]
+    P7 --> P8[["P8: Estimation"]]
+    P8 --> P9[["P9: In-sample diagnostics"]]
+    P9 --> P0_FC_PART_4_OUT(["Continue in part 5"])
+    class P0_FC_PART_4_IN,P0_FC_PART_4_OUT terminator
+    class P6_CANDIDATE_SET,P7,P8,P9 ref
+    classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
+    classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
+    classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
+    classDef data fill:#FFF4E0,stroke:#C9A55E,color:#1A1A1A;
+    classDef good fill:#DCEFD8,stroke:#4A7A3F,color:#1A1A1A;
+    classDef escalate fill:#FFE9C2,stroke:#C9A55E,color:#1A1A1A;
+    classDef problem fill:#F2D9DE,stroke:#800020,color:#1A1A1A;
+    classDef ref fill:#F7F7F7,stroke:#5A6B73,color:#1A1A1A,stroke-dasharray:4 3;
+```
+
+**Part 5: out-of-sample evaluation, the issued product and deployment.**
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}}}%%
+graph TD
+    P0_FC_PART_5_IN(["From part 4"]) --> P10[["P10: Out-of-sample evaluation and selection"]]
     P10 --> P10_ROLLING_ORIGIN[["Rolling-origin backtesting"]]
     P10_ROLLING_ORIGIN --> P10_FORECAST_PRODUCT[["Complete forecast product per origin"]]
     P10_FORECAST_PRODUCT --> P10_POINT_METRICS[["Point-forecast metrics"]]
@@ -92,7 +130,7 @@ graph TD
     P0_FC_DOMAIN -->|"Yes"| P0_FC_EPIDEMIC["Reproduction number and SIR fitting<br/>from the delay-corrected counts of P1"]
     P0_FC_DOMAIN -->|"No"| P12
     P0_FC_EPIDEMIC --> P12[["P12: Deployment and monitoring"]]
-    class P0_FC_PART_3_IN terminator
+    class P0_FC_PART_5_IN terminator
     class P0_FC_DOMAIN decision
     class P0_FC_EPIDEMIC process
     class P10,P10_ROLLING_ORIGIN,P10_FORECAST_PRODUCT,P10_POINT_METRICS,P10_PROBABILISTIC_METRICS,P10_FORECAST_COMPARISON,P10_FINAL_HOLDOUT,P11,P11_POINT_FORECASTS,P11_INTERVALS,P11_BACK_TRANSFORM,P11_COMBINATION,P11_JUDGMENTAL,P11_RECONCILIATION,P12 ref

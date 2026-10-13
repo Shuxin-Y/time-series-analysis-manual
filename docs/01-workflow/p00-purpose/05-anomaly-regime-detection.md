@@ -101,4 +101,8 @@ graph TD
 
 ## P11 inference for this purpose
 
-[Set thresholds by the cost of errors](../../reference/19-classification-anomaly/index.md#set-thresholds-by-the-cost-of-errors), [Drift monitoring](../../reference/23-online-adaptive/index.md#drift-monitoring).
+[Set thresholds by the cost of errors](../../reference/19-classification-anomaly/index.md#set-thresholds-by-the-cost-of-errors).
+
+## P12 monitoring for this purpose
+
+[Drift monitoring](../../reference/23-online-adaptive/index.md#drift-monitoring).

@@ -180,13 +180,12 @@ graph TD
 
 | Step | Question | Tests | Branches |
 |---|---|---|---|
-| 0 | Model kind? | None | Loss minimisation: output distribution or quantile heads. Likelihood or Bayesian: preliminary fit, then step 1 |
+| 0 | Model kind and value type? | Overdispersion tests for counts; time-rescaling KS test for event times | Loss minimisation: output distribution or quantile heads. Likelihood or Bayesian: preliminary fit, then the value type: continuous or compositional to step 1; counts to Poisson or negative-binomial innovations; event times to intensity misspecification; categorical series and curves to their branch model |
 | 1 | Mean dependence left? | Ljung-Box, heteroskedasticity-robust portmanteau, Breusch-Godfrey with a lagged dependent variable; multivariate portmanteau and LM | None: step 2. Short memory with the regression flag: ARMA errors. Slow decay with the regression flag: ARFIMA errors. Dynamic family still dependent: back to P6. Unit root in the residuals: spurious regression; difference every series in P4 |
 | 2 | Variance regimes? | kappa-2 ICSS; Hansen, Garcia and Carrasco-Hu-Ploberger tests for Markov switching | Present: MS-GARCH or segmented variance. None: step 3 |
 | 3 | Second-moment dependence? | ARCH-LM, McLeod-Li, squared-residual ACF; multivariate ARCH-LM | None: step 4. Present: GARCH; EGARCH / GJR / TGARCH; FIGARCH or IGARCH, reachable only after step 2 ruled out regimes; GARCH-in-mean; stochastic volatility; HAR-RV / Realized GARCH with intraday data. Then step 1 again on standardised residuals |
 | 4 | Distribution of standardised innovations? | Jarque-Bera, QQ, Hill tail index; multivariate normality | Gaussian; Student-t / GED or QMLE; skewed-t; EVT; jumps |
 | 5 | Several series? | Engle-Sheppard constant-correlation test, tail dependence | CCC; DCC / BEKK; copula |
-| 6 | Branch data types | Overdispersion tests; time-rescaling KS test | Counts: Poisson or negative-binomial innovations. Event times: intensity misspecification |
 
 Terminals name **model → estimator → inference**; for example, regression + ARMA errors + GARCH-t → joint MLE → asymptotic-normal standard errors.
 
@@ -206,7 +205,7 @@ Terminals name **model → estimator → inference**; for example, regression + 
 
 ## Relation to P9
 
-P7 is specified once. After joint estimation in P8, P9 re-runs steps 1 to 6 on the complete model and loops back to P6 or P7 on failure.
+P7 is specified once. After joint estimation in P8, P9 re-runs steps 0 to 5 on the complete model. A failed check goes to the P9 purpose gate, which keeps forecasting, detection and collection candidates for P10 and sends the other purposes back to P3, P4, P6 or P7.
 
 ## Preliminary fit of the P6 class
 

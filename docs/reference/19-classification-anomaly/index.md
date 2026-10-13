@@ -129,3 +129,8 @@ Time-series features and representations, distance measures, shapelets, deep cla
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `P10_UNLABELLED`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Cluster validation
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `P10_CLUSTER_VALIDATION`). Write this section following the content rules in `.claude/rules/writing.md`.

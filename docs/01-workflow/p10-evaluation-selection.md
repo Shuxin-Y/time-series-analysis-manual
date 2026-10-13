@@ -1,8 +1,8 @@
 # P10: Out-of-sample evaluation and selection
 
-**Question this phase answers:** Which candidate predicts or detects best on data it has not seen?
+**Question this phase answers:** Which candidate, or baseline, predicts or detects best on data it has not seen?
 
-P10 is an as-of-origin simulation for forecasting and detection. At each origin, every data-dependent choice of P1 to P9 is refitted on the data before the origin (imputation, clustering, break dates and the integration, seasonal and cointegration verdicts, the variance transform, d, decomposition, seasonal adjustment, features and scaling, model orders, the error specification, tuning and information-criterion selection), because a choice fitted on the full sample leaks the future into the evaluation. The final hold-out reserved in P0 is touched by no phase before P10. Data enter as they stood at the origin (vintages, right-truncated counts when the reporting-delay flag is set), covariates that are external forecasts enter as issued, and the refit cadence and window type match the retraining policy of P12. A forecaster scores the complete product it will issue, on the target scale against raw actuals, with the P0 baselines in the comparison set. The selected candidate's accuracy is reported on data the selection never saw.
+P10 is an as-of-origin simulation for forecasting and detection. At each origin, every data-dependent choice of P1 to P9 is refitted on the data before the origin (imputation, clustering, break dates and the integration, seasonal and cointegration verdicts, the variance transform, d, decomposition, seasonal adjustment, features and scaling, model orders, the error specification, tuning and information-criterion selection), because a choice fitted on the full sample leaks the future into the evaluation. The final hold-out reserved in P0 is touched by no phase before P10. Data enter as they stood at the origin (vintages, right-truncated counts when the reporting-delay flag is set), covariates that are external forecasts enter as issued, and the refit cadence and window type match the retraining policy of P12. A forecaster scores the complete product it will issue, on the target scale against raw actuals, with the P0 baselines in the comparison set. The selected candidate's accuracy is reported on data the selection never saw. Documentation and the retraining policy follow in [P12](p12-deployment-monitoring.md).
 
 ## Sub-diagram
 
@@ -65,13 +65,15 @@ graph TD
     P10_EVENTS -->|"Collections"| P10_GROUPED_SPLITS["Grouped and temporal splits<br/>split unit from P0; augmentation and tuning inside training folds; cluster stability"]
     P10_EVENTS -->|"Anomalies or regimes"| P10_LABELS{"Labels flag?"}
     P10_EVENTS -->|"Change points"| P10_CHANGE_POINT_METRICS["Change-point metrics<br/>online: ARL0, detection delay; offline: F1 with margin, Hausdorff, Rand index"]
-    P10_LABELS -->|"Many or few"| P10_CLASSIFICATION_METRICS["Classification and anomaly metrics<br/>event-level and range-based precision and recall; thresholds tuned on few labels"]
+    P10_LABELS -->|"Few"| P10_CLASSIFICATION_METRICS["Classification and anomaly metrics<br/>event-level and range-based precision and recall; delay; lead time"]
     P10_LABELS -->|"None"| P10_UNLABELLED["Synthetic injection and expert review<br/>injected anomalies; review of the top alarms"]
-    P10_GROUPED_SPLITS --> P10_CLASSIFICATION_METRICS
-    P10_CLASSIFICATION_METRICS & P10_UNLABELLED & P10_CHANGE_POINT_METRICS --> P10_PART_3_OUT(["Continue in part 5"])
+    P10_GROUPED_SPLITS --> P10_COLLECTION_TASK{"Task?"}
+    P10_COLLECTION_TASK -->|"Supervised"| P10_CLASSIFICATION_METRICS
+    P10_COLLECTION_TASK -->|"Clustering"| P10_CLUSTER_VALIDATION["Cluster validation<br/>internal indices, stability under resampling"]
+    P10_CLASSIFICATION_METRICS & P10_UNLABELLED & P10_CHANGE_POINT_METRICS & P10_CLUSTER_VALIDATION --> P10_PART_3_OUT(["Continue in part 5"])
     class P10_PART_3_IN,P10_PART_3_OUT terminator
-    class P10_EVENTS,P10_LABELS decision
-    class P10_GROUPED_SPLITS,P10_CHANGE_POINT_METRICS,P10_CLASSIFICATION_METRICS,P10_UNLABELLED process
+    class P10_EVENTS,P10_LABELS,P10_COLLECTION_TASK decision
+    class P10_GROUPED_SPLITS,P10_CHANGE_POINT_METRICS,P10_CLASSIFICATION_METRICS,P10_UNLABELLED,P10_CLUSTER_VALIDATION process
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -92,7 +94,8 @@ graph TD
     P10_OUTPUTS -->|"Simulation"| P0_SM_DISTRIBUTION_MATCH[["Check distribution and dependence matching"]]
     P10_OUTPUTS -->|"System identification"| P0_SI_VALIDATION[["Validate on held-out input-output data"]]
     P10_OUTPUTS -->|"Inference only"| P10_INFERENCE_ONLY{"What is inferred?"}
-    P10_INFERENCE_ONLY -->|"Causes"| P0_CA_SENSITIVITY[["Sensitivity analysis across specifications"]]
+    P10_INFERENCE_ONLY -->|"Causes"| P0_CA_PLACEBO[["Placebo and falsification tests"]]
+    P0_CA_PLACEBO --> P0_CA_SENSITIVITY[["Sensitivity analysis across specifications"]]
     P10_INFERENCE_ONLY -->|"Components"| P0_DC_DIAGNOSTICS[["Decomposition diagnostics"]]
     P10_INFERENCE_ONLY -->|"Frequencies"| P0_SP_PEAK_SIGNIFICANCE[["Peak significance"]]
     P10_SIGNAL_EVALUATION & P0_SM_DISTRIBUTION_MATCH & P0_SI_VALIDATION --> P10_PART_4_OUT(["Continue in part 5"])
@@ -100,7 +103,7 @@ graph TD
     class P10_PART_4_IN,P10_PART_4_OUT terminator
     class P10_OUTPUTS,P10_INFERENCE_ONLY decision
     class P10_SIGNAL_EVALUATION process
-    class P0_SM_DISTRIBUTION_MATCH,P0_SI_VALIDATION,P0_CA_SENSITIVITY,P0_DC_DIAGNOSTICS,P0_SP_PEAK_SIGNIFICANCE ref
+    class P0_SM_DISTRIBUTION_MATCH,P0_SI_VALIDATION,P0_CA_PLACEBO,P0_CA_SENSITIVITY,P0_DC_DIAGNOSTICS,P0_SP_PEAK_SIGNIFICANCE ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

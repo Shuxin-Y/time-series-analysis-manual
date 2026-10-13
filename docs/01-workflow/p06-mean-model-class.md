@@ -1,6 +1,6 @@
 # P6: Conditional-mean model class
 
-**Question this phase answers:** Which family describes the mean?
+**Question this phase answers:** Which families are candidates for the mean?
 
 P6 reads the value type and the structure first: counts and categories, event times, curves, wide panels and spatial or network data continue in the P6 part of their branch chart, and a deliverable that is no conditional-mean model goes to its purpose chart (part 12) and then to P10. For continuous and compositional series P6 reads the pooling, mixed-frequency and structure flags to choose a route, then the family on that route: linear, long memory, smoothing, periodic and intermittent for one series; VAR, VECM and ADL for a few related series; factor, shrinkage and graphical models for many variables; nonlinear, time-varying and latent-component, input-output, and learner families. Covariates, intervention terms and deterministic regressors are read after the family, because every family can carry them. The first question has answer No when the deliverable is a component, a filtered signal, a spectrum, a classifier, a detector, a segmentation or a resampled path; state-space smoothing, regime switching and residual-based detection fit a model, so their answer is Yes. P6 can emit several candidates (for example a local ETS and a global gradient-boosting model); each passes P7 to P9 and meets the P0 baselines in P10.
 

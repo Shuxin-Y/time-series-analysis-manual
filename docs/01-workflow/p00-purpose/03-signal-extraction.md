@@ -24,7 +24,7 @@ graph TD
     P0_SE_STRUCTURE -->|"Latent dynamics"| P6[["P6: Conditional-mean model class"]]
     P0_SE_COLOUR -->|"White"| P5_FD_FILTERS[["FIR and IIR filter design<br/>causal in real time, zero-phase offline"]]
     P0_SE_COLOUR -->|"Coloured, spectra known"| P0_SE_WIENER["Wiener filtering<br/>causal Wiener filter in real time"]
-    P5_TF_DWT --> P0_SE_WAVELET_DENOISING["Wavelet denoising<br/>universal or SURE thresholds for white noise; level-dependent for coloured or 1/f"]
+    P5_TF_DWT --> P0_SE_WAVELET_DENOISING["Wavelet denoising<br/>universal or SURE thresholds for white noise; level-dependent for coloured or 1/f; two-sided offline, a causal filter bank in real time"]
     P6 --> P8[["P8: Estimation"]]
     P8 --> P8_KALMAN[["Kalman filter and smoother<br/>filter in real time, smoother offline"]]
     P8_KALMAN --> P9[["P9: In-sample diagnostics"]]
@@ -50,11 +50,11 @@ graph TD
 graph TD
     P0_SE_PART_2_IN(["From part 1"]) --> P10[["P10: Out-of-sample evaluation and selection"]]
     P10 --> P10_SIGNAL_EVALUATION[["Signal-extraction evaluation"]]
-    P10_SIGNAL_EVALUATION --> P0_SE_SNR["Evaluate the signal-to-noise ratio"]
-    P0_SE_SNR --> P0_SE_OK{"Peaks and edges preserved?"}
+    P10_SIGNAL_EVALUATION --> P0_SE_OK{"Peaks and edges preserved?"}
     P0_SE_OK -.->|"No"| P0_SE_STRUCTURE[["Signal structure?"]]
     P0_SE_OK -->|"Yes"| P11[["P11: Inference and interpretation"]]
-    P11 --> P12[["P12: Deployment and monitoring"]]
+    P11 --> P0_SE_SNR["Evaluate the signal-to-noise ratio"]
+    P0_SE_SNR --> P12[["P12: Deployment and monitoring"]]
     class P0_SE_PART_2_IN terminator
     class P0_SE_OK decision
     class P0_SE_SNR process
@@ -71,7 +71,7 @@ graph TD
 
 ## P10 metrics for this purpose
 
-[Signal-extraction evaluation](../../reference/13-spectral-analysis/index.md#signal-extraction-evaluation), [Evaluate the signal-to-noise ratio](../../reference/13-spectral-analysis/index.md#evaluate-the-signal-to-noise-ratio).
+[Signal-extraction evaluation](../../reference/13-spectral-analysis/index.md#signal-extraction-evaluation).
 
 ## P11 inference for this purpose
 

@@ -10,7 +10,9 @@ Documentation, the retraining policy, drift monitoring and statistical process c
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
     P12_IN(["Issued outputs from P11"]) --> P12_DOCUMENTATION["Document the model specification"]
-    P12_DOCUMENTATION --> P12_RETRAINING["Retraining policy<br/>the refit cadence and window evaluated in P10"]
+    P12_DOCUMENTATION --> P12_DEPLOYED{"Output deployed?"}
+    P12_DEPLOYED -->|"No: a one-off analysis"| P12_REPORTED(["Analysis reported"])
+    P12_DEPLOYED -->|"Yes"| P12_RETRAINING["Retraining policy<br/>the refit cadence and window evaluated in P10"]
     P12_RETRAINING --> P12_DRIFT_MONITORING["Drift monitoring<br/>KL divergence, spectral shift, ADWIN, DDM"]
     P12_DRIFT_MONITORING --> P12_SPC["Statistical process control<br/>Shewhart and EWMA charts; threshold calibrated on in-control data, ARL0 against delay"]
     P12_SPC --> P12_DRIFT{"Drift detected?"}
@@ -26,8 +28,8 @@ graph TD
     P0_CP_CUSUM[["Sequential detection"]] -.- P12_SPC
     P0_CP_CUSUM -.- P12_DRIFT_MONITORING
     P0_CP_BOCPD[["Bayesian online change-point detection"]] -.- P12_DRIFT_MONITORING
-    class P12_IN,P12_OUT terminator
-    class P12_DRIFT,P12_DRIFT_TYPE decision
+    class P12_IN,P12_OUT,P12_REPORTED terminator
+    class P12_DEPLOYED,P12_DRIFT,P12_DRIFT_TYPE decision
     class P12_DOCUMENTATION,P12_RETRAINING,P12_DRIFT_MONITORING,P12_SPC,P12_ONLINE_UPDATING,P12_RETRAIN_RECENT,P12_REUSE process
     class P1,P8,P6,P0_CP_CUSUM,P0_CP_BOCPD ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;

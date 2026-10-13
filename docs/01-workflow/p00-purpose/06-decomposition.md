@@ -72,14 +72,14 @@ graph TD
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}}}%%
 graph TD
-    P0_DC_PART_3_IN(["From parts 1 and 2"]) --> P0_DC_COMPONENT_ANALYSIS["Analyse and interpret the components"]
-    P0_DC_COMPONENT_ANALYSIS --> P10[["P10: Out-of-sample evaluation and selection"]]
+    P0_DC_PART_3_IN(["From parts 1 and 2"]) --> P10[["P10: Out-of-sample evaluation and selection"]]
     P10 --> P0_DC_DIAGNOSTICS["Decomposition diagnostics<br/>residual seasonality, sliding spans, whiteness of model-based irregulars"]
     P0_DC_DIAGNOSTICS --> P0_DC_ADEQUATE{"Components adequate?"}
     P0_DC_ADEQUATE -.->|"No"| P0_DC_METHOD[["Method?"]]
     P0_DC_ADEQUATE -->|"Yes"| P0_DC_REVISION["Revision stability of real-time decompositions"]
     P0_DC_REVISION --> P11[["P11: Inference and interpretation"]]
-    P11 --> P12[["P12: Deployment and monitoring"]]
+    P11 --> P0_DC_COMPONENT_ANALYSIS["Analyse and interpret the components"]
+    P0_DC_COMPONENT_ANALYSIS --> P12[["P12: Deployment and monitoring"]]
     class P0_DC_PART_3_IN terminator
     class P0_DC_ADEQUATE decision
     class P0_DC_COMPONENT_ANALYSIS,P0_DC_DIAGNOSTICS,P0_DC_REVISION process

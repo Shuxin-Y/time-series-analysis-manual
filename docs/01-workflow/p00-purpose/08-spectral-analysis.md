@@ -93,4 +93,4 @@ graph TD
 
 ## P11 inference for this purpose
 
-[Peak significance](../../reference/13-spectral-analysis/index.md#peak-significance), [Confidence bands for spectral estimates](../../reference/13-spectral-analysis/index.md#confidence-bands-for-spectral-estimates).
+[Confidence bands for spectral estimates](../../reference/13-spectral-analysis/index.md#confidence-bands-for-spectral-estimates).

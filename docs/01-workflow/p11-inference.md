@@ -1,6 +1,6 @@
 # P11: Inference and interpretation
 
-**Question this phase answers:** What does the model say, for this purpose?
+**Question this phase answers:** What does the selected model say, for this purpose?
 
 P11 issues and interprets the output of the candidate selected in P10. A forecaster issues, for the live origin, the same product P10 scored, built on sample paths or predictive distributions: back-transformation and re-seasonalisation to the target scale, combination, judgmental adjustment and reconciliation act on the paths, and intervals and quantiles are derived last. The order follows from two facts: aggregation constraints are linear on the target scale, and quantiles are not additive, so intervals computed before combination and reconciliation would surround a different centre. Causal and structural inference accounts for the specification search that produced the model. Structure, events and other outputs are interpreted with their uncertainty: confidence bands for spectra, confidence intervals for break dates.
 
@@ -24,13 +24,16 @@ graph TD
     P11_HIERARCHY -->|"No"| P11_INTERVALS
     P11_RECONCILIATION --> P11_INTERVALS["Prediction intervals<br/>from the final paths, or conformal on the final product's errors"]
     P11_INTERVALS --> P11_DENSITY_QUANTILE["Density and quantile forecasts"]
-    P11_DENSITY_QUANTILE --> P11_FC_TO_PART_6(["Continue in part 6"])
+    P11_DENSITY_QUANTILE --> P11_EPIDEMIC_Q{"Epidemic counts?"}
+    P11_EPIDEMIC_Q -->|"Yes"| P0_FC_EPIDEMIC[["Reproduction number and SIR fitting"]]
+    P11_EPIDEMIC_Q -->|"No"| P11_FC_TO_PART_6
+    P0_FC_EPIDEMIC --> P11_FC_TO_PART_6(["Continue in part 6"])
     F_CONDITIONAL_EXPECTATION[["Conditional expectation as the optimal forecast"]] -.- P11_POINT_FORECASTS
     F_PROJECTION[["Projection theorem and best linear prediction"]] -.- P11_INTERVALS
     class P11_IN,P11_TO_PART_2,P11_TO_PART_4,P11_TO_PART_5,P11_FC_TO_PART_6 terminator
-    class P11_PURPOSE,P11_HIERARCHY decision
+    class P11_PURPOSE,P11_HIERARCHY,P11_EPIDEMIC_Q decision
     class P11_POINT_FORECASTS,P11_INTERVALS,P11_DENSITY_QUANTILE,P11_BACK_TRANSFORM,P11_COMBINATION,P11_JUDGMENTAL,P11_RECONCILIATION process
-    class F_CONDITIONAL_EXPECTATION,F_PROJECTION ref
+    class F_CONDITIONAL_EXPECTATION,F_PROJECTION,P0_FC_EPIDEMIC ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -107,15 +110,13 @@ graph TD
     P11_STRUCTURE -->|"Signal versus noise"| P0_SE_SNR[["Evaluate the signal-to-noise ratio"]]
     P11_STRUCTURE -->|"Components"| P0_DC_COMPONENT_ANALYSIS[["Analyse and interpret the components"]]
     P11_STRUCTURE -->|"Frequencies"| P11_SPECTRAL_BANDS["Confidence bands for spectral estimates"]
-    P11_SPECTRAL_BANDS --> P0_SP_PEAK_SIGNIFICANCE[["Peak significance"]]
     P11_EVENTS -->|"Changes"| P11_BREAK_DATE_CI["Break-date confidence intervals"]
-    P11_BREAK_DATE_CI --> P0_CP_TYPE[["Classify the change"]]
     P11_EVENTS -->|"Anomalies or regimes"| P0_AN_THRESHOLD[["Set thresholds by the cost of errors"]]
-    P0_SE_SNR & P0_DC_COMPONENT_ANALYSIS & P0_SP_PEAK_SIGNIFICANCE & P0_CP_TYPE & P0_AN_THRESHOLD --> P11_PART_4_OUT(["Continue in part 6"])
+    P0_SE_SNR & P0_DC_COMPONENT_ANALYSIS & P11_SPECTRAL_BANDS & P11_BREAK_DATE_CI & P0_AN_THRESHOLD --> P11_PART_4_OUT(["Continue in part 6"])
     class P11_PART_4_IN,P11_PART_4_OUT terminator
     class P11_PURPOSE_4,P11_STRUCTURE,P11_EVENTS decision
     class P11_SPECTRAL_BANDS,P11_BREAK_DATE_CI process
-    class P0_SE_SNR,P0_DC_COMPONENT_ANALYSIS,P0_SP_PEAK_SIGNIFICANCE,P0_CP_TYPE,P0_AN_THRESHOLD ref
+    class P0_SE_SNR,P0_DC_COMPONENT_ANALYSIS,P0_AN_THRESHOLD ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;
@@ -134,14 +135,16 @@ graph TD
     P11_PART_5_IN(["From part 1: other outputs"]) --> P11_OUTPUTS{"Which output?"}
     P11_OUTPUTS -->|"Features and labels"| P11_FEATURES_TO_PART_6(["Interpretability in part 6"])
     P11_OUTPUTS -->|"A system model"| P0_SI_TRANSFER_FUNCTION[["Estimate the frequency response"]]
-    P11_OUTPUTS -->|"Simulated paths"| P11_SCENARIOS["Stress testing and scenario design"]
+    P11_OUTPUTS -->|"Paths for risk and stress"| P11_SCENARIOS["Stress testing and scenario design"]
+    P11_OUTPUTS -->|"Synthetic training data"| P0_SM_TSTR[["Train on synthetic, test on real"]]
+    P11_OUTPUTS -->|"Paths for uncertainty"| P11_INTERVALS[["Prediction intervals"]]
     P0_SI_TRANSFER_FUNCTION --> P0_SI_STABILITY[["Poles, zeros and stability"]]
     P11_SCENARIOS --> P11_RISK_TO_PART_6(["Risk measures in part 6"])
-    P0_SI_STABILITY --> P11_PART_5_OUT(["Continue in part 6"])
+    P0_SI_STABILITY & P0_SM_TSTR & P11_INTERVALS --> P11_PART_5_OUT(["Continue in part 6"])
     class P11_PART_5_IN,P11_FEATURES_TO_PART_6,P11_RISK_TO_PART_6,P11_PART_5_OUT terminator
     class P11_OUTPUTS decision
     class P11_SCENARIOS process
-    class P0_SI_TRANSFER_FUNCTION,P0_SI_STABILITY ref
+    class P0_SI_TRANSFER_FUNCTION,P0_SI_STABILITY,P0_SM_TSTR,P11_INTERVALS ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
     classDef decision fill:#EFE7F0,stroke:#9B7FA7,color:#1A1A1A;

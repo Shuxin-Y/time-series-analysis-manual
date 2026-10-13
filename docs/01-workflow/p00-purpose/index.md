@@ -83,7 +83,7 @@ graph TD
     P0_PLAN -->|"Causes, system model"| P0_ESTIMAND["Specify the estimand<br/>effect, its horizon, or system property"]
     P0_PLAN -->|"Features, labels, clusters"| P0_SPLIT_UNIT["Choose the split unit<br/>unit, time, or both"]
     P0_PLAN -->|"Other purposes"| P0_PART_3_OUT(["Continue in part 4"])
-    P0_FORECAST_TASK --> P0_FC_BASELINES["Baselines for comparison<br/>naive, seasonal naive, Theta, Croston"]
+    P0_FORECAST_TASK --> P0_FC_BASELINES["Baselines for comparison<br/>naive, seasonal naive, Theta; Croston once P1 finds intermittent counts"]
     P0_FC_BASELINES --> P0_FORECAST_FLAG["Set flag: forecast task and baselines"]
     P0_FORECAST_FLAG --> P0_COVARIATES["Covariates and their availability<br/>known, forecast, lagged, co-forecast"]
     P0_ESTIMAND --> P0_COVARIATES

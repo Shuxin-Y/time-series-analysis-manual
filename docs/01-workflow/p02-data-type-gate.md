@@ -51,17 +51,17 @@ graph TD
 
 ## Branches
 
-Every branch returns to the spine at P3. A branch chart draws the spine phases it uses, in order, with its own leaves inside them.
+Every type reaches P3 through this page. A branch chart draws the spine phases it uses, in order, with its own leaves inside them, and hands the reader back to the spine at the phase in the last column.
 
-| Branch | Chapter | Its leaves sit in |
-|---|---|---|
-| B1 Counts and categorical | [Count and Categorical](../reference/16-count-categorical/index.md) | P3, P6, P9 |
-| B2 Event times | [Point Processes](../reference/17-point-processes/index.md) | P3, P6, P8, P9 |
-| B3 Irregular sampling and continuous time | [Continuous-Time Models](../reference/15-continuous-time/index.md) | P3, P5, P6, P8; may resample back to P1 |
-| B4 Functional | [Functional and High-Frequency](../reference/14-functional-high-frequency/index.md) | P3, P5, P6 |
-| B5 Spatial and network | [Spatio-Temporal Models](../reference/20-spatio-temporal/index.md) | P3, P6, P8 |
-| B6 Wide panel | [Panel Time Series](../reference/32-panel-time-series/index.md) | P3, P6, P8, P11 |
-| B7 Many similar series | this page | sets the aggregation and pooling flags read by P6, P10 and P11 |
+| Branch | Chapter | Its leaves sit in | Back on the spine at |
+|---|---|---|---|
+| B1 Counts and categorical | [Count and Categorical](../reference/16-count-categorical/index.md) | P3, P4, P6 | P10 |
+| B2 Event times | [Point Processes](../reference/17-point-processes/index.md) | P3, P6, P9 | P10 |
+| B3 Irregular sampling and continuous time | [Continuous-Time Models](../reference/15-continuous-time/index.md) | P3, P6, P8, P9; may resample back to P1 | P10 |
+| B4 Functional | [Functional and High-Frequency](../reference/14-functional-high-frequency/index.md) | P5 | P7 |
+| B5 Spatial and network | [Spatio-Temporal Models](../reference/20-spatio-temporal/index.md) | P3, P6 | P10 |
+| B6 Wide panel | [Panel Time Series](../reference/32-panel-time-series/index.md) | P3, P6, P8 | P10 |
+| B7 Many similar series | this page | sets the hierarchy and pooling flags read by P6, P10 and P11 | P3 |
 
 ## B7 Many similar series
 
@@ -80,15 +80,15 @@ graph TD
     B7_POOLING -->|"Local"| P3[["P3: Exploratory diagnostics"]]
     B7_POOLING -->|"Cluster then local"| B7_CLUSTER_THEN_LOCAL["Cluster series, then fit local models"]
     B7_POOLING -->|"Partial pooling"| B7_PARTIAL_FLAG["Set flag: partial pooling"]
-    B7_POOLING -->|"Global"| P2_GLOBAL_FLAG["Set flag: global pooling"]
+    B7_POOLING -->|"Global"| B7_GLOBAL_FLAG["Set flag: global pooling"]
     B7_POOLING -->|"Compare local and global"| B7_COMPARE_FLAG["Set flag: compare local and global"]
     B7_CLUSTER_THEN_LOCAL --> B7_CLUSTER_FLAG["Set flag: cluster then local"]
-    B7_CLUSTER_FLAG & B7_PARTIAL_FLAG & P2_GLOBAL_FLAG & B7_COMPARE_FLAG --> P3
-    P2_GLOBAL_FLAG -.- P6_GLOBAL_MODELS[["Global models across many series"]]
-    P2_GLOBAL_FLAG -.- P6_FOUNDATION_MODELS[["Foundation models"]]
+    B7_CLUSTER_FLAG & B7_PARTIAL_FLAG & B7_GLOBAL_FLAG & B7_COMPARE_FLAG --> P3
+    B7_GLOBAL_FLAG -.- P6_GLOBAL_MODELS[["Global models across many series"]]
+    B7_GLOBAL_FLAG -.- P6_FOUNDATION_MODELS[["Foundation models"]]
     B7_HIERARCHY_FLAG -.- P11_RECONCILIATION[["Hierarchical and temporal reconciliation"]]
     class B7_AGGREGATION,B7_POOLING decision
-    class B7_HIERARCHY,B7_HIERARCHY_FLAG,B7_GLOBAL_VS_LOCAL,B7_CLUSTER_THEN_LOCAL,B7_CLUSTER_FLAG,B7_PARTIAL_FLAG,P2_GLOBAL_FLAG,B7_COMPARE_FLAG process
+    class B7_HIERARCHY,B7_HIERARCHY_FLAG,B7_GLOBAL_VS_LOCAL,B7_CLUSTER_THEN_LOCAL,B7_CLUSTER_FLAG,B7_PARTIAL_FLAG,B7_GLOBAL_FLAG,B7_COMPARE_FLAG process
     class B7,P3,P6_GLOBAL_MODELS,P6_FOUNDATION_MODELS,P11_RECONCILIATION ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;

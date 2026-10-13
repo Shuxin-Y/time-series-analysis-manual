@@ -278,6 +278,7 @@ nodes:
   - {id: P10_CLASSIFICATION_METRICS, label: "Classification and anomaly metrics", phase: P10, areas: [19], section: "reference/19-classification-anomaly/index.md#classification-and-anomaly-metrics"}
   - {id: P10_CHANGE_POINT_METRICS,   label: "Change-point metrics",               phase: P10, areas: [19, 30], section: "reference/19-classification-anomaly/index.md#change-point-metrics"}
   - {id: P10_GROUPED_SPLITS, label: "Grouped and temporal splits", phase: P10, areas: [19, 6], section: "reference/19-classification-anomaly/index.md#grouped-and-temporal-splits"}
+  - {id: P10_CLUSTER_VALIDATION, label: "Cluster validation", phase: P10, areas: [19], section: "reference/19-classification-anomaly/index.md#cluster-validation"}
   - {id: P10_UNLABELLED, label: "Synthetic injection and expert review", phase: P10, areas: [19], section: "reference/19-classification-anomaly/index.md#synthetic-injection-and-expert-review"}
   - {id: P10_SIGNAL_EVALUATION, label: "Signal-extraction evaluation", phase: P10, areas: [13], section: "reference/13-spectral-analysis/index.md#signal-extraction-evaluation"}
   - {id: P12_DOCUMENTATION,          label: "Document the model specification",   phase: P12, areas: [6], section: "01-workflow/p12-deployment-monitoring.md#document-the-model-specification"}
@@ -406,6 +407,7 @@ nodes:
   - {id: B1_COMPOSITIONAL,     label: "Compositional series",                                phase: B1, areas: [16], section: "reference/16-count-categorical/index.md#compositional-series"}
   # ---- B2 branch leaves
   - {id: B2_EVENT_EDA,   label: "Event-time diagnostics",                          phase: B2, areas: [17], section: "reference/17-point-processes/index.md#event-time-diagnostics"}
+  - {id: B2_FIT_ALL, label: "Fit every candidate intensity", phase: B2, areas: [17], section: "reference/17-point-processes/index.md#fit-every-candidate-intensity"}
   - {id: B2_POISSON,     label: "Poisson and renewal processes",                   phase: B2, areas: [17], section: "reference/17-point-processes/index.md#poisson-and-renewal-processes"}
   - {id: B2_COX, label: "Doubly stochastic (Cox) processes", phase: B2, areas: [17], section: "reference/17-point-processes/index.md#doubly-stochastic-cox-processes"}
   - {id: B2_HAWKES,      label: "Hawkes self-exciting processes",                  phase: B2, areas: [17], section: "reference/17-point-processes/index.md#hawkes-self-exciting-processes"}

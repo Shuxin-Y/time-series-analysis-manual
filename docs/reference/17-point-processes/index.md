@@ -1,6 +1,6 @@
 # 17. Point Processes
 
-The B2 branch: Poisson, renewal and Cox processes, Hawkes, marked and neural point processes, survival and hazard models, and intensity misspecification. Durations live in area 14 and degradation models in area 26. The branch chart is an index over the spine: clustering of events can come from self-excitation or from a random intensity, so the candidate intensity models are fitted and compared rather than chosen by inspection, and every model is checked after estimation.
+The B2 branch: Poisson, renewal and Cox processes, Hawkes, marked and neural point processes, survival and hazard models, and intensity misspecification. Durations live in area 14 and degradation models in area 26. The branch chart is an index over the spine: clustering of events can come from self-excitation or from a random intensity, so every candidate intensity model is fitted and the candidates are compared in P10, and every model is checked after estimation.
 
 ## Branch sub-diagram
 
@@ -16,19 +16,19 @@ graph TD
     B2_QUESTION -->|"Durations or time to failure"| B2_TO_PART_2(["Continue in part 2"])
     P6 --> B2_MARKS{"Marks or several streams?"}
     B2_MARKS -->|"Yes"| B2_MARKED["Marked and multivariate point processes<br/>Poisson, Cox or Hawkes with marks"]
-    B2_MARKS -->|"No"| B2_CANDIDATES{"Candidates to fit and compare?"}
-    B2_CANDIDATES -->|"Deterministic intensity"| B2_POISSON["Poisson and renewal processes<br/>inhomogeneous Poisson; renewal through the hazard of the age"]
-    B2_CANDIDATES -->|"Random intensity"| B2_COX["Doubly stochastic (Cox) processes"]
-    B2_CANDIDATES -->|"Self-excitation"| B2_HAWKES["Hawkes self-exciting processes<br/>with a time-varying baseline"]
-    B2_CANDIDATES -->|"Learned intensity"| B2_NEURAL_PP["Neural point processes"]
+    B2_MARKS -->|"No"| B2_FIT_ALL["Fit every candidate intensity<br/>deterministic, random, self-exciting, learned; compared in P10"]
+    B2_FIT_ALL --> B2_POISSON["Poisson and renewal processes<br/>inhomogeneous Poisson; renewal through the hazard of the age"]
+    B2_FIT_ALL --> B2_COX["Doubly stochastic (Cox) processes"]
+    B2_FIT_ALL --> B2_HAWKES["Hawkes self-exciting processes<br/>with a time-varying baseline"]
+    B2_FIT_ALL --> B2_NEURAL_PP["Neural point processes"]
     B2_MARKED & B2_POISSON & B2_COX & B2_HAWKES & B2_NEURAL_PP --> P7[["P7: Error-process specification"]]
     P7 --> P8[["P8: Estimation"]]
     P8 --> P9[["P9: In-sample diagnostics"]]
     P9 --> P7_RESCALING[["Time-rescaling check of event-time residuals"]]
     P7_RESCALING --> B2_OUT(["Continue on the spine at P10, comparing the candidates"])
     class B2_TO_PART_2,B2_OUT terminator
-    class B2_QUESTION,B2_MARKS,B2_CANDIDATES decision
-    class B2,B2_EVENT_EDA,B2_MARKED,B2_POISSON,B2_COX,B2_HAWKES,B2_NEURAL_PP process
+    class B2_QUESTION,B2_MARKS decision
+    class B2,B2_EVENT_EDA,B2_FIT_ALL,B2_MARKED,B2_POISSON,B2_COX,B2_HAWKES,B2_NEURAL_PP process
     class P3,P6,P7,P8,P9,P7_RESCALING ref
     classDef terminator fill:#E6F2F7,stroke:#007BA7,color:#1A1A1A;
     classDef process fill:#FFFFFF,stroke:#5A6B73,color:#1A1A1A;
@@ -81,6 +81,11 @@ graph TD
 
 !!! note "Section pending"
     To-do item created from the flowchart inventory (node `B2_EVENT_EDA`). Write this section following the content rules in `.claude/rules/writing.md`.
+
+## Fit every candidate intensity
+
+!!! note "Section pending"
+    To-do item created from the flowchart inventory (node `B2_FIT_ALL`). Write this section following the content rules in `.claude/rules/writing.md`.
 
 ## Marked and multivariate point processes
 
