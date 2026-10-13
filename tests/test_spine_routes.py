@@ -15,7 +15,7 @@ COUNTS = SPINE + [r"reference/16-count-categorical/index\.md$"]
 
 @pytest.fixture(scope="module")
 def g() -> Graph:
-    return Graph(audit.Site(audit.load_site_config(sitekit.REPO / "mkdocs.yml"), sitekit.REPO / "docs"))
+    return Graph.from_site(audit.Site(audit.load_site_config(sitekit.REPO / "mkdocs.yml"), sitekit.REPO / "docs"))
 
 
 def test_purpose_5_keeps_the_anomalies_through_p1_and_p4(g):

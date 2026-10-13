@@ -48,7 +48,8 @@ def phase_of_page(page: str) -> int | None:
 
 
 class Graph:
-    def __init__(self, site: audit.Site):
+    def __init__(self, diagrams: list[audit.Diagram]):
+        """`diagrams` in reading order; each `where` is "page#mermaid-n", n counting the page's parts."""
         self.diagrams: list[tuple[str, audit.Diagram]] = []
         self.labels: dict[str, set[str]] = defaultdict(set)  # full labels, <br/> included
         self.shapes: dict[str, set[str]] = defaultdict(set)
@@ -56,7 +57,7 @@ class Graph:
         self.appears: dict[str, list[int]] = defaultdict(list)  # node -> diagrams that draw it
         self.moves: dict[tuple[str, int], set[tuple[str, int]]] = defaultdict(set)
         by_page: dict[str, list[int]] = defaultdict(list)
-        for d in audit.collect_diagrams(site):
+        for d in diagrams:
             page = d.where.split("#", 1)[0]
             di = len(self.diagrams)
             self.diagrams.append((page, d))
@@ -71,6 +72,10 @@ class Graph:
                 if not e.dotted:
                     self.moves[(e.source, di)].add((e.target, di))
         self._link(by_page)
+
+    @classmethod
+    def from_site(cls, site: audit.Site) -> "Graph":
+        return cls(audit.collect_diagrams(site))
 
     def page(self, di: int) -> str:
         return self.diagrams[di][0]
