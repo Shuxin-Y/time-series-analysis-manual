@@ -101,6 +101,20 @@ def test_a_purpose_without_a_mean_model_skips_p7_to_p9(g):
     assert g.reach("P6_NO_MODEL", "P10_IN", pages=SPINE, avoid={"P7", "P8", "P9"})
 
 
+def test_the_wide_panel_branch_returns_to_the_spine_at_p10(g):
+    panel = [r"reference/32-panel-time-series/index\.md$"]
+    assert g.reach("B6", "P10_IN", pages=SPINE + panel)
+    for later in ("P11", "P12"):
+        assert not g.reach("B6", later, pages=panel), later
+
+
+def test_purpose_7_readers_set_the_purpose_before_the_split_unit(g):
+    # a detection reader with many labels becomes a purpose-7 reader and walks on through the split unit to part 4
+    assert g.ordered(["P0_LABELS", "P0_FEATURES", "P0_PURPOSE_FLAG", "P0_SPLIT_UNIT", "P0_PART_4_IN"], pages=PURPOSE_INDEX)
+    assert g.ordered(["P0_IN", "P0_FEATURES", "P0_PURPOSE_FLAG"], pages=PURPOSE_INDEX)
+    assert not g.reach("P0_FEATURES", "P0_SPLIT_UNIT", pages=PURPOSE_INDEX, avoid={"P0_PURPOSE_FLAG"})
+
+
 def test_a_failed_in_sample_check_always_passes_the_purpose_gate(g):
     for fail in ("P9_PART_1_FAIL", "P9_PART_2_FAIL", "P9_PART_3_FAIL"):
         assert not g.reach(fail, "P10_IN", pages=SPINE, avoid={"P9_GATE"}), fail
